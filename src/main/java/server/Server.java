@@ -19,7 +19,7 @@ public class Server extends Thread {
 	@Override
 	public void run(){
 		_serverRMI = new ServerRMI();
-		_serverSocket = new ServerSocket();
+		_serverSocket = new SocketServer();
 		
 		_serverRMI.start();
 		_serverSocket.start();
@@ -38,6 +38,6 @@ public class Server extends Thread {
 	}
 	
 	private ServerRMI _serverRMI;
-	private ServerSocket _serverSocket;
+	private SocketServer _serverSocket;
 	private static Server _instance = null;
 }
