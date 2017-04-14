@@ -6,5 +6,4 @@ public class MainClient {
 		Client _client = new Client();
 		_client.start();
 	}
-
 }
