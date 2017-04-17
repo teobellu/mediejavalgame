@@ -20,9 +20,11 @@ public class SocketConnectionClientHandler implements Runnable {
 			
 			//TODO lettura comandi
 			
+			//TODO questa parte sarebbe da spostare dentro un blocco finally
 			_inputStream.close();
 			_outputStream.close();
 			_socket.close();
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

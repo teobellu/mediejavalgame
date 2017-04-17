@@ -37,6 +37,10 @@ public class Server extends Thread {
 		_instance.interrupt();
 	}
 	
+	//TODO List di oggetti Room, o come vogliamo chiamarli
+	
+	//TODO metodi per la gestione di oggetti room
+	
 	private ServerRMI _serverRMI;
 	private SocketServer _serverSocket;
 	private static Server _instance = null;

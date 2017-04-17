@@ -1,7 +1,12 @@
-package client;
+package client.network;
 
 public abstract class ConnectionServerHandler extends Thread {
 
+	public ConnectionServerHandler(String host, int port) {
+		_host = host;
+		_port = port;
+	}
+	
 	public boolean isRunning(){
 		return _IS_RUNNING;
 	}
@@ -15,4 +20,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	}
 	
 	protected boolean _IS_RUNNING = false;
+	protected final String _host;
+	protected final int _port;
 }

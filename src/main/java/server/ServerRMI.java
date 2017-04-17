@@ -9,6 +9,10 @@ import java.util.logging.Logger;
 import misc.ServerRemote;
 import util.Constants;
 
+/**
+ * @author Jacopo
+ *
+ */
 public class ServerRMI extends Thread implements ServerRemote {
 
 	public void stopServer() {
@@ -49,6 +53,15 @@ public class ServerRMI extends Thread implements ServerRemote {
 
 	public boolean isRunning() {
 		return _IS_RUNNING;
+	}
+	
+	
+	/**
+	 * A client should call this method to connect to the server.
+	 * 
+	 */
+	public void connect(){
+		//TODO client chiama questo metodo, gli viene assegnato un codice univoco
 	}
 	
 	private Registry _registry = null;
