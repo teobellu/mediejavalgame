@@ -1,6 +1,7 @@
 import java.util.List;
 
 import game.DevelopmentCard;
+import game.Domestic;
 import game.LeaderCard;
 import game.Resource;
 
@@ -50,4 +51,5 @@ public class Player {
 	private List<Resource> _resources;
 	private List<DevelopmentCard> _developmentCards;
 	private List<LeaderCard> _leaderCard;
+	private List<Domestic> _domestics;
 }

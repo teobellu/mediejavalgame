@@ -25,5 +25,4 @@ public class Resource {
 	
 	private int _amount;
 	private String _type;
-	
 }
