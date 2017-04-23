@@ -33,11 +33,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 		
 	}
 	
-	@Override
-	public String prova(){
-		return _serverRMI.prova();
-	}
-	
 	private ServerRemote _serverRMI;
 	private Registry _registry;
 	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());

@@ -1,6 +1,6 @@
 package server;
 
-public class RMIConnectionClientHandler implements Runnable {
+public class RMIConnectionClientHandler implements Runnable, ConnectionHandler {
 
 	@Override
 	public void run() {

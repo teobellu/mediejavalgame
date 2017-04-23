@@ -19,7 +19,7 @@ public class SocketServer extends Thread {
 		try {
 			ServerSocket _serverSocket = new ServerSocket(2334);
 		} catch (Exception e) {
-			// TODO: handle exception
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		_log.log(Level.INFO, "SocketServer ready");
@@ -27,7 +27,11 @@ public class SocketServer extends Thread {
 		while(_IS_RUNNING){
 			try {
 				Socket socket = _serverSocket.accept();
-				executor.submit(new SocketConnectionClientHandler(socket));
+				SocketConnectionClientHandler handler = new SocketConnectionClientHandler(socket);
+				
+				if(Server.getInstance().onConnect(handler)){
+					executor.submit(handler);
+				}
 			} catch (Exception e) {
 				break;
 			}	

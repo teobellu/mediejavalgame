@@ -4,5 +4,5 @@ import java.rmi.Remote;
 
 public interface ServerRemote extends Remote {
 
-	public String prova();
+	public void onConnect();
 }

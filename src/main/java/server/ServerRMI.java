@@ -46,10 +46,6 @@ public class ServerRMI extends Thread implements ServerRemote {
 		
 		_log.log(Level.INFO, "ServerRMI avviato");
 	}
-	
-	public String prova(){
-		return "SUCCESSO";
-	}
 
 	public boolean isRunning() {
 		return _IS_RUNNING;
@@ -60,13 +56,14 @@ public class ServerRMI extends Thread implements ServerRemote {
 	 * A client should call this method to connect to the server.
 	 * 
 	 */
-	public void connect(){
-		//TODO client chiama questo metodo, gli viene assegnato un codice univoco
+	public void onConnect(){
+		/*TODO 
+		 * Client chiama questo metodo. Viene creato un nuovo connectionhandler. Server cerca il registro del client.
+		 * Viene chiamato onConnect() di Server.
+		 * */
 	}
 	
 	private Registry _registry = null;
-	
 	private Logger _log = Logger.getLogger(ServerRMI.class.getName());
-	
 	private boolean _IS_RUNNING = false;
 }

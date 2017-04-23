@@ -16,4 +16,6 @@ public class Constants {
 			CLI,
 			GUI
 	};
+	
+	public static final int MAX_PLAYER = 4;
 }
