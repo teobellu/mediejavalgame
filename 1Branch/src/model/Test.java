@@ -7,6 +7,22 @@ import model.Resource.*;
 public class Test {
 	public static void main(String[] args) {
 		
+		GameBoard game = new GameBoard(null);
+		
+		game.roll();
+		
+		int a[] = new int[3];
+		
+		a = game.getdices();
+		
+		System.out.println(a[0] + " " + a[1] + " " + a[2]);
+		
+		game.roll();
+		
+		a = game.getdices();
+		
+		System.out.println(a[0] + " " + a[1] + " " + a[2]);
+		
 		Resource res = new Resource();
 		
 		res.add(type.COINS, 4);

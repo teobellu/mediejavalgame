@@ -4,14 +4,15 @@ import java.util.*;
 
 public class Player {
 	
-	private int id;
+	private final int id;
 	private int turn;
-	private String name;
+	private final String name;
 	private Resource resource;
 	private ArrayList<DevelopmentCard> developmentCard;
 	private ArrayList<LeaderCard> leaderCard;
 	
 	protected Player (){
+		id = 5555555;
 		name = new String();
 		resource = new Resource();
 		developmentCard = new ArrayList<>();

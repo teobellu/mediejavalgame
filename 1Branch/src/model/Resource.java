@@ -6,7 +6,7 @@ public class Resource {
 	
 	public enum type { COINS, WOOD, STONES, SERVANTS, VICTORYPOINTS, MILITARYPOINTS, FAITHPOINTS }
 	
-	HashMap <type, Integer> minidb = new HashMap <type, Integer>();
+	private HashMap <type, Integer> minidb = new HashMap <type, Integer>();
 	
 	public int get(type type){
 		if (minidb.containsKey(type))

@@ -1,6 +1,6 @@
 package model;
 
-public class LeaderCard {
-	private Resource cost;
+public class LeaderCard implements Card{
+	private Resource activationCost;
 	
 }
