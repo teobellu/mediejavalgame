@@ -28,11 +28,16 @@ public class Resource {
 	}
 	
 	public void sub(Resource res) throws GameException{
+		//controllo se posso pagare
 		for (type i : type.values())
 			if (res.get(i) > 0){
-				if (minidb.get(i) >= res.get(i))
-					this.add(i, -res.get(i));
-				else throw new GameException();
+				if (minidb.containsKey(i) == false || minidb.get(i) < res.get(i))
+					throw new GameException();
+			}
+		//pago
+		for (type i : type.values())
+			if (res.get(i) > 0){
+				this.add(i, -res.get(i));
 			}
 	}
 }
