@@ -2,26 +2,26 @@ package model;
 
 import java.util.HashMap;
 
+import model.Constants.cardType;
+
 public class DevelopmentCard implements Card{
-	
-	public enum colors { GREEN, BLUE, YELLOW, PURPLE }
 	
 	public enum effect { NONE, COUNCIL, PRODUZIONE, RACCOLTA, GREEN, BLUE, YELLOW, PURPLE, MULTICOLOR,
 		FOREACHGREEN, FOREACHBLUE, FOREACHYELLOW, FOREACHPURPLE, CHOOSE }
 	
-	private final colors color;
+	private final cardType type;
 	private final int age;
 	private final Resource cost;
 	private final Resource instantBenefit;
 	private HashMap<effect,Integer> instantMap;
 	private HashMap<effect,Integer> longtermMap;
 	
-	public DevelopmentCard(colors color, int age, Resource cost, Resource instantBenefit){
-		this.color = color;
+	public DevelopmentCard(cardType type, int age, Resource cost, Resource instantBenefit){
+		this.type = type;
 		this.age = age;
 		this.cost = cost;
 		this.instantBenefit = instantBenefit;
-		if (color == colors.GREEN) return;
+		if (type == cardType.TERRITORY) return;
 	}
 	
 	public Resource getCost(){

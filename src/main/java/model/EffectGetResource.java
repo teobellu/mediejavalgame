@@ -1,22 +1,13 @@
 package model;
 
-import model.Resource.type;
-
-public class EffectGetResource extends EffectDecorator{
-
-	private Resource toAdd;
+public class EffectGetResource implements IEffectBehavior{
 	
-	public EffectGetResource (Effect eff, Resource res){
-		this.component = eff;
-		this.player = this.component.player;
-		toAdd = new Resource();
-		toAdd = res;
-	}
+	private Player player;
+	private Resource toGain;
 	
-	@Override
-	public void effect() {
-		component.effect();
-		player.Gain(toAdd);
+	public void effect(Effect ref){
+		player = ref.getPlayer();
+		toGain = ref.getResource();
+		player.controlGain(toGain);
 	}
-
 }

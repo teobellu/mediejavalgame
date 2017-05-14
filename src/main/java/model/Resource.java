@@ -24,7 +24,6 @@ public class Resource {
 		for (type i : type.values())
 			if (res.get(i) > 0)
 				this.add(i, res.get(i));
-		return;
 	}
 	
 	public void sub(Resource res) throws GameException{
