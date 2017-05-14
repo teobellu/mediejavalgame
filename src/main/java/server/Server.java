@@ -71,6 +71,7 @@ public class Server extends Thread {
 	public synchronized boolean onConnect(ConnectionHandler handler){
 		String id = UUID.randomUUID().toString();
 		Client client = new Client(handler, id);
+		handler.setClient(client);
 		if(_games.isEmpty()){
 			Room r = new Room();
 			r.addPlayer(client);

@@ -27,7 +27,7 @@ public class SocketServer extends Thread {
 		while(_IS_RUNNING){
 			try {
 				Socket socket = _serverSocket.accept();
-				SocketConnectionClientHandler handler = new SocketConnectionClientHandler(socket);
+				SocketConnectionHandler handler = new SocketConnectionHandler(socket);
 				
 				if(Server.getInstance().onConnect(handler)){
 					executor.submit(handler);

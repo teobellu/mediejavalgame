@@ -1,5 +1,7 @@
 package server;
 
+import util.Packet;
+
 public class Client {
 
 	public Client(ConnectionHandler handler, String uuid) {
@@ -15,6 +17,9 @@ public class Client {
 		return _uuid;
 	}
 	
+	public void processMessage(Packet message){
+		
+	}
 	
 	private final ConnectionHandler _connectionHandler;
 	private final String _uuid;

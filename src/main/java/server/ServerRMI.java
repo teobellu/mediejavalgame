@@ -31,6 +31,13 @@ public class ServerRMI extends Thread implements ServerRemote {
 				 * _registry.list triggera un'eccezione se non è stato avviato il registro RMI da shell,
 				 * ed entrando nella catch viene creato ed inizializzato il registro RMI.
 				 * */
+				
+				if(_registry==null){
+					System.out.println("###FAIL###");
+				}
+				
+				System.out.println(_registry.toString());
+				
 				_registry.list();
 			}
 			catch(Exception e){
@@ -61,6 +68,9 @@ public class ServerRMI extends Thread implements ServerRemote {
 		 * Client chiama questo metodo. Viene creato un nuovo connectionhandler. Server cerca il registro del client.
 		 * Viene chiamato onConnect() di Server.
 		 * */
+		ConnectionHandler connectionHandler = new RMIConnectionHandler();
+		
+		Server.getInstance().onConnect(connectionHandler);
 	}
 	
 	private Registry _registry = null;
