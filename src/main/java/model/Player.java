@@ -24,21 +24,15 @@ public class Player {
 	}
 	
 	public void controlGain (Resource res){
-		//Resource oldResource = resource;
-		
 		for (Effect x : effects){
 			if(x.getIEffectBehavior() instanceof EffectSufferRake){
 				x.setToAnalyze(res);
 				x.effect();
-				res = x.getToAnalyze();
+				res = (Resource) x.getToAnalyze();
 				x.setToAnalyze(null);
 			}	
 		}
-		resource.add(res);/*
-		for (type i : type.values())
-			if (oldResource.get(i) > resource.get(i))
-				resource.add(i, oldResource.get(i) - resource.get(i));
-*/	
+		Gain(res);
 	}
 	
 	public void controlPay (Resource cost) throws GameException{
@@ -46,7 +40,7 @@ public class Player {
 			if(x.getClass().equals(EffectSufferRake.class))
 				System.out.println("i'm he");//x.setToAnalyze(cost);
 		}
-		resource.sub(cost);
+		Pay(cost);
 	}
 	
 	public void Gain (Resource res){
@@ -59,7 +53,9 @@ public class Player {
 	
 	public void activateEffect (){
 		for (Effect x : effects)
-			x.effect();
+			if(x.getIEffectBehavior() instanceof EffectGetResource || 
+					x.getIEffectBehavior() instanceof EffectDoHarvest)
+				x.effect();
 	}
 	
 	public void addEffect (Effect eff){
@@ -67,15 +63,45 @@ public class Player {
 		effects.add(eff);
 	}
 	
-	/*
-	public void buyDevelopmentCard (DevelopmentCard newCard) throws GameException{
-		this.controlPay(newCard.getCost());
-		this.developmentCard.add(newCard);
+	public void addDevelopmentCard (DevelopmentCard newCard) throws GameException{
+		if (newCard.getCost() != null)
+			controlPay(newCard.getCost());
+		developmentCard.add(newCard);
+		newCard.setPlayer(this);
+		newCard.activateImmediateEffect();
 	}
-	*/
+	
+	public void harvest (int power){
+		
+		if (resource.get(type.SERVANTS) > 0){
+			//TODO aumentare power con i servitori
+		}
+		System.out.println("Sto facendo una produzione di valore " + power);
+		
+		for (DevelopmentCard card : developmentCard)
+			if (card instanceof Territory)
+				if (power >= card.getDice()){
+					card.activatePermanentEffect();
+					System.out.println("sss");
+				}
+		
+	}
+	
+	public void endGame (){
+		for (Effect x : effects){
+			if(x.getIEffectBehavior() instanceof EffectLostVictoryForEach)
+				x.effect();
+		}
+	}
 	
 	public Resource getResource(){
 		return resource;
+	}
+
+	public void showRes() {
+		for (type i : type.values())
+			if (getResource().get(i) > 0)
+				System.out.println(i.name() + " " + getResource().get(i));
 	}
 	
 }

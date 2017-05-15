@@ -3,8 +3,8 @@ package model;
 public class Effect {
 	
 	private IEffectBehavior iEffectBehavior;
-	private Resource resource;
-	private Resource toAnalyze;
+	private Object parameters;
+	private Object toAnalyze;
 	private Player player;
 	
 	public Effect (IEffectBehavior iEffectBehavior){
@@ -12,18 +12,18 @@ public class Effect {
 	}
 	
 	public void effect (){
-		this.iEffectBehavior.effect(this);
+		iEffectBehavior.effect(this);
 	}
 	
 	public IEffectBehavior getIEffectBehavior(){
 		return iEffectBehavior;
 	}
 	
-	public Resource getResource (){
-		return resource;
+	public Object getParameters (){
+		return parameters;
 	}
-	public void setResource (Resource res){
-		resource = res;
+	public void setParameters (Object parameters){
+		this.parameters = parameters;
 	}
 	
 	public Player getPlayer (){
@@ -33,12 +33,10 @@ public class Effect {
 		this.player = player;
 	}
 
-	
-	public Resource getToAnalyze() {
+	public Object getToAnalyze() {
 		return toAnalyze;
 	}
-
-	public void setToAnalyze(Resource toAnalyze) {
+	public void setToAnalyze(Object toAnalyze) {
 		this.toAnalyze = toAnalyze;
 	}
 }
