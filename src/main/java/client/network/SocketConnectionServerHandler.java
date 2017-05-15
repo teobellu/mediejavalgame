@@ -30,7 +30,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			Packet message = null;
 			
 			while(_isRunning){
-				message = read();
+				message = readFromServer();
 				if(message!=null){
 					_client.processMessage(message);
 				}
@@ -44,7 +44,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	@Override
-	public void write(Packet packet) {
+	public void sendToServer(Packet packet) {
 		try {
 			_outputStream.writeObject(packet);
 			_outputStream.flush();
@@ -54,7 +54,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public Packet read() throws ClassNotFoundException, IOException {
+	public Packet readFromServer() throws ClassNotFoundException, IOException {
 		return (Packet) _inputStream.readObject();
 	}
 	

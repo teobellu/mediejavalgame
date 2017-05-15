@@ -18,9 +18,9 @@ public abstract class ConnectionServerHandler extends Thread {
 		_isRunning = false;
 	}
 	
-	public abstract void write(Packet packet);
+	public abstract void sendToServer(Packet packet);
 	
-	public abstract Packet read() throws Exception;
+	public abstract Packet readFromServer() throws Exception;
 	
 	public void setClient(Client client){
 		_client = client;

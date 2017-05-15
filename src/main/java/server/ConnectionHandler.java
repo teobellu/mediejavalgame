@@ -15,9 +15,9 @@ public abstract class ConnectionHandler {
 		_isRunning = false;
 	}
 	
-	public abstract void write(Packet packet);
+	public abstract void sendToClient(Packet packet);
 	
-	public abstract Packet read() throws Exception;
+	public abstract Packet getFromClient() throws Exception;
 	
 	protected Client _client;
 	protected boolean _isRunning;

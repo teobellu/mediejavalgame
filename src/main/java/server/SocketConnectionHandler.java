@@ -29,7 +29,7 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 			Packet message = null;
 			
 			while(_isRunning){
-				message = read();
+				message = getFromClient();
 				if(message!=null){
 					_client.processMessage(message);
 				}
@@ -41,7 +41,7 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 		}
 	}
 	
-	public void write(Packet message){
+	public void sendToClient(Packet message){
 		try{
 			if(_isRunning){
 				_outputStream.writeObject(message);
@@ -53,7 +53,7 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	}
 
 	@Override
-	public Packet read() throws ClassNotFoundException, IOException {
+	public Packet getFromClient() throws ClassNotFoundException, IOException {
 		return (Packet)_inputStream.readObject();
 	}
 	

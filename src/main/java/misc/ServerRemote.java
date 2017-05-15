@@ -1,8 +1,11 @@
 package misc;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+import server.ConnectionHandler;
 
 public interface ServerRemote extends Remote {
 
-	public void onConnect();
+	public ConnectionHandler onConnect() throws RemoteException;
 }
