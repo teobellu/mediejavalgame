@@ -3,25 +3,32 @@ package server;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.GameException;
+import game.Game;
 import util.Constants;
 
 public class Room extends Thread {
 	
 	public Room() {
 		_players = new ArrayList<>();
-		
-		_isReady = true;
 	}
 	
 	@Override
 	public void run(){
 		//TODO
+		_theGame = new Game(this);
+		
+		_theGame.run();
 		
 		_isRunning = true;
 	}
 	
-	public void addPlayer(Client client) {
-		// TODO Auto-generated method stub
+	public void addPlayer(Client client) throws GameException {
+		if(_players.size() < Constants.MAX_PLAYER){
+			_players.add(client);
+		} else{
+			throw new GameException("Cannot add player to this room, room is full. What's going on?");
+		}
 		
 	}
 
@@ -34,7 +41,16 @@ public class Room extends Thread {
 	}
 	
 	public boolean isReady(){
-		return _isReady;
+		if(isFull()){
+			for(Client player : _players){
+				if(!player.isReady()){
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public boolean isRunning(){
@@ -42,11 +58,14 @@ public class Room extends Thread {
 	}
 	
 	public boolean isOver(){
-		return _isOver;
+		return _theGame.isOver();
 	}
 
-	private boolean _isOver = false;
+	public List<Client> getPlayers(){
+		return _players;
+	}
+	
+	private Game _theGame;
 	private boolean _isRunning = false;
-	private boolean _isReady = false;
 	private List<Client> _players;
 }

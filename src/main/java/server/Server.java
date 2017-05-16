@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import exceptions.GameException;
+
 public class Server extends Thread {
 
 	private Server(){}
@@ -72,23 +74,24 @@ public class Server extends Thread {
 		String id = UUID.randomUUID().toString();
 		Client client = new Client(handler, id);
 		handler.setClient(client);
-		if(_games.isEmpty()){
-			Room r = new Room();
-			r.addPlayer(client);
-			_games.add(r);
-		} else {
-			for(Room r : _games){
-				if(!r.isFull()){
-					r.addPlayer(client);
-					return true;
+		try{
+			if(!_games.isEmpty()){
+				
+				for(Room r : _games){
+					if(!r.isFull()){
+						r.addPlayer(client);
+						return true;
+					}
 				}
+			} else {
+				Room r = new Room();
+				r.addPlayer(client);
+				_games.add(r);
 			}
-			Room r = new Room();
-			r.addPlayer(client);
-			_games.add(r);
+			return true;
+		} catch(GameException e){
+			return false;
 		}
-		
-		return true;
 	}
 	
 	private List<Room> _games;

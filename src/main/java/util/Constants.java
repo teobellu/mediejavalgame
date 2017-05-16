@@ -18,4 +18,6 @@ public class Constants {
 	};
 	
 	public static final int MAX_PLAYER = 4;
+	
+	public static final int MAX_TURN = 3;
 }
