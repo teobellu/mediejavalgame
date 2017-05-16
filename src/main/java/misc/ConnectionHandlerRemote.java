@@ -3,7 +3,7 @@ package misc;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import util.Packet;
+import packets.Packet;
 
 public interface ConnectionHandlerRemote extends Remote {
 	

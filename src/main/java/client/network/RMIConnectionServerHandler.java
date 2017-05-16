@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 
 import misc.ConnectionHandlerRemote;
 import misc.ServerRemote;
+import packets.Packet;
 import util.Constants;
-import util.Packet;
 
 public class RMIConnectionServerHandler extends ConnectionServerHandler {
 

@@ -18,4 +18,8 @@ public class Constants {
 	};
 	
 	public static final int MAX_PLAYER = 4;
+	
+	public static final int MAX_TURN = 3;
+	
+	public static final String DEFAULT_PROPERTIES = "default.properties";
 }

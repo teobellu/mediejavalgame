@@ -1,7 +1,7 @@
 package client.network;
 
 import client.Client;
-import util.Packet;
+import packets.Packet;
 
 public abstract class ConnectionServerHandler extends Thread {
 

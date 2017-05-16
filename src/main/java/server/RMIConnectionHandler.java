@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import misc.ConnectionHandlerRemote;
-import util.Packet;
+import packets.Packet;
 
 public class RMIConnectionHandler extends ConnectionHandler implements Runnable, ConnectionHandlerRemote {
 

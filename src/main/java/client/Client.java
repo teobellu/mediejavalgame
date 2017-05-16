@@ -6,9 +6,9 @@ import java.util.logging.Logger;
 import client.network.ConnectionServerHandler;
 import client.userinterface.UI;
 import client.userinterface.UIFactory;
+import packets.Packet;
 import util.Constants;
 import util.IOHandler;
-import util.Packet;
 
 public class Client extends Thread {
 

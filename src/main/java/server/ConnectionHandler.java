@@ -1,6 +1,6 @@
 package server;
 
-import util.Packet;
+import packets.Packet;
 
 public abstract class ConnectionHandler {
 	public void setClient(Client client){
