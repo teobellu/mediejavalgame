@@ -1,11 +1,16 @@
 package client.network;
 
+import java.rmi.ConnectException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import misc.ConnectionHandlerRemote;
 import misc.ServerRemote;
 import util.Constants;
+import util.Packet;
 
 public class RMIConnectionServerHandler extends ConnectionServerHandler {
 
@@ -17,28 +22,50 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	public void run() {
 		try {
 			Registry _registry = LocateRegistry.getRegistry(_host, _port);
-			String[] str = _registry.list();
-			for(String s : str){
-				System.out.println(s);
-			}
+			
 			ServerRemote _serverRMI = (ServerRemote) _registry.lookup(Constants.RMI);
 			
-			_log.info("RMIConnection is up");
+			_connectionHandler = (ConnectionHandlerRemote) _serverRMI.onConnect();
 			
-			_IS_RUNNING = true;
+			_logger.info("RMIConnection is up");
+			
+			_isRunning = true;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
 	}
 	
 	@Override
-	public String prova(){
-		return _serverRMI.prova();
+	public void sendToServer(Packet command) {
+		try{
+			if(!_connectionHandler.sendToServer(command)){
+				
+				Thread.sleep(500);
+				
+				if(!_connectionHandler.sendToServer(command)){
+					throw new ConnectException("Cannot send message to server. What's going on?");
+				}
+			}
+		} catch(InterruptedException e){
+			_logger.log(Level.SEVERE, e.getMessage(), e);
+		} catch (RemoteException e) {
+			_logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public Packet readFromServer() {
+		Packet command = null;
+		try {
+			command = _connectionHandler.readFromServer();
+		} catch (RemoteException e) {
+			_logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+		return command;
 	}
 	
 	private ServerRemote _serverRMI;
 	private Registry _registry;
-	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
+	private ConnectionHandlerRemote _connectionHandler;
+	private final Logger _logger = Logger.getLogger(RMIConnectionServerHandler.class.getName());
 }

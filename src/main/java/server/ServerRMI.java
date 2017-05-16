@@ -28,7 +28,7 @@ public class ServerRMI extends Thread implements ServerRemote {
 				
 				/* Piccolo trick per risolvere un problema.
 				 * Bisogna inizializzare il registro RMI da shell, cosa abbastanza sbatti da fare.
-				 * _registry.list triggera un'eccezione se non è stato avviato il registro RMI da shell,
+				 * _registry.list triggera un'eccezione se non ï¿½ stato avviato il registro RMI da shell,
 				 * ed entrando nella catch viene creato ed inizializzato il registro RMI.
 				 * */
 				_registry.list();
@@ -46,10 +46,6 @@ public class ServerRMI extends Thread implements ServerRemote {
 		
 		_log.log(Level.INFO, "ServerRMI avviato");
 	}
-	
-	public String prova(){
-		return "SUCCESSO";
-	}
 
 	public boolean isRunning() {
 		return _IS_RUNNING;
@@ -60,13 +56,19 @@ public class ServerRMI extends Thread implements ServerRemote {
 	 * A client should call this method to connect to the server.
 	 * 
 	 */
-	public void connect(){
-		//TODO client chiama questo metodo, gli viene assegnato un codice univoco
+	public ConnectionHandler onConnect(){
+		/*TODO 
+		 * Server cerca il registro del client????
+		 * Viene chiamato onConnect() di Server.
+		 * */
+		ConnectionHandler connectionHandler = new RMIConnectionHandler();
+		
+		Server.getInstance().onConnect(connectionHandler);
+		
+		return connectionHandler;
 	}
 	
 	private Registry _registry = null;
-	
 	private Logger _log = Logger.getLogger(ServerRMI.class.getName());
-	
 	private boolean _IS_RUNNING = false;
 }
