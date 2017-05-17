@@ -1,4 +1,6 @@
-package model;
+package game;
+
+import game.state.StatePaying;
 
 public class Effect {
 	
@@ -6,13 +8,31 @@ public class Effect {
 	private Object parameters;
 	private Object toAnalyze;
 	private Player player;
+	protected State state;
 	
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+		iEffectBehavior.effect(this, state);
+	}
+
 	public Effect (IEffectBehavior iEffectBehavior){
 		this.iEffectBehavior = iEffectBehavior;
 	}
 	
-	public void effect (){
-		iEffectBehavior.effect(this);
+	public void effect (State state){
+		System.out.println(223332);
+		//this.state = state;
+		iEffectBehavior.effect(this, state);
+	}
+	
+	public void effect (StatePaying state){
+		System.out.println(222222);	//omg
+		//this.state = state;
+		iEffectBehavior.effect(this, state);
 	}
 	
 	public IEffectBehavior getIEffectBehavior(){

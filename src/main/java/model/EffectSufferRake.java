@@ -1,6 +1,7 @@
-package model;
+package game;
 
-import model.Resource.type;
+import game.Resource.type;
+import game.state.*;
 
 public class EffectSufferRake implements IEffectBehavior{
 	
@@ -9,12 +10,19 @@ public class EffectSufferRake implements IEffectBehavior{
 	private Resource toPay;		//la tassa
 	private Resource toNewGain;
 	
-	@Override
-	public void effect(Effect ref){
+	
+	public void effect(Effect effect, StatePaying state) {
+		System.out.println(7);
 		initializes(ref);
 		establishTax();
 		applyTax();
 	}
+	
+	public void effect(Effect ref, State state) {
+		System.out.println(8);
+	}
+	
+	
 	
 	public void initializes(Effect ref){
 		this.ref = ref;
@@ -37,5 +45,6 @@ public class EffectSufferRake implements IEffectBehavior{
 	public void applyTax (){
 		ref.setToAnalyze(toNewGain);
 	}
+	
 }
 

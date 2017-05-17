@@ -1,6 +1,7 @@
-package model;
+package game;
 
-import model.Resource.type;
+import game.Resource.type;
+import game.state.*;
 
 public class EffectLostVictoryForEach implements IEffectBehavior{
 
@@ -11,11 +12,19 @@ public class EffectLostVictoryForEach implements IEffectBehavior{
 	private Player player;
 	
 	@Override
-	public void effect(Effect ref) {
+	public void effect(Effect effect, State state) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void effect(Effect ref, StateEndingGame state) {
 		initializes(ref);
 		establishTax();
 		payTax();
 	}
+	
+	public void effect(Effect ref, Object state) {}
+	
 	
 	public void initializes(Effect ref){
 		countVictoryTax = 0;

@@ -1,9 +1,9 @@
-package model;
+package game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.Constants.cardType;
+import game.Constants.cardType;
 
 public class DevelopmentCard implements Card{
 	
@@ -55,13 +55,13 @@ public class DevelopmentCard implements Card{
 
 	public void activateImmediateEffect() {
 		for (Effect x : immediateEffect){
-			x.effect();
+//			x.effect();
 		}
 	}
 	
 	public void activatePermanentEffect() {
 		for (Effect x : permanentEffect){
-			x.effect();
+//			x.effect();
 		}
 	}
 

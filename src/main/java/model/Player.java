@@ -1,17 +1,20 @@
-package model;
+package game;
 
 import java.util.*;
 
-import model.Resource.type;
+import game.Resource.type;
+import game.state.*;
 
 public class Player {
 	
 	private final int id;
-	private int turn;
 	private final String name;
-	private Resource resource;
+	private Resource resource;	
 	private ArrayList<DevelopmentCard> developmentCard;
 	private ArrayList<LeaderCard> leaderCard;
+	private ArrayList<ExcommunicationCard> excommunicationCard;
+	//TODO delete
+	
 	private ArrayList<Effect> effects;
 	
 	protected Player(){
@@ -25,21 +28,15 @@ public class Player {
 	
 	public void controlGain (Resource res){
 		for (Effect x : effects){
-			if(x.getIEffectBehavior() instanceof EffectSufferRake){
-				x.setToAnalyze(res);
-				x.effect();
-				res = (Resource) x.getToAnalyze();
-				x.setToAnalyze(null);
-			}	
+			x.setToAnalyze(res);
+			x.effect(new StatePaying());
+			res = (Resource) x.getToAnalyze();
+			x.setToAnalyze(null);	
 		}
 		Gain(res);
 	}
 	
 	public void controlPay (Resource cost) throws GameException{
-		for (Effect x : effects){
-			if(x.getClass().equals(EffectSufferRake.class))
-				System.out.println("i'm he");//x.setToAnalyze(cost);
-		}
 		Pay(cost);
 	}
 	
@@ -52,10 +49,7 @@ public class Player {
 	}
 	
 	public void activateEffect (){
-		for (Effect x : effects)
-			if(x.getIEffectBehavior() instanceof EffectGetResource || 
-					x.getIEffectBehavior() instanceof EffectDoHarvest)
-				x.effect();
+		
 	}
 	
 	public void addEffect (Effect eff){
@@ -84,24 +78,30 @@ public class Player {
 					card.activatePermanentEffect();
 					System.out.println("sss");
 				}
-		
 	}
 	
 	public void endGame (){
 		for (Effect x : effects){
-			if(x.getIEffectBehavior() instanceof EffectLostVictoryForEach)
-				x.effect();
+			x.effect(new StateEndingGame());
 		}
 	}
 	
 	public Resource getResource(){
 		return resource;
 	}
+	
+	/*
+	public ArrayList<Effect> getEffects (){
+		ArrayList<Effect> effects = new ArrayList<>();
+		for (DevelopmentCard card : developmentCard) {
+		}
+	}*/
 
 	public void showRes() {
 		for (type i : type.values())
 			if (getResource().get(i) > 0)
 				System.out.println(i.name() + " " + getResource().get(i));
 	}
+	
 	
 }

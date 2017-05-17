@@ -1,6 +1,6 @@
-package model;
+package game;
 
-import model.Constants.cardType;
+import game.Constants.cardType;
 
 public class Territory extends DevelopmentCard{
 	/*

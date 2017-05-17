@@ -1,14 +1,19 @@
-package model;
+package game;
 
 import java.util.*;
 
-import model.UserConfig;
+import game.UserConfig;
 
 
 public class GameBoard {
 	
 	private final UserConfig userConfig;
-	private HashMap <DevelopmentCard, Space> towersMapPos = new HashMap<DevelopmentCard, Space>();
+	
+	private ArrayList <Cell> territoryCol = new ArrayList <Cell>();
+	private ArrayList <Cell> characterCol = new ArrayList <Cell>();
+	private ArrayList <Cell> buildingCol = new ArrayList <Cell>();
+	private ArrayList <Cell> ventureCol = new ArrayList <Cell>();
+	
 	private ArrayList <Space> turnPos = new ArrayList <Space>();
 	private ArrayList <Space> harvestPos = new ArrayList <Space>();
 	private ArrayList <Space> productionPos = new ArrayList <Space>();
@@ -50,6 +55,11 @@ public class GameBoard {
 		marketCouncilPos = null;
 	}
 	
+}
+
+class Cell{
+	private DevelopmentCard card;
+	private Space space;
 }
 
 class Space{
