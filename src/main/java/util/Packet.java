@@ -1,20 +1,16 @@
 package util;
 
-public class Packet {
+import java.io.Serializable;
 
-	public Packet(String command, String commandType) {
+public abstract class Packet implements Serializable {
+
+	public Packet(String command) {
 		_command = command;
-		_commandType = commandType;
 	}
 	
 	public String getCommand(){
 		return _command;
 	}
 	
-	public String getCommandType(){
-		return _commandType;
-	}
-	
 	private final String _command;
-	private final String _commandType;
 }

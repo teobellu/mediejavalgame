@@ -1,4 +1,4 @@
-package client.network;
+package server;
 
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -11,17 +11,16 @@ import java.util.logging.Logger;
 
 import util.Packet;
 
-public class SocketConnectionServerHandler extends ConnectionServerHandler {
+public class SocketConnectionHandler extends ConnectionHandler implements Runnable {
 
-	public SocketConnectionServerHandler(String host, int port) {
-		super(host, port);
+	public SocketConnectionHandler(Socket socket) {
+		_socket = socket;
+		_isRunning = false;
 	}
 	
 	@Override
 	public void run() {
 		try {
-			_socket = new Socket(_host, _port);
-			
 			_inputStream = new ObjectInputStream(_socket.getInputStream());
 			_outputStream = new ObjectOutputStream(_socket.getOutputStream());
 			
@@ -30,7 +29,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			Packet message = null;
 			
 			while(_isRunning){
-				message = readFromServer();
+				message = getFromClient();
 				if(message!=null){
 					_client.processMessage(message);
 				}
@@ -40,28 +39,27 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		} finally {
 			shutdown();
 		}
-		
 	}
 	
-	@Override
-	public void sendToServer(Packet packet) {
-		try {
-			_outputStream.writeObject(packet);
-			_outputStream.flush();
+	public void sendToClient(Packet message){
+		try{
+			if(_isRunning){
+				_outputStream.writeObject(message);
+				_outputStream.flush();
+			}
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
 	@Override
-	public Packet readFromServer() throws ClassNotFoundException, IOException {
-		return (Packet) _inputStream.readObject();
+	public Packet getFromClient() throws ClassNotFoundException, IOException {
+		return (Packet)_inputStream.readObject();
 	}
 	
 	@Override
 	public void shutdown() {
 		super.shutdown();
-		
 		try {
 			if(_inputStream != null){
 				_inputStream.close();
@@ -82,5 +80,5 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	private Socket _socket;
 	private ObjectInput _inputStream;
 	private ObjectOutput _outputStream;
-	private final Logger _log = Logger.getLogger(SocketConnectionServerHandler.class.getName());
+	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
 }

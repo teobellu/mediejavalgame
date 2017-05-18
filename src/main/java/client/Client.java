@@ -8,6 +8,7 @@ import client.userinterface.UI;
 import client.userinterface.UIFactory;
 import util.Constants;
 import util.IOHandler;
+import util.Packet;
 
 public class Client extends Thread {
 
@@ -34,6 +35,7 @@ public class Client extends Thread {
 		}
 		
 		_connectionServerHandler = _ui.getConnection();
+		_connectionServerHandler.setClient(this);
 		
 		if(_connectionServerHandler == null){
 			_log.log(Level.SEVERE, "Can't create ConnectionServerHandler. What's going on?");
@@ -41,6 +43,10 @@ public class Client extends Thread {
 		}
 		
 		_connectionServerHandler.start();
+	}
+	
+	public void processMessage(Packet message){
+		
 	}
 	
 	private void shutdown() {

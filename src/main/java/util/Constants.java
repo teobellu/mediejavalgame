@@ -17,6 +17,7 @@ public class Constants {
 			GUI
 	};
 	
+<<<<<<< HEAD
 	public final static String GREEN = "green";
 	public final static String PURPLE = "purple";
 	public final static String BLUE = "blue";
@@ -40,4 +41,7 @@ public class Constants {
 		THIRD_FLOOR,
 		FOURTH_FLOOR
 	};
+=======
+	public static final int MAX_PLAYER = 4;
+>>>>>>> b7aee1d36b848a9b43a76ea51a1e3e186c69404e
 }
