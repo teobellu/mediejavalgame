@@ -21,6 +21,12 @@ public class Client {
 		
 	}
 	
+	public boolean isReady() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	private final ConnectionHandler _connectionHandler;
 	private final String _uuid;
+	
 }
