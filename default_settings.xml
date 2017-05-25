@@ -1,0 +1,1649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<bonus_actions>
+	
+	</bonus_actions>
+	<bonus_bridge>
+	
+	</bonus_bridge>
+	<bonus_faith>
+	
+	</bonus_faith>
+	<dev_cards>
+		<territories>
+			<territory_card>
+				<period>
+				1
+				</period>
+				<name>
+				Commercial Hub
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				1
+				</period>
+				<name>
+				Woods
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				1
+				</period>
+				<name>
+				Village
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				1
+				</period>
+				<name>
+				Gravel Pit
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				1
+				</period>
+				<name>
+				Forest
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				1
+				</period>
+				<name>
+				Monastery
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				1
+				</period>
+				<name>
+				Citadel
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				1
+				</period>
+				<name>
+				City
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				2
+				</period>
+				<name>
+				Gold mine
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				2
+				</period>
+				<name>
+				Mountain Town
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				2
+				</period>
+				<name>
+				Mining Town
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				2
+				</period>
+				<name>
+				Rock Pit
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				2
+				</period>
+				<name>
+				Estate
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				2
+				</period>
+				<name>
+				Hermitage
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				2
+				</period>
+				<name>
+				Manor House
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				2
+				</period>
+				<name>
+				Dukedom
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				3
+				</period>
+				<name>
+				Trading Town
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				3
+				</period>
+				<name>
+				Farm
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				3
+				</period>
+				<name>
+				Colony
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				3
+				</period>
+				<name>
+				Marble Pit
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				3
+				</period>
+				<name>
+				Province
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				3
+				</period>
+				<name>
+				Sanctuary
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				3
+				</period>
+				<name>
+				Castle
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+			<territory_card>
+				<period>
+				3
+				</period>
+				<name>
+				Fortified Town
+				</name>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</territory_card>
+		</territories>
+		<buildings>
+			<building_card>
+				<period>
+				1
+				</period>
+				<name>
+				Mint
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				1
+				</period>
+				<name>
+				Tax Office
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				1
+				</period>
+				<name>
+				Triumphal Arc
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				1
+				</period>
+				<name>
+				Theater
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				1
+				</period>
+				<name>
+				Carpenter's Shop
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				1
+				</period>
+				<name>
+				Stonemason's Shop
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				1
+				</period>
+				<name>
+				Chapel
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				1
+				</period>
+				<name>
+				Residence
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				2
+				</period>
+				<name>
+				Marketplace
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				2
+				</period>
+				<name>
+				Treasury
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				2
+				</period>
+				<name>
+				Painter's Guild
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				2
+				</period>
+				<name>
+				Sculptor's Guild
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				2
+				</period>
+				<name>
+				Stonemason's Guild
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				2
+				</period>
+				<name>
+				Baptistery
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				2
+				</period>
+				<name>
+				Barracks
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				2
+				</period>
+				<name>
+				Stronghold
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				3
+				</period>
+				<name>
+				Bank
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				3
+				</period>
+				<name>
+				Fair
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				3
+				</period>
+				<name>
+				Garden
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				3
+				</period>
+				<name>
+				Fortress
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				3
+				</period>
+				<name>
+				Palace
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				3
+				</period>
+				<name>
+				Church
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				3
+				</period>
+				<name>
+				Military Academy
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+			<building_card>
+				<period>
+				3
+				</period>
+				<name>
+				Cathedral
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</building_card>
+		</buildings>
+		<characters>
+			<character_card>
+				<period>
+				1
+				</period>
+				<name>
+				Warlord
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				1
+				</period>
+				<name>
+				Stonemason
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				1
+				</period>
+				<name>
+				Dame
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				1
+				</period>
+				<name>
+				Knight
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				1
+				</period>
+				<name>
+				Farmer
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				1
+				</period>
+				<name>
+				Artisan
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				1
+				</period>
+				<name>
+				Preacher
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				1
+				</period>
+				<name>
+				Abbess
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				2
+				</period>
+				<name>
+				Captain
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				2
+				</period>
+				<name>
+				Architect
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				2
+				</period>
+				<name>
+				Patron
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				2
+				</period>
+				<name>
+				Hero
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				2
+				</period>
+				<name>
+				Peasant
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				2
+				</period>
+				<name>
+				Scholar
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				2
+				</period>
+				<name>
+				Papal Messenger
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>2</period>
+				<name>
+				Royal Messenger
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				3
+				</period>
+				<name>
+				Noble
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				3
+				</period>
+				<name>
+				Governor
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				3
+				</period>
+				<name>
+				Paramour
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				3
+				</period>
+				<name>
+				Herald
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				3
+				</period>
+				<name>
+				Cardinal
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				3
+				</period>
+				<name>
+				Bishop
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>3</period>
+				<name>
+				General
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+			<character_card>
+				<period>
+				3
+				</period>
+				<name>
+				Ambassador
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</character_card>
+		</characters>
+		<achievements>
+			<achievement_card>
+				<period>
+				1
+				</period>
+				<name>
+				Hiring recruits
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				1
+				</period>
+				<name>
+				Repairing the Church
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				1
+				</period>
+				<name>
+				Building the walls
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				1
+				</period>
+				<name>
+				Raising a statue
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				1
+				</period>
+				<name>
+				Military Campaign
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				1
+				</period>
+				<name>
+				Hosting panhandlers
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				1
+				</period>
+				<name>
+				Fighting heresies
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				1
+				</period>
+				<name>
+				Support to the Bishop
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				2
+				</period>
+				<name>
+				Hiring soldiers
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				2
+				</period>
+				<name>
+				Repairing the Abbey
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				2
+				</period>
+				<name>
+				Building the bastions
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				2
+				</period>
+				<name>
+				Support to the King
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				2
+				</period>
+				<name>
+				Improving the canals
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				2
+				</period>
+				<name>
+				Hosting foreigners
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				2
+				</period>
+				<name>
+				Crusade
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				2
+				</period>
+				<name>
+				Support to the Cardinal
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				3
+				</period>
+				<name>
+				Hiring mercenaries
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				3
+				</period>
+				<name>
+				Repairing the Cathedral
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				3
+				</period>
+				<name>
+				Building the towers
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				3
+				</period>
+				<name>
+				Promoting Sacred Arts
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				3
+				</period>
+				<name>
+				Military Conquest
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				3
+				</period>
+				<name>
+				Improving the roads
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				3
+				</period>
+				<name>
+				Sacred War
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+			<achievement_card>
+				<period>
+				3
+				</period>
+				<name>
+				Support to the Pope
+				</name>
+				<cost>
+				
+				</cost>
+				<instant_effect>
+				
+				</instant_effect>
+				<permanent_effect>
+				
+				</permanent_effect>
+			</achievement_card>
+		</achievements>
+	</dev_cards>
+	<ban_cards>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+		<ban_card>
+		
+		</ban_card>
+	</ban_cards>
+	<timeout_start>
+		20
+	</timeout_start>
+	<timeout_turn>
+		120
+	</timeout_turn>
+</root>
