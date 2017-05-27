@@ -22,7 +22,9 @@
 				
 				</instant_effect>
 				<permanent_effect>
-				
+
+				<cost>1</cost><get_resources>
+	<gold>1</gold></get_resources>
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
@@ -33,10 +35,14 @@
 				Woods
 				</name>
 				<instant_effect>
-				
-				</instant_effect>
+
+				<get_resources>
+					<wood>1</wood></get_resources></instant_effect>
 				<permanent_effect>
-				
+					<cost>2</cost>
+					<get_resources>
+						<wood>1</wood></get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
@@ -50,7 +56,11 @@
 				
 				</instant_effect>
 				<permanent_effect>
-				
+					<cost>3</cost>
+					<get_resources>
+						<gold>1</gold>
+						<servants>1</servants></get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
@@ -61,9 +71,14 @@
 				Gravel Pit
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<stone>2</stone></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>4</cost>
+					<get_resources>
+						<stone>2</stone></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -75,9 +90,14 @@
 				Forest
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<wood>1</wood></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>5</cost>
+					<get_resources>
+						<wood>3</wood></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -89,9 +109,16 @@
 				Monastery
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<military_point>2</military_point>
+						<servants>1</servants></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>6</cost>
+					<get_resources>
+						<faith_point>1</faith_point>
+						<stone>1</stone></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -106,6 +133,10 @@
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost>5</cost>
+					<get_resources>
+						<military_point>2</military_point>
+						<stone>1</stone></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -117,9 +148,14 @@
 				City
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<gold>3</gold></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>6</cost>
+					<get_resources>
+						<council_favor>1</council_favor></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -131,9 +167,14 @@
 				Gold mine
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<gold>1</gold></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>1</cost>
+					<get_resources>
+						<gold>2</gold></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -145,9 +186,15 @@
 				Mountain Town
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<servants>1</servants></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>3</cost>
+					<get_resources>
+						<military_point>1</military_point>
+						<wood>2</wood></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -159,9 +206,16 @@
 				Mining Town
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<stone>1</stone>
+						<servants>2</servants></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>4</cost>
+					<get_resources>
+						<servants>1</servants>
+						<stone>2</stone></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -173,9 +227,14 @@
 				Rock Pit
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<wood>1</wood></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>3</cost>
+					<get_resources>
+						<stone>3</stone></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -187,9 +246,16 @@
 				Estate
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<servants>2</servants>
+						<wood>1</wood></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>4</cost>
+					<get_resources>
+						<gold>1</gold>
+						<wood>2</wood></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -201,9 +267,14 @@
 				Hermitage
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<faith_point>1</faith_point></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>2</cost>
+					<get_resources>
+						<faith_point>1</faith_point></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -215,9 +286,13 @@
 				Manor House
 				</name>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>5</cost>
+					<get_resources>
+						<military_point>2</military_point>
+						<servants>2</servants></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -229,9 +304,16 @@
 				Dukedom
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<gold>4</gold></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>6</cost>
+					<get_resources>
+						<gold>1</gold>
+						<stone>1</stone>
+						<wood>2</wood></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -243,9 +325,15 @@
 				Trading Town
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<gold>1</gold>
+						<servants>1</servants></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>1</cost>
+					<get_resources>
+						<gold>3</gold></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -257,9 +345,16 @@
 				Farm
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<wood>1</wood>
+						<winning_point>1</winning_point></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>3</cost>
+					<get_resources>
+						<winning_point>2</winning_point>
+						<wood>2</wood></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -271,9 +366,16 @@
 				Colony
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<military_point>2</military_point></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>5</cost>
+					<get_resources>
+						<winning_point>4</winning_point>
+						<wood>1</wood>
+					</get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -285,9 +387,15 @@
 				Marble Pit
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<winning_point>3</winning_point></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>2</cost>
+					<get_resources>
+						<winning_point>1</winning_point>
+						<stone>2</stone></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -299,9 +407,16 @@
 				Province
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<council_favor>1</council_favor>
+						<stone>1</stone></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>6</cost>
+					<get_resources>
+						<winning_point>4</winning_point>
+						<stone>1</stone></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -313,9 +428,15 @@
 				Sanctuary
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<faith_point>1</faith_point></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>1</cost>
+					<get_resources>
+						<gold>1</gold>
+						<faith_point>1</faith_point></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -327,9 +448,17 @@
 				Castle
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<gold>2</gold>
+						<winning_point>2</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>4</cost>
+					<get_resources>
+						<military_point>3</military_point>
+						<servants>1</servants></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -341,9 +470,16 @@
 				Fortified Town
 				</name>
 				<instant_effect>
-				
+					<get_resources>
+						<military_point>2</military_point>
+						<servants>1</servants></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
+					<cost>2</cost>
+					<get_resources>
+						<military_point>1</military_point>
+						<servants>2</servants></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -363,6 +499,8 @@
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
+					<get_resources></get_resources>
 				
 				</permanent_effect>
 			</building_card>
@@ -1640,9 +1778,7 @@
 		
 		</ban_card>
 	</ban_cards>
-	<timeout_start>
-		20
-	</timeout_start>
+	<timeout_start>20</timeout_start>
 	<timeout_turn>
 		120
 	</timeout_turn>
