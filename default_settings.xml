@@ -59,7 +59,7 @@
 					<cost>3</cost>
 					<get_resources>
 						<gold>1</gold>
-						<servants>1</servants></get_resources>
+						<servant>1</servant></get_resources>
 
 				</permanent_effect>
 			</territory_card>
@@ -111,7 +111,7 @@
 				<instant_effect>
 					<get_resources>
 						<military_point>2</military_point>
-						<servants>1</servants></get_resources>
+						<servant>1</servant></get_resources>
 
 				</instant_effect>
 				<permanent_effect>
@@ -187,7 +187,7 @@
 				</name>
 				<instant_effect>
 					<get_resources>
-						<servants>1</servants></get_resources>
+						<servant>1</servant></get_resources>
 
 				</instant_effect>
 				<permanent_effect>
@@ -208,13 +208,13 @@
 				<instant_effect>
 					<get_resources>
 						<stone>1</stone>
-						<servants>2</servants></get_resources>
+						<servant>2</servant></get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>4</cost>
 					<get_resources>
-						<servants>1</servants>
+						<servant>1</servant>
 						<stone>2</stone></get_resources>
 				
 				</permanent_effect>
@@ -247,7 +247,7 @@
 				</name>
 				<instant_effect>
 					<get_resources>
-						<servants>2</servants>
+						<servant>2</servant>
 						<wood>1</wood></get_resources>
 
 				</instant_effect>
@@ -292,7 +292,7 @@
 					<cost>5</cost>
 					<get_resources>
 						<military_point>2</military_point>
-						<servants>2</servants></get_resources>
+						<servant>2</servant></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -327,7 +327,7 @@
 				<instant_effect>
 					<get_resources>
 						<gold>1</gold>
-						<servants>1</servants></get_resources>
+						<servant>1</servant></get_resources>
 
 				</instant_effect>
 				<permanent_effect>
@@ -458,7 +458,7 @@
 					<cost>4</cost>
 					<get_resources>
 						<military_point>3</military_point>
-						<servants>1</servants></get_resources>
+						<servant>1</servant></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -472,14 +472,14 @@
 				<instant_effect>
 					<get_resources>
 						<military_point>2</military_point>
-						<servants>1</servants></get_resources>
+						<servant>1</servant></get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>2</cost>
 					<get_resources>
 						<military_point>1</military_point>
-						<servants>2</servants></get_resources>
+						<servant>2</servant></get_resources>
 				
 				</permanent_effect>
 			</territory_card>
@@ -493,16 +493,19 @@
 				Mint
 				</name>
 				<cost>
-				
-				</cost>
+					<wood>1</wood>
+					<stone>3</stone></cost>
 				<instant_effect>
-				
+					<get_resources>
+						<winning_point>5</winning_point></get_resources>
+
 				</instant_effect>
 				<permanent_effect>
-					<cost></cost>
-					<get_resources></get_resources>
-				
-				</permanent_effect>
+					<cost>5</cost>
+
+					<gain_for_every>
+						<gold>1</gold>
+						<building></building></gain_for_every></permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
@@ -512,13 +515,19 @@
 				Tax Office
 				</name>
 				<cost>
-				
+					<stone>1</stone>
+					<wood>3</wood>
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>5</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
-				
+					<cost>5</cost>
+					<gain_for_every>
+						<gold>1</gold>
+						<territory></territory></gain_for_every>
 				</permanent_effect>
 			</building_card>
 			<building_card>
@@ -529,13 +538,17 @@
 				Triumphal Arc
 				</name>
 				<cost>
-				
-				</cost>
+					<gold>2</gold>
+					<stone>2</stone></cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>6</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
-				
+					<cost>6</cost>
+					<gain_for_every>
+						<winning_point>1</winning_point><ent></achievement></gain_for_every>
 				</permanent_effect>
 			</building_card>
 			<building_card>
@@ -546,13 +559,19 @@
 				Theater
 				</name>
 				<cost>
-				
+					<gold>2</gold>
+					<wood>2</wood>
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>6</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
-				
+					<cost>6</cost>
+					<gain_for_every>
+						<winning_point>1</winning_point>
+						<character></character></gain_for_every>
 				</permanent_effect>
 			</building_card>
 			<building_card>
@@ -563,12 +582,17 @@
 				Carpenter's Shop
 				</name>
 				<cost>
-				
+					<gold>1</gold>
+					<wood>2</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>3</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -580,12 +604,17 @@
 				Stonemason's Shop
 				</name>
 				<cost>
-				
+					<gold>1</gold>
+					<stone>2</stone>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>2</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -597,12 +626,16 @@
 				Chapel
 				</name>
 				<cost>
-				
+					<wood>2</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<faith_point>1</faith_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -614,12 +647,16 @@
 				Residence
 				</name>
 				<cost>
-				
+					<stone>2</stone>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>1</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -631,12 +668,17 @@
 				Marketplace
 				</name>
 				<cost>
-				
+					<wood>2</wood>
+					<stone>1</stone>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>3</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -648,12 +690,16 @@
 				Treasury
 				</name>
 				<cost>
-				
+					<wood>3</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>4</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -665,12 +711,16 @@
 				Painter's Guild
 				</name>
 				<cost>
-				
+					<wood>4</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>5</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -682,12 +732,16 @@
 				Sculptor's Guild
 				</name>
 				<cost>
-				
+					<stone>4</stone>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>6</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -699,12 +753,17 @@
 				Stonemason's Guild
 				</name>
 				<cost>
-				
+					<stone>2</stone>
+					<wood>1</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>4</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -716,12 +775,17 @@
 				Baptistery
 				</name>
 				<cost>
-				
+					<stone>3</stone>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>2</winning_point>
+						<faith_point>1</faith_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -733,12 +797,17 @@
 				Barracks
 				</name>
 				<cost>
-				
+					<stone>1</stone>
+					<wood>1</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>3</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -750,12 +819,18 @@
 				Stronghold
 				</name>
 				<cost>
-				
+					<gold>2</gold>
+					<stone>2</stone>
+					<wood>2</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>8</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -767,12 +842,18 @@
 				Bank
 				</name>
 				<cost>
-				
+					<gold>3</gold>
+					<stone>3</stone>
+					<wood>1</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>7</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -784,12 +865,17 @@
 				Fair
 				</name>
 				<cost>
-				
+					<gold>4</gold>
+					<wood>3</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>8</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -801,12 +887,17 @@
 				Garden
 				</name>
 				<cost>
-				
-				</cost>
+
+				<servant>2</servant>
+				<wood>4</wood>
+				<stone>2</stone></cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>10</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -818,12 +909,18 @@
 				Fortress
 				</name>
 				<cost>
-				
+					<gold>2</gold>
+					<stone>4</stone>
+					<wood>2</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>9</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -835,12 +932,18 @@
 				Palace
 				</name>
 				<cost>
-				
+					<gold>3</gold>
+					<wood>3</wood>
+					<stone>1</stone>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>9</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -852,12 +955,18 @@
 				Church
 				</name>
 				<cost>
-				
+					<wood>1</wood>
+					<stone>4</stone>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>5</winning_point>
+						<faith_point>1</faith_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -869,12 +978,18 @@
 				Military Academy
 				</name>
 				<cost>
-				
+					<servant>1</servant>
+					<stone>2</stone>
+					<wood>2</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>7</winning_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -886,12 +1001,18 @@
 				Cathedral
 				</name>
 				<cost>
-				
+					<stone>4</stone>
+					<wood>4</wood>
+
 				</cost>
 				<instant_effect>
+					<get_resources>
+						<winning_point>7</winning_point>
+						<faith_point>3</faith_point></get_resources>
 				
 				</instant_effect>
 				<permanent_effect>
+					<cost></cost>
 				
 				</permanent_effect>
 			</building_card>
@@ -1715,68 +1836,120 @@
 	</dev_cards>
 	<ban_cards>
 		<ban_card>
-		
+			<period>1</period>
+
+			<get_less_resources>
+				<military_point>1</military_point></get_less_resources></ban_card>
+		<ban_card>
+			<period>1</period>
+			<get_less_resources>
+				<gold>1</gold></get_less_resources>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>1</period>
+			<get_less_resources>
+				<servant>1</servant></get_less_resources>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>1</period>
+			<get_less_resources>
+				<wood>1</wood>
+				<stone>1</stone></get_less_resources>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>1</period>
+
+			<less_value_production_action>3</less_value_production_action></ban_card>
+		<ban_card>
+			<period>1</period>
+
+			<less_value_crop_action>3</less_value_crop_action></ban_card>
+		<ban_card>
+			<period>1</period>
+
+			<less_value_familiars>1</less_value_familiars></ban_card>
+		<ban_card>
+			<period>2</period>
+
+			<less_value_card_action>
+				<type>territory</type>
+				<value>4</value></less_value_card_action></ban_card>
+		<ban_card>
+			<period>2</period>
+			<less_value_card_action>
+				<type>building</type>
+				<value>4</value></less_value_card_action>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>2</period>
+			<less_value_card_action>
+				<type>character</type>
+				<value>4</value></less_value_card_action>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>2</period>
+			<less_value_card_action>
+				<type>achievement</type>
+				<value>4</value></less_value_card_action>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>2</period>
+
+			<no_market></no_market></ban_card>
+		<ban_card>
+			<period>2</period>
+
+			<half_servants_value></half_servants_value></ban_card>
+		<ban_card>
+			<period>2</period>
+
+			<delay_first_action></delay_first_action></ban_card>
+		<ban_card>
+			<period>3</period>
+			<lose_winning_points>
+				<winning_point>5</winning_point></lose_winning_points>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>3</period>
+
+			<no_winning_points>
+				<territory></territory></no_winning_points></ban_card>
+		<ban_card>
+			<period>3</period>
+			<no_winning_points>
+				<character></character></no_winning_points>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>3</period>
+			<no_winning_points>
+				<military></military></no_winning_points>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>3</period>
+			<lose_winning_points>
+				<military_point>1</military_point></lose_winning_points>
+
 		</ban_card>
 		<ban_card>
-		
+			<period>3</period>
+			<lose_winning_points>
+				<resources>1</resources></lose_winning_points>
+
 		</ban_card>
 		<ban_card>
-		
-		</ban_card>
-		<ban_card>
-		
-		</ban_card>
-		<ban_card>
-		
-		</ban_card>
-		<ban_card>
-		
-		</ban_card>
-		<ban_card>
-		
-		</ban_card>
-		<ban_card>
-		
-		</ban_card>
-		<ban_card>
-		
-		</ban_card>
-		<ban_card>
-		
-		</ban_card>
-		<ban_card>
-		
-		</ban_card>
-		<ban_card>
-		
-		</ban_card>
+			<period>3</period>
+
+			<lose_winning_points>
+				<building_costs>1</building_costs></lose_winning_points></ban_card>
 	</ban_cards>
 	<timeout_start>20</timeout_start>
 	<timeout_turn>
