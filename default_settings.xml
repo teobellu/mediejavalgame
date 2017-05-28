@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<bonus_actions>
-	
-	</bonus_actions>
+
+	<market_space></market_space>
+	<production_space></production_space>
+	<crop_space></crop_space>
+	<turn_space></turn_space>
+	<tower_space></tower_space></bonus_actions>
 	<bonus_bridge>
 	
 	</bonus_bridge>
 	<bonus_faith>
-	
+	<bonus>0</bonus>
+	<bonus>1</bonus>
+	<bonus>2</bonus>
+	<bonus>3</bonus>
+	<bonus>4</bonus>
+	<bonus>5</bonus>
+	<bonus>7</bonus>
+	<bonus>9</bonus>
+	<bonus>11</bonus>
+	<bonus>13</bonus>
+	<bonus>15</bonus>
+	<bonus>17</bonus>
+	<bonus>19</bonus>
+	<bonus>22</bonus>
+	<bonus>25</bonus>
+	<bonus>30</bonus>
 	</bonus_faith>
 	<dev_cards>
 		<territories>

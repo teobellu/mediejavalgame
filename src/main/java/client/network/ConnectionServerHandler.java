@@ -1,9 +1,10 @@
 package client.network;
 
-import client.Client;
-import util.Packet;
+import java.rmi.RemoteException;
 
-public abstract class ConnectionServerHandler extends Thread {
+import client.Client;
+
+public abstract class ConnectionServerHandler implements Runnable {
 
 	public ConnectionServerHandler(String host, int port) {
 		_host = host;
@@ -18,13 +19,19 @@ public abstract class ConnectionServerHandler extends Thread {
 		_isRunning = false;
 	}
 	
-	public abstract void sendToServer(Packet packet);
-	
-	public abstract Packet readFromServer() throws Exception;
-	
 	public void setClient(Client client){
 		_client = client;
 	}
+	
+	public abstract void sendName(String name) throws RemoteException;
+	
+	public abstract void putFamiliar() throws RemoteException;
+
+	public abstract void sendConfigFile() throws RemoteException;
+	
+	public abstract void activateLeaderCard() throws RemoteException;
+	
+	public abstract void ping() throws RemoteException;
 	
 	protected boolean _isRunning = false;
 	protected final String _host;

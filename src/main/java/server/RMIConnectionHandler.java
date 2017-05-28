@@ -1,61 +1,52 @@
 package server;
 
 import java.rmi.RemoteException;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Level;
+import java.time.Instant;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import misc.ConnectionHandlerRemote;
-import util.Packet;
+import util.Constants;
 
 public class RMIConnectionHandler extends ConnectionHandler implements Runnable, ConnectionHandlerRemote {
 
 	@Override
 	public void run() {
+		
+	}
+	
+	@Override
+	public void sendName(String name) throws RemoteException {
+		_client.setName(name);
+	}
+
+	@Override
+	public void ping() throws RemoteException {
+		_lastPing = Date.from(Instant.now());	}
+
+	@Override
+	public void activateLeaderCard() throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public synchronized void sendToClient(Packet packet) {
-		try {
-			_outputQueue.put(packet);
-		} catch (InterruptedException e) {
-			_logger.log(Level.SEVERE, e.getMessage(), e);
-		}
+	public void sendConfigFile() throws RemoteException {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public synchronized Packet getFromClient() throws InterruptedException {
-		return _inputQueue.take();
-	}
-
-	@Override
-	public synchronized Packet readFromServer() throws RemoteException {
-		Packet message = null;
-		try {
-			message = _outputQueue.take();
-		} catch (InterruptedException e) {
-			_logger.log(Level.SEVERE, e.getMessage(), e);
-		} finally {
-			return message;
-		}
-	}
-
-	@Override
-	public synchronized boolean sendToServer(Packet command) throws RemoteException {
-		try {
-			_inputQueue.put(command);
-			return true;
-		} catch (InterruptedException e) {
-			_logger.log(Level.SEVERE, e.getMessage(), e);
-			return false;
-		}
+	public void putFamiliar() throws RemoteException {
+		// TODO Auto-generated method stub
 		
 	}
 	
-	private LinkedBlockingQueue<Packet> _inputQueue = new LinkedBlockingQueue<>();
-	private LinkedBlockingQueue<Packet> _outputQueue = new LinkedBlockingQueue<>();
+	private boolean isTimeoutOver(){
+		return Date.from(Instant.now()).getTime() > (_lastPing.getTime() + Constants.TIMEOUT_CONNESSION_MILLIS);
+	}
+	
+	private Date _lastPing;
 	private Logger _logger = Logger.getLogger(RMIConnectionHandler.class.getName());
+	private Thread _timeout;
 }

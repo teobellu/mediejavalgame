@@ -6,10 +6,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import util.Packet;
+import client.constants.CommandKeys;
+import util.GamePacket;
+import util.packets.NamePacket;
+import util.packets.Packet;
+import util.packets.PingPacket;
 
 public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
@@ -43,8 +48,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		
 	}
 	
-	@Override
-	public void sendToServer(Packet packet) {
+	public synchronized void sendToServer(Packet packet) {
 		try {
 			_outputStream.writeObject(packet);
 			_outputStream.flush();
@@ -54,8 +58,38 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public Packet readFromServer() throws ClassNotFoundException, IOException {
+	public synchronized Packet readFromServer() throws ClassNotFoundException, IOException {
 		return (Packet) _inputStream.readObject();
+	}
+	
+	@Override
+	public void sendName(String name) throws RemoteException {
+		Packet message = new NamePacket(CommandKeys.ASK_NAME, name);
+		sendToServer(message);
+	}
+
+	@Override
+	public void putFamiliar() throws RemoteException {
+		// TODO Auto-generated method stub
+		sendToServer(message);
+	}
+
+	@Override
+	public void sendConfigFile() throws RemoteException {
+		// TODO Auto-generated method stub
+		sendToServer(message);
+	}
+
+	@Override
+	public void activateLeaderCard() throws RemoteException {
+		// TODO Auto-generated method stub
+		sendToServer(message);
+	}
+
+	@Override
+	public void ping() throws RemoteException {
+		Packet message = new PingPacket(CommandKeys.PING);
+		sendToServer(message);
 	}
 	
 	@Override

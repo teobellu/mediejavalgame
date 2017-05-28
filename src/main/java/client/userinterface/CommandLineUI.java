@@ -47,4 +47,12 @@ public class CommandLineUI implements UI {
 	
 
 	private final IOHandler _ioHandler;
+
+
+
+	@Override
+	public String getStringValue(String request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

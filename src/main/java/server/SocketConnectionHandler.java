@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import util.Packet;
+import util.packets.Packet;
 
 public class SocketConnectionHandler extends ConnectionHandler implements Runnable {
 

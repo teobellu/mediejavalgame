@@ -1,6 +1,6 @@
 package server;
 
-import util.Packet;
+import util.packets.Packet;
 
 public class Client {
 
@@ -26,6 +26,15 @@ public class Client {
 		return false;
 	}
 	
+	public void setName(String name){
+		_name = name;
+	}
+	
+	public String getName(){
+		return _name;
+	}
+	
+	private String _name;
 	private final ConnectionHandler _connectionHandler;
 	private final String _uuid;
 	

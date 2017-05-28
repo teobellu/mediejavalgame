@@ -47,9 +47,11 @@ public class ConfigFileHandler {
 	public static boolean validateNodes(Node rootChild){
 		
 		System.out.println("rootChild: " + rootChild.getNodeName());
-		if(Arrays.asList(_RootChildrens).contains(rootChild.getNodeName())){
+		if(Arrays.asList(ROOT_CHILDRENS).contains(rootChild.getNodeName())){
 			if(rootChild.getNodeName() != TIMEOUT_START && rootChild.getNodeName() != TIMEOUT_TURN){
-				//TODO
+				if(rootChild.getNodeName() == DEV_CARDS){
+					validateDevCards(rootChild);
+				}
 				
 				return true;
 			} else {
@@ -72,6 +74,15 @@ public class ConfigFileHandler {
 		}
 	}
 	
+	public static boolean validateDevCards(Node rootChild){
+		
+		if(Arrays.asList(DEV_CARDS_CHILDREN).contains(rootChild.getNodeName())){
+			
+		}
+		
+		return false;
+	}
+	
 	private static final String BONUS_ACTION = "bonus_actions";
 	private static final String BONUS_BRIDGE = "bonus_bridge";
 	private static final String BONUS_FAITH = "bonus_faith";
@@ -80,7 +91,7 @@ public class ConfigFileHandler {
 	private static final String TIMEOUT_START = "timeout_start";
 	private static final String TIMEOUT_TURN = "timeout_turn";
 	
-	private static final String[] _RootChildrens = new String[]{
+	private static final String[] ROOT_CHILDRENS = new String[]{
 			BONUS_ACTION,
 			BONUS_BRIDGE,
 			BONUS_FAITH,
@@ -88,5 +99,16 @@ public class ConfigFileHandler {
 			BAN_CARDS,
 			TIMEOUT_START,
 			TIMEOUT_TURN
+	};
+	
+	private static final String TERRITORIES = "territories";
+	private static final String BUILDINGS = "buildings";
+	private static final String CHARACTERS = "characters";
+	private static final String ACHIEVEMENTS = "achievements";
+	private static final String[] DEV_CARDS_CHILDREN = new String[]{
+			TERRITORIES,
+			BUILDINGS,
+			CHARACTERS,
+			ACHIEVEMENTS
 	};
 }

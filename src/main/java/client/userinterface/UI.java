@@ -6,4 +6,5 @@ public interface UI {
 	
 	public ConnectionServerHandler getConnection();
 	
+	public String getStringValue(String request);
 }

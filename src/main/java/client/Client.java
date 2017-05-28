@@ -3,12 +3,13 @@ package client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import client.constants.CommandKeys;
 import client.network.ConnectionServerHandler;
 import client.userinterface.UI;
 import client.userinterface.UIFactory;
 import util.Constants;
 import util.IOHandler;
-import util.Packet;
+import util.packets.Packet;
 
 public class Client extends Thread {
 
@@ -34,28 +35,36 @@ public class Client extends Thread {
 			this.shutdown();
 		}
 		
-		_connectionServerHandler = _ui.getConnection();
-		_connectionServerHandler.setClient(this);
+		_connectionHandler = _ui.getConnection();
+		_connectionHandler.setClient(this);
 		
-		if(_connectionServerHandler == null){
+		if(_connectionHandler == null){
 			_log.log(Level.SEVERE, "Can't create ConnectionServerHandler. What's going on?");
 			this.shutdown();
 		}
 		
-		_connectionServerHandler.start();
+		_connectionHandler.run();
+		
+		doGame();
 	}
 	
 	public void processMessage(Packet message){
 		
 	}
 	
+	private void doGame(){
+		String name = _ui.getStringValue(CommandKeys.ASK_NAME);
+		_connectionHandler.sendName(name);
+		
+	}
+	
 	private void shutdown() {
 		_ioHandler.shutdown();
-		_connectionServerHandler.shutdown();
+		_connectionHandler.shutdown();
 	}
 
 	private final IOHandler _ioHandler;
-	private ConnectionServerHandler _connectionServerHandler;
+	private ConnectionServerHandler _connectionHandler;
 	private Logger _log = Logger.getLogger(Client.class.getName());
 	private UI _ui;
 }
