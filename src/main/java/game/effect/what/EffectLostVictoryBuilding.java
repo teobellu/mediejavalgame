@@ -1,5 +1,7 @@
 package game.effect.what;
 
+import java.util.List;
+
 import javax.xml.ws.RespectBinding;
 
 import game.GameException;
@@ -8,10 +10,13 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 import game.state.*;
+import game.GameContants.*;
+import game.*;
 
-public class EffectLostVictoryForEach implements IEffectBehavior{
+public class EffectLostVictoryBuilding implements IEffectBehavior{
 
 	private Resource payForEach;		//paga 1 victory per ogni forEach
+	private Resource costOfFilteredCards;
 	private Resource malus;			//quanto pagare effettivamente
 	private int countVictoryTax;	//contatore punti da pagare
 	private Resource playerRes;		//risorse possedute dal giocatore
@@ -20,22 +25,29 @@ public class EffectLostVictoryForEach implements IEffectBehavior{
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
+		findCostOfAllFilteredCards();
 		establishTax();
 		payTax();
 	}
-	
+
 	public void initializes(Effect ref){
 		countVictoryTax = 0;
+		costOfFilteredCards = new Resource();
 		player = ref.getPlayer();
 		playerRes = player.getResource();
 		malus = new Resource();
 		payForEach = (Resource) ref.getParameters();
 	}
-
+	
+	private void findCostOfAllFilteredCards() {
+		player.getDevelopmentCards(GameContants.DEV_BUILDING).stream()
+		.forEach(card -> costOfFilteredCards.add(card.getCost()));
+	}
+	
 	public void establishTax() {
 		countVictoryTax = Resource.RESOURCE_TYPES.stream()
-			.filter(type -> playerRes.get(type)>=payForEach.get(type) && payForEach.get(type)>0)
-			.map(type -> playerRes.get(type) / payForEach.get(type))
+			.filter(type -> costOfFilteredCards.get(type)>=payForEach.get(type) && payForEach.get(type)>0)
+			.map(type -> costOfFilteredCards.get(type) / payForEach.get(type))
 			.reduce(0 , (sum, type) -> sum + type);
 	}
 	

@@ -1,46 +1,47 @@
 package game.effect.what;
 
 import game.Resource;
-import game.Resource.type;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
-import game.state.*;
 
 public class EffectSufferRake implements IEffectBehavior{
 	
 	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
-	private Resource toGain; 	//ciò che guadagnerei normalmente
-	private Resource toPay;		//la tassa
-	private Resource toNewGain;
+	private Resource normalGain; 	//ciò che guadagnerei normalmente
+	private Resource resMalus;		//la tassa
+	private Resource newGain;
 	
 	
 	public void effect(Effect ref) {
 		initializes(ref);
-		establishTax();
+		if(resMalus == null) return;
+		sufferMalus();
+		skipMalus();
 		applyTax();
 	}
 	
 	public void initializes(Effect ref){
-		toGain = new Resource();
 		this.ref = ref;
-		this.toGain = (Resource) ref.getToAnalyze();
-		this.toPay = (Resource) ref.getParameters();
-		this.toNewGain = new Resource();
+		normalGain = new Resource();
+		newGain = new Resource();
+		normalGain = (Resource) ref.getToAnalyze();
+		resMalus = (Resource) ref.getParameters();
 	}
 	
-	public void establishTax (){
-		int newGain;
-		for (type i : type.values())
-			if (toGain.get(i)>0 && toPay.get(i)>0){
-				newGain = toGain.get(i) - toPay.get(i);
-				toNewGain.add(i, Math.abs(newGain));
-			}
-			else
-				toNewGain.add(i, toGain.get(i));
+	private void sufferMalus() {
+		Resource.RESOURCE_TYPES.stream()
+		.filter(type -> normalGain.get(type)>resMalus.get(type) && resMalus.get(type)>0)
+		.forEach(type -> newGain.add(type, normalGain.get(type) - resMalus.get(type)));
+	}
+	
+	private void skipMalus() {
+		Resource.RESOURCE_TYPES.stream()
+		.filter(type -> normalGain.get(type)==0 || resMalus.get(type)==0)
+		.forEach(type -> newGain.add(type, normalGain.get(type)));
 	}
 	
 	public void applyTax (){
-		ref.setToAnalyze(toNewGain);
+		ref.setToAnalyze(newGain);
 	}
 	
 }

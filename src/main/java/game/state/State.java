@@ -42,8 +42,11 @@ public abstract class State {
 	
 	public State(Game game){
 		theGame = game;
+		try{
 		player = theGame.getCurrentPlayer();
 		client = theGame.getCurrentClient();
+		}
+		catch(NullPointerException e){}
 	}
 	
 	public State factoryMethod(String string) throws CommandException{

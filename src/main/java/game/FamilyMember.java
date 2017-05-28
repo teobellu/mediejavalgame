@@ -2,13 +2,11 @@ package game;
 
 public class FamilyMember {
 	
-	public enum familyColors {BLACK, ORANGE, WHITE, TRANSPARENT};
-	
 	private Player owner;
-	private familyColors color;
+	private String color;
 	private int value;
 	
-	public familyColors getColor(){
+	public String getColor(){
 		return color;
 	}
 	

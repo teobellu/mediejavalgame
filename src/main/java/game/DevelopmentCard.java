@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import game.effect.Effect;
 
-public class DevelopmentCard implements ICard{
+public abstract class DevelopmentCard implements ICard{
 	
 	private String name;
 	
@@ -18,6 +18,8 @@ public class DevelopmentCard implements ICard{
 	
 	private int dice;
 
+	public abstract void accept(DevelopmentCardVisitor visitor);
+	
 	public DevelopmentCard (){
 		immediateEffect = new ArrayList<>();
 		permanentEffect = new ArrayList<>();
@@ -62,6 +64,11 @@ public class DevelopmentCard implements ICard{
 	public Resource getCost() {
 		return cost;
 	}
+	
+	//for test ONLY
+	public void setCost(Resource res) {
+		cost = res;
+	}
 
 	public Resource getRequirement() {
 		return requirement;
@@ -74,6 +81,26 @@ public class DevelopmentCard implements ICard{
 		for (Effect x : permanentEffect){
 			x.setPlayer(player);
 		}
+	}
+	
+	public DevelopmentCard getTerritory(){
+		return null;
+	}
+	
+	public DevelopmentCard getBuilding(){
+		return null;
+	}
+	
+	public DevelopmentCard getCharacter(){
+		return null;
+	}
+	
+	public DevelopmentCard getVenture(){
+		return null;
+	}
+	
+	public DevelopmentCard getCard(){
+		return this;
 	}
 	
 	/*

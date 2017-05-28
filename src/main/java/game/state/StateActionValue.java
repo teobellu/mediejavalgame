@@ -2,9 +2,9 @@ package game.state;
 
 import game.Game;
 
-public class StatePlaceFamiliarMarket extends State {
+public class StateActionValue extends State{
 
-	public StatePlaceFamiliarMarket(Game game) {
+	public StateActionValue(Game game) {
 		super(game);
 		// TODO Auto-generated constructor stub
 	}

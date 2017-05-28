@@ -1,6 +1,17 @@
 package game;
 
 public class Territory extends DevelopmentCard{
+	
+	@Override
+	public DevelopmentCard getTerritory(){
+		return this;
+	}
+
+	@Override
+	public void accept(DevelopmentCardVisitor visitor) {
+		visitor.visit(this);
+	}
+	
 	/*
 	@Override
 	public void activateImmediateEffect(Player player) {

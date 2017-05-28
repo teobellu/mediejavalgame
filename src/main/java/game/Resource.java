@@ -4,39 +4,50 @@ import java.util.*;
 
 public class Resource {
 	
-	public enum type { COINS, WOOD, STONES, SERVANTS, VICTORYPOINTS, MILITARYPOINTS, FAITHPOINTS }
+	public static final String COINS = "coins";
+	public static final String WOOD = "wood";
+	public static final String STONES = "stones";
+	public static final String SERVANTS = "servants";
+	public static final String COUNCIL = "council";
+	public static final String VICTORYPOINTS = "victorypoints";
+	public static final String MILITARYPOINTS = "militarypoints";
+	public static final String FAITHPOINTS = "faithpoints";
 	
-	private HashMap <type, Integer> minidb = new HashMap <type, Integer>();
+	public static final List<String> RESOURCE_TYPES = Collections.unmodifiableList(
+			Arrays.asList(COINS, WOOD, STONES, SERVANTS, COUNCIL, VICTORYPOINTS, MILITARYPOINTS, FAITHPOINTS));
 	
-	public int get(type type){
+	private HashMap <String, Integer> minidb = new HashMap <String, Integer>();
+	
+	public int get(String type){
 		if (minidb.containsKey(type))
 			return minidb.get(type);
 		return 0;
 	}
 	
-	public void add(type type, int amount){
+	public void add(String type, int amount){
 		minidb.putIfAbsent(type, 0);
 		int currentValue = minidb.get(type);
 		minidb.replace(type, currentValue + amount);		
 	}
 	
 	public void add(Resource res){
-		for (type i : type.values())
-			if (res.get(i) > 0)
-				this.add(i, res.get(i));
+		if(res == null) return;
+		RESOURCE_TYPES.stream()
+			.filter(type -> res.get(type) > 0)
+			.forEach(type -> add(type, res.get(type)));
 	}
 	
 	public void sub(Resource res) throws GameException{
+		if(res == null) return;
 		//controllo se posso pagare
-		for (type i : type.values())
+		for (String i : RESOURCE_TYPES)
 			if (res.get(i) > 0){
 				if (minidb.containsKey(i) == false || minidb.get(i) < res.get(i))
 					throw new GameException();
 			}
 		//pago
-		for (type i : type.values())
-			if (res.get(i) > 0){
-				this.add(i, -res.get(i));
-			}
+		RESOURCE_TYPES.stream()
+			.filter(type -> res.get(type) > 0)
+			.forEach(type -> add(type, -res.get(type)));
 	}
 }

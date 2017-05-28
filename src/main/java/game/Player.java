@@ -2,9 +2,9 @@ package game;
 
 import java.util.*;
 
-import game.Resource.type;
 import game.effect.Effect;
 import game.state.*;
+import game.GameContants.*;
 
 public class Player {
 	
@@ -17,6 +17,12 @@ public class Player {
 	private ArrayList<FamilyMember> freeMember;
 	private ArrayList<Effect> effects;
 	
+	private DynamicAction dynamicBar;
+	
+	private boolean check;
+	
+	private DevelopmentCardManager manager = new DevelopmentCardManager();
+
 	protected Player(){
 		id = 5555555;
 		name = new String();
@@ -25,27 +31,15 @@ public class Player {
 		leaderCard = new ArrayList<>();
 		effects = new ArrayList<>();
 		freeMember = new ArrayList<>();
+		dynamicBar = new DynamicAction(this);
+		setCheck(false);
 	}
 	
-	public void controlGain (Resource res){
-		for (Effect x : effects){
-			x.setToAnalyze(res);
-			x.effect(new StateGaining(null));
-			res = (Resource) x.getToAnalyze();
-			x.setToAnalyze(null);	
-		}
-		Gain(res);
-	}
-	
-	public void controlPay (Resource cost) throws GameException{
-		Pay(cost);
-	}
-	
-	public void Gain (Resource res){
+	public void gain (Resource res){
 		resource.add(res);
 	}
 	
-	public void Pay (Resource cost) throws GameException{
+	public void pay (Resource cost) throws GameException{
 		resource.sub(cost);
 	}
 	
@@ -54,13 +48,13 @@ public class Player {
 		effects.add(eff);
 	}
 	
-	public void addDevelopmentCard (DevelopmentCard newCard) throws GameException{
-		if (newCard.getCost() != null)
-			controlPay(newCard.getCost());
+	public void addDevelopmentCard (DevelopmentCard newCard){
 		developmentCard.add(newCard);
+		manager.add(newCard);
 		newCard.setPlayer(this);
-		newCard.activateImmediateEffect();
+		//newCard.activateImmediateEffect();
 	}
+	
 	/*
 	public void harvest (int power){
 		
@@ -99,6 +93,14 @@ public class Player {
 	public Resource getResource(){
 		return resource;
 	}
+
+	public ArrayList<Effect> getEffects() {
+		return effects;
+	}
+
+	public DynamicAction getDynamicBar() {
+		return dynamicBar;
+	}
 	
 	/*
 	public ArrayList<Effect> getEffects (){
@@ -106,11 +108,31 @@ public class Player {
 		for (DevelopmentCard card : developmentCard) {
 		}
 	}*/
-/*
+
 	public void showRes() {
-		for (type i : type.values())
+		for (String i : Resource.RESOURCE_TYPES)
 			if (getResource().get(i) > 0)
-				System.out.println(i.name() + " " + getResource().get(i));
-	}*/
+				System.out.println(i + " " + getResource().get(i));
+	}
+
+	public List<DevelopmentCard> getDevelopmentCards() {
+		return developmentCard;
+	}
+	
+	public void freeDevelopmentCards(String type) {
+		manager.freeList(type);
+	}
+	
+	public List<DevelopmentCard> getDevelopmentCards(String type) {
+		return manager.getList(type);
+	}
+
+	public boolean isCheck() {
+		return check;
+	}
+
+	public void setCheck(boolean check) {
+		this.check = check;
+	}
 	
 }

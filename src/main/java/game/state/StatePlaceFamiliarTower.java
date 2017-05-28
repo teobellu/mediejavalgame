@@ -21,8 +21,9 @@ public class StatePlaceFamiliarTower extends StatePlaceFamiliar {
 	private static final String SMS_SELECT_COLOUMN = "Select the type of card: (1) Territory - (2) Character - (3) Building - (4) Venture";
 	private static final String SMS_SELECT_ROW = "Select floor: (1) Lower floor - (2) Second floor - (3) Third floor - (4) Top floor";
 	
-	private static final List<String> SELECT_A_COLOUMN = Collections.unmodifiableList(
-			Arrays.asList(TERRITORY, CHARACTER, BUILDING, VENTURE));
+	private static final String ERR_NO_CARD_FOUND = "Non è presente nessuna carta";
+	
+	private static final List<String> SELECT_A_COLOUMN = Arrays.asList(TERRITORY, CHARACTER, BUILDING, VENTURE);
 	
 	private static final List<String> SELECT_A_ROW = Collections.unmodifiableList(
 			Arrays.asList(FIRST_FLOOR, SECOND_FLOOR, THIRD_FLOOR, FOURTH_FLOOR));
@@ -42,11 +43,16 @@ public class StatePlaceFamiliarTower extends StatePlaceFamiliar {
 		GameBoard board = theGame.getGameBoard();
 		int coloumn = getCorrectResponse(SMS_SELECT_COLOUMN, 1, board.MAX_COLOUMN) - 1;
 		int row = getCorrectResponse(SMS_SELECT_ROW, 1, board.MAX_ROW) - 1;
-		DevelopmentCard card = board.getCard(row,coloumn);
 		try {
-			player.addDevelopmentCard(card);
+			DevelopmentCard card = board.getCard(row,coloumn);
+		} catch (GameException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			canPutFamiliar(player, coloumn, row);
 		} catch (GameException e) {
-			// TODO il player non può comprare la carta
+			sendMessage("Non puoi comprare questa carta");
 			e.printStackTrace();
 		}
 		String answer = getResponse("PROSSIMA-MOSSA-Cosa vuoi fare?");
@@ -58,6 +64,17 @@ public class StatePlaceFamiliarTower extends StatePlaceFamiliar {
 		}
 		return null;
 	}
+	
+	public void canPutFamiliar(Player player, int coloumn, int row) throws GameException{
+		GameBoard board = theGame.getGameBoard();
+		DevelopmentCard card = board.getCard(row,coloumn);
+		if (card == null){
+			sendMessage(ERR_NO_CARD_FOUND);
+			throw new GameException();
+		}
+		
+	}
+	
 	/*
 	private int returnColoumn(String coloumn) {
 		switch(coloumn){
