@@ -567,7 +567,7 @@
 				<permanent_effect>
 					<cost>6</cost>
 					<gain_for_every>
-						<winning_point>1</winning_point><ent></achievement></gain_for_every>
+						<winning_point>1</winning_point><ent></venture></gain_for_every>
 				</permanent_effect>
 			</building_card>
 			<building_card>
@@ -1442,8 +1442,8 @@
 				</permanent_effect>
 			</character_card>
 		</characters>
-		<achievements>
-			<achievement_card>
+		<ventures>
+			<venture_card>
 				<period>
 				1
 				</period>
@@ -1459,8 +1459,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				1
 				</period>
@@ -1476,8 +1476,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				1
 				</period>
@@ -1493,8 +1493,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				1
 				</period>
@@ -1510,8 +1510,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				1
 				</period>
@@ -1527,8 +1527,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				1
 				</period>
@@ -1544,8 +1544,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				1
 				</period>
@@ -1561,8 +1561,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				1
 				</period>
@@ -1578,8 +1578,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				2
 				</period>
@@ -1595,8 +1595,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				2
 				</period>
@@ -1612,8 +1612,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				2
 				</period>
@@ -1629,8 +1629,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				2
 				</period>
@@ -1646,8 +1646,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				2
 				</period>
@@ -1663,8 +1663,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				2
 				</period>
@@ -1680,8 +1680,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				2
 				</period>
@@ -1697,8 +1697,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				2
 				</period>
@@ -1714,8 +1714,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				3
 				</period>
@@ -1731,8 +1731,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				3
 				</period>
@@ -1748,8 +1748,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				3
 				</period>
@@ -1765,8 +1765,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				3
 				</period>
@@ -1782,8 +1782,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				3
 				</period>
@@ -1799,8 +1799,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				3
 				</period>
@@ -1816,8 +1816,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				3
 				</period>
@@ -1833,8 +1833,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-			<achievement_card>
+			</venture_card>
+			<venture_card>
 				<period>
 				3
 				</period>
@@ -1850,8 +1850,8 @@
 				<permanent_effect>
 				
 				</permanent_effect>
-			</achievement_card>
-		</achievements>
+			</venture_card>
+		</ventures>
 	</dev_cards>
 	<ban_cards>
 		<ban_card>
@@ -1913,7 +1913,7 @@
 		<ban_card>
 			<period>2</period>
 			<less_value_card_action>
-				<type>achievement</type>
+				<type>venture</type>
 				<value>4</value></less_value_card_action>
 
 		</ban_card>
