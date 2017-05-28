@@ -11,13 +11,17 @@ import util.Constants;
 
 public class Game implements Runnable {
 
-	private List<Client> _players;
-	private GameBoard board;
+	private List<Player> _players;
+	private GameBoard _board;
 	private State _state;
 	private int _turn;
 	private int _phase;
 	private boolean _isOver = false;
 	private final Room _theRoom;
+	
+	
+	
+	private int _turnDuration;
 	
 	public Game(Room room) {
 		_theRoom = room;
@@ -30,28 +34,23 @@ public class Game implements Runnable {
 	public void run() {
 		//TODO
 		
+		setupGame();
+		
+		
+		
+		
+		
 		_state = new InitialState(this);
 		
 		while(!isGameOver()){
-	        _phase = 0;
-	        while(_phase < Constants.MAX_PLAYER){
-	            while(_state!=null){
-	            	//_theRoom.getPlayers().get(_phase) è il player corrente
-	                _state = _state.doState();
-	            }
-	            _phase++;
-	        }
-	        _turn++;
-			if(_turn % 2 == 0){
-				_phase = 0;
-				while(_phase < Constants.MAX_PLAYER){
-					_state = new VaticanState(this);
+			for(int i = 0;i<Constants.NUMBER_OF_FAMILIARS; i++){
+				for(_phase = 0;_phase<_players.size();_phase++){
 					_state = _state.doState();
 				}
+				_state = new InitialState(this);
 			}
+			_turn++;
 		}
-		
-		_isOver = true;
 	}
 
 	public boolean isOver() {
@@ -59,15 +58,14 @@ public class Game implements Runnable {
 	}
 	
 	private boolean isGameOver(){
-		if(_turn < Constants.MAX_TURN){
+		if(_turn < Constants.MAX_TURN && _players.size()>1){
 			return false;
 		}
 		return true;
 	}
 	
 	public Player getCurrentPlayer(){
-		//TODO
-		return null;
+		return _players.get(_phase);
 	}
 	
 	public Client getCurrentClient(){
@@ -75,6 +73,10 @@ public class Game implements Runnable {
 	}
 
 	public GameBoard getGameBoard() {
-		return board;
+		return _board;
+	}
+	
+	private void setupGame(){
+		_board = new GameBoard(userConfig);//TODO
 	}
 }

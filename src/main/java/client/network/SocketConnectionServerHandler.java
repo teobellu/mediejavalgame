@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import client.constants.CommandKeys;
-import util.GamePacket;
 import util.packets.NamePacket;
 import util.packets.Packet;
 import util.packets.PingPacket;
@@ -25,6 +24,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public void run() {
 		try {
+			
 			_socket = new Socket(_host, _port);
 			
 			_inputStream = new ObjectInputStream(_socket.getInputStream());
@@ -32,20 +32,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			_isRunning = true;
 			
-			Packet message = null;
-			
-			while(_isRunning){
-				message = readFromServer();
-				if(message!=null){
-					_client.processMessage(message);
-				}
-			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
-		} finally {
-			shutdown();
 		}
-		
 	}
 	
 	public synchronized void sendToServer(Packet packet) {
@@ -111,6 +100,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+	
+	@Override
+	public void onConnect() throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	private Socket _socket;

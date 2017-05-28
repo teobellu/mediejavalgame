@@ -16,6 +16,13 @@ public class Room extends Thread {
 	@Override
 	public void run(){
 		//TODO
+		
+		
+		
+		while(!isReady()){
+			//TODO
+		}
+		
 		_theGame = new Game(this);
 		
 		_theGame.run();
@@ -23,7 +30,7 @@ public class Room extends Thread {
 		_isRunning = true;
 	}
 	
-	public void addPlayer(Client client) throws GameException {
+	public synchronized void addPlayer(Client client) throws GameException {
 		if(_players.size() < Constants.MAX_PLAYER){
 			_players.add(client);
 		} else{
@@ -33,11 +40,7 @@ public class Room extends Thread {
 	}
 
 	public boolean isFull() {
-		if(_players.size() == Constants.MAX_PLAYER){
-			return true;
-		}
-		
-		return false;
+		return _players.size() == Constants.MAX_PLAYER;//TODO
 	}
 	
 	public boolean isReady(){
@@ -65,6 +68,17 @@ public class Room extends Thread {
 		return _players;
 	}
 	
+	public void broadcastMessage(){
+		for(Client p : _players){
+			//TODO
+		}
+	}
+	
+	public void setStartTime(long time){
+		_startTimeSeconds = time;
+	}
+	
+	private long _startTimeSeconds = Constants.DEFAULT_START_ROOM_TIME_MILLIS;
 	private Game _theGame;
 	private boolean _isRunning = false;
 	private List<Client> _players;

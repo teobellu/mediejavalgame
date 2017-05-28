@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,6 +76,11 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+	
+	@Override
+	public void onConnect() throws RemoteException {
+		Server.getInstance().onConnect(this);
 	}
 	
 	private Socket _socket;

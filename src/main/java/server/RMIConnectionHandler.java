@@ -46,6 +46,12 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 		return Date.from(Instant.now()).getTime() > (_lastPing.getTime() + Constants.TIMEOUT_CONNESSION_MILLIS);
 	}
 	
+	@Override
+	public void onConnect() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private Date _lastPing;
 	private Logger _logger = Logger.getLogger(RMIConnectionHandler.class.getName());
 	private Thread _timeout;

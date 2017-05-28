@@ -33,6 +33,8 @@ public abstract class ConnectionServerHandler implements Runnable {
 	
 	public abstract void ping() throws RemoteException;
 	
+	public abstract void onConnect() throws RemoteException;
+	
 	protected boolean _isRunning = false;
 	protected final String _host;
 	protected final int _port;

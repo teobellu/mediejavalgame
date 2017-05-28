@@ -15,5 +15,5 @@ public interface ConnectionHandlerRemote extends Remote {
 
 	public void putFamiliar() throws RemoteException;
 	
-	
+	public void onConnect() throws RemoteException;
 }

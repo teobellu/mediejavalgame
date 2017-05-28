@@ -80,6 +80,9 @@ public class Server extends Thread {
 				for(Room r : _games){
 					if(!r.isFull()){
 						r.addPlayer(client);
+						if(r.getPlayers().size()==1){
+							askForCustomSettings(client, r);
+						}
 						return true;
 					}
 				}
@@ -94,6 +97,14 @@ public class Server extends Thread {
 		}
 	}
 	
+	private void askForCustomSettings(Client client, Room r) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		r.setStartTime(time);
+	}
+
 	private List<Room> _games;
 	private ServerRMI _serverRMI;
 	private SocketServer _serverSocket;

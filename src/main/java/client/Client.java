@@ -3,7 +3,6 @@ package client;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import client.constants.CommandKeys;
 import client.network.ConnectionServerHandler;
 import client.userinterface.UI;
 import client.userinterface.UIFactory;
@@ -53,9 +52,10 @@ public class Client extends Thread {
 	}
 	
 	private void doGame(){
-		String name = _ui.getStringValue(CommandKeys.ASK_NAME);
-		_connectionHandler.sendName(name);
-		
+		/*TODO se primo player, chiedi se vuole mettere suo file config
+		 * se sì, cerca il file
+		 * se lo trovi, manda file al server
+		 * */
 	}
 	
 	private void shutdown() {

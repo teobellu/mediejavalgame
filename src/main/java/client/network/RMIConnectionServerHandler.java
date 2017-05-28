@@ -58,6 +58,12 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 		_connectionHandler.ping();		
 	}
 	
+	@Override
+	public void onConnect() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private ServerRemote _serverRMI;
 	private Registry _registry;
 	private ConnectionHandlerRemote _connectionHandler;

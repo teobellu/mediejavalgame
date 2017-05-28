@@ -62,9 +62,7 @@ public class ServerRMI extends Thread implements ServerRemote {
 		 * Viene chiamato onConnect() di Server.
 		 * */
 		ConnectionHandler connectionHandler = new RMIConnectionHandler();
-		
-		Server.getInstance().onConnect(connectionHandler);
-		
+				
 		return connectionHandler;
 	}
 	
