@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import util.CommandStrings;
 import util.packets.Packet;
 
 public class SocketConnectionHandler extends ConnectionHandler implements Runnable {
@@ -27,13 +28,13 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 			
 			_isRunning = true;
 			
-			Packet message = null;
+			String addMeToGame = null;
+			do {
+				addMeToGame = (String) _inputStream.readObject();
+			} while (addMeToGame!=CommandStrings.ADD_TO_GAME);
 			
-			while(_isRunning){
-				message = getFromClient();
-				if(message!=null){
-					_client.processMessage(message);
-				}
+			if(Server.getInstance().addMeToGame(this)){
+				writeObject(CommandStrings.ASK_FOR_CONFIG);
 			}
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -81,6 +82,11 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	@Override
 	public void onConnect() throws RemoteException {
 		Server.getInstance().onConnect(this);
+	}
+	
+	private void writeObject(Object obj) throws IOException{
+		_outputStream.writeObject(obj);
+		_outputStream.flush();
 	}
 	
 	private Socket _socket;

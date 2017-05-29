@@ -35,6 +35,8 @@ public abstract class ConnectionServerHandler implements Runnable {
 	
 	public abstract void onConnect() throws RemoteException;
 	
+	public abstract boolean addMeToGame() throws RemoteException;
+	
 	protected boolean _isRunning = false;
 	protected final String _host;
 	protected final int _port;

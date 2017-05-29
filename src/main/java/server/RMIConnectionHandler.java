@@ -52,6 +52,11 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 		
 	}
 	
+	@Override
+	public boolean addMeToGame() throws RemoteException {
+		return Server.getInstance().addMeToGame(this);
+	}
+	
 	private Date _lastPing;
 	private Logger _logger = Logger.getLogger(RMIConnectionHandler.class.getName());
 	private Thread _timeout;

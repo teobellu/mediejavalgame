@@ -70,39 +70,35 @@ public class Server extends Thread {
 		return;
 	}
 	
-	public synchronized boolean onConnect(ConnectionHandler handler){
-		String id = UUID.randomUUID().toString();
-		Client client = new Client(handler, id);
-		handler.setClient(client);
-		try{
-			if(!_games.isEmpty()){
-				
-				for(Room r : _games){
-					if(!r.isFull()){
-						r.addPlayer(client);
-						if(r.getPlayers().size()==1){
-							askForCustomSettings(client, r);
-						}
-						return true;
-					}
-				}
-			} else {
-				Room r = new Room();
-				r.addPlayer(client);
-				_games.add(r);
-			}
-			return true;
-		} catch(GameException e){
-			return false;
-		}
-	}
-	
 	private void askForCustomSettings(Client client, Room r) {
 		// TODO Auto-generated method stub
 		
 		
 		
 		r.setStartTime(time);
+	}
+	
+	public synchronized boolean addMeToGame(ConnectionHandler handler){
+		String id = UUID.randomUUID().toString();
+		Client client = new Client(handler, id);
+		handler.setClient(client);
+		boolean isFirst = false;
+		try{
+			if(!_games.isEmpty()){
+				for(Room r : _games){
+					if(!r.isFull()){
+						r.addPlayer(client);
+						return isFirst;
+					}
+				}
+			} 
+			Room r = new Room();
+			r.addPlayer(client);
+			isFirst = _games.add(r);
+			return isFirst;
+		} catch(GameException e){
+			return false;
+		}
 	}
 
 	private List<Room> _games;

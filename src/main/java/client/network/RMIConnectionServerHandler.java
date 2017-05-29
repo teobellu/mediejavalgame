@@ -28,10 +28,16 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 			_logger.info("RMIConnection is up");
 			
 			_isRunning = true;
+			
+			if (addMeToGame()){
+				//TODO ask for configs
+			}
 		} catch (Exception e) {
 			_logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
+	
+	
 	
 	@Override
 	public void sendName(String name) throws RemoteException {
@@ -62,6 +68,11 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	public void onConnect() throws RemoteException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public boolean addMeToGame() throws RemoteException {
+		return _connectionHandler.addMeToGame();
 	}
 	
 	private ServerRemote _serverRMI;

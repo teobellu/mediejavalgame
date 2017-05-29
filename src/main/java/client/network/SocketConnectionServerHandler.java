@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import client.constants.CommandKeys;
+import util.CommandStrings;
+import util.Constants;
 import util.packets.NamePacket;
 import util.packets.Packet;
 import util.packets.PingPacket;
@@ -32,7 +34,21 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			_isRunning = true;
 			
-		} catch (IOException e) {
+			if(addMeToGame()){
+				
+				String response = null;
+				do {
+					response = (String)_inputStream.readObject();
+				} while (response!=null);
+				
+				if(response==CommandStrings.ASK_FOR_CONFIG){
+					//TODO ask for config
+				} else{
+					//TODO processare il comando ricevuto
+				}
+			}
+			
+		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
@@ -106,6 +122,24 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	public void onConnect() throws RemoteException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public boolean addMeToGame() throws RemoteException {
+		try {
+			String obj = CommandStrings.ADD_TO_GAME;
+			writeObject(obj);
+			return true;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		return false;
+	}
+	
+	private void writeObject(Object obj) throws IOException{
+		_outputStream.writeObject(obj);
+		_outputStream.flush();
 	}
 	
 	private Socket _socket;
