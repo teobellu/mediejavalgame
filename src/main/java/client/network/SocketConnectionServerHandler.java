@@ -10,13 +10,16 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import client.constants.CommandKeys;
 import util.CommandStrings;
 import util.Constants;
 import util.packets.NamePacket;
 import util.packets.Packet;
 import util.packets.PingPacket;
 
+/**
+ * @author Jacopo
+ *
+ */
 public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
 	public SocketConnectionServerHandler(String host, int port) {
@@ -38,7 +41,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				
 				String response = null;
 				do {
-					response = (String)_inputStream.readObject();
+					response = (String)readObject();
 				} while (response!=null);
 				
 				if(response==CommandStrings.ASK_FOR_CONFIG){
@@ -53,48 +56,63 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 	}
 	
-	public synchronized void sendToServer(Packet packet) {
-		try {
-			_outputStream.writeObject(packet);
-			_outputStream.flush();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-
-	@Override
-	public synchronized Packet readFromServer() throws ClassNotFoundException, IOException {
-		return (Packet) _inputStream.readObject();
-	}
 	
 	@Override
 	public void sendName(String name) throws RemoteException {
-		Packet message = new NamePacket(CommandKeys.ASK_NAME, name);
-		sendToServer(message);
+		try {
+			String message = CommandStrings.SEND_NAME;
+			writeObject(message);
+			message = name;
+			writeObject(message);
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
 	}
 
 	@Override
 	public void putFamiliar() throws RemoteException {
-		// TODO Auto-generated method stub
-		sendToServer(message);
+		try {
+			String message = CommandStrings.PUT_FAMILIAR;
+			writeObject(message);
+			//TODO quale familiare
+			//TODO dove piazzarlo
+			//TODO aumentare il suo valore? Se sì, di quanto?
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
 	}
 
 	@Override
 	public void sendConfigFile() throws RemoteException {
 		// TODO Auto-generated method stub
-		sendToServer(message);
+		writeObject(message);
 	}
 
 	@Override
 	public void activateLeaderCard() throws RemoteException {
-		// TODO Auto-generated method stub
-		sendToServer(message);
+		try{
+			String message = CommandStrings.ACTIVATE_LEADER_CARD;
+			writeObject(message);
+			//TODO ask which card
+			//TODO send which card
+			//TODO se Federico da Montefeltro, chiedi quale familiare
+			//TODO se Lorenzo de’ Medici, chiedi quale altro leader
+		} catch (IOException e){
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
 	@Override
 	public void ping() throws RemoteException {
-		Packet message = new PingPacket(CommandKeys.PING);
-		sendToServer(message);
+		try {
+			String ping = CommandStrings.PING;
+			writeObject(ping);
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
 	}
 	
 	@Override
@@ -137,9 +155,13 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		return false;
 	}
 	
-	private void writeObject(Object obj) throws IOException{
+	private synchronized void writeObject(Object obj) throws IOException{
 		_outputStream.writeObject(obj);
 		_outputStream.flush();
+	}
+	
+	private synchronized Object readObject() throws ClassNotFoundException, IOException{
+		return _inputStream.readObject();
 	}
 	
 	private Socket _socket;
