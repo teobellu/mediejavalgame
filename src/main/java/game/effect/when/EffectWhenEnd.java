@@ -10,8 +10,14 @@ public class EffectWhenEnd extends Effect{
 		super(iEffectBehavior);
 	}
 
-	public void effect (StateEndingGame state){
-		this.activateEffect();
+	@Override
+	public void effect (Effect when){
+		when.effectWhenEnd();
+	}
+	
+	@Override
+	public void effectWhenEnd(){
+		activateEffect();
 	}
 }
 

@@ -7,6 +7,7 @@ import game.effect.Effect;
 import game.effect.what.*;
 import game.effect.when.*;
 import game.effect.when.EffectWhenFindValueAction;
+import game.state.StatePayTaxTower;
 
 public class Test {
 	public static void main(String[] args) {
@@ -14,25 +15,77 @@ public class Test {
 		Player p = new Player();
 		DynamicAction joy = p.getDynamicBar();
 		
-		Resource ser3 = new Resource();		ser3.add(Resource.SERVANTS, 3);
-		Resource ser2 = new Resource();		ser2.add(Resource.SERVANTS, 2);
-		Resource ser1 = new Resource();		ser1.add(Resource.SERVANTS, 1);
-		Resource vic3 = new Resource();		vic3.add(Resource.VICTORYPOINTS, 3);
-		Resource vic1 = new Resource();		vic1.add(Resource.VICTORYPOINTS, 1);
-		Resource oro1 = new Resource();		oro1.add(Resource.COINS, 1);
+		Resource ser3 = new Resource(GameConstants.RES_SERVANTS, 3);
+		Resource ser2 = new Resource(GameConstants.RES_SERVANTS, 2);
+		Resource ser1 = new Resource(GameConstants.RES_SERVANTS, 1);
+		Resource coi3 = new Resource(GameConstants.RES_COINS, 3);
+		Resource vic3 = new Resource(GameConstants.RES_VICTORYPOINTS, 3);
+		Resource vic1 = new Resource(GameConstants.RES_VICTORYPOINTS, 1);
+		
+		List<FamilyMember> f = new ArrayList<>();
+		FamilyMember f1 = new FamilyMember(GameConstants.FM_BLACK);
+		FamilyMember f2 = new FamilyMember(GameConstants.FM_ORANGE);
+		FamilyMember f3 = new FamilyMember(GameConstants.FM_WHITE);
+		FamilyMember f4 = new FamilyMember(GameConstants.FM_TRANSPARENT);
+		f1.setValue(1);
+		f2.setValue(3);
+		f3.setValue(5);
+		f4.setValue(6);
+		f1.setOwner(p);
+		f2.setOwner(p);
+		f3.setOwner(p);
+		f4.setOwner(p);
+		f.add(f1);
+		f.add(f2);
+		f.add(f3);
+		f.add(f4);
+		p.setFreeMember((ArrayList<FamilyMember>) f);
+		
+		Effect yellow = new EffectWhenSetFamiliarStartPower(new EffectIncreaseFamiliarStartPower());
+		yellow.setParameters(1);
+		yellow.setParameters(GameConstants.FM_COLOR);
+		
+		p.addEffect(yellow);
+
+		joy.activateEffect(new EffectWhenSetFamiliarStartPower(null));
+		
+		p.getFreeMember().stream()
+			.forEach(fam -> System.out.println("value " + fam.getValue()));
+		
+		
+		
+		
+		List<ICard> leaderDeck = new ArrayList<>();
+		/**
+		 * Ludovico Ariosto
+		 */
+		Effect effLudovicoAriosto = new EffectWhenJoiningSpace(new EffectPositiveCheck());
+		leaderDeck.add(new LeaderCard("Ludovico Ariosto", null, 0, 5, 0, 0, effLudovicoAriosto, true));
+		/**
+		 * Filippo Brunelleschi
+		 */
+		Effect effFilippoBrunelleschi = new EffectWhenPayTaxTower(new EffectSufferRake());
+		effFilippoBrunelleschi.setParameters(GameConstants.TAX_TOWER);
+		leaderDeck.add(new LeaderCard("Filippo Brunelleschi", null, 0, 0, 5, 0, effFilippoBrunelleschi, true));
+		
+		
+		
+		p.addEffect(effFilippoBrunelleschi);
+		p.addEffect(effFilippoBrunelleschi);
+		
+		Resource tax = new Resource();	
+		tax.add(GameConstants.TAX_TOWER);
+		tax = (Resource) joy.activateEffect(tax, new EffectWhenPayTaxTower(null));
+		p.gain(tax);
+		p.gain(coi3);
+		p.showRes();
+		System.out.println("AA2");
 		
 		joy.gain(ser3);
 		joy.gain(ser3);
 		joy.gain(vic3);
 		joy.gain(vic3);
 		joy.gain(vic3);
-		
-		
-		
-		
-		
-		
-		
 		
 		List<Integer> list1 = new ArrayList<>();
 		List<Integer> list2 = new ArrayList<>();
@@ -91,7 +144,7 @@ public class Test {
 		//-1 da questo
 		//-2 dall'effetto di prima
 		
-		/*
+		
 		Effect eff3 = new EffectWhenGain(new EffectSufferRake());
 		eff3.setParameters(vic1);
 		
@@ -100,9 +153,6 @@ public class Test {
 		joy.gain(vic3);
 		p.showRes();
 		
-		FamilyMember c = new FamilyMember();
-		c.setValue(1);
-		c.setOwner(p);
 		
 		Effect eff5 = new EffectWhenIncreaseWorker(new EffectPayMoreForIncreaseWorker());
 		eff5.setParameters(2);
@@ -110,28 +160,24 @@ public class Test {
 		p.addEffect(eff5);
 		joy.gain(ser3);
 		
-		try {
-			joy.increaseWorker(c, 2);
-		} catch (GameException e1) {
-			System.out.println("nnn");
-		}
+		
 		
 		p.showRes();
 		
-		Effect eff6 = new EffectWhenEnd(new EffectLostVictoryForEach());
-		eff6.setParameters(ser3);
-		p.addEffect(eff6);
+		Effect eff60 = new EffectWhenEnd(new EffectLostVictoryForEach());
+		eff60.setParameters(ser3);
+		p.addEffect(eff60);
 		
 		joy.endGame();
 		
-		Effect eff8 = new EffectWhenEnd(new EffectLostVictoryBuilding());
-		eff8.setParameters(ser1);
-		p.addEffect(eff8);
+		Effect eff80 = new EffectWhenEnd(new EffectLostVictoryBuilding());
+		eff80.setParameters(ser1);
+		p.addEffect(eff80);
 		
-		DevelopmentCard c1 = new Venture();
-		DevelopmentCard c2 = new Building();
-		c1.setCost(ser1);
-		c2.setCost(ser3);
+		DevelopmentCard c10 = new Venture();
+		DevelopmentCard c20 = new Building();
+		c10.setCost(ser1);
+		c20.setCost(ser3);
 		p.addDevelopmentCard(c1);
 		p.addDevelopmentCard(c2);
 		
@@ -191,10 +237,7 @@ public class Test {
 		
 		/**********************************************
 		**************************************************************/
-		
-		FamilyMember fm = new FamilyMember();
-		fm.setValue(1); 
 
-		GameBoard t = new GameBoard(null);
+
 	}
 }

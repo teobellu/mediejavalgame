@@ -8,12 +8,16 @@ public class EffectWhenPlaceFamiliarMarket extends Effect{
 
 	public EffectWhenPlaceFamiliarMarket(IEffectBehavior iEffectBehavior) {
 		super(iEffectBehavior);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
-	public void effect (StateEndingGame state){
-		this.activateEffect();
+	public void effect (Effect when){
+		when.effectWhenPlaceFamiliarMarket();
+	}
+	
+	@Override
+	public void effectWhenPlaceFamiliarMarket() {
+		activateEffect();
 	}
 
 }

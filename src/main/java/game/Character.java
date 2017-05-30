@@ -12,4 +12,9 @@ public class Character extends DevelopmentCard{
 		visitor.visit(this);
 	}
 	
+	@Override
+	public String toString() {
+		return GameConstants.DEV_CHARACTER;
+	}
+	
 }

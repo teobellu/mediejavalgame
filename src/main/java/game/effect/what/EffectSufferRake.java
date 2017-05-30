@@ -1,5 +1,6 @@
 package game.effect.what;
 
+import game.GameConstants;
 import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
@@ -29,13 +30,13 @@ public class EffectSufferRake implements IEffectBehavior{
 	}
 	
 	private void sufferMalus() {
-		Resource.RESOURCE_TYPES.stream()
+		GameConstants.RES_TYPES.stream()
 		.filter(type -> normalGain.get(type)>resMalus.get(type) && resMalus.get(type)>0)
 		.forEach(type -> newGain.add(type, normalGain.get(type) - resMalus.get(type)));
 	}
 	
 	private void skipMalus() {
-		Resource.RESOURCE_TYPES.stream()
+		GameConstants.RES_TYPES.stream()
 		.filter(type -> normalGain.get(type)==0 || resMalus.get(type)==0)
 		.forEach(type -> newGain.add(type, normalGain.get(type)));
 	}

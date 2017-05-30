@@ -13,16 +13,19 @@ public abstract class DevelopmentCard implements ICard{
 	private ArrayList<Effect> immediateEffect;
 	private ArrayList<Effect> permanentEffect;
 	
-	private Resource cost;
-	private Resource requirement;
+	private ArrayList<Resource> cost;
+	private ArrayList<Resource> requirement;
 	
 	private int dice;
 
 	public abstract void accept(DevelopmentCardVisitor visitor);
+	public abstract String toString();
 	
 	public DevelopmentCard (){
 		immediateEffect = new ArrayList<>();
 		permanentEffect = new ArrayList<>();
+		cost = new ArrayList<>();
+		requirement = new ArrayList<>();
 	}
 	
 	public int getDice() {
@@ -60,18 +63,26 @@ public abstract class DevelopmentCard implements ICard{
 //			x.effect();
 		}
 	}
+	
+	public Resource getCost(int index) {
+		return cost.get(index);
+	}
 
 	public Resource getCost() {
-		return cost;
+		return cost.get(0);
 	}
 	
 	//for test ONLY
 	public void setCost(Resource res) {
-		cost = res;
+		cost.add(res);
+	}
+	
+	public Resource getRequirement(int index) {
+		return requirement.get(index);
 	}
 
 	public Resource getRequirement() {
-		return requirement;
+		return requirement.get(0);
 	}
 
 	public void setPlayer(Player player) {
@@ -102,6 +113,8 @@ public abstract class DevelopmentCard implements ICard{
 	public DevelopmentCard getCard(){
 		return this;
 	}
+	
+	
 	
 	/*
 	

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import game.effect.Effect;
+import game.effect.when.*;
 import game.state.*;
 
 public class DynamicAction {
@@ -13,25 +14,40 @@ public class DynamicAction {
 	
 	protected Player player;
 	private GameBoard board;
-	private boolean check;
 	
 	public DynamicAction(Player player){
 		this.player = player;
-		check = false;
+	}
+	
+	
+	public void activateEffect(Effect effect){
+		player.getEffects().stream()
+			.forEach(eff -> effect.effect(eff));
+	}
+	
+	public Object activateEffect(Object param, Effect effect){
+		for (Effect eff : player.getEffects())
+			param = effect.effect(param, eff);
+		return param;
+	}
+	
+	public Object activateEffect(Object param, String string, Effect effect){
+		for (Effect eff : player.getEffects())
+			param = effect.effect(param, string, eff);
+		return param;
 	}
 
 	public void gain (Resource res){
-		for (Effect effect : player.getEffects())
-			res = (Resource) effect.effect(res, new StateGaining(null));
+		res = (Resource) activateEffect(res, new EffectWhenGain(null));
 		player.gain(res);
 	}
 	
 	public void increaseWorker (FamilyMember familiar, int amount) throws GameException{
 		Resource pay = new Resource();
 		int increase = amount;
-		for (Effect effect : player.getEffects())
-			amount = (Integer) effect.effect(amount, new StateIncreaseWorker(null));
-		pay.add(Resource.SERVANTS, amount);
+		
+		amount = (Integer) activateEffect(amount, new EffectWhenIncreaseWorker(null));
+		pay.add(GameConstants.RES_SERVANTS, amount);
 		player.pay(pay);
 		familiar.setValue(familiar.getValue() + increase);
 	}
@@ -51,40 +67,98 @@ public class DynamicAction {
 		return false;
 	}
 	
-	//overloading
-	public void canOccupyTowerSpace (FamilyMember familiar, Space space, int coloumn) throws GameException{
+	
+	/**
+	 * DA RIVEDERE I COMMENTI
+	 * @param familiar
+	 * @param space
+	 * @param coloumn
+	 * @return TRUE = DEVO PAGARE 3 MONETE, FALSE = NON DEVO
+	 * @throws GameException NON POSSO PIAZZARE
+	 */
+	public Resource findTaxToPay (FamilyMember familiar, Space space, int coloumn) throws GameException{
+		Resource tax = new Resource();
 		canOccupySpace(familiar, space);
 		List<FamilyMember> familiarInSameColoumn = new ArrayList<>();
 		for (int row = 0; row < GameBoard.MAX_ROW; row++)
 			familiarInSameColoumn.addAll(board.getCell(row, coloumn).getFamiliar());
 		canOccupyForColorLogic(familiar, familiarInSameColoumn);
-		boolean hasToPayExtra = playerHasToPayExtra(familiar, familiarInSameColoumn);
+		if (!familiarInSameColoumn.isEmpty()){
+			tax.add(GameConstants.TAX_TOWER);
+			tax = (Resource) activateEffect(tax, new EffectWhenPayTaxTower(null));
+		}
+		return tax;
 	}
 	
+	/**
+	 * VERIFICA SE HO IL DADO ABBASTANZA GRANDE
+	 * VERIFICA, SE LO SPAZIO E' SINGOLO, SE E' VUOTO O NO
+	 * 			SE E' PIENO VERIFICA SE HO LUDOVICO ARIOSTO
+	 * @param familiar
+	 * @param space
+	 * @throws GameException
+	 */
 	public void canOccupyForSpaceLogic(FamilyMember familiar, Space space) throws GameException{
 		if (familiar.getValue() < space.getRequiredDiceValue()) throw new GameException();
+		//l'if qui sopra magari no
 		if (space.isSingleObject()){
 			if(space.getFamiliar().isEmpty()) return;
-			player.getEffects().stream()
-				.forEach(effect -> effect.effect(new StateJoiningSpace(null)));
+			activateEffect(new EffectWhenJoiningSpace(null));
 			if (!player.isCheck()) throw new GameException();
 			player.setCheck(false);	
 		}
 	}
 	
+	/**
+	 * SI CREA UNA LISTA UNENDO GLI INPUT
+	 * SI VERIFICA CHE LA LISTA POSSA SUSSISTERE
+	 * @param familiar
+	 * @param placedFamiliar
+	 * @throws GameException
+	 */
 	public void canOccupyForColorLogic(FamilyMember familiar, List<FamilyMember> placedFamiliar) throws GameException{
 		List<FamilyMember> playerFamiliar = placedFamiliar;
 		playerFamiliar.add(familiar);
 		long countNotTransparent = playerFamiliar.stream()
 			.filter(fam -> fam.getOwner() == familiar.getOwner())
-			.filter(fam -> fam.getColor() != GameContants.FM_TRANSPARENT)
+			.filter(fam -> fam.getColor() != GameConstants.FM_TRANSPARENT)
 			.count();
 		if(countNotTransparent > 1) throw new GameException();
 	}
 	
+
 	public void canOccupySpace (FamilyMember familiar, Space space) throws GameException{
 		canOccupyForSpaceLogic(familiar, space);
 		canOccupyForColorLogic(familiar, space.getFamiliar());
+	}
+	
+	/**
+	 * TODO
+	 * NON CANCELLARE PER IL MOMENTO ******************************************
+	 * METODO STUPIDO DA SMEZZARE E O CANCELLARE
+	 * @param familiar
+	 * @param row
+	 * @param coloumn
+	 * @throws GameException 
+	 */
+	public void placeInTowerStupidBigMethod (FamilyMember familiar, int row, int coloumn) throws GameException{
+		Resource cost = new Resource();
+		Space space = board.getCell(row, coloumn);
+		DevelopmentCard card = space.getCard();
+		if (card == null) throw new GameException(); //vedi forum piazza
+		cost.add(findTaxToPay(familiar, space, coloumn)); //aggiungo o no le 3 monete + controlli
+		int value = familiar.getValue();
+		value = (Integer) activateEffect(value, card.toString(), new EffectWhenFindValueAction(null));
+		int index = 0;
+		//ma potrebbe avere anche 2 tipi di costo
+		cost.add(card.getRequirement(index));
+		
+		//canDicePaySpace(familiar, space);
+		//canJoinSpace(familiar, space); //e quindi canJoinArraySpace(familiar, space);
+		Resource totalReq = new Resource();
+		totalReq.add(card.getRequirement());
+		space.setFamiliar(familiar);
+		gain(space.getInstantBonus());
 	}
 	
 	/*
@@ -97,9 +171,9 @@ public class DynamicAction {
 		canJoinArraySpace(familiar, space);
 	}*/
 	
+	//VERIFICA SE HO LA TESSERA SCOMINICA VIOLA
 	public void canPlaceMarket () throws GameException{
-		player.getEffects().stream()
-			.forEach(effect -> effect.effect(new StatePlaceFamiliarMarket(null)));
+		activateEffect(new EffectWhenPlaceFamiliarMarket(null));
 		if(!player.isCheck()) return;
 		player.setCheck(false);
 		throw new GameException();
@@ -175,18 +249,17 @@ public class DynamicAction {
 	
 	public int placeValuePower (int power, String action){
 		System.out.println(action + power);
-		for (Effect effect : player.getEffects()){
-			power = (Integer) effect.effect(power, action,  new StateJoiningSpace(null));
-		}
+		power = (Integer) activateEffect(power, action,  new EffectWhenFindValueAction(null));
 		System.out.println(action + power);
 		return power;
 	}
 	
-	public int getRealActionValuePower (int power, String action){
+	public int getRealActionValuePower (Integer power, String action){
 		System.out.println(action + power);
-		for (Effect effect : player.getEffects()){
-			power = (Integer) effect.effect(power, action,  new StateJoiningSpace(null));
-		}
+		power = (Integer) activateEffect(power, action, new EffectWhenFindValueAction(null));
+		/*for (Effect effect : player.getEffects()){
+			power = (Integer) effect.effect(power, action,  new EffectWhenFindValueAction(null));
+		}*/
 		System.out.println(action + power);
 		return power;
 	}
@@ -204,22 +277,6 @@ public class DynamicAction {
 		System.out.println("prod " + power);
 	}
 	
-	public void placeInSpace (FamilyMember familiar, Space space) throws GameException{
-		//kill this
-		if (familiar.getValue() >= space.getRequiredDiceValue()){
-			if (space.getFamiliar().isEmpty())
-				check = true;
-			for (Effect effect : player.getEffects())
-				check = true;
-			if (check){
-				gain(space.getInstantBonus());
-				space.setFamiliar(familiar);
-				return;
-			}
-		}
-		boolean isPossible = false;
-	}
-	
 	public void pay (Resource res){
 		
 	}
@@ -231,12 +288,11 @@ public class DynamicAction {
 	}
 	
 	public void endGame (){
-		player.getEffects().stream()
-			.forEach(effect -> effect.effect(new StateEndingGame(null)));
+		activateEffect(new EffectWhenEnd(null));
 		
-		System.out.println(player.getDevelopmentCards(GameContants.DEV_TERRITORY).size());
-		System.out.println(player.getDevelopmentCards(GameContants.DEV_CHARACTER).size());
-		System.out.println(player.getDevelopmentCards(GameContants.DEV_BUILDING).size());
-		System.out.println(player.getDevelopmentCards(GameContants.DEV_VENTURE).size());
+		System.out.println(player.getDevelopmentCards(GameConstants.DEV_TERRITORY).size());
+		System.out.println(player.getDevelopmentCards(GameConstants.DEV_CHARACTER).size());
+		System.out.println(player.getDevelopmentCards(GameConstants.DEV_BUILDING).size());
+		System.out.println(player.getDevelopmentCards(GameConstants.DEV_VENTURE).size());
 	}
 }

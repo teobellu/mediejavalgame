@@ -5,19 +5,19 @@ import game.effect.Effect;
 import game.effect.IEffectBehavior;
 import game.state.*;
 
-public class EffectWhenGain extends Effect{
+public class EffectWhenPayTaxTower extends Effect{
 
-	public EffectWhenGain(IEffectBehavior iEffectBehavior) {
+	public EffectWhenPayTaxTower(IEffectBehavior iEffectBehavior) {
 		super(iEffectBehavior);
 	}
 	
 	@Override
 	public Object effect (Object param, Effect when){
-		return when.effectWhenGain(param);
+		return when.effectWhenPayTaxTower(param);
 	}
 	
 	@Override
-	public Object effectWhenGain(Object param) {
+	public Object effectWhenPayTaxTower(Object param) {
 		return activateEffect((Resource) param);
 	}
 }

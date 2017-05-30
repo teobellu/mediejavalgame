@@ -12,6 +12,11 @@ public class Territory extends DevelopmentCard{
 		visitor.visit(this);
 	}
 	
+	@Override
+	public String toString() {
+		return GameConstants.DEV_TERRITORY;
+	}
+	
 	/*
 	@Override
 	public void activateImmediateEffect(Player player) {

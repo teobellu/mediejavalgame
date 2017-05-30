@@ -11,8 +11,13 @@ public class EffectWhenJoiningSpace extends Effect{
 	}
 
 	@Override
-	public void effect (StateEndingGame state){
-		this.activateEffect();
+	public void effect (Effect when){
+		when.effectWhenJoiningSpace();
+	}
+	
+	@Override
+	public void effectWhenJoiningSpace() {
+		activateEffect();
 	}
 }
 

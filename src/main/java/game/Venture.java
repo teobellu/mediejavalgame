@@ -12,4 +12,9 @@ public class Venture extends DevelopmentCard{
 		visitor.visit(this);
 	}
 	
+	@Override
+	public String toString() {
+		return GameConstants.DEV_VENTURE;
+	}
+	
 }

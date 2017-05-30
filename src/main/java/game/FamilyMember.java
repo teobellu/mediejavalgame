@@ -6,6 +6,10 @@ public class FamilyMember {
 	private String color;
 	private int value;
 	
+	public FamilyMember(String color){
+		this.color = color;
+	}
+	
 	public String getColor(){
 		return color;
 	}

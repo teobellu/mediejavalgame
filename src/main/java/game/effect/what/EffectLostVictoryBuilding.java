@@ -4,13 +4,10 @@ import java.util.List;
 
 import javax.xml.ws.RespectBinding;
 
-import game.GameException;
-import game.Player;
-import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 import game.state.*;
-import game.GameContants.*;
+import game.GameConstants.*;
 import game.*;
 
 public class EffectLostVictoryBuilding implements IEffectBehavior{
@@ -40,21 +37,21 @@ public class EffectLostVictoryBuilding implements IEffectBehavior{
 	}
 	
 	private void findCostOfAllFilteredCards() {
-		player.getDevelopmentCards(GameContants.DEV_BUILDING).stream()
+		player.getDevelopmentCards(GameConstants.DEV_BUILDING).stream()
 		.forEach(card -> costOfFilteredCards.add(card.getCost()));
 	}
 	
 	public void establishTax() {
-		countVictoryTax = Resource.RESOURCE_TYPES.stream()
+		countVictoryTax = GameConstants.RES_TYPES.stream()
 			.filter(type -> costOfFilteredCards.get(type)>=payForEach.get(type) && payForEach.get(type)>0)
 			.map(type -> costOfFilteredCards.get(type) / payForEach.get(type))
 			.reduce(0 , (sum, type) -> sum + type);
 	}
 	
 	public void payTax() {
-		int playerVictory = playerRes.get(Resource.VICTORYPOINTS);
+		int playerVictory = playerRes.get(GameConstants.RES_VICTORYPOINTS);
 		countVictoryTax = Math.min(countVictoryTax, playerVictory);
-		malus.add(Resource.VICTORYPOINTS, countVictoryTax);
+		malus.add(GameConstants.RES_VICTORYPOINTS, countVictoryTax);
 		try {
 			player.pay(malus);
 		} catch (GameException e) {

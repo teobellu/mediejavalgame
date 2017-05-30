@@ -2,6 +2,7 @@ package game.effect.what;
 
 import javax.xml.ws.RespectBinding;
 
+import game.GameConstants;
 import game.GameException;
 import game.Player;
 import game.Resource;
@@ -33,16 +34,16 @@ public class EffectLostVictoryForEach implements IEffectBehavior{
 	}
 
 	public void establishTax() {
-		countVictoryTax = Resource.RESOURCE_TYPES.stream()
+		countVictoryTax = GameConstants.RES_TYPES.stream()
 			.filter(type -> playerRes.get(type)>=payForEach.get(type) && payForEach.get(type)>0)
 			.map(type -> playerRes.get(type) / payForEach.get(type))
 			.reduce(0 , (sum, type) -> sum + type);
 	}
 	
 	public void payTax() {
-		int playerVictory = playerRes.get(Resource.VICTORYPOINTS);
+		int playerVictory = playerRes.get(GameConstants.RES_VICTORYPOINTS);
 		countVictoryTax = Math.min(countVictoryTax, playerVictory);
-		malus.add(Resource.VICTORYPOINTS, countVictoryTax);
+		malus.add(GameConstants.RES_VICTORYPOINTS, countVictoryTax);
 		try {
 			player.pay(malus);
 		} catch (GameException e) {

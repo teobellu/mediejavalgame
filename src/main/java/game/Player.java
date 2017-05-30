@@ -4,7 +4,7 @@ import java.util.*;
 
 import game.effect.Effect;
 import game.state.*;
-import game.GameContants.*;
+import game.GameConstants.*;
 
 public class Player {
 	
@@ -30,7 +30,7 @@ public class Player {
 		developmentCard = new ArrayList<>();
 		leaderCard = new ArrayList<>();
 		effects = new ArrayList<>();
-		freeMember = new ArrayList<>();
+		setFreeMember(new ArrayList<>());
 		dynamicBar = new DynamicAction(this);
 		setCheck(false);
 	}
@@ -110,7 +110,7 @@ public class Player {
 	}*/
 
 	public void showRes() {
-		for (String i : Resource.RESOURCE_TYPES)
+		for (String i : GameConstants.RES_TYPES)
 			if (getResource().get(i) > 0)
 				System.out.println(i + " " + getResource().get(i));
 	}
@@ -133,6 +133,14 @@ public class Player {
 
 	public void setCheck(boolean check) {
 		this.check = check;
+	}
+
+	public List<FamilyMember> getFreeMember() {
+		return freeMember;
+	}
+
+	public void setFreeMember(ArrayList<FamilyMember> freeMember) {
+		this.freeMember = freeMember;
 	}
 	
 }

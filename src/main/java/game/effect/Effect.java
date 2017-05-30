@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import game.Player;
 import game.Resource;
+import game.effect.when.*;
 import game.state.*;
 
 public abstract class Effect {
@@ -13,24 +14,12 @@ public abstract class Effect {
 	private Object toAnalyze;
 	private String toScan;
 	private Player player;
-	protected State state;
 	
 	public Effect (IEffectBehavior iEffectBehavior){
 		this.iEffectBehavior = iEffectBehavior;
 		parameters = new ArrayList<>();
 		toScan = new String();
 	}
-	
-	public State getState() {
-		return state;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-		iEffectBehavior.effect(this);
-	}
-
-	
 	
 	public void activateEffect (){
 		iEffectBehavior.effect(this);
@@ -51,27 +40,23 @@ public abstract class Effect {
 		return param;
 	}
 	
-	public void effect (State state){return;}
+	public void effect (Effect when){return;}
 	
-	public void effect (StatePaying state){return;}
-	public void effect (StateGaining state){return;}
-	public void effect (StateEndingGame state){return;}
-	public void effect (StateIncreaseWorker state){return;}
-	public void effect (StateJoiningSpace state){return;}
+	public void effectWhenEnd() {return;}
+	public void effectWhenJoiningSpace() {return;}
+	public void effectWhenPlaceFamiliarMarket() {return;}
+	public void effectWhenSetFamiliarStartPower() {return;}
 	
-	public Object effect(Object param, State state) {return param;}
+	public Object effect(Object param, Effect when) {return param;}
 	
-	public Object effect(Object param, StateGaining state) {return param;}
-	public Object effect(Object param, StateHarvest state) {return param;}
-	public Object effect(Object param, StateProduct state) {return param;}
-	public Object effect(Object param, StateIncreaseWorker state) {return param;}
-	public Object effect(Object param, StateJoiningSpace state) {return param;}
+	public Object effectWhenGain(Object param) {return param;}
+	public Object effectWhenPayTaxTower(Object param) {return param;}
+	public Object effectWhenIncreaseWorker(Object param) {return param;}
 	
-	public Object effect(Object param, String string, State state) {return param;}	
+	public Object effect(Object param, String string, Effect when) {return param;}	
 	
-	public Object effect(Object param, String string, StateActionValue state) {return param;}
-	public Object effect(Object param, String string, StateJoiningSpace state) {return param;}
-	
+	public Object effectWhenFindValueAction(Object param, String message) {return param;}
+
 	public IEffectBehavior getIEffectBehavior(){
 		return iEffectBehavior;
 	}
@@ -107,13 +92,11 @@ public abstract class Effect {
 		return toScan;
 	}
 
-	
+	public void WhenSetFamiliarStartPower() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
-
-	
-
-	
-
 	
 }

@@ -37,7 +37,6 @@ public class GameBoard {
 		
 		this.userConfig = userConfig;
 		Resource r1 = new Resource();
-		r1.add(Resource.COINS, 5);
 		market[0] = new Space(1, r1, true);
 	}
 	

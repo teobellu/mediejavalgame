@@ -29,20 +29,20 @@ public class DevelopmentCardManager {
     
     public List<DevelopmentCard> getList(String type) {
     	switch(type){
-    		case GameContants.DEV_TERRITORY: return tList;
-    		case GameContants.DEV_CHARACTER : return cList;
-    		case GameContants.DEV_BUILDING : return bList;
-    		case GameContants.DEV_VENTURE : return vList;
+    		case GameConstants.DEV_TERRITORY: return tList;
+    		case GameConstants.DEV_CHARACTER : return cList;
+    		case GameConstants.DEV_BUILDING : return bList;
+    		case GameConstants.DEV_VENTURE : return vList;
     		default : return null;
     	}
     }
 
 	public void freeList(String type) {
 		switch(type){
-			case GameContants.DEV_TERRITORY : tList.clear(); break;
-			case GameContants.DEV_CHARACTER : cList.clear(); break;
-			case GameContants.DEV_BUILDING : bList.clear(); break;
-			case GameContants.DEV_VENTURE : vList.clear(); break;
+			case GameConstants.DEV_TERRITORY : tList.clear(); break;
+			case GameConstants.DEV_CHARACTER : cList.clear(); break;
+			case GameConstants.DEV_BUILDING : bList.clear(); break;
+			case GameConstants.DEV_VENTURE : vList.clear(); break;
 			default : return;
 		}
 	}

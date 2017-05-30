@@ -13,7 +13,12 @@ public class EffectWhenIncreaseWorker extends Effect{
 	}
 
 	@Override
-	public Object effect (Object param, StateIncreaseWorker state){
+	public Object effect (Object param, Effect when){
+		return when.effectWhenIncreaseWorker(param);
+	}
+	
+	@Override
+	public Object effectWhenIncreaseWorker(Object param) {
 		return activateEffect((Integer) param);
 	}
 }

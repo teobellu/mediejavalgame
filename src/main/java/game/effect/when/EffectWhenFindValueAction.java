@@ -10,16 +10,15 @@ public class EffectWhenFindValueAction extends Effect{
 
 	public EffectWhenFindValueAction(IEffectBehavior iEffectBehavior) {
 		super(iEffectBehavior);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
-	public Object effect (Object param, String message, StateJoiningSpace state){
-		return activateEffect((Integer) param, message);
+	public Object effect (Object param, String message, Effect when){
+		return when.effectWhenFindValueAction(param, message);
 	}
 	
 	@Override
-	public Object effect (Object param, String message, StateActionValue state){
+	public Object effectWhenFindValueAction(Object param, String message) {
 		return activateEffect((Integer) param, message);
 	}
 

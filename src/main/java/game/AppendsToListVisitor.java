@@ -10,22 +10,22 @@ public class AppendsToListVisitor implements DevelopmentCardVisitor{
 	
 	@Override
 	public void visit(Territory t) {
-		manager.getList(GameContants.DEV_TERRITORY).add(t);
+		manager.getList(GameConstants.DEV_TERRITORY).add(t);
 	}
 
 	@Override
 	public void visit(Character c) {
-		manager.getList(GameContants.DEV_CHARACTER).add(c);
+		manager.getList(GameConstants.DEV_CHARACTER).add(c);
 	}
 
 	@Override
 	public void visit(Building b) {
-		manager.getList(GameContants.DEV_BUILDING).add(b);
+		manager.getList(GameConstants.DEV_BUILDING).add(b);
 	}
 
 	@Override
 	public void visit(Venture v) {
-		manager.getList(GameContants.DEV_VENTURE).add(v);
+		manager.getList(GameConstants.DEV_VENTURE).add(v);
 	}
 	
 }
