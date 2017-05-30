@@ -1,5 +1,10 @@
 package client;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,7 +13,6 @@ import client.userinterface.UI;
 import client.userinterface.UIFactory;
 import util.Constants;
 import util.IOHandler;
-import util.packets.Packet;
 
 public class Client extends Thread {
 
@@ -35,27 +39,62 @@ public class Client extends Thread {
 		}
 		
 		_connectionHandler = _ui.getConnection();
-		_connectionHandler.setClient(this);
 		
 		if(_connectionHandler == null){
 			_log.log(Level.SEVERE, "Can't create ConnectionServerHandler. What's going on?");
 			this.shutdown();
 		}
 		
+		_connectionHandler.setClient(this);
+		
 		_connectionHandler.run();
 		
-		doGame();
-	}
-	
-	public void processMessage(Packet message){
+		try {
+			doGame();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 	}
 	
-	private void doGame(){
+	private void doGame() throws RemoteException {
 		/*TODO se primo player, chiedi se vuole mettere suo file config
-		 * se sì, cerca il file
+		 * se sï¿½, cerca il file
 		 * se lo trovi, manda file al server
 		 * */
+		
+		
+		if(_connectionHandler.addMeToGame()){
+			do {
+				String path = _ui.askForConfigFile();
+				if(!path.isEmpty()){
+					try {
+						FileReader customConfig = new FileReader(path);
+						
+						StringBuilder sb = new StringBuilder();
+						BufferedReader br = new BufferedReader(customConfig);
+						String line;
+						while((line = br.readLine() ) != null) {
+			                sb.append(line);
+			            }
+						
+						br.close();
+						
+						_connectionHandler.sendConfigFile(sb.toString());
+					} catch (FileNotFoundException e) {
+						_ui.write("File not found.");
+					} catch(IOException e){
+						_ui.write("Invalid file. Using default settings...");
+						break;
+					}
+				} else{
+					break;
+				}
+			} while (true);
+			//TODO send file
+		}
+		
+		//TODO
 	}
 	
 	private void shutdown() {

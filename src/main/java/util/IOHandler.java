@@ -7,6 +7,10 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author jacopo
+ *
+ */
 public class IOHandler {
 
 	public IOHandler() {
@@ -14,17 +18,19 @@ public class IOHandler {
 		_writer = new PrintWriter(System.out);
 	}
 	
-	/**Read a NON EMPTY line
-	 * @return a string
-	 */
-	public String readLine(){
+	
+	public String readLine(boolean isEmptyAllowed){
 		do {
 			try {
 				String str = _reader.readLine();
 				if(!str.isEmpty()){
 					return str;
 				} else {
-					write("You must write something. An empty line will be rejected");
+					if(isEmptyAllowed){
+						return "";
+					} else {
+						write("You must write something. An empty line will be rejected");
+					}
 				}
 			} catch (Exception e) {
 				_log.log(Level.SEVERE, "Something's wrong with readLine(). What's happening?\n", e);
@@ -40,7 +46,7 @@ public class IOHandler {
 	public int readNumber(){
 		do {
 			try {
-				String str = readLine();
+				String str = readLine(false);
 				Integer i = Integer.decode(str);
 				return i;
 			} catch (NumberFormatException e) {

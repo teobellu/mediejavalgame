@@ -7,14 +7,12 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import util.CommandStrings;
-import util.Constants;
-import util.packets.NamePacket;
-import util.packets.Packet;
-import util.packets.PingPacket;
 
 /**
  * @author Jacopo
@@ -37,20 +35,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			_isRunning = true;
 			
-			if(addMeToGame()){
-				
-				String response = null;
-				do {
-					response = (String)readObject();
-				} while (response!=null);
-				
-				if(response==CommandStrings.ASK_FOR_CONFIG){
-					//TODO ask for config
-				} else{
-					//TODO processare il comando ricevuto
-				}
-			}
-			
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -71,44 +55,114 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public void putFamiliar() throws RemoteException {
+	public List<String> putFamiliar() throws RemoteException {
 		try {
 			String message = CommandStrings.PUT_FAMILIAR;
 			writeObject(message);
+			
+			List<String> familiars = new ArrayList<String>();
+			while(message!=CommandStrings.END_TRANSMISSION){
+				message = (String) readObject();
+				if(message!=null){
+					familiars.add(message);
+				}
+			}
+			
+			synchronized (familiars) {
+				
+			}
+			
+			return familiars;
 			//TODO quale familiare
 			//TODO dove piazzarlo
-			//TODO aumentare il suo valore? Se sì, di quanto?
-		} catch (IOException e) {
+			//TODO aumentare il suo valore? Se sï¿½, di quanto?
+		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			return null;
 		}
 		
 	}
-
+	
 	@Override
-	public void sendConfigFile() throws RemoteException {
-		// TODO Auto-generated method stub
-		writeObject(message);
+	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
+		try{
+			String message = CommandStrings.PUT_WHICH_FAMILIAR;
+			writeObject(message);
+			writeObject(familiar);
+			List<String> positions = new ArrayList<>();
+			while(message!=CommandStrings.END_TRANSMISSION){
+				message = (String) readObject();
+				if(message!=null){
+					positions.add(message);
+				}
+			}
+			
+			return positions;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return null;
+		}
 	}
 
 	@Override
-	public void activateLeaderCard() throws RemoteException {
+	public void putFamiliarWhere(String position) throws RemoteException {
+		try {
+			writeObject(CommandStrings.PUT_WHERE_FAMILIAR);
+			writeObject(position);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	@Override
+	public void sendConfigFile(String file) throws RemoteException {
+		try{	
+			String message = CommandStrings.ASK_FOR_CONFIG;
+			writeObject(message);
+			writeObject(file);
+		} catch(IOException e){
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public synchronized List<String> activateLeaderCard() throws RemoteException {
 		try{
 			String message = CommandStrings.ACTIVATE_LEADER_CARD;
 			writeObject(message);
-			//TODO ask which card
-			//TODO send which card
-			//TODO se Federico da Montefeltro, chiedi quale familiare
-			//TODO se Lorenzo de’ Medici, chiedi quale altro leader
-		} catch (IOException e){
+			List<String> cards = new ArrayList<String>();
+			while(message!=CommandStrings.END_TRANSMISSION){
+				message = (String) readObject();
+				if(message!=null){
+					cards.add(message);
+				}
+			}
+			
+			return cards;
+		} catch (Exception e){
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			return null;
+		}
+	}
+	
+	@Override
+	public synchronized void activateLeaderCard(String card){
+		try{
+			String message = CommandStrings.ACTIVATE_WHICH_LEADER_CARD;
+			writeObject(message);
+			writeObject(card);
+			
+			//TODO se Federico da Montefeltro, chiedi quale familiare
+			//TODO se Lorenzo deï¿½ Medici, chiedi quale altro leader
+		} catch (IOException e) {
+			// TODO: handle exception
 		}
 	}
 
 	@Override
 	public void ping() throws RemoteException {
 		try {
-			String ping = CommandStrings.PING;
-			writeObject(ping);
+			writeObject(CommandStrings.PING);
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -145,8 +199,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public boolean addMeToGame() throws RemoteException {
 		try {
-			String obj = CommandStrings.ADD_TO_GAME;
-			writeObject(obj);
+			writeObject(CommandStrings.ADD_TO_GAME);
 			return true;
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -155,8 +208,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		return false;
 	}
 	
-	private synchronized void writeObject(Object obj) throws IOException{
-		_outputStream.writeObject(obj);
+	private synchronized void writeObject(Object message) throws IOException{
+		_outputStream.writeObject(message);
 		_outputStream.flush();
 	}
 	

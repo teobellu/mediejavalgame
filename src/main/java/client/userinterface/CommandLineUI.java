@@ -17,7 +17,7 @@ public class CommandLineUI implements UI {
 				
 		//Get server address
 		_ioHandler.write("Inserisci l'indirizzo del server a cui vorresti collegarti.");
-		String host = _ioHandler.readLine();
+		String host = _ioHandler.readLine(false);
 		
 		//Get server's port
 		_ioHandler.write("Su quale porta vorresti collegarti?");
@@ -40,19 +40,30 @@ public class CommandLineUI implements UI {
 	public String getUsername(){
 		//Get username
 		_ioHandler.write("Ciao. Come vorresti chiamarti?");
-		String username = _ioHandler.readLine();
+		String username = _ioHandler.readLine(false);
 		return username;
 	}
 	
-	
-
-	private final IOHandler _ioHandler;
-
-
+	@Override
+	public String getStringValue(boolean isEmptyAllowed) {
+		return _ioHandler.readLine(isEmptyAllowed);
+	}
 
 	@Override
-	public String getStringValue(String request) {
-		// TODO Auto-generated method stub
-		return null;
+	public void printString(String string) {
+		_ioHandler.write(string);
 	}
+	
+	@Override
+	public String askForConfigFile() {
+		_ioHandler.write(ClientText.ASK_IF_CONFIG_FILE);
+		return _ioHandler.readLine(true);
+	}
+	
+	@Override
+	public void write(String str) {
+		_ioHandler.write(str);
+	}
+	
+	private final IOHandler _ioHandler;
 }

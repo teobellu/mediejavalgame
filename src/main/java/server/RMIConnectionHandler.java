@@ -3,6 +3,7 @@ package server;
 import java.rmi.RemoteException;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import misc.ConnectionHandlerRemote;
@@ -25,7 +26,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 		_lastPing = Date.from(Instant.now());	}
 
 	@Override
-	public void activateLeaderCard() throws RemoteException {
+	public List<String> activateLeaderCard() throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -55,6 +56,12 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 	@Override
 	public boolean addMeToGame() throws RemoteException {
 		return Server.getInstance().addMeToGame(this);
+	}
+	
+	@Override
+	public void sendConfigFile(String file) throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	private Date _lastPing;

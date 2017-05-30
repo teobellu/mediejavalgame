@@ -3,6 +3,7 @@ package client.network;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,15 +30,10 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 			
 			_isRunning = true;
 			
-			if (addMeToGame()){
-				//TODO ask for configs
-			}
 		} catch (Exception e) {
 			_logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
-	
-	
 	
 	@Override
 	public void sendName(String name) throws RemoteException {
@@ -49,14 +45,20 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 		_connectionHandler.putFamiliar();
 	}
 
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#activateLeaderCard()
+	 */
 	@Override
-	public void sendConfigFile() throws RemoteException {
-		_connectionHandler.sendConfigFile();
+	public List<String> activateLeaderCard() throws RemoteException {
+		return _connectionHandler.activateLeaderCard();
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#activateLeaderCard(java.lang.String)
+	 */
 	@Override
-	public void activateLeaderCard() throws RemoteException {
-		_connectionHandler.activateLeaderCard();
+	public void activateLeaderCard(String card) throws RemoteException{
+		_connectionHandler.activateLeaderCard(card);
 	}
 
 	@Override
@@ -73,6 +75,11 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public boolean addMeToGame() throws RemoteException {
 		return _connectionHandler.addMeToGame();
+	}
+	
+	@Override
+	public void sendConfigFile(String file) throws RemoteException {
+		_connectionHandler.sendConfigFile(file);
 	}
 	
 	private ServerRemote _serverRMI;

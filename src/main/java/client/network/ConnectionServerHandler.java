@@ -1,6 +1,7 @@
 package client.network;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 import client.Client;
 
@@ -25,20 +26,42 @@ public abstract class ConnectionServerHandler implements Runnable {
 	
 	public abstract void sendName(String name) throws RemoteException;
 	
-	public abstract void putFamiliar() throws RemoteException;
+	public abstract List<String> putFamiliar() throws RemoteException;
+	
+	public abstract List<String> putFamiliarWhich(String familiar) throws RemoteException;
+	
+	public abstract void putFamiliarWhere(String position) throws RemoteException;
 
-	public abstract void sendConfigFile() throws RemoteException;
+	public abstract void sendConfigFile(String file) throws RemoteException;
 	
-	public abstract void activateLeaderCard() throws RemoteException;
+	/**
+	 * Tell the server that you want to activate a leader card
+	 * @return a list of your leader cards
+	 * @throws RemoteException
+	 */
+	public abstract List<String> activateLeaderCard() throws RemoteException;
 	
+	/**
+	 * Tell the server which leader card you want to activate
+	 * @param card leader you want to activate
+	 * @throws RemoteException
+	 */
+	public abstract void activateLeaderCard(String card) throws RemoteException;
+		
 	public abstract void ping() throws RemoteException;
 	
 	public abstract void onConnect() throws RemoteException;
 	
+	/**
+	 * Add client to a game
+	 * @return true if first player of a room, false otherwise
+	 * @throws RemoteException
+	 */
 	public abstract boolean addMeToGame() throws RemoteException;
 	
 	protected boolean _isRunning = false;
 	protected final String _host;
 	protected final int _port;
 	protected Client _client;
+	
 }

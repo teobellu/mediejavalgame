@@ -2,6 +2,7 @@ package misc;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 public interface ConnectionHandlerRemote extends Remote {
 
@@ -9,7 +10,9 @@ public interface ConnectionHandlerRemote extends Remote {
 
 	public void ping() throws RemoteException;
 
-	public void activateLeaderCard() throws RemoteException;
+	public List<String> activateLeaderCard() throws RemoteException;
+	
+	public void activateLeaderCard(String card) throws RemoteException;
 
 	public void sendConfigFile() throws RemoteException;
 
@@ -17,5 +20,8 @@ public interface ConnectionHandlerRemote extends Remote {
 	
 	public void onConnect() throws RemoteException;
 
-	public boolean addMeToGame() throws RemoteException;	
+	public boolean addMeToGame() throws RemoteException;
+
+	public void sendConfigFile(String file) throws RemoteException;
+	
 }

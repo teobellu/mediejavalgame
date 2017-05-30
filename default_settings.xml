@@ -567,7 +567,8 @@
 				<permanent_effect>
 					<cost>6</cost>
 					<gain_for_every>
-						<winning_point>1</winning_point><ent></venture></gain_for_every>
+						<winning_point>1</winning_point>
+						<venture></venture></gain_for_every>
 				</permanent_effect>
 			</building_card>
 			<building_card>
