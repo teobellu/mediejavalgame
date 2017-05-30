@@ -3,4 +3,18 @@
   <groupId>it.polimi.ingsw</groupId>
   <artifactId>LM29</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sonar.language>java</sonar.language>
+	    <sonar.java.source>1.8</sonar.java.source>
+	    <sonar.host.url> http://localhost:9000/ </sonar.host.url>
+	</properties>
+	<dependencies>
+   <dependency>
+	<groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+   </dependency>
+  </dependencies>
 </project>
