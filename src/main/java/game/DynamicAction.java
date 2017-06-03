@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import game.effect.Effect;
-import game.effect.when.*;
 import game.state.*;
 
 public class DynamicAction {
@@ -20,25 +19,25 @@ public class DynamicAction {
 	}
 	
 	
-	public void activateEffect(Effect effect){
+	public void activateEffect(String time){
 		player.getEffects().stream()
-			.forEach(eff -> effect.effect(eff));
+			.forEach(eff -> eff.activateEffect(time));
 	}
 	
-	public Object activateEffect(Object param, Effect effect){
+	public Object activateEffect(Object param, String time){
 		for (Effect eff : player.getEffects())
-			param = effect.effect(param, eff);
+			param = eff.activateEffect(time, param);
 		return param;
 	}
 	
-	public Object activateEffect(Object param, String string, Effect effect){
+	public Object activateEffect(Object param, String string, String time){
 		for (Effect eff : player.getEffects())
-			param = effect.effect(param, string, eff);
+			param =  eff.activateEffect(time, param, string);
 		return param;
 	}
 
 	public void gain (Resource res){
-		res = (Resource) activateEffect(res, new EffectWhenGain(null));
+		res = (Resource) activateEffect(res, GC.WHEN_GAIN);
 		player.gain(res);
 	}
 	
@@ -46,8 +45,8 @@ public class DynamicAction {
 		Resource pay = new Resource();
 		int increase = amount;
 		
-		amount = (Integer) activateEffect(amount, new EffectWhenIncreaseWorker(null));
-		pay.add(GameConstants.RES_SERVANTS, amount);
+		amount = (Integer) activateEffect(amount, GC.WHEN_INCREASE_WORKER);
+		pay.add(GC.RES_SERVANTS, amount);
 		player.pay(pay);
 		familiar.setValue(familiar.getValue() + increase);
 	}
@@ -84,8 +83,8 @@ public class DynamicAction {
 			familiarInSameColoumn.addAll(board.getCell(row, coloumn).getFamiliar());
 		canOccupyForColorLogic(familiar, familiarInSameColoumn);
 		if (!familiarInSameColoumn.isEmpty()){
-			tax.add(GameConstants.TAX_TOWER);
-			tax = (Resource) activateEffect(tax, new EffectWhenPayTaxTower(null));
+			tax.add(GC.TAX_TOWER);
+			tax = (Resource) activateEffect(tax, GC.WHEN_PAY_TAX_TOWER);
 		}
 		return tax;
 	}
@@ -103,7 +102,7 @@ public class DynamicAction {
 		//l'if qui sopra magari no
 		if (space.isSingleObject()){
 			if(space.getFamiliar().isEmpty()) return;
-			activateEffect(new EffectWhenJoiningSpace(null));
+			activateEffect(GC.WHEN_JOINING_SPACE);
 			if (!player.isCheck()) throw new GameException();
 			player.setCheck(false);	
 		}
@@ -121,7 +120,7 @@ public class DynamicAction {
 		playerFamiliar.add(familiar);
 		long countNotTransparent = playerFamiliar.stream()
 			.filter(fam -> fam.getOwner() == familiar.getOwner())
-			.filter(fam -> fam.getColor() != GameConstants.FM_TRANSPARENT)
+			.filter(fam -> fam.getColor() != GC.FM_TRANSPARENT)
 			.count();
 		if(countNotTransparent > 1) throw new GameException();
 	}
@@ -146,9 +145,10 @@ public class DynamicAction {
 		Space space = board.getCell(row, coloumn);
 		DevelopmentCard card = space.getCard();
 		if (card == null) throw new GameException(); //vedi forum piazza
+		
 		cost.add(findTaxToPay(familiar, space, coloumn)); //aggiungo o no le 3 monete + controlli
 		int value = familiar.getValue();
-		value = (Integer) activateEffect(value, card.toString(), new EffectWhenFindValueAction(null));
+		value = (Integer) activateEffect(value, card.toString(), GC.WHEN_FIND_VALUE_ACTION);
 		int index = 0;
 		//ma potrebbe avere anche 2 tipi di costo
 		cost.add(card.getRequirement(index));
@@ -173,7 +173,7 @@ public class DynamicAction {
 	
 	//VERIFICA SE HO LA TESSERA SCOMINICA VIOLA
 	public void canPlaceMarket () throws GameException{
-		activateEffect(new EffectWhenPlaceFamiliarMarket(null));
+		activateEffect(GC.WHEN_PLACE_FAMILIAR_MARKET);
 		if(!player.isCheck()) return;
 		player.setCheck(false);
 		throw new GameException();
@@ -249,14 +249,14 @@ public class DynamicAction {
 	
 	public int placeValuePower (int power, String action){
 		System.out.println(action + power);
-		power = (Integer) activateEffect(power, action,  new EffectWhenFindValueAction(null));
+		power = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
 		System.out.println(action + power);
 		return power;
 	}
 	
 	public int getRealActionValuePower (Integer power, String action){
 		System.out.println(action + power);
-		power = (Integer) activateEffect(power, action, new EffectWhenFindValueAction(null));
+		power = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
 		/*for (Effect effect : player.getEffects()){
 			power = (Integer) effect.effect(power, action,  new EffectWhenFindValueAction(null));
 		}*/
@@ -278,7 +278,8 @@ public class DynamicAction {
 	}
 	
 	public void pay (Resource res){
-		
+		if (res != null)
+			System.out.println("i'm paying");
 	}
 	
 	public void addDevelopmentCard (DevelopmentCard newCard) throws GameException{
@@ -288,11 +289,30 @@ public class DynamicAction {
 	}
 	
 	public void endGame (){
-		activateEffect(new EffectWhenEnd(null));
-		
-		System.out.println(player.getDevelopmentCards(GameConstants.DEV_TERRITORY).size());
-		System.out.println(player.getDevelopmentCards(GameConstants.DEV_CHARACTER).size());
-		System.out.println(player.getDevelopmentCards(GameConstants.DEV_BUILDING).size());
-		System.out.println(player.getDevelopmentCards(GameConstants.DEV_VENTURE).size());
+		activateEffect(GC.WHEN_END);
+		int territory = player.getDevelopmentCards(GC.DEV_TERRITORY).size();
+		int character = player.getDevelopmentCards(GC.DEV_CHARACTER).size();
+		int building = player.getDevelopmentCards(GC.DEV_BUILDING).size();
+		int venture = player.getDevelopmentCards(GC.DEV_VENTURE).size();
+		addFinalReward(GC.REW_TERRITORY, territory);
+		addFinalReward(GC.REW_CHARACTER, character);
+		exchangeResourceToVictory();
+	}
+	
+	public void addFinalReward (List<Integer> rewardList, int index){
+		Resource finalReward = new Resource(GC.RES_VICTORYPOINTS, rewardList.get(index));
+		player.gain(finalReward);
+		//player.gain(new Resource(GC.RES_VICTORYPOINTS, rewardList.get(index)));
+	}
+	
+	public void exchangeResourceToVictory(){
+		Resource toCount = player.getResource();
+		int amount = toCount.get(GC.RES_COINS);
+		amount += toCount.get(GC.RES_WOOD);
+		amount += toCount.get(GC.RES_STONES);
+		amount += toCount.get(GC.RES_SERVANTS);
+		if(5 > 0)			//al posto di 5 potrei avere una costante
+			amount = amount / 5;
+		player.gain(new Resource(GC.RES_VICTORYPOINTS, amount));
 	}
 }

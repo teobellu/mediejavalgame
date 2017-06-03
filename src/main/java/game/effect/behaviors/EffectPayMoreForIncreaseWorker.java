@@ -1,4 +1,4 @@
-package game.effect.what;
+package game.effect.behaviors;
 
 import game.Resource;
 import game.effect.Effect;
@@ -11,27 +11,30 @@ public class EffectPayMoreForIncreaseWorker implements IEffectBehavior{
 	private Integer malus;		//la tassa
 	private Integer newPay;
 	
+	public EffectPayMoreForIncreaseWorker(Integer malus) {
+		this.malus = malus;
+	}
 	
+	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
 		sufferMalus();
 		applyTax();
 	}
 	
-	public void initializes(Effect ref){
+	private void initializes(Effect ref){
 		this.ref = ref;
 		normalPay = new Integer(0);
-		malus = new Integer(0);
 		newPay = new Integer(0);
 		normalPay = (Integer) ref.getToAnalyze();
-		malus = (Integer) ref.getParameters();
+		
 	}
 	
 	private void sufferMalus() {
 		newPay = normalPay * malus;
 	}
 	
-	public void applyTax (){
+	private void applyTax (){
 		ref.setToAnalyze(newPay);
 	}
 	

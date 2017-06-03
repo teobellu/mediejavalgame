@@ -4,7 +4,7 @@ import java.util.*;
 
 import game.effect.Effect;
 import game.state.*;
-import game.GameConstants.*;
+import game.GC.*;
 
 public class Player {
 	
@@ -45,7 +45,10 @@ public class Player {
 	
 	public void addEffect (Effect eff){
 		eff.setPlayer(this);
-		effects.add(eff);
+		if (eff.getWhenActivate() == GC.IMMEDIATE)
+			eff.activateEffect(GC.IMMEDIATE);
+		else
+			effects.add(eff);
 	}
 	
 	public void addDevelopmentCard (DevelopmentCard newCard){
@@ -110,7 +113,7 @@ public class Player {
 	}*/
 
 	public void showRes() {
-		for (String i : GameConstants.RES_TYPES)
+		for (String i : GC.RES_TYPES)
 			if (getResource().get(i) > 0)
 				System.out.println(i + " " + getResource().get(i));
 	}

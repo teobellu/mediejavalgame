@@ -8,7 +8,7 @@ public class ExcommunicationCard implements ICard{
 	private int age;
 	private Effect effect;
 	
-	public ExcommunicationCard(UserConfig userconfig){
+	public ExcommunicationCard(){
 		//TODO
 	}	
 	public String getName() {

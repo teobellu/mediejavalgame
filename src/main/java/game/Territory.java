@@ -14,7 +14,7 @@ public class Territory extends DevelopmentCard{
 	
 	@Override
 	public String toString() {
-		return GameConstants.DEV_TERRITORY;
+		return GC.DEV_TERRITORY;
 	}
 	
 	/*

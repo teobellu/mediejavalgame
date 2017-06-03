@@ -2,12 +2,8 @@ package game;
 
 import java.util.*;
 
-import game.Resource.*;
 import game.effect.Effect;
-import game.effect.what.*;
-import game.effect.when.*;
-import game.effect.when.EffectWhenFindValueAction;
-import game.state.StatePayTaxTower;
+import game.effect.behaviors.*;
 
 public class Test {
 	public static void main(String[] args) {
@@ -15,18 +11,45 @@ public class Test {
 		Player p = new Player();
 		DynamicAction joy = p.getDynamicBar();
 		
-		Resource ser3 = new Resource(GameConstants.RES_SERVANTS, 3);
-		Resource ser2 = new Resource(GameConstants.RES_SERVANTS, 2);
-		Resource ser1 = new Resource(GameConstants.RES_SERVANTS, 1);
-		Resource coi3 = new Resource(GameConstants.RES_COINS, 3);
-		Resource vic3 = new Resource(GameConstants.RES_VICTORYPOINTS, 3);
-		Resource vic1 = new Resource(GameConstants.RES_VICTORYPOINTS, 1);
+		Resource ser3 = new Resource(GC.RES_SERVANTS, 3);
+		Resource ser2 = new Resource(GC.RES_SERVANTS, 2);
+		Resource ser1 = new Resource(GC.RES_SERVANTS, 1);
+		Resource coi3 = new Resource(GC.RES_COINS, 3);
+		Resource vic3 = new Resource(GC.RES_VICTORYPOINTS, 3);
+		Resource vic1 = new Resource(GC.RES_VICTORYPOINTS, 1);
+
+		p.gain(coi3);
+		
+		DevelopmentCard b1 = new Building();
+		b1.setCost(null);
+		
+		p.addDevelopmentCard(b1);
+		p.addDevelopmentCard(b1);
+		p.addDevelopmentCard(b1);
+		
+		Effect effA4 = new Effect(GC.IMMEDIATE, new EffectRecieveRewardForEach(vic3, GC.RES_COINS));
+		
+		p.addEffect(effA4);
+		
+		Effect imm1 = new Effect(GC.IMMEDIATE, new EffectGetResource(ser1));
+		Effect imm2 = new Effect(GC.IMMEDIATE, new EffectGetResource(ser1));
+		
+		p.addEffect(imm1);
+		p.addEffect(imm2);
+		try {
+			p.pay(ser2);
+		} catch (GameException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		p.showRes();
 		
 		List<FamilyMember> f = new ArrayList<>();
-		FamilyMember f1 = new FamilyMember(GameConstants.FM_BLACK);
-		FamilyMember f2 = new FamilyMember(GameConstants.FM_ORANGE);
-		FamilyMember f3 = new FamilyMember(GameConstants.FM_WHITE);
-		FamilyMember f4 = new FamilyMember(GameConstants.FM_TRANSPARENT);
+		FamilyMember f1 = new FamilyMember(GC.FM_BLACK);
+		FamilyMember f2 = new FamilyMember(GC.FM_ORANGE);
+		FamilyMember f3 = new FamilyMember(GC.FM_WHITE);
+		FamilyMember f4 = new FamilyMember(GC.FM_TRANSPARENT);
 		f1.setValue(1);
 		f2.setValue(3);
 		f3.setValue(5);
@@ -41,31 +64,30 @@ public class Test {
 		f.add(f4);
 		p.setFreeMember((ArrayList<FamilyMember>) f);
 		
-		Effect yellow = new EffectWhenSetFamiliarStartPower(new EffectIncreaseFamiliarStartPower());
-		yellow.setParameters(1);
-		yellow.setParameters(GameConstants.FM_COLOR);
+		Effect yellow = new Effect(GC.WHEN_SET_FAMILIAR_START_POWER, new EffectSetFamiliarStartPower(GC.FM_COLOR, 1));
 		
 		p.addEffect(yellow);
 
-		joy.activateEffect(new EffectWhenSetFamiliarStartPower(null));
+		joy.activateEffect(GC.WHEN_SET_FAMILIAR_START_POWER);
 		
 		p.getFreeMember().stream()
 			.forEach(fam -> System.out.println("value " + fam.getValue()));
 		
 		
 		
-		
+		/**
+		 * Deck of leaders cards
+		 */
 		List<ICard> leaderDeck = new ArrayList<>();
 		/**
 		 * Ludovico Ariosto
 		 */
-		Effect effLudovicoAriosto = new EffectWhenJoiningSpace(new EffectPositiveCheck());
+		Effect effLudovicoAriosto = new Effect(GC.WHEN_JOINING_SPACE, new EffectPositiveCheck());
 		leaderDeck.add(new LeaderCard("Ludovico Ariosto", null, 0, 5, 0, 0, effLudovicoAriosto, true));
 		/**
 		 * Filippo Brunelleschi
 		 */
-		Effect effFilippoBrunelleschi = new EffectWhenPayTaxTower(new EffectSufferRake());
-		effFilippoBrunelleschi.setParameters(GameConstants.TAX_TOWER);
+		Effect effFilippoBrunelleschi = new Effect(GC.WHEN_PAY_TAX_TOWER, new EffectDiscountResource(GC.TAX_TOWER));
 		leaderDeck.add(new LeaderCard("Filippo Brunelleschi", null, 0, 0, 5, 0, effFilippoBrunelleschi, true));
 		
 		
@@ -74,8 +96,8 @@ public class Test {
 		p.addEffect(effFilippoBrunelleschi);
 		
 		Resource tax = new Resource();	
-		tax.add(GameConstants.TAX_TOWER);
-		tax = (Resource) joy.activateEffect(tax, new EffectWhenPayTaxTower(null));
+		tax.add(GC.TAX_TOWER);
+		tax = (Resource) joy.activateEffect(tax, GC.WHEN_PAY_TAX_TOWER);
 		p.gain(tax);
 		p.gain(coi3);
 		p.showRes();
@@ -99,8 +121,7 @@ public class Test {
 		
 		//9
 		
-		Effect eff6 = new EffectWhenEnd(new EffectLostVictoryForEach());
-		eff6.setParameters(ser3);
+		Effect eff6 = new Effect(GC.WHEN_END,new EffectLostVictoryForEach(ser3));
 		p.addEffect(eff6);
 		
 		joy.endGame();
@@ -108,8 +129,7 @@ public class Test {
 		
 		//7 ok -1 -1
 		
-		Effect eff8 = new EffectWhenEnd(new EffectLostVictoryBuilding());
-		eff8.setParameters(ser2);
+		Effect eff8 = new Effect(GC.WHEN_END,new EffectLostVictoryBuilding(ser2));
 		p.addEffect(eff8);
 		
 		DevelopmentCard c1 = new Venture();
@@ -119,8 +139,7 @@ public class Test {
 		p.addDevelopmentCard(c1);
 		p.addDevelopmentCard(c2);
 		
-		Effect eff9 = new EffectWhenEnd(new EffectDontGetVictoryFor());
-		eff9.setParameters("bf");
+		Effect eff9 = new Effect(GC.WHEN_END, new EffectDontGetVictoryFor(GC.DEV_BUILDING));
 		
 		p.addEffect(eff9);
 		
@@ -128,12 +147,8 @@ public class Test {
 		p.showRes();
 		
 		
-		Effect effx = new EffectWhenFindValueAction(new EffectReducePower());
-		effx.setParameters(1);
-		effx.setParameters("harvest");
-		Effect effy = new EffectWhenFindValueAction(new EffectReducePower());
-		effy.setParameters(2);
-		effy.setParameters("production");
+		Effect effx = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower("harvest", -1));
+		Effect effy = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower("production", -2));
 		
 		p.addEffect(effx);
 		p.addEffect(effy);
@@ -145,8 +160,7 @@ public class Test {
 		//-2 dall'effetto di prima
 		
 		
-		Effect eff3 = new EffectWhenGain(new EffectSufferRake());
-		eff3.setParameters(vic1);
+		Effect eff3 = new Effect(GC.WHEN_GAIN, new EffectDiscountResource(vic1));
 		
 		p.addEffect(eff3);
 		
@@ -154,24 +168,19 @@ public class Test {
 		p.showRes();
 		
 		
-		Effect eff5 = new EffectWhenIncreaseWorker(new EffectPayMoreForIncreaseWorker());
-		eff5.setParameters(2);
+		Effect eff5 = new Effect(GC.WHEN_INCREASE_WORKER, new EffectPayMoreForIncreaseWorker(2));
 		
 		p.addEffect(eff5);
 		joy.gain(ser3);
 		
-		
-		
 		p.showRes();
 		
-		Effect eff60 = new EffectWhenEnd(new EffectLostVictoryForEach());
-		eff60.setParameters(ser3);
+		Effect eff60 = new Effect(GC.WHEN_END, new EffectLostVictoryForEach(ser3));
 		p.addEffect(eff60);
 		
 		joy.endGame();
 		
-		Effect eff80 = new EffectWhenEnd(new EffectLostVictoryBuilding());
-		eff80.setParameters(ser1);
+		Effect eff80 = new Effect(GC.WHEN_END, new EffectLostVictoryBuilding(ser1));
 		p.addEffect(eff80);
 		
 		DevelopmentCard c10 = new Venture();
@@ -184,24 +193,44 @@ public class Test {
 		joy.endGame();
 		p.showRes();
 		
+		p.gain(vic3);
+		
+		p.addEffect(eff60);
+		
 		String g = "1h";
 		try{
 		System.out.println(Integer.parseInt(g) + " e ");}
 		catch(NumberFormatException e){
+		
 			
+			System.out.println("error by string g");
 		}
 		//GameBoard game = new GameBoard(null);
 /*
 		Player g1 = new Player();
 		Player g2 = new Player();
 		
-		Resource vic1 = new Resource();		vic1.add(type.VICTORYPOINTS, 1);
-		Resource vic3 = new Resource();		vic3.add(type.VICTORYPOINTS, 3);
-		Resource oro1 = new Resource();		oro1.add(type.COINS, 1);
-		Resource oro2 = new Resource();		oro2.add(type.COINS, 2);
-		Resource wood3 = new Resource();	wood3.add(type.WOOD, 3);
-		Resource wood4 = new Resource();	wood4.add(type.WOOD, 4);
-		Resource wood1 = new Resource();	wood1.add(type.WOOD, 1);
+		Resource vic1 = new Resource();		
+		vic1.add(type.VICTORYPOINTS, 1);
+		
+		Resource vic3 = new Resource();		
+		vic3.add(type.VICTORYPOINTS, 3);
+		
+		Resource oro1 = new Resource();		
+		oro1.add(type.COINS, 1);
+		
+		Resource oro2 = new Resource();		
+		oro2.add(type.COINS, 2);
+		
+		Resource wood3 = new Resource();	
+		wood3.add(type.WOOD, 3);
+		
+		Resource wood4 = new Resource();	
+		wood4.add(type.WOOD, 4);
+		
+		Resource wood1 = new Resource();	
+		wood1.add(type.WOOD, 1);
+		
 		Resource wood1stone1 = new Resource();	wood1stone1.add(type.WOOD, 1); wood1stone1.add(type.STONES, 1);
 		
 		g1.Gain(wood4);
@@ -239,5 +268,16 @@ public class Test {
 		**************************************************************/
 
 
+		
+		/***
+		 * Creating card type
+		 * **
+		 * OPT = ONCE PER TURN
+		 * **
+		 */
+	
 	}
+	
+	//
+
 }

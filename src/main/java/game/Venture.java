@@ -14,7 +14,7 @@ public class Venture extends DevelopmentCard{
 	
 	@Override
 	public String toString() {
-		return GameConstants.DEV_VENTURE;
+		return GC.DEV_VENTURE;
 	}
 	
 }

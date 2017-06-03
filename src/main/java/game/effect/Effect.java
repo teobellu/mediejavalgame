@@ -1,73 +1,50 @@
 package game.effect;
 
-import java.util.ArrayList;
-
 import game.Player;
-import game.Resource;
-import game.effect.when.*;
-import game.state.*;
 
-public abstract class Effect {
+public class Effect {
 	
+	/**
+	 * @Strategy_Design_Pattern Behavior of the Effect
+	 */
 	private IEffectBehavior iEffectBehavior;
-	private ArrayList<Object> parameters;
+	private String whenActivate;
 	private Object toAnalyze;
 	private String toScan;
 	private Player player;
 	
-	public Effect (IEffectBehavior iEffectBehavior){
+	public Effect (String whenActivate, IEffectBehavior iEffectBehavior){
+		this.whenActivate = whenActivate;
 		this.iEffectBehavior = iEffectBehavior;
-		parameters = new ArrayList<>();
 		toScan = new String();
 	}
 	
-	public void activateEffect (){
-		iEffectBehavior.effect(this);
+	public void activateEffect (String time){
+		if (canActivate(time))
+			iEffectBehavior.effect(this);
 	}
 	
-	public Object activateEffect (Object param){
+	public Object activateEffect (String time, Object param){
 		toAnalyze = param;
-		activateEffect();
+		activateEffect(time);
 		param = toAnalyze;
 		toAnalyze = null;
 		return param;
 	}
 	
-	public Object activateEffect (Object param, String message){
+	public Object activateEffect (String time, Object param, String message){
 		toScan = message;
-		param = activateEffect (param);
+		param = activateEffect (time, param);
 		toScan = null;
 		return param;
 	}
 	
-	public void effect (Effect when){return;}
+	public boolean canActivate(String time){
+		return whenActivate.equals(time);
+	}
 	
-	public void effectWhenEnd() {return;}
-	public void effectWhenJoiningSpace() {return;}
-	public void effectWhenPlaceFamiliarMarket() {return;}
-	public void effectWhenSetFamiliarStartPower() {return;}
-	
-	public Object effect(Object param, Effect when) {return param;}
-	
-	public Object effectWhenGain(Object param) {return param;}
-	public Object effectWhenPayTaxTower(Object param) {return param;}
-	public Object effectWhenIncreaseWorker(Object param) {return param;}
-	
-	public Object effect(Object param, String string, Effect when) {return param;}	
-	
-	public Object effectWhenFindValueAction(Object param, String message) {return param;}
-
 	public IEffectBehavior getIEffectBehavior(){
 		return iEffectBehavior;
-	}
-	public Object getParameters (){
-		return parameters.get(0);
-	}
-	public Object getParameters (int index){
-		return parameters.get(index);
-	}
-	public void setParameters (Object parameters){
-		this.parameters.add(parameters);
 	}
 	
 	public Player getPlayer (){
@@ -91,12 +68,13 @@ public abstract class Effect {
 	public String getToScan() {
 		return toScan;
 	}
-
-	public void WhenSetFamiliarStartPower() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
+	/**
+	 * TODO utile per gli effetti istantanei
+	 * @return
+	 */
+	public String getWhenActivate() {
+		return whenActivate;
+	}
 	
 }

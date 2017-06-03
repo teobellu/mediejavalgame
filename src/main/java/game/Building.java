@@ -14,7 +14,7 @@ public class Building extends DevelopmentCard{
 
 	@Override
 	public String toString() {
-		return GameConstants.DEV_BUILDING;
+		return GC.DEV_BUILDING;
 	}
 	
 }

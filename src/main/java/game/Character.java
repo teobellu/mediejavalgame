@@ -14,7 +14,7 @@ public class Character extends DevelopmentCard{
 	
 	@Override
 	public String toString() {
-		return GameConstants.DEV_CHARACTER;
+		return GC.DEV_CHARACTER;
 	}
 	
 }

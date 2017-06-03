@@ -8,7 +8,7 @@ import game.state.StatePlaceFamiliar;
 
 
 public class GameBoard {
-	
+
 	public static final int MAX_ROW = 4;
 	public static final int MAX_COLOUMN = 4;
 	private static final int MAX_EXCOMUNNICATION_CARD = 3;
@@ -115,6 +115,18 @@ public class GameBoard {
 	
 	public ExcommunicationCard[] getExCard() {
 		return exCard;
+	}
+	
+	public int[] getDices() {
+		return dices;
+	}
+
+	public void setDices(int[] dices) {
+		this.dices = dices;
+	}
+
+	public void setExCard(ExcommunicationCard[] exCard) {
+		this.exCard = exCard;
 	}
 
 }

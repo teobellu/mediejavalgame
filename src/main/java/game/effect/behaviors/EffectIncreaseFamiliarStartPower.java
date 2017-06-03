@@ -1,17 +1,17 @@
-package game.effect.what;
+package game.effect.behaviors;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import game.FamilyMember;
-import game.GameConstants;
+import game.GC;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
 public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
 	
 	private String typeOfFamiliar;		//parametri
-	private Integer bonus;
+	private Integer increase;
 	
 	private Integer currentPower;
 	private Integer newPower;
@@ -19,30 +19,33 @@ public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
 	private List<FamilyMember> familiarsToModify;
 	private Effect ref;
 	
+	public EffectIncreaseFamiliarStartPower(String typeOfFamiliar, Integer increase) {
+		this.typeOfFamiliar = typeOfFamiliar;
+		this.increase = increase;
+	}
+	
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
 		setFamiliarsToModify();
 	}
 	
-	public void initializes(Effect ref) {
+	private void initializes(Effect ref) {
 		newPower = new Integer(0);
 		familiarsToModify = new ArrayList<>();
 		this.ref = ref;
 		currentPower = (Integer) ref.getToAnalyze();
-		typeOfFamiliar = (String) ref.getParameters(1);
-		bonus = (Integer) ref.getParameters();
 		familiarsToModify.addAll(ref.getPlayer().getFreeMember());
 	}
 	
-	public void setFamiliarsToModify() {
-		if (typeOfFamiliar == GameConstants.FM_COLOR)
+	private void setFamiliarsToModify() {
+		if (typeOfFamiliar == GC.FM_COLOR)
 			familiarsToModify.stream()
-				.filter(fam -> fam.getColor() != GameConstants.FM_TRANSPARENT)
-				.forEach(fam -> fam.setValue(Math.max(0, fam.getValue() + bonus)));
-		if (typeOfFamiliar == GameConstants.FM_TRANSPARENT)
+				.filter(fam -> fam.getColor() != GC.FM_TRANSPARENT)
+				.forEach(fam -> fam.setValue(Math.max(0, fam.getValue() + increase)));
+		if (typeOfFamiliar == GC.FM_TRANSPARENT)
 			familiarsToModify.stream()
-				.filter(fam -> fam.getColor() == GameConstants.FM_TRANSPARENT)
-				.forEach(fam -> fam.setValue(Math.max(0, fam.getValue() + bonus)));
+				.filter(fam -> fam.getColor() == GC.FM_TRANSPARENT)
+				.forEach(fam -> fam.setValue(Math.max(0, fam.getValue() + increase)));
 	}
 }

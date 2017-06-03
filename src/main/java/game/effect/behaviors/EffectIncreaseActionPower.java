@@ -1,17 +1,22 @@
-package game.effect.what;
+package game.effect.behaviors;
 
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectReducePower implements IEffectBehavior{
+public class EffectIncreaseActionPower implements IEffectBehavior{
 	
 	private String action;		//parametri
-	private Integer malus;
+	private Integer increase;
 	
 	private Integer currentPower;
 	private Integer newPower;
 	
 	private Effect ref;
+	
+	public EffectIncreaseActionPower(String action, int increase) {
+		this.action = action;
+		this.increase = increase;
+	}
 	
 	@Override
 	public void effect(Effect ref) {
@@ -24,19 +29,17 @@ public class EffectReducePower implements IEffectBehavior{
 		payTax();
 	}
 	
-	public void initializes(Effect ref) {
+	private void initializes(Effect ref) {
 		newPower = new Integer(0);
 		this.ref = ref;
 		currentPower = (Integer) ref.getToAnalyze();
-		action = (String) ref.getParameters(1);
-		malus = (Integer) ref.getParameters();
 	}
 	
-	public void establishTax() {
-		newPower = Math.max(0, currentPower - malus);
+	private void establishTax() {
+		newPower = Math.max(0, currentPower + increase);
 	}
 	
-	public void payTax() {
+	private void payTax() {
 		ref.setToAnalyze(newPower);
 	}
 

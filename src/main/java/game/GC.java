@@ -4,7 +4,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GameConstants {
+public class GC {
+	
+	public static final String IMMEDIATE = "immediate";
+	public static final String WHEN_END = "when end";
+	public static final String WHEN_FIND_VALUE_ACTION = "when find value action";
+	public static final String WHEN_GAIN = "when gain";
+	public static final String WHEN_INCREASE_WORKER = "when increase worker";
+	public static final String WHEN_JOINING_SPACE = "when joining space";
+	public static final String WHEN_PAY_TAX_TOWER = "when pay tax tower";
+	public static final String WHEN_PLACE_FAMILIAR_MARKET = "when place familiar market";
+	public static final String WHEN_SET_FAMILIAR_START_POWER = "when set familiar start power";
 	
 	public static final String RES_COINS = "coins";
 	public static final String RES_WOOD = "wood";
@@ -18,6 +28,15 @@ public class GameConstants {
 	public static final List<String> RES_TYPES = Collections.unmodifiableList(
 			Arrays.asList(RES_COINS, RES_WOOD, RES_STONES, RES_SERVANTS, RES_COUNCIL, 
 					RES_VICTORYPOINTS, RES_MILITARYPOINTS, RES_FAITHPOINTS));
+	
+	public static final List<Integer> REQ_TERRITORY = Collections.unmodifiableList(
+			Arrays.asList(0, 0, 3, 7, 12, 18));
+	
+	public static final List<Integer> REW_TERRITORY = Collections.unmodifiableList(
+			Arrays.asList(0, 0, 1, 4, 10, 20));
+	
+	public static final List<Integer> REW_CHARACTER = Collections.unmodifiableList(
+			Arrays.asList(1, 3, 6, 10, 15, 21));
 	
 	public static final String FM_COLOR = "color";
 	public static final String FM_BLACK = "black";
@@ -34,7 +53,5 @@ public class GameConstants {
 			Arrays.asList(DEV_TERRITORY, DEV_BUILDING, DEV_CHARACTER, DEV_VENTURE));
 	
 	public static final Resource TAX_TOWER = new Resource(RES_COINS, 3);
-	
-	
 	
 }

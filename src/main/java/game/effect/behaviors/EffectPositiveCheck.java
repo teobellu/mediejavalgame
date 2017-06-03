@@ -1,4 +1,4 @@
-package game.effect.what;
+package game.effect.behaviors;
 
 import game.Player;
 import game.effect.Effect;
@@ -14,12 +14,12 @@ public class EffectPositiveCheck implements IEffectBehavior{
 		positiveCheck();
 	}
 	
-	public void initializes(Effect ref){
+	private void initializes(Effect ref){
 		player = ref.getPlayer();
 		
 	}
 
-	public void positiveCheck() {
+	private void positiveCheck() {
 		player.setCheck(true);
 	}
 }

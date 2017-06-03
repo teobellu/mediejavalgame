@@ -1,8 +1,8 @@
-package game.effect.what;
+package game.effect.behaviors;
 
 import javax.xml.ws.RespectBinding;
 
-import game.GameConstants;
+import game.GC;
 import game.GameException;
 import game.Player;
 import game.Resource;
@@ -18,6 +18,10 @@ public class EffectLostVictoryForEach implements IEffectBehavior{
 	private Resource playerRes;		//risorse possedute dal giocatore
 	private Player player;
 	
+	public EffectLostVictoryForEach(Resource payForEach) {
+		this.payForEach = payForEach;
+	}
+	
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
@@ -25,25 +29,24 @@ public class EffectLostVictoryForEach implements IEffectBehavior{
 		payTax();
 	}
 	
-	public void initializes(Effect ref){
+	private void initializes(Effect ref){
 		countVictoryTax = 0;
 		player = ref.getPlayer();
 		playerRes = player.getResource();
 		malus = new Resource();
-		payForEach = (Resource) ref.getParameters();
 	}
 
-	public void establishTax() {
-		countVictoryTax = GameConstants.RES_TYPES.stream()
+	private void establishTax() {
+		countVictoryTax = GC.RES_TYPES.stream()
 			.filter(type -> playerRes.get(type)>=payForEach.get(type) && payForEach.get(type)>0)
 			.map(type -> playerRes.get(type) / payForEach.get(type))
 			.reduce(0 , (sum, type) -> sum + type);
 	}
 	
-	public void payTax() {
-		int playerVictory = playerRes.get(GameConstants.RES_VICTORYPOINTS);
+	private void payTax() {
+		int playerVictory = playerRes.get(GC.RES_VICTORYPOINTS);
 		countVictoryTax = Math.min(countVictoryTax, playerVictory);
-		malus.add(GameConstants.RES_VICTORYPOINTS, countVictoryTax);
+		malus.add(GC.RES_VICTORYPOINTS, countVictoryTax);
 		try {
 			player.pay(malus);
 		} catch (GameException e) {
