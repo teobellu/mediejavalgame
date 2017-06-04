@@ -4,8 +4,7 @@ import util.Constants;
 
 public class ConnectionServerHandlerFactory {
 
-	public static ConnectionServerHandler getConnectionServerHandler(int connectionType, String host, int port){
-		String str = Constants.CONNECTION_TYPES[connectionType];
+	public static ConnectionServerHandler getConnectionServerHandler(String str, String host, int port){
 		if (str == Constants.RMI) {
 			return new RMIConnectionServerHandler(host, port);
 		} else if(str == Constants.SOCKET){

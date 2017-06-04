@@ -1,5 +1,6 @@
-package client.userinterface;
+package client.cli;
 
+import client.ClientText;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
 import util.Constants;
@@ -16,7 +17,7 @@ public class CommandLineUI implements UI {
 		
 				
 		//Get server address
-		_ioHandler.write("Inserisci l'indirizzo del server a cui vorresti collegarti.");
+		_ioHandler.write(ClientText.ASK_SERVER_ADDRESS);
 		String host = _ioHandler.readLine(false);
 		
 		//Get server's port
@@ -32,7 +33,7 @@ public class CommandLineUI implements UI {
 		}
 		i--;
 		int selected = _ioHandler.readNumberWithinInterval(i);
-		ConnectionServerHandler connection = ConnectionServerHandlerFactory.getConnectionServerHandler(selected, host, port);
+		ConnectionServerHandler connection = ConnectionServerHandlerFactory.getConnectionServerHandler(Constants.CONNECTION_TYPES[selected], host, port);
 		
 		return connection;
 	}

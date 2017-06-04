@@ -1,11 +1,7 @@
-package client.userinterface;
-
-import client.network.ConnectionServerHandler;
+package client.cli;
 
 public interface UI {
-	
-	public ConnectionServerHandler getConnection();
-	
+		
 	public String getStringValue(boolean isEmptyAllowed);
 	
 	public void printString(String string);
@@ -13,4 +9,8 @@ public interface UI {
 	public String askForConfigFile();
 	
 	public void write(String str);
+		
+	public void start();
+
+	public void getConnection(String connectionType, String host, int port);
 }

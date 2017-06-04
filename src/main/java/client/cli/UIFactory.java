@@ -1,5 +1,6 @@
-package client.userinterface;
+package client.cli;
 
+import client.gui.GraphicalUI;
 import util.Constants;
 
 public class UIFactory {
@@ -10,7 +11,7 @@ public class UIFactory {
 		if(uiType == Constants.CLI){
 			return new CommandLineUI();
 		} else if(uiType == Constants.GUI){
-			return new GraphicalUI();
+			return GraphicalUI.getInstance();
 		}
 		
 		return null;
