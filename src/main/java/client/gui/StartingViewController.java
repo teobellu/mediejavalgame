@@ -1,5 +1,6 @@
 package client.gui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -22,19 +23,31 @@ public class StartingViewController {
 	@FXML
 	private Button _connectButton;
 	
-	private GUI _GUI;
+	@FXML
+	private Button _configButton;
 	
+	private GUI _GUI;
+		
 	@FXML
 	private void initialize(){
 		_connectionType.getItems().addAll(Constants.CONNECTION_TYPES);
 		_connectionType.getSelectionModel().selectFirst();
+		
+		//source: https://stackoverflow.com/questions/12744542/requestfocus-in-textfield-doesnt-work/12744775#12744775
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				_username.requestFocus();
+			}
+		});
 	}
 	
 	public void setGUI(GUI gui){
 		_GUI = gui;
 	}
 	
-	public void onConnectPressed(){
+	@FXML
+	private void onConnectPressed(){
 		String username = _username.getText().trim();
 		 if(username.isEmpty()){
 			 Alert alert = new Alert(AlertType.WARNING);
@@ -47,20 +60,34 @@ public class StartingViewController {
 		 } 
 		
 		String address = _address.getText().trim();
+		int port;
 		if(address.isEmpty()){
-			address = "localhost";//TODO porta per connessione
+			address = "localhost";
+			port = 8080;//TODO porta per connessione
+		} else {
+			port = Integer.parseInt(address.split(":")[1]);
+			address = address.split(":")[0];
 		}
-		
-		int port = Integer.parseInt(address.split(":")[1]);
-		address = address.split(":")[0];
 		
 		String connectionType = _connectionType.getValue();
 		
-		System.out.println(connectionType);
-		System.out.println(address);
-		System.out.println(port);
-		
-		GraphicalUI.getInstance().getConnection(connectionType, address,port);
+		GraphicalUI.getInstance().setConnection(connectionType, address,port);
 		GraphicalUI.getInstance().setName(username);
+		
+		_GUI.setMainScene();
+	}
+	
+	@FXML
+	private void onConfigPressed(){
+		boolean okClicked = _GUI.showConfigDialog();
+		
+		if(okClicked){
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner(_GUI.getPrimaryStage());
+			alert.setTitle("File OK!");
+			alert.setHeaderText("File OK!");
+			alert.setContentText("File OK!");
+			alert.showAndWait();
+		}
 	}
 }

@@ -12,5 +12,5 @@ public interface UI {
 		
 	public void start();
 
-	public void getConnection(String connectionType, String host, int port);
+	public void setConnection(String connectionType, String host, int port);
 }

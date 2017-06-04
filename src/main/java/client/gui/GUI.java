@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class GUI extends Application{
@@ -21,7 +22,7 @@ public class GUI extends Application{
 		
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GraphicalUI.class.getResource("/client/gui/RootLayout.fxml"));
+			loader.setLocation(GUI.class.getResource("/client/gui/RootLayout.fxml"));
 			_rootLayout = loader.load();
 			
 			Scene scene = new Scene(_rootLayout);
@@ -38,15 +39,55 @@ public class GUI extends Application{
 	private void setStartingScene(){
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GraphicalUI.class.getResource("/client/gui/StartingView.fxml"));
+			loader.setLocation(GUI.class.getResource("/client/gui/StartingView.fxml"));
 			AnchorPane pane = loader.load();
 			
 			_rootLayout.setCenter(pane);
 			
 			StartingViewController controller = loader.getController();
 			controller.setGUI(this);
+			
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	public void setMainScene(){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/MainView.fxml"));
+			AnchorPane pane = loader.load();
+			
+			_rootLayout.setCenter(pane);
+			MainViewController controller = loader.getController();
+			controller.setGUI(this);
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+	}
+	
+	public boolean showConfigDialog(){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/ConfigDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = new Stage();
+			dialog.setTitle("Custom Config File");
+			dialog.initModality(Modality.WINDOW_MODAL);
+			dialog.initOwner(_primaryStage);
+			Scene scene = new Scene(pane);
+			dialog.setScene(scene);
+			
+			CustomConfigController controller = loader.getController();
+			controller.setDialogStage(dialog);
+			
+			dialog.showAndWait();
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return false;
 		}
 	}
 	

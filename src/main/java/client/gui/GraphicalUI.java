@@ -21,18 +21,20 @@ public class GraphicalUI implements UI {
 				}
 			}
 		}
-		
 		return _instance;
 	}
 	
 	public void start(){
-		
 		Application.launch(GUI.class, new String[0]);
 	}
 
 	@Override
-	public void getConnection(String connectionType, String host, int port) {
+	public void setConnection(String connectionType, String host, int port) {
 		_connectionHandler = ConnectionServerHandlerFactory.getConnectionServerHandler(connectionType, host, port);
+	}
+	
+	public ConnectionServerHandler getConnection(){
+		return _connectionHandler;
 	}
 	
 	@Override
