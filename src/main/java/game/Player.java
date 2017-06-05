@@ -48,6 +48,7 @@ public class Player {
 	}
 	
 	public void addEffect (Effect eff){
+		if (eff == null) return;
 		eff.setPlayer(this);
 		if (eff.getWhenActivate() == GC.IMMEDIATE)
 			eff.activateEffect(GC.IMMEDIATE);

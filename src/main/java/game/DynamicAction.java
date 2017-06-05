@@ -168,12 +168,10 @@ public class DynamicAction {
 		 * posso
 		 */
 		
-		Resource instantBonus = new Resource();
-		instantBonus.add(space.getInstantBonus());
+		Effect spaceEffect = space.getInstantEffect();
 		if(row > 1)
-			instantBonus = (Resource) activateEffect(instantBonus, GC.WHEN_GET_TOWER_BONUS);
-		gain(instantBonus);
-		
+			spaceEffect = (Effect) activateEffect(spaceEffect, GC.WHEN_GET_TOWER_BONUS);
+		player.addEffect(spaceEffect);
 		
 		player.addDevelopmentCard(card);
 		space.setCard(null);
@@ -224,7 +222,7 @@ public class DynamicAction {
 		Space space = board.getMarketSpace(whichSpace);
 		canOccupySpace(familiar, space);
 		space.setFamiliar(familiar);
-		gain(space.getInstantBonus());
+		player.addEffect(space.getInstantEffect());
 	}
 	
 	public void placeTower (FamilyMember familiar, int row, int coloumn) throws GameException{
@@ -237,7 +235,7 @@ public class DynamicAction {
 		Resource totalReq = new Resource();
 		totalReq.add(card.getRequirement());
 		space.setFamiliar(familiar);
-		gain(space.getInstantBonus());
+		player.addEffect(space.getInstantEffect());
 	}
 	
 	//verifica che non ci siano due familiari blu in una volta
@@ -263,7 +261,7 @@ public class DynamicAction {
 		else
 			//do harvest less power //potrei avere ludovico arisoto ?
 		space.setFamiliar(familiar);
-		gain(space.getInstantBonus());
+		player.addEffect(space.getInstantEffect());
 	}
 	
 	public void placeHarvest (FamilyMember familiar) throws GameException{
@@ -275,14 +273,14 @@ public class DynamicAction {
 		else
 			//do harvest less power
 		space.setFamiliar(familiar);
-		gain(space.getInstantBonus());
+		player.addEffect(space.getInstantEffect());
 	}
 	
 	public void placeCouncilPalace (FamilyMember familiar) throws GameException{
 		Space space = board.getCouncilPalaceSpace();
 		//canDicePaySpace(familiar, space);
 		space.setFamiliar(familiar);
-		gain(space.getInstantBonus());
+		player.addEffect(space.getInstantEffect());
 		//devo ora mettere il proprietario del familiare in coda a proxturno
 	}
 	

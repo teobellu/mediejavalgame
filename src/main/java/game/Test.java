@@ -56,22 +56,14 @@ public class Test {
 		p.gain(sto1);
 		p.gain(sto1);
 		
-		Effect disc1 = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.DEV_TERRITORY, 2));
-		p.addEffect(disc1);
-		
-		Effect disc2 = new Effect(GC.WHEN_FIND_COST_CARD, new EffectDiscountResource(GC.DEV_TERRITORY, sto1));
-		//p.addEffect(disc2);
-		
-		Effect disc3 = new Effect(GC.WHEN_PAY_REQUIREMENT, new EffectOverruleResource(GC.DEV_TERRITORY));
-		p.addEffect(disc3);
-		
-		Effect disc4 = new Effect(GC.WHEN_SHOW_SUPPORT, new EffectGetResource(ser3));
-		p.addEffect(disc4);
+		p.addEffect(new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.DEV_TERRITORY, 2)));
+		//p.addEffect(new Effect(GC.WHEN_FIND_COST_CARD, new EffectDiscountResource(GC.DEV_TERRITORY, sto1)));
+		p.addEffect(new Effect(GC.WHEN_PAY_REQUIREMENT, new EffectOverruleObject(GC.DEV_TERRITORY)));
+		p.addEffect(new Effect(GC.WHEN_SHOW_SUPPORT, new EffectGetResource(ser3)));
+		p.addEffect(new Effect(GC.IMMEDIATE, new EffectGetACard(GC.DEV_TERRITORY, 0, sto1)));
+		p.addEffect(new Effect(GC.WHEN_GET_TOWER_BONUS, new EffectOverruleObject()));
 		
 		joy.placeInTowerStupidBigMethod(f4, 3, 0);
-		Effect discx = new Effect(GC.IMMEDIATE, new EffectGetACard(GC.DEV_TERRITORY, 0, sto1));
-		p.addEffect(discx);
-		
 		joy.showVaticanSupport();
 		joy.placeInTowerStupidBigMethod(1, 1, 0);
 		joy.placeInTowerStupidBigMethod(f4, 2, 0);
@@ -138,7 +130,7 @@ public class Test {
 		/**
 		 * Filippo Brunelleschi
 		 */
-		Effect effFilippoBrunelleschi = new Effect(GC.WHEN_PAY_TAX_TOWER, new EffectOverruleResource());
+		Effect effFilippoBrunelleschi = new Effect(GC.WHEN_PAY_TAX_TOWER, new EffectOverruleObject());
 		leaderDeck.add(new LeaderCard("Filippo Brunelleschi", null, 0, 0, 5, 0, effFilippoBrunelleschi, true));
 		
 		

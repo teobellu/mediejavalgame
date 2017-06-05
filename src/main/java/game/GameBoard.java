@@ -4,6 +4,7 @@ import java.util.*;
 
 import game.UserConfig;
 import game.effect.Effect;
+import game.effect.behaviors.EffectGetResource;
 import game.state.StatePlaceFamiliar;
 
 
@@ -18,7 +19,6 @@ public class GameBoard {
 	public static final Resource vic3 = new Resource(GC.RES_VICTORYPOINTS, 3);
 	public static final Resource vic1 = new Resource(GC.RES_VICTORYPOINTS, 1);
 	public static final Resource mil3 = new Resource(GC.RES_MILITARYPOINTS, 3);
-	
 	
 	public static final int MAX_ROW = 4;
 	public static final int MAX_COLOUMN = 4;
@@ -54,7 +54,6 @@ public class GameBoard {
 		
 		this.userConfig = userConfig;
 		Resource r1 = new Resource();
-		market[0] = new Space(1, r1, true);
 		simulator();
 	}
 	
@@ -75,8 +74,10 @@ public class GameBoard {
 		
 		tower[0][0] = new Cell(terr0, 1, null);
 		tower[1][0] = new Cell(terr1, 3, null);
-		tower[2][0] = new Cell(terr2, 5, new Resource(GC.RES_WOOD, 1));
-		tower[3][0] = new Cell(terr3, 7, new Resource(GC.RES_WOOD, 2));
+		tower[2][0] = new Cell(terr2, 5, 
+				new Effect(GC.IMMEDIATE, new EffectGetResource(new Resource(GC.RES_WOOD, 1))));
+		tower[3][0] = new Cell(terr3, 7,  
+				new Effect(GC.IMMEDIATE, new EffectGetResource(new Resource(GC.RES_WOOD, 2))));
 		
 		
 	}
@@ -97,12 +98,6 @@ public class GameBoard {
 	
 	public void clearPos(){
 		//TODO
-	}
-	
-	public void market(int i, FamilyMember f) throws GameException{
-		Player p = f.getOwner();
-		market[i].setFamiliar(f);
-		p.gain(market[i].getInstantBonus());
 	}
 	
 	/*
@@ -201,8 +196,8 @@ class Cell extends Space{
 	
 	private DevelopmentCard card;
 	
-	public Cell(DevelopmentCard card, int cost, Resource instantBonus){
-		super(cost, instantBonus, true);
+	public Cell(DevelopmentCard card, int cost, Effect instantEffect){
+		super(cost, instantEffect, true);
 		this.card = card;
 	}
 	
@@ -230,23 +225,19 @@ class Cell extends Space{
 class Space{
 	
 	private int requiredDiceValue;
-	private Resource instantBonus;
+	private Effect instantEffect;
 	private boolean singleObject;
 	private ArrayList<FamilyMember> familiar;
 	
-	public Space(int cost, Resource instantBonus, boolean singleObject) {
+	public Space(int cost, Effect instantEffect, boolean singleObject) {
 		requiredDiceValue = cost;
-		this.instantBonus = instantBonus;
+		this.instantEffect = instantEffect;
 		this.singleObject = singleObject;
 		familiar = new ArrayList<>();
 	}
 	
 	public void setFamiliar(FamilyMember member){
 		familiar.add(member);
-	}
-
-	public Resource getInstantBonus() {
-		return instantBonus;
 	}
 
 	public int getRequiredDiceValue() {
@@ -271,5 +262,9 @@ class Space{
 
 	public DevelopmentCard getCard() {
 		return null;
+	}
+
+	public Effect getInstantEffect() {
+		return instantEffect;
 	}
 }
