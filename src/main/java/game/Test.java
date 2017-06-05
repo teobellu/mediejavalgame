@@ -6,17 +6,85 @@ import game.effect.Effect;
 import game.effect.behaviors.*;
 
 public class Test {
-	public static void main(String[] args) {
+	
+	public static final Resource ser3 = new Resource(GC.RES_SERVANTS, 3);
+	public static final Resource ser2 = new Resource(GC.RES_SERVANTS, 2);
+	public static final Resource ser1 = new Resource(GC.RES_SERVANTS, 1);
+	public static final Resource sto1 = new Resource(GC.RES_STONES, 1);
+	public static final Resource coi3 = new Resource(GC.RES_COINS, 3);
+	public static final Resource vic3 = new Resource(GC.RES_VICTORYPOINTS, 3);
+	public static final Resource vic1 = new Resource(GC.RES_VICTORYPOINTS, 1);
+	public static final Resource mil3 = new Resource(GC.RES_MILITARYPOINTS, 3);
+	
+	public static void main(String[] args) throws GameException {
+		/**
+		 * TEST_OF_TOWER
+		 */
 		
 		Player p = new Player();
 		DynamicAction joy = p.getDynamicBar();
+		GameBoard b = new GameBoard(null);
+		joy.setBoardForTestOnly(b);
 		
-		Resource ser3 = new Resource(GC.RES_SERVANTS, 3);
-		Resource ser2 = new Resource(GC.RES_SERVANTS, 2);
-		Resource ser1 = new Resource(GC.RES_SERVANTS, 1);
-		Resource coi3 = new Resource(GC.RES_COINS, 3);
-		Resource vic3 = new Resource(GC.RES_VICTORYPOINTS, 3);
-		Resource vic1 = new Resource(GC.RES_VICTORYPOINTS, 1);
+		List<FamilyMember> f = new ArrayList<>();
+		FamilyMember f1 = new FamilyMember(GC.FM_BLACK);
+		FamilyMember f2 = new FamilyMember(GC.FM_ORANGE);
+		FamilyMember f3 = new FamilyMember(GC.FM_WHITE);
+		FamilyMember f4 = new FamilyMember(GC.FM_TRANSPARENT);
+		f1.setValue(1);
+		f2.setValue(3);
+		f3.setValue(5);
+		f4.setValue(6);
+		f1.setOwner(p);
+		f2.setOwner(p);
+		f3.setOwner(p);
+		f4.setOwner(p);
+		f.add(f1);
+		f.add(f2);
+		f.add(f3);
+		f.add(f4);
+		p.setFreeMember((ArrayList<FamilyMember>) f);
+		
+		p.gain(coi3);
+		p.gain(coi3);
+		p.gain(coi3);
+		p.gain(mil3);
+		
+		p.gain(sto1);
+		p.gain(sto1);
+		p.gain(sto1);
+		p.gain(sto1);
+		p.gain(sto1);
+		
+		Effect disc1 = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.DEV_TERRITORY, 2));
+		p.addEffect(disc1);
+		
+		Effect disc2 = new Effect(GC.WHEN_FIND_COST_CARD, new EffectDiscountResource(GC.DEV_TERRITORY, sto1));
+		//p.addEffect(disc2);
+		
+		Effect disc3 = new Effect(GC.WHEN_PAY_REQUIREMENT, new EffectOverruleResource(GC.DEV_TERRITORY));
+		p.addEffect(disc3);
+		
+		Effect disc4 = new Effect(GC.WHEN_SHOW_SUPPORT, new EffectGetResource(ser3));
+		p.addEffect(disc4);
+		
+		joy.placeInTowerStupidBigMethod(f4, 3, 0);
+		Effect discx = new Effect(GC.IMMEDIATE, new EffectGetACard(GC.DEV_TERRITORY, 0, sto1));
+		p.addEffect(discx);
+		
+		joy.showVaticanSupport();
+		joy.placeInTowerStupidBigMethod(1, 1, 0);
+		joy.placeInTowerStupidBigMethod(f4, 2, 0);
+		p.showRes();
+		System.out.println("************************************");
+		
+		
+		/**
+		 * old things:
+		 */
+		
+		
+		
 
 		p.gain(coi3);
 		
@@ -45,24 +113,7 @@ public class Test {
 		
 		p.showRes();
 		
-		List<FamilyMember> f = new ArrayList<>();
-		FamilyMember f1 = new FamilyMember(GC.FM_BLACK);
-		FamilyMember f2 = new FamilyMember(GC.FM_ORANGE);
-		FamilyMember f3 = new FamilyMember(GC.FM_WHITE);
-		FamilyMember f4 = new FamilyMember(GC.FM_TRANSPARENT);
-		f1.setValue(1);
-		f2.setValue(3);
-		f3.setValue(5);
-		f4.setValue(6);
-		f1.setOwner(p);
-		f2.setOwner(p);
-		f3.setOwner(p);
-		f4.setOwner(p);
-		f.add(f1);
-		f.add(f2);
-		f.add(f3);
-		f.add(f4);
-		p.setFreeMember((ArrayList<FamilyMember>) f);
+		
 		
 		Effect yellow = new Effect(GC.WHEN_SET_FAMILIAR_START_POWER, new EffectSetFamiliarStartPower(GC.FM_COLOR, 1));
 		
@@ -87,7 +138,7 @@ public class Test {
 		/**
 		 * Filippo Brunelleschi
 		 */
-		Effect effFilippoBrunelleschi = new Effect(GC.WHEN_PAY_TAX_TOWER, new EffectDiscountResource(GC.TAX_TOWER));
+		Effect effFilippoBrunelleschi = new Effect(GC.WHEN_PAY_TAX_TOWER, new EffectOverruleResource());
 		leaderDeck.add(new LeaderCard("Filippo Brunelleschi", null, 0, 0, 5, 0, effFilippoBrunelleschi, true));
 		
 		
@@ -154,8 +205,8 @@ public class Test {
 		p.addEffect(effy);
 		p.addEffect(effy);
 		
-		joy.harvest(4);
-		joy.product(100);
+		joy.work(4, "harvest", GC.DEV_TERRITORY);
+		joy.work(100, "production", GC.DEV_BUILDING);
 		//-1 da questo
 		//-2 dall'effetto di prima
 		
@@ -272,7 +323,7 @@ public class Test {
 		/***
 		 * Creating card type
 		 * **
-		 * OPT = ONCE PER TURN
+		 * immediate != OPT = ONCE PER TURN
 		 * **
 		 */
 	

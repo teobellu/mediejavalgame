@@ -53,7 +53,7 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	
 	private void addReward(){
 		for (int i = 0; i < count; i++)
-			player.gain(reward);
+			player.getDynamicBar().gain(reward); //TODO è giusta la getDynamicBar?
 	}
 
 }

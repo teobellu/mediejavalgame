@@ -14,6 +14,11 @@ public class DynamicAction {
 	protected Player player;
 	private GameBoard board;
 	
+	public void setBoardForTestOnly(GameBoard board){
+		this.board = board;
+	}
+	
+	
 	public DynamicAction(Player player){
 		this.player = player;
 	}
@@ -42,13 +47,9 @@ public class DynamicAction {
 	}
 	
 	public void increaseWorker (FamilyMember familiar, int amount) throws GameException{
-		Resource pay = new Resource();
-		int increase = amount;
-		
-		amount = (Integer) activateEffect(amount, GC.WHEN_INCREASE_WORKER);
-		pay.add(GC.RES_SERVANTS, amount);
-		player.pay(pay);
-		familiar.setValue(familiar.getValue() + increase);
+		int price = (Integer) activateEffect(amount, GC.WHEN_INCREASE_WORKER);
+		player.pay(new Resource(GC.RES_SERVANTS, price));
+		familiar.setValue(familiar.getValue() + amount);
 	}
 	
 	/*
@@ -73,16 +74,11 @@ public class DynamicAction {
 	 * @param space
 	 * @param coloumn
 	 * @return TRUE = DEVO PAGARE 3 MONETE, FALSE = NON DEVO
-	 * @throws GameException NON POSSO PIAZZARE
+	 * @throws GameException andrebbe tolta
 	 */
-	public Resource findTaxToPay (FamilyMember familiar, Space space, int coloumn) throws GameException{
+	public Resource findTaxToPay (Space space, int coloumn) throws GameException{
 		Resource tax = new Resource();
-		canOccupySpace(familiar, space);
-		List<FamilyMember> familiarInSameColoumn = new ArrayList<>();
-		for (int row = 0; row < GameBoard.MAX_ROW; row++)
-			familiarInSameColoumn.addAll(board.getCell(row, coloumn).getFamiliar());
-		canOccupyForColorLogic(familiar, familiarInSameColoumn);
-		if (!familiarInSameColoumn.isEmpty()){
+		if (!board.getFamiliarInSameColoumn(coloumn).isEmpty()){
 			tax.add(GC.TAX_TOWER);
 			tax = (Resource) activateEffect(tax, GC.WHEN_PAY_TAX_TOWER);
 		}
@@ -98,7 +94,7 @@ public class DynamicAction {
 	 * @throws GameException
 	 */
 	public void canOccupyForSpaceLogic(FamilyMember familiar, Space space) throws GameException{
-		if (familiar.getValue() < space.getRequiredDiceValue()) throw new GameException();
+		//if (familiar.getValue() < space.getRequiredDiceValue()) throw new GameException();
 		//l'if qui sopra magari no
 		if (space.isSingleObject()){
 			if(space.getFamiliar().isEmpty()) return;
@@ -116,7 +112,8 @@ public class DynamicAction {
 	 * @throws GameException
 	 */
 	public void canOccupyForColorLogic(FamilyMember familiar, List<FamilyMember> placedFamiliar) throws GameException{
-		List<FamilyMember> playerFamiliar = placedFamiliar;
+		List<FamilyMember> playerFamiliar = new ArrayList<>();
+		playerFamiliar.addAll(placedFamiliar);
 		playerFamiliar.add(familiar);
 		long countNotTransparent = playerFamiliar.stream()
 			.filter(fam -> fam.getOwner() == familiar.getOwner())
@@ -131,34 +128,77 @@ public class DynamicAction {
 		canOccupyForColorLogic(familiar, space.getFamiliar());
 	}
 	
-	/**
-	 * TODO
-	 * NON CANCELLARE PER IL MOMENTO ******************************************
-	 * METODO STUPIDO DA SMEZZARE E O CANCELLARE
-	 * @param familiar
-	 * @param row
-	 * @param coloumn
-	 * @throws GameException 
-	 */
-	public void placeInTowerStupidBigMethod (FamilyMember familiar, int row, int coloumn) throws GameException{
+	public void placeInTowerStupidBigMethod(Integer value, int row, int coloumn) throws GameException {
 		Resource cost = new Resource();
 		Space space = board.getCell(row, coloumn);
 		DevelopmentCard card = space.getCard();
-		if (card == null) throw new GameException(); //vedi forum piazza
+		if (card == null || player.getDevelopmentCards(card.toString()).size() == GC.MAX_DEVELOPMENT_CARDS)
+			throw new GameException();
+		cost.add(findTaxToPay(space, coloumn));
 		
-		cost.add(findTaxToPay(familiar, space, coloumn)); //aggiungo o no le 3 monete + controlli
-		int value = familiar.getValue();
-		value = (Integer) activateEffect(value, card.toString(), GC.WHEN_FIND_VALUE_ACTION);
+		// qui dovrei chiedere al giocatore, se cost != null, se proseguire o no.
+		
+		/**
+		* RESOURCE
+		 */
 		int index = 0;
 		//ma potrebbe avere anche 2 tipi di costo
-		cost.add(card.getRequirement(index));
+				
+		tryToPayRequirement(card.toString(), card.getRequirement(index));
+		tryToPayRequirement(card.toString(), getDashboardRequirement(card));
+		
+		Resource cardCost = card.getCost(index);
+		cardCost = (Resource) activateEffect(cardCost, card.toString(), GC.WHEN_FIND_COST_CARD);
+		cost.add(cardCost);
+		
+		/**
+		 * DICE
+		 */
+		value = (Integer) activateEffect(value, card.toString(), GC.WHEN_FIND_VALUE_ACTION);
+		
+		if (value < space.getRequiredDiceValue()) throw new GameException();
+		
 		
 		//canDicePaySpace(familiar, space);
 		//canJoinSpace(familiar, space); //e quindi canJoinArraySpace(familiar, space);
-		Resource totalReq = new Resource();
-		totalReq.add(card.getRequirement());
+
+		player.pay(cost);
+		
+		/**
+		 * posso
+		 */
+		
+		Resource instantBonus = new Resource();
+		instantBonus.add(space.getInstantBonus());
+		if(row > 1)
+			instantBonus = (Resource) activateEffect(instantBonus, GC.WHEN_GET_TOWER_BONUS);
+		gain(instantBonus);
+		
+		
+		player.addDevelopmentCard(card);
+		space.setCard(null);
+	}
+	
+	public void placeInTowerStupidBigMethod (FamilyMember familiar, int row, int coloumn) throws GameException{
+		Space space = board.getCell(row, coloumn);
+		canOccupySpace(familiar, space);
+		canOccupyForColorLogic(familiar, board.getFamiliarInSameColoumn(coloumn));
+		placeInTowerStupidBigMethod(familiar.getValue(), row, coloumn);
 		space.setFamiliar(familiar);
-		gain(space.getInstantBonus());
+	}
+	
+	public void tryToPayRequirement(String typeOfCard, Resource requirement) throws GameException{
+		requirement = (Resource) activateEffect(requirement, typeOfCard, GC.WHEN_PAY_REQUIREMENT);
+		player.pay(requirement);
+		player.gain(requirement);
+	}
+	
+	public Resource getDashboardRequirement(DevelopmentCard newCard){
+		int index = player.getDevelopmentCards(newCard.toString()).size();
+		int requirement = 0;
+		if (newCard.toString() == GC.DEV_TERRITORY)
+			requirement = GC.REQ_TERRITORY.get(index);
+		return new Resource(GC.RES_MILITARYPOINTS, requirement);
 	}
 	
 	/*
@@ -182,7 +222,6 @@ public class DynamicAction {
 	public void placeMarket (FamilyMember familiar, int whichSpace) throws GameException{
 		canPlaceMarket();
 		Space space = board.getMarketSpace(whichSpace);
-		//canDicePaySpace(familiar, space);
 		canOccupySpace(familiar, space);
 		space.setFamiliar(familiar);
 		gain(space.getInstantBonus());
@@ -192,6 +231,7 @@ public class DynamicAction {
 		Space space = board.getCell(row, coloumn);
 		DevelopmentCard card = space.getCard();
 		if (card == null) throw new GameException(); //vedi forum piazza
+		
 		//canDicePaySpace(familiar, space);
 		//canJoinSpace(familiar, space); //e quindi canJoinArraySpace(familiar, space);
 		Resource totalReq = new Resource();
@@ -228,7 +268,6 @@ public class DynamicAction {
 	
 	public void placeHarvest (FamilyMember familiar) throws GameException{
 		Space space = board.getHarvestSpace();
-		//canDicePaySpace(familiar, space);
 		canJoinArraySpace(familiar, space);
 		if(space.getFamiliar().isEmpty()){
 			//do harvest max power
@@ -247,45 +286,57 @@ public class DynamicAction {
 		//devo ora mettere il proprietario del familiare in coda a proxturno
 	}
 	
-	public int placeValuePower (int power, String action){
-		System.out.println(action + power);
-		power = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
-		System.out.println(action + power);
-		return power;
+	//fatto come se fosse Harvest
+	public void placeWork (FamilyMember familiar, String action) throws GameException{
+		int power = familiar.getValue();
+		/**
+		 * SPACE
+		 */
+		
+		Space space = board.getHarvestSpace();
+		try{
+			canOccupySpace(familiar, space);
+		}
+		catch (GameException e) {
+			space = board.getHarvestLongPos();
+			canOccupySpace(familiar, space);
+		}
+		
+		/**
+		 * DICE
+		 */
+		int newPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
+		if (newPower < 1) throw new GameException();
+		work(power, action, GC.DEV_TERRITORY);
 	}
 	
-	public int getRealActionValuePower (Integer power, String action){
+	public void work (int power, String action, String cards){
 		System.out.println(action + power);
-		power = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
-		/*for (Effect effect : player.getEffects()){
-			power = (Integer) effect.effect(power, action,  new EffectWhenFindValueAction(null));
-		}*/
-		System.out.println(action + power);
-		return power;
-	}
-	
-	
-	public void harvest (int power){
-		System.out.println("harv " + power);
-		power = getRealActionValuePower(power, "harvest");
-		System.out.println("harv " + power);
-	}
-	
-	public void product (int power){
-		System.out.println("prod " + power);
-		power = getRealActionValuePower(power, "production");
-		System.out.println("prod " + power);
+		int realActionPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
+		player.getDevelopmentCards(cards).stream()
+			.filter(card -> realActionPower >= card.getDice())
+			.forEach(card -> card.activatePermanentEffect());
+		System.out.println(action + realActionPower);
 	}
 	
 	public void pay (Resource res){
 		if (res != null)
-			System.out.println("i'm paying");
+			System.out.println("i'm paying nothing");
+	}
+	
+	public void showVaticanSupport(){
+		activateEffect(GC.WHEN_SHOW_SUPPORT);
 	}
 	
 	public void addDevelopmentCard (DevelopmentCard newCard) throws GameException{
 		if (newCard.getCost() != null)
 			pay(newCard.getCost());
 		player.addDevelopmentCard(newCard);
+	}
+	
+	public void discardLeaderCard(LeaderCard card){
+		player.discardLeaderCard(card);
+		player.gain(new Resource(GC.RES_COUNCIL, 1));
 	}
 	
 	public void endGame (){
@@ -305,14 +356,24 @@ public class DynamicAction {
 		//player.gain(new Resource(GC.RES_VICTORYPOINTS, rewardList.get(index)));
 	}
 	
+
+	/**
+	 * At the end of the game, assign to the player victory points 
+	 * based on his stock of resources.
+	 */
 	public void exchangeResourceToVictory(){
+		int amount = 0;
 		Resource toCount = player.getResource();
-		int amount = toCount.get(GC.RES_COINS);
+		amount += toCount.get(GC.RES_COINS);
 		amount += toCount.get(GC.RES_WOOD);
 		amount += toCount.get(GC.RES_STONES);
 		amount += toCount.get(GC.RES_SERVANTS);
-		if(5 > 0)			//al posto di 5 potrei avere una costante
-			amount = amount / 5;
-		player.gain(new Resource(GC.RES_VICTORYPOINTS, amount));
+		if(GC.END_REWARD_RESOURCE > 0){
+			amount = amount / GC.END_REWARD_RESOURCE;
+			player.gain(new Resource(GC.RES_VICTORYPOINTS, amount));
+		}
 	}
+
+
+	
 }

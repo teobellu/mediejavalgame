@@ -15,6 +15,10 @@ public class GC {
 	public static final String WHEN_PAY_TAX_TOWER = "when pay tax tower";
 	public static final String WHEN_PLACE_FAMILIAR_MARKET = "when place familiar market";
 	public static final String WHEN_SET_FAMILIAR_START_POWER = "when set familiar start power";
+	public static final String WHEN_FIND_COST_CARD = "when find cost card";
+	public static final String WHEN_PAY_REQUIREMENT = "when pay requirement";
+	public static final String WHEN_GET_TOWER_BONUS = "when get tower bonus";
+	public static final String WHEN_SHOW_SUPPORT = "when show support";
 	
 	public static final String RES_COINS = "coins";
 	public static final String RES_WOOD = "wood";
@@ -44,6 +48,9 @@ public class GC {
 	public static final String FM_ORANGE = "orange";
 	public static final String FM_TRANSPARENT = "transparent";
 	
+	public static final String HARVEST = "harvest";
+	public static final String PRODUCTION = "production";
+	
 	public static final String DEV_TERRITORY = "territory";
 	public static final String DEV_BUILDING = "building";
 	public static final String DEV_CHARACTER = "character";
@@ -53,5 +60,13 @@ public class GC {
 			Arrays.asList(DEV_TERRITORY, DEV_BUILDING, DEV_CHARACTER, DEV_VENTURE));
 	
 	public static final Resource TAX_TOWER = new Resource(RES_COINS, 3);
+	
+	public static final Integer MAX_DEVELOPMENT_CARDS = 6;
+	
+	public static final Integer END_REWARD_RESOURCE = 5;
+	
+	
+	
+	
 	
 }

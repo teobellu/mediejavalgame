@@ -8,6 +8,7 @@ public class FamilyMember {
 	
 	public FamilyMember(String color){
 		this.color = color;
+		value = 0;
 	}
 	
 	public String getColor(){

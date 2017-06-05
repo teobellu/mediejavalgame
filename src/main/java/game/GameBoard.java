@@ -9,6 +9,17 @@ import game.state.StatePlaceFamiliar;
 
 public class GameBoard {
 
+	/**da cancellare**/
+	public static final Resource ser3 = new Resource(GC.RES_SERVANTS, 3);
+	public static final Resource ser2 = new Resource(GC.RES_SERVANTS, 2);
+	public static final Resource ser1 = new Resource(GC.RES_SERVANTS, 1);
+	public static final Resource sto1 = new Resource(GC.RES_STONES, 1);
+	public static final Resource coi3 = new Resource(GC.RES_COINS, 3);
+	public static final Resource vic3 = new Resource(GC.RES_VICTORYPOINTS, 3);
+	public static final Resource vic1 = new Resource(GC.RES_VICTORYPOINTS, 1);
+	public static final Resource mil3 = new Resource(GC.RES_MILITARYPOINTS, 3);
+	
+	
 	public static final int MAX_ROW = 4;
 	public static final int MAX_COLOUMN = 4;
 	private static final int MAX_EXCOMUNNICATION_CARD = 3;
@@ -25,6 +36,11 @@ public class GameBoard {
 	private Space councilPalaceSpace;
 	private Space harvestPos;
 	private Space productionPos;
+	
+	private Space harvestLongPos;
+	private Space productionLongPos;
+	
+	
 	private Space[] market = new Space[MAX_MARKET_SPACE];
 	
 	//private int diceBlack;
@@ -33,11 +49,36 @@ public class GameBoard {
 	private int dices[] = new int[MAX_DICES];
 	
 	
+	
 	public GameBoard(UserConfig userConfig){
 		
 		this.userConfig = userConfig;
 		Resource r1 = new Resource();
 		market[0] = new Space(1, r1, true);
+		simulator();
+	}
+	
+	//TODO da cancellare in futuro, serve solo per test
+	public void simulator(){
+		
+		DevelopmentCard terr0 = new Territory();
+		DevelopmentCard terr1 = new Territory();
+		DevelopmentCard terr2 = new Territory();
+		DevelopmentCard terr3 = new Territory();
+		
+		terr0.setRequirement(ser1);
+		
+		terr0.setCost(sto1);
+		terr1.setCost(sto1);
+		terr2.setCost(sto1);
+		terr3.setCost(sto1);
+		
+		tower[0][0] = new Cell(terr0, 1, null);
+		tower[1][0] = new Cell(terr1, 3, null);
+		tower[2][0] = new Cell(terr2, 5, new Resource(GC.RES_WOOD, 1));
+		tower[3][0] = new Cell(terr3, 7, new Resource(GC.RES_WOOD, 2));
+		
+		
 	}
 	
 	public void refresh(){
@@ -129,14 +170,39 @@ public class GameBoard {
 		this.exCard = exCard;
 	}
 
+	public Space getHarvestLongPos() {
+		return harvestLongPos;
+	}
+
+	public void setHarvestLongPos(Space harvestLongPos) {
+		this.harvestLongPos = harvestLongPos;
+	}
+
+	public Space getProductionLongPos() {
+		return productionLongPos;
+	}
+
+	public void setProductionLongPos(Space productionLongPos) {
+		this.productionLongPos = productionLongPos;
+	}
+	
+	//TODO magari rimuovere gameexception
+	public List<FamilyMember> getFamiliarInSameColoumn(int coloumn) throws GameException{
+		List<FamilyMember> familiarInSameColoumn = new ArrayList<>();
+		for (int row = 0; row < GameBoard.MAX_ROW; row++)
+			familiarInSameColoumn.addAll(getCell(row, coloumn).getFamiliar());
+		return familiarInSameColoumn;
+	}
+	
+
 }
 
 class Cell extends Space{
 	
 	private DevelopmentCard card;
 	
-	public Cell(DevelopmentCard card, int cost, Resource resource){
-		super(cost, resource, true);
+	public Cell(DevelopmentCard card, int cost, Resource instantBonus){
+		super(cost, instantBonus, true);
 		this.card = card;
 	}
 	
@@ -168,10 +234,11 @@ class Space{
 	private boolean singleObject;
 	private ArrayList<FamilyMember> familiar;
 	
-	public Space(int cost, Resource resource, boolean singleObject) {
+	public Space(int cost, Resource instantBonus, boolean singleObject) {
 		requiredDiceValue = cost;
-		instantBonus = resource;
+		this.instantBonus = instantBonus;
 		this.singleObject = singleObject;
+		familiar = new ArrayList<>();
 	}
 	
 	public void setFamiliar(FamilyMember member){

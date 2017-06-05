@@ -13,11 +13,7 @@ public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
 	private String typeOfFamiliar;		//parametri
 	private Integer increase;
 	
-	private Integer currentPower;
-	private Integer newPower;
-	
 	private List<FamilyMember> familiarsToModify;
-	private Effect ref;
 	
 	public EffectIncreaseFamiliarStartPower(String typeOfFamiliar, Integer increase) {
 		this.typeOfFamiliar = typeOfFamiliar;
@@ -31,10 +27,7 @@ public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
 	}
 	
 	private void initializes(Effect ref) {
-		newPower = new Integer(0);
 		familiarsToModify = new ArrayList<>();
-		this.ref = ref;
-		currentPower = (Integer) ref.getToAnalyze();
 		familiarsToModify.addAll(ref.getPlayer().getFreeMember());
 	}
 	

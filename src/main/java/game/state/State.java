@@ -3,11 +3,8 @@ package game.state;
 import java.util.ArrayList;
 import java.util.List;
 
-import exceptions.CommandException;
 import game.*;
 import server.Client;
-import util.GamePacket;
-import util.Packet;
 
 public abstract class State {
 	

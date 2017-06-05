@@ -26,6 +26,7 @@ public abstract class DevelopmentCard implements ICard{
 		permanentEffect = new ArrayList<>();
 		cost = new ArrayList<>();
 		requirement = new ArrayList<>();
+		requirement.add(null);
 	}
 	
 	public int getDice() {
@@ -75,6 +76,10 @@ public abstract class DevelopmentCard implements ICard{
 	//for test ONLY
 	public void setCost(Resource res) {
 		cost.add(res);
+	}
+	//for test only
+	public void setRequirement(Resource res) {
+		requirement.set(0, res);
 	}
 	
 	public Resource getRequirement(int index) {

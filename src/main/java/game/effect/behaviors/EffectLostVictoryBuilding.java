@@ -1,13 +1,7 @@
 package game.effect.behaviors;
 
-import java.util.List;
-
-import javax.xml.ws.RespectBinding;
-
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
-import game.state.*;
-import game.GC.*;
 import game.*;
 
 public class EffectLostVictoryBuilding implements IEffectBehavior{

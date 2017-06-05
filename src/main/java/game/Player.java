@@ -17,6 +17,10 @@ public class Player {
 	private ArrayList<FamilyMember> freeMember;
 	private ArrayList<Effect> effects;
 	
+	/* da file: */
+	private Resource harvestBonus;	
+	private Resource productionBonus;
+	
 	private DynamicAction dynamicBar;
 	
 	private boolean check;
@@ -49,6 +53,16 @@ public class Player {
 			eff.activateEffect(GC.IMMEDIATE);
 		else
 			effects.add(eff);
+	}
+	
+	public void addLeaderCard (LeaderCard newCard){
+		leaderCard.add(newCard);
+	}
+	
+	public void discardLeaderCard (LeaderCard cardToDiscard){
+		for (int i = 0; i < leaderCard.size(); i++)
+			if(leaderCard.get(i) == cardToDiscard)
+				leaderCard.remove(i);
 	}
 	
 	public void addDevelopmentCard (DevelopmentCard newCard){

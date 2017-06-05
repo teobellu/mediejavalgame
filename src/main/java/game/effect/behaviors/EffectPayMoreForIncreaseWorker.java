@@ -1,6 +1,5 @@
 package game.effect.behaviors;
 
-import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 

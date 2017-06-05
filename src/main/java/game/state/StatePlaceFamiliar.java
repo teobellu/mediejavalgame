@@ -3,8 +3,6 @@ package game.state;
 import game.Game;
 import game.GameException;
 import server.Client;
-import util.GamePacket;
-import util.Packet;
 
 public class StatePlaceFamiliar extends State{
 

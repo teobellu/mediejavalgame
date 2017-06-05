@@ -5,11 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import exceptions.CommandException;
 import game.*;
 import server.Client;
-import util.GamePacket;
-import util.Packet;
 
 public class StatePlaceFamiliarTower extends StatePlaceFamiliar {
 	
