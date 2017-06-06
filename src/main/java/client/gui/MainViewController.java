@@ -21,26 +21,30 @@ public class MainViewController {
 	private AnchorPane _buttonPane;
 	
 	@FXML
-	private void initialize(){
-		double buttonsDistance = _buttonPane.getPrefHeight()/4;
+	private void initialize(){		
 		
-		_firstButton.layoutYProperty().set(buttonsDistance);
-		
-		_secondButton.layoutYProperty().set(2*buttonsDistance);
-		
-		_thirdButton.layoutYProperty().set(3*buttonsDistance);
-		
-		_fourthButton.layoutYProperty().set(4*buttonsDistance);
-		
-		System.out.println(buttonsDistance);
-		
-		System.out.println(_firstButton.layoutYProperty().doubleValue());
-		System.out.println(_secondButton.layoutYProperty().doubleValue());
-		System.out.println(_thirdButton.layoutYProperty().doubleValue());
-		System.out.println(_fourthButton.layoutYProperty().doubleValue());
 	}
 	
 	public void setGUI(GUI gui){
 		_GUI = gui;
+	}
+	
+	@FXML
+	private void onFirstButtonClicked(){
+		
+	}
+	
+	@FXML
+	private void onSecondButtonClicked(){
+		
+	}
+	
+	@FXML
+	private void onThirdButtonClicked(){
+	}
+	
+	@FXML
+	private void onFourthButtonClicked(){
+		
 	}
 }

@@ -1,9 +1,11 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import game.state.InitialState;
 import game.state.State;
+import game.state.StateStartingTurn;
 import game.state.VaticanState;
 import server.Client;
 import server.Room;
@@ -11,7 +13,7 @@ import util.Constants;
 
 public class Game implements Runnable {
 
-	private List<Player> _players;
+	private List<Player> _players = new ArrayList<>();
 	private GameBoard _board;
 	private State _state;
 	private int _turn;
@@ -19,15 +21,15 @@ public class Game implements Runnable {
 	private boolean _isOver = false;
 	private final Room _theRoom;
 	
-	
-	
 	private int _turnDuration;
 	
 	public Game(Room room) {
 		_theRoom = room;
 		_turn = 0;
 		_phase = 0;
-		_players = room.getPlayers();
+		for(Client cli : _theRoom.getPlayers()){
+			_players.add(new Player());//TODO
+		}
 	}
 	
 	@Override
@@ -36,18 +38,16 @@ public class Game implements Runnable {
 		
 		setupGame();
 		
-		
-		
-		
-		
-		_state = new InitialState(this);
+		_state = new StateStartingTurn(this);
 		
 		while(!isGameOver()){
 			for(int i = 0;i<Constants.NUMBER_OF_FAMILIARS; i++){
 				for(_phase = 0;_phase<_players.size();_phase++){
-					_state = _state.doState();
+					do{
+						_state = _state.doState();
+					} while(_state!=null);
 				}
-				_state = new InitialState(this);
+				_state = new StateStartingTurn(this);
 			}
 			_turn++;
 		}
@@ -77,6 +77,6 @@ public class Game implements Runnable {
 	}
 	
 	private void setupGame(){
-		_board = new GameBoard(userConfig);//TODO
+		_board = new GameBoard(_theRoom.getConfig());//TODO
 	}
 }

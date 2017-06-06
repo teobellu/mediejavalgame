@@ -4,6 +4,7 @@ import java.util.*;
 
 import game.effect.Effect;
 import game.state.*;
+import server.ConnectionHandler;
 import game.GC.*;
 
 public class Player {
@@ -160,5 +161,4 @@ public class Player {
 	public void setFreeMember(ArrayList<FamilyMember> freeMember) {
 		this.freeMember = freeMember;
 	}
-	
 }

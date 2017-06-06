@@ -1,7 +1,6 @@
 package game.state;
 
 import game.Game;
-import server.Client;
 
 public class StateStartingTurn extends State{
 
@@ -12,8 +11,29 @@ public class StateStartingTurn extends State{
 
 	@Override
 	public State doState() {
-		// TODO Auto-generated method stub
-		return null;
+		try{
+			String action = theGame.getCurrentClient().getConnectionHandler().startTurn();
+			
+			return processAction(action);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	private State processAction(String action){
+		if(){
+			
+		} else if(){
+			
+		} else if(){
+			
+		} else if(){
+			
+		} else if(){
+			
+		} else {
+			
+		}
 	}
 
 }

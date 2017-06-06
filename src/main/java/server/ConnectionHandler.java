@@ -19,4 +19,6 @@ public abstract class ConnectionHandler {
 	
 	protected Client _client;
 	protected boolean _isRunning;
+	
+	public abstract String startTurn() throws RemoteException;
 }
