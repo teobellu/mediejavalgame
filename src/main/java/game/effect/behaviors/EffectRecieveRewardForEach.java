@@ -8,6 +8,7 @@ import game.effect.IEffectBehavior;
 
 public class EffectRecieveRewardForEach implements IEffectBehavior{
 
+	private Effect ref;
 	private Resource reward;
 	private String forEach;
 	
@@ -28,6 +29,7 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	}
 	
 	private void initializes(Effect ref){
+		this.ref = ref;
 		player = ref.getPlayer();
 	}
 	
@@ -53,7 +55,7 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	
 	private void addReward(){
 		for (int i = 0; i < count; i++)
-			player.getDynamicBar().gain(reward); //TODO è giusta la getDynamicBar?
+			player.getDynamicBar().gain(ref, reward); //TODO è giusta la getDynamicBar?
 	}
 
 }

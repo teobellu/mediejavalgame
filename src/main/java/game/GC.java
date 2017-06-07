@@ -6,7 +6,12 @@ import java.util.List;
 
 public class GC {
 	
+	public static final String DEFAULT = "default";
+	public static final String LEADER_CARD = "leader card";
+	public static final String ACTION_SPACE = "action space";
+	
 	public static final String IMMEDIATE = "immediate";
+	public static final String ONCE_PER_TURN = "opt";
 	public static final String WHEN_END = "when end";
 	public static final String WHEN_FIND_VALUE_ACTION = "when find value action";
 	public static final String WHEN_GAIN = "when gain";
@@ -19,6 +24,7 @@ public class GC {
 	public static final String WHEN_PAY_REQUIREMENT = "when pay requirement";
 	public static final String WHEN_GET_TOWER_BONUS = "when get tower bonus";
 	public static final String WHEN_SHOW_SUPPORT = "when show support";
+	public static final String WHEN_ROLL = "when roll";
 	
 	public static final String RES_COINS = "coins";
 	public static final String RES_WOOD = "wood";
@@ -51,6 +57,8 @@ public class GC {
 	public static final String HARVEST = "harvest";
 	public static final String PRODUCTION = "production";
 	
+	
+	
 	public static final String DEV_TERRITORY = "territory";
 	public static final String DEV_BUILDING = "building";
 	public static final String DEV_CHARACTER = "character";
@@ -65,8 +73,5 @@ public class GC {
 	
 	public static final Integer END_REWARD_RESOURCE = 5;
 	
-	
-	
-	
-	
+
 }

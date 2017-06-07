@@ -1,6 +1,7 @@
 package game;
 
 import java.util.*;
+import java.util.function.Function;
 
 import game.effect.Effect;
 import game.effect.behaviors.*;
@@ -12,11 +13,19 @@ public class Test {
 	public static final Resource ser1 = new Resource(GC.RES_SERVANTS, 1);
 	public static final Resource sto1 = new Resource(GC.RES_STONES, 1);
 	public static final Resource coi3 = new Resource(GC.RES_COINS, 3);
+	public static final Resource coi1 = new Resource(GC.RES_COINS, 1);
 	public static final Resource vic3 = new Resource(GC.RES_VICTORYPOINTS, 3);
 	public static final Resource vic1 = new Resource(GC.RES_VICTORYPOINTS, 1);
 	public static final Resource mil3 = new Resource(GC.RES_MILITARYPOINTS, 3);
+	public static Resource santa = new Resource(GC.RES_COINS, 1);
+	public static Resource rita = new Resource(GC.RES_COINS, 2);
 	
-	public static void main(String[] args) throws GameException {
+	public static void main(String[] args) throws GameException {	
+		
+		santa.add(GC.RES_WOOD, 1);
+		santa.add(GC.RES_STONES, 1);
+		santa.add(GC.RES_SERVANTS, 1);
+		rita.add(GC.RES_MILITARYPOINTS, 1);
 		/**
 		 * TEST_OF_TOWER
 		 */
@@ -25,7 +34,6 @@ public class Test {
 		DynamicAction joy = p.getDynamicBar();
 		GameBoard b = new GameBoard(null);
 		joy.setBoardForTestOnly(b);
-		
 		List<FamilyMember> f = new ArrayList<>();
 		FamilyMember f1 = new FamilyMember(GC.FM_BLACK);
 		FamilyMember f2 = new FamilyMember(GC.FM_ORANGE);
@@ -45,19 +53,31 @@ public class Test {
 		f.add(f4);
 		p.setFreeMember((ArrayList<FamilyMember>) f);
 		
+		Effect effLudovicoAriosto = new Effect(GC.WHEN_JOINING_SPACE, new EffectOverruleObject());
+		
+		p.addEffect(effLudovicoAriosto);
+		
+		//p.addEffect(new Effect(GC.WHEN_PLACE_FAMILIAR_MARKET, new EffectOverruleObject()));
+		
+		p.addEffect(new Effect(GC.WHEN_GAIN,new EffectDiscountResource(null)));
+		p.addEffect(new Effect(GC.WHEN_GAIN,new EffectSantaRita(santa)));
+		Effect x1 = new Effect(GC.IMMEDIATE, new EffectGetResource(santa));
+		x1.setSource(GC.DEV_BUILDING);
+		
+		p.addEffect(x1);
+		p.showRes();
+		
 		p.gain(coi3);
 		p.gain(coi3);
 		p.gain(coi3);
 		p.gain(mil3);
-		
 		p.gain(sto1);
 		p.gain(sto1);
 		p.gain(sto1);
 		p.gain(sto1);
 		p.gain(sto1);
-		
 		p.addEffect(new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.DEV_TERRITORY, 2)));
-		//p.addEffect(new Effect(GC.WHEN_FIND_COST_CARD, new EffectDiscountResource(GC.DEV_TERRITORY, sto1)));
+		p.addEffect(new Effect(GC.WHEN_FIND_COST_CARD, new EffectDiscountResource(GC.DEV_TYPES, sto1)));
 		p.addEffect(new Effect(GC.WHEN_PAY_REQUIREMENT, new EffectOverruleObject(GC.DEV_TERRITORY)));
 		p.addEffect(new Effect(GC.WHEN_SHOW_SUPPORT, new EffectGetResource(ser3)));
 		p.addEffect(new Effect(GC.IMMEDIATE, new EffectGetACard(GC.DEV_TERRITORY, 0, sto1)));
@@ -67,13 +87,14 @@ public class Test {
 		joy.showVaticanSupport();
 		joy.placeInTowerStupidBigMethod(1, 1, 0);
 		joy.placeInTowerStupidBigMethod(f4, 2, 0);
+		
+		joy.placeMarket(f2, 0);
+		joy.placeMarket(f4, 0);
 		p.showRes();
 		System.out.println("************************************");
 		
 		
-		/**
-		 * old things:
-		 */
+		
 		
 		
 		
@@ -118,25 +139,9 @@ public class Test {
 		
 		
 		
-		/**
-		 * Deck of leaders cards
-		 */
-		List<ICard> leaderDeck = new ArrayList<>();
-		/**
-		 * Ludovico Ariosto
-		 */
-		Effect effLudovicoAriosto = new Effect(GC.WHEN_JOINING_SPACE, new EffectPositiveCheck());
-		leaderDeck.add(new LeaderCard("Ludovico Ariosto", null, 0, 5, 0, 0, effLudovicoAriosto, true));
-		/**
-		 * Filippo Brunelleschi
-		 */
-		Effect effFilippoBrunelleschi = new Effect(GC.WHEN_PAY_TAX_TOWER, new EffectOverruleObject());
-		leaderDeck.add(new LeaderCard("Filippo Brunelleschi", null, 0, 0, 5, 0, effFilippoBrunelleschi, true));
 		
 		
 		
-		p.addEffect(effFilippoBrunelleschi);
-		p.addEffect(effFilippoBrunelleschi);
 		
 		Resource tax = new Resource();	
 		tax.add(GC.TAX_TOWER);

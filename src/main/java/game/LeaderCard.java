@@ -1,58 +1,35 @@
 package game;
 
+import java.util.function.Function;
+
 import game.effect.Effect;
 
 public class LeaderCard implements ICard{
 	private String name;
-	private Resource requirement;
-	private int requirementTerritory;
-	private int requirementCharacter;
-	private int requirementBuilding;
-	private int requirementVenture;
 	private Effect effect;
-	private boolean isPermanent;
-
-	public LeaderCard(String name, Resource requirement, int rT, int rC, int rB, int rV, Effect effect, boolean isPermanent) {
+	private Function<Player, Boolean> requirement;
+	
+	public LeaderCard(String name, Effect effect, Function<Player, Boolean> requirement) {
 		this.name = name;
-		this.requirement = requirement;
 		this.effect = effect;
-		this.isPermanent = isPermanent;
-		requirementTerritory = rT;
-		requirementCharacter = rC;
-		requirementBuilding = rB;
-		requirementVenture = rV;
+		if (effect != null)
+			this.effect.setSource(GC.LEADER_CARD);
+		if (requirement != null)
+			this.requirement = requirement;
+		else
+			this.requirement = player -> true;
+	}
+	
+	public boolean canPlayThis(Player player){
+		return requirement.apply(player);
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public Resource getRequirement() {
-		return requirement;
-	}
-
-	public int getRequirementTerritory() {
-		return requirementTerritory;
-	}
-
-	public int getRequirementCharacter() {
-		return requirementCharacter;
-	}
-
-	public int getRequirementBuilding() {
-		return requirementBuilding;
-	}
-	public int getRequirementVenture() {
-		return requirementVenture;
-	}
-
 	public Effect getEffect() {
 		return effect;
 	}
-
-	public boolean isPermanent() {
-		return isPermanent;
-	}
-	
 	
 }

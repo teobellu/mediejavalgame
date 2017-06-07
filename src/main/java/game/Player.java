@@ -3,8 +3,8 @@ package game;
 import java.util.*;
 
 import game.effect.Effect;
-import game.state.*;
 import server.ConnectionHandler;
+import game.state.*;
 import game.GC.*;
 
 public class Player {
@@ -12,11 +12,11 @@ public class Player {
 	private final int id;
 	private final String name;
 	private Resource resource;	
-	private ArrayList<DevelopmentCard> developmentCard;
-	private ArrayList<LeaderCard> leaderCard;
+	private List<DevelopmentCard> developmentCard;
+	private List<LeaderCard> leaderCard;
 
-	private ArrayList<FamilyMember> freeMember;
-	private ArrayList<Effect> effects;
+	private List<FamilyMember> freeMember;
+	private List<Effect> effects;
 	
 	/* da file: */
 	private Resource harvestBonus;	
@@ -41,6 +41,7 @@ public class Player {
 	}
 	
 	public void gain (Resource res){
+		//TODO Se res contiene privilegi del consiglio?
 		resource.add(res);
 	}
 	
@@ -113,7 +114,7 @@ public class Player {
 		return resource;
 	}
 
-	public ArrayList<Effect> getEffects() {
+	public List<Effect> getEffects() {
 		return effects;
 	}
 
@@ -132,6 +133,10 @@ public class Player {
 		for (String i : GC.RES_TYPES)
 			if (getResource().get(i) > 0)
 				System.out.println(i + " " + getResource().get(i));
+	}
+	
+	public void showFam() {
+		freeMember.stream().forEach(fam -> System.out.println(fam.getColor() + " " + fam.getValue()));
 	}
 
 	public List<DevelopmentCard> getDevelopmentCards() {
@@ -161,4 +166,5 @@ public class Player {
 	public void setFreeMember(ArrayList<FamilyMember> freeMember) {
 		this.freeMember = freeMember;
 	}
+	
 }

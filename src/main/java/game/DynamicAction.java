@@ -42,8 +42,24 @@ public class DynamicAction {
 	}
 
 	public void gain (Resource res){
+		if (res == null) return;
 		res = (Resource) activateEffect(res, GC.WHEN_GAIN);
 		player.gain(res);
+	}
+	
+	public void gain (Effect source, Resource res){
+		if (res == null) return;
+		gain(res);
+		if (source.getWhenActivate() == GC.IMMEDIATE)
+			activateEffect(res, source.getSource(), GC.WHEN_GAIN);
+	}
+	
+	public void startTurn(){
+		activateEffect(GC.ONCE_PER_TURN);
+	}
+	
+	public void readDices(){
+		activateEffect(GC.WHEN_ROLL);
 	}
 	
 	public void increaseWorker (FamilyMember familiar, int amount) throws GameException{
@@ -98,9 +114,9 @@ public class DynamicAction {
 		//l'if qui sopra magari no
 		if (space.isSingleObject()){
 			if(space.getFamiliar().isEmpty()) return;
-			activateEffect(GC.WHEN_JOINING_SPACE);
-			if (!player.isCheck()) throw new GameException();
-			player.setCheck(false);	
+			Boolean x = true;
+			x = (Boolean) activateEffect(x, GC.WHEN_JOINING_SPACE);
+			if (x != null) throw new GameException();
 		}
 	}
 	
@@ -211,10 +227,9 @@ public class DynamicAction {
 	
 	//VERIFICA SE HO LA TESSERA SCOMINICA VIOLA
 	public void canPlaceMarket () throws GameException{
-		activateEffect(GC.WHEN_PLACE_FAMILIAR_MARKET);
-		if(!player.isCheck()) return;
-		player.setCheck(false);
-		throw new GameException();
+		Boolean x = true;
+		x = (Boolean) activateEffect(x, GC.WHEN_PLACE_FAMILIAR_MARKET);
+		if (x == null) throw new GameException();
 	}
 	
 	public void placeMarket (FamilyMember familiar, int whichSpace) throws GameException{

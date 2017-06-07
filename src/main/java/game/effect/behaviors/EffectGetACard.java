@@ -43,7 +43,8 @@ public class EffectGetACard implements IEffectBehavior{
 	}
 
 	private void selectCard() {
-		int row = 0, coloumn = 0;
+		int row = 0, column = 0;
+		
 		
 	}
 	

@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import game.effect.Effect;
 
@@ -10,11 +11,11 @@ public abstract class DevelopmentCard implements ICard{
 	private String name;
 	
 	private int age;
-	private ArrayList<Effect> immediateEffect;
-	private ArrayList<Effect> permanentEffect;
+	private List<Effect> immediateEffect;
+	private List<Effect> permanentEffect;
 	
-	private ArrayList<Resource> cost;
-	private ArrayList<Resource> requirement;
+	private List<Resource> cost;
+	private List<Resource> requirement;
 	
 	private int dice;
 
@@ -25,6 +26,7 @@ public abstract class DevelopmentCard implements ICard{
 		immediateEffect = new ArrayList<>();
 		permanentEffect = new ArrayList<>();
 		cost = new ArrayList<>();
+		//effect.setSource(this.toString());
 		requirement = new ArrayList<>();
 		requirement.add(null);
 	}

@@ -7,10 +7,15 @@ import game.effect.IEffectBehavior;
 
 public class EffectGetResource implements IEffectBehavior{
 
+	private Effect ref;
 	private Player player;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
 	private Resource bonus; 	//ciò che guadagnerei normalmente
 
 	public EffectGetResource(Resource bonus) {
+		this.bonus = bonus;
+	}
+	
+	public EffectGetResource(String fonte, Resource bonus) {
 		this.bonus = bonus;
 	}
 	
@@ -21,10 +26,11 @@ public class EffectGetResource implements IEffectBehavior{
 	}
 
 	private void initializes(Effect ref){
+		this.ref = ref;
 		player = ref.getPlayer();
 	}
 
 	private void addResource() {
-		player.getDynamicBar().gain(bonus);
+		player.getDynamicBar().gain(ref,bonus);
 	}
 }

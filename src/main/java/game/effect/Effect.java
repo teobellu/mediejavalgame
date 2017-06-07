@@ -1,5 +1,6 @@
 package game.effect;
 
+import game.GC;
 import game.Player;
 
 public class Effect {
@@ -9,6 +10,7 @@ public class Effect {
 	 */
 	private IEffectBehavior iEffectBehavior;
 	private String whenActivate;
+	private String source;
 	private Object toAnalyze;
 	private String toScan;
 	private Player player;
@@ -16,6 +18,7 @@ public class Effect {
 	public Effect (String whenActivate, IEffectBehavior iEffectBehavior){
 		this.whenActivate = whenActivate;
 		this.iEffectBehavior = iEffectBehavior;
+		source = GC.DEFAULT;
 		toScan = new String();
 	}
 	
@@ -75,6 +78,14 @@ public class Effect {
 	 */
 	public String getWhenActivate() {
 		return whenActivate;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 	
 }

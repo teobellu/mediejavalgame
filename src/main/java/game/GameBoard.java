@@ -28,7 +28,7 @@ public class GameBoard {
 	
 	private final UserConfig userConfig;
 	
-	//O posso col polimorfismo?
+	//TODO O posso col polimorfismo?
 	private Cell[][] tower = new Cell[MAX_ROW][MAX_COLOUMN];
 
 	private ExcommunicationCard[] exCard = new ExcommunicationCard[MAX_EXCOMUNNICATION_CARD];
@@ -55,6 +55,8 @@ public class GameBoard {
 		this.userConfig = userConfig;
 		Resource r1 = new Resource();
 		simulator();
+		
+		market[0] = new Space(1, null, true);
 	}
 	
 	//TODO da cancellare in futuro, serve solo per test
@@ -231,6 +233,8 @@ class Space{
 	
 	public Space(int cost, Effect instantEffect, boolean singleObject) {
 		requiredDiceValue = cost;
+		if (instantEffect != null)
+			instantEffect.setSource(GC.ACTION_SPACE);
 		this.instantEffect = instantEffect;
 		this.singleObject = singleObject;
 		familiar = new ArrayList<>();
