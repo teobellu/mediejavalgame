@@ -1,5 +1,9 @@
 package client.gui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import client.Client;
@@ -31,6 +35,10 @@ public class GraphicalUI implements UI {
 	@Override
 	public void setConnection(String connectionType, String host, int port) {
 		_connectionHandler = ConnectionServerHandlerFactory.getConnectionServerHandler(connectionType, host, port);
+		
+		if(_connectionHandler!=null){
+			sendXML();
+		}
 	}
 	
 	public ConnectionServerHandler getConnection(){
@@ -58,14 +66,41 @@ public class GraphicalUI implements UI {
 	@Override
 	public void write(String str) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	public void setName(String name){
 		_name = name;
 	}
 	
-	private static String _name;
+	public void prepareXmlFile(File file){
+		_xmlFile = file;
+	}
+	
+	private void sendXML(){
+		try {
+			if(_xmlFile!=null){
+				FileReader customConfig = new FileReader(_xmlFile);
+				
+				StringBuilder sb = new StringBuilder();
+				BufferedReader br = new BufferedReader(customConfig);
+				String line;
+				while((line = br.readLine() ) != null) {
+				    sb.append(line);
+				}
+				
+				br.close();
+				_connectionHandler.sendConfigFile(sb.toString());
+			} else {
+				_connectionHandler.sendConfigFile("");
+			}
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	private File _xmlFile;
+	
+	private String _name;
 	
 	private static GraphicalUI _instance = null;
 	
@@ -73,5 +108,5 @@ public class GraphicalUI implements UI {
     
     private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
     
-    private ConnectionServerHandler _connectionHandler;
+    private ConnectionServerHandler _connectionHandler = null;
 }

@@ -32,6 +32,12 @@ public abstract class ConnectionServerHandler implements Runnable {
 	
 	public abstract void putFamiliarWhere(String position) throws RemoteException;
 
+	/**
+	 * Send the server the custom XML file, 
+	 * or an empty {@link String} if he wants to use the default file
+	 * @param file the file to send, or an empty {@link String}
+	 * @throws RemoteException
+	 */
 	public abstract void sendConfigFile(String file) throws RemoteException;
 	
 	/**

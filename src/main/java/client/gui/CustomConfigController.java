@@ -40,13 +40,14 @@ public class CustomConfigController {
 		File selectedFile = fileChooser.showOpenDialog(_dialogStage);
 		if(selectedFile!=null && selectedFile.exists()){
 			_fileButton.setText(selectedFile.getAbsolutePath());
-			//TODO passare il file, o il suo path quanto meno, a chi deve gestirlo
+			GraphicalUI.getInstance().prepareXmlFile(selectedFile);
 		} else {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.initOwner(_dialogStage);
-			alert.setTitle("File Not Found");
-			alert.setHeaderText("No File Selected");
-			alert.setContentText("Cannot open the config file");
+			alert.setTitle("Unable to open file");
+			alert.setHeaderText("Cannot open the config file");
+			alert.setContentText("Using the default config file...");
+			GraphicalUI.getInstance().prepareXmlFile(null);
 		}
 	}
 	

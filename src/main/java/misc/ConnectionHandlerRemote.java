@@ -23,5 +23,7 @@ public interface ConnectionHandlerRemote extends Remote {
 	public boolean addMeToGame() throws RemoteException;
 
 	public void sendConfigFile(String file) throws RemoteException;
+
+	public boolean hasMyTurnStarted() throws RemoteException;
 	
 }

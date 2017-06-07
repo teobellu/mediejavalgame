@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import util.CommandStrings;
-import util.packets.Packet;
 
 public class SocketConnectionHandler extends ConnectionHandler implements Runnable {
 
@@ -87,6 +86,16 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	private void writeObject(Object obj) throws IOException{
 		_outputStream.writeObject(obj);
 		_outputStream.flush();
+	}
+	
+	public String startTurn(){
+		try {
+			writeObject(CommandStrings.START_TURN);
+			//TODO leggi risposta?
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return "";
+		}
 	}
 	
 	private Socket _socket;

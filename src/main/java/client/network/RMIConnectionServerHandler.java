@@ -82,6 +82,25 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 		_connectionHandler.sendConfigFile(file);
 	}
 	
+	/*°***************metodi che attendono una risposta dal server*********************/
+	
+	public boolean hasMyTurnStarted() throws RemoteException{
+		return _connectionHandler.hasMyTurnStarted();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private ServerRemote _serverRMI;
 	private Registry _registry;
 	private ConnectionHandlerRemote _connectionHandler;

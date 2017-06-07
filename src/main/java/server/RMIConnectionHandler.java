@@ -64,6 +64,11 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 		
 	}
 	
+	public void startTurn(){
+		_hasMyTurnStarted = true;
+	}
+	
+	private boolean _hasMyTurnStarted = false;
 	private Date _lastPing;
 	private Logger _logger = Logger.getLogger(RMIConnectionHandler.class.getName());
 	private Thread _timeout;

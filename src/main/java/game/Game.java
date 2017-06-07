@@ -76,6 +76,11 @@ public class Game implements Runnable {
 		return _board;
 	}
 	
+	public String getNextGameAction(){
+		//TODO
+		return "";
+	}
+	
 	private void setupGame(){
 		_board = new GameBoard(_theRoom.getConfig());//TODO
 	}
