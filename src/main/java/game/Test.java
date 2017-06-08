@@ -29,11 +29,15 @@ public class Test {
 		/**
 		 * TEST_OF_TOWER
 		 */
+		GameInformation gi = new GameInformation();
+		gi.generateLeaderCard();
+		List<LeaderCard> ld = gi.getLeaderDeck();
 		
 		Player p = new Player();
 		DynamicAction joy = p.getDynamicBar();
 		GameBoard b = new GameBoard(null);
 		joy.setBoardForTestOnly(b);
+		
 		List<FamilyMember> f = new ArrayList<>();
 		FamilyMember f1 = new FamilyMember(GC.FM_BLACK);
 		FamilyMember f2 = new FamilyMember(GC.FM_ORANGE);
@@ -52,6 +56,20 @@ public class Test {
 		f.add(f3);
 		f.add(f4);
 		p.setFreeMember((ArrayList<FamilyMember>) f);
+		
+		p.addEffect(new Effect(GC.IMMEDIATE, new EffectGetACard(GC.DEV_TERRITORY, 1, sto1)));
+		
+		p.addEffect(new Effect(GC.IMMEDIATE, new EffectWork(GC.HARVEST, 6)));
+		//joy.placeWork(f3, GC.HARVEST);
+		//joy.placeWork(f4, GC.HARVEST);
+		
+		p.showRes();
+		
+		System.out.println("\n\n\n\n\n\n\n\n");
+		
+		
+		
+		
 		
 		Effect effLudovicoAriosto = new Effect(GC.WHEN_JOINING_SPACE, new EffectOverruleObject());
 		
@@ -80,7 +98,7 @@ public class Test {
 		p.addEffect(new Effect(GC.WHEN_FIND_COST_CARD, new EffectDiscountResource(GC.DEV_TYPES, sto1)));
 		p.addEffect(new Effect(GC.WHEN_PAY_REQUIREMENT, new EffectOverruleObject(GC.DEV_TERRITORY)));
 		p.addEffect(new Effect(GC.WHEN_SHOW_SUPPORT, new EffectGetResource(ser3)));
-		p.addEffect(new Effect(GC.IMMEDIATE, new EffectGetACard(GC.DEV_TERRITORY, 0, sto1)));
+		
 		p.addEffect(new Effect(GC.WHEN_GET_TOWER_BONUS, new EffectOverruleObject()));
 		
 		joy.placeInTowerStupidBigMethod(f4, 3, 0);
@@ -202,8 +220,8 @@ public class Test {
 		p.addEffect(effy);
 		p.addEffect(effy);
 		
-		joy.work(4, "harvest", GC.DEV_TERRITORY);
-		joy.work(100, "production", GC.DEV_BUILDING);
+		joy.launchesWork(4, "harvest");
+		joy.launchesWork(100, "production");
 		//-1 da questo
 		//-2 dall'effetto di prima
 		

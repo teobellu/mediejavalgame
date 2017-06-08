@@ -20,6 +20,8 @@ public class GameBoard {
 	public static final Resource vic1 = new Resource(GC.RES_VICTORYPOINTS, 1);
 	public static final Resource mil3 = new Resource(GC.RES_MILITARYPOINTS, 3);
 	
+	public static final Effect eff = new Effect(GC.IMMEDIATE, new EffectGetResource(mil3));
+	
 	public static final int MAX_ROW = 4;
 	public static final int MAX_COLOUMN = 4;
 	private static final int MAX_EXCOMUNNICATION_CARD = 3;
@@ -34,6 +36,7 @@ public class GameBoard {
 	private ExcommunicationCard[] exCard = new ExcommunicationCard[MAX_EXCOMUNNICATION_CARD];
 	
 	private Space councilPalaceSpace;
+	
 	private Space harvestPos;
 	private Space productionPos;
 	
@@ -57,30 +60,22 @@ public class GameBoard {
 		simulator();
 		
 		market[0] = new Space(1, null, true);
+		harvestPos = new Space(1, null, true);
+		productionPos = new Space(1, null, true);
+		harvestLongPos = new Space(1, null, false);
+		productionLongPos = new Space(1, null, false);
 	}
 	
 	//TODO da cancellare in futuro, serve solo per test
 	public void simulator(){
 		
-		DevelopmentCard terr0 = new Territory();
-		DevelopmentCard terr1 = new Territory();
-		DevelopmentCard terr2 = new Territory();
-		DevelopmentCard terr3 = new Territory();
-		
-		terr0.setRequirement(ser1);
-		
-		terr0.setCost(sto1);
-		terr1.setCost(sto1);
-		terr2.setCost(sto1);
-		terr3.setCost(sto1);
+		DevelopmentCard terr0 = new Territory("a", 1, null, eff, 4);
+		DevelopmentCard terr1 = new Territory("b", 1, null, eff, 6);
 		
 		tower[0][0] = new Cell(terr0, 1, null);
 		tower[1][0] = new Cell(terr1, 3, null);
-		tower[2][0] = new Cell(terr2, 5, 
-				new Effect(GC.IMMEDIATE, new EffectGetResource(new Resource(GC.RES_WOOD, 1))));
-		tower[3][0] = new Cell(terr3, 7,  
-				new Effect(GC.IMMEDIATE, new EffectGetResource(new Resource(GC.RES_WOOD, 2))));
-		
+		tower[2][0] = new Cell(terr1, 5, null);
+		tower[3][0] = new Cell(terr1, 7, null);
 		
 	}
 	
@@ -133,13 +128,7 @@ public class GameBoard {
 		return tower[row][coloumn];
 	}
 	
-	public Space getHarvestSpace(){
-		return harvestPos;
-	}
 	
-	public Space getProductionSpace(){
-		return productionPos;
-	}
 	
 	public Space getCouncilPalaceSpace(){
 		return councilPalaceSpace;
@@ -166,21 +155,21 @@ public class GameBoard {
 	public void setExCard(ExcommunicationCard[] exCard) {
 		this.exCard = exCard;
 	}
-
-	public Space getHarvestLongPos() {
-		return harvestLongPos;
+	
+	public Space getWorkSpace(String action){
+		switch(action){
+			case GC.HARVEST : return harvestPos;
+			case GC.PRODUCTION : return productionPos;
+			default : return null;
+		}
 	}
-
-	public void setHarvestLongPos(Space harvestLongPos) {
-		this.harvestLongPos = harvestLongPos;
-	}
-
-	public Space getProductionLongPos() {
-		return productionLongPos;
-	}
-
-	public void setProductionLongPos(Space productionLongPos) {
-		this.productionLongPos = productionLongPos;
+	
+	public Space getWorkLongSpace(String action){
+		switch(action){
+			case GC.HARVEST : return harvestLongPos;
+			case GC.PRODUCTION : return productionLongPos;
+			default : return null;
+		}
 	}
 	
 	//TODO magari rimuovere gameexception

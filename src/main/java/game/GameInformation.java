@@ -17,6 +17,7 @@ import game.effect.behaviors.EffectIncreaseFamiliarStartPower;
 import game.effect.behaviors.EffectOverruleObject;
 import game.effect.behaviors.EffectSantaRita;
 import game.effect.behaviors.EffectSetFamiliarStartPower;
+import game.effect.behaviors.EffectWork;
 
 public class GameInformation{
 
@@ -28,8 +29,15 @@ public class GameInformation{
 	private HashMap<LeaderCard, Player> discardedLeader;
 	private CardDeck<DevelopmentCard> developmentDeck;
 	private CardDeck<ExcommunicationCard> excommunicationDeck;
-	private CardDeck<LeaderCard> leaderDeck;
+	private CardDeck<LeaderCard> leaderCardsDeck;
 	
+	
+	private List<LeaderCard> leaderDeck;
+	
+	public List<LeaderCard> getLeaderDeck() {
+		return leaderDeck;
+	}
+
 	private List<? extends ICard> qdevelopmentDeck;
 	private List<? extends ICard> qexcommunicationDeck;
 	private List<? extends ICard> qleaderDeck;
@@ -39,7 +47,7 @@ public class GameInformation{
 		discardedLeader = new HashMap<LeaderCard, Player>();
 		developmentDeck = new CardDeck<>();
 		excommunicationDeck = new CardDeck<>();
-		leaderDeck = new CardDeck<>();
+		leaderCardsDeck = new CardDeck<>();
 	}
 	
 	public void deckBuilder(UserConfig userConfig){
@@ -70,7 +78,7 @@ public class GameInformation{
 	}
 	
 	public void generateLeaderCard(){
-		List<LeaderCard> leaderDeck = new ArrayList<>();
+		leaderDeck = new ArrayList<>();
 		
 		Function<Player, Boolean> requirement;
 		IEffectBehavior behavior;
@@ -79,10 +87,13 @@ public class GameInformation{
 		Resource resource;
 		
 		/**
-		 * Francesco Sforza TODO
+		 * Francesco Sforza
 		 */
 		
 		requirement = player -> player.getDevelopmentCards(GC.DEV_VENTURE).size() >= 5;
+		behavior = new EffectWork(GC.HARVEST, 1);
+		effect = new Effect(GC.ONCE_PER_TURN, behavior);
+		leaderDeck.add(new LeaderCard("Francesco Sforza", effect, requirement));
 		
 		/**
 		 * Ludovico Ariosto
@@ -147,12 +158,15 @@ public class GameInformation{
 		leaderDeck.add(new LeaderCard("Giovanni dalle Bande Nere", effect, requirement));
 		
 		/**
-		 * Leonardo da Vinci TODO
+		 * Leonardo da Vinci
 		 */
 		
 		requirement = player -> 
 			player.getDevelopmentCards(GC.DEV_CHARACTER).size() >= 4 &&
 			player.getDevelopmentCards(GC.DEV_TERRITORY).size() >= 2;
+		behavior = new EffectWork(GC.PRODUCTION, 0);
+		effect = new Effect(GC.ONCE_PER_TURN, behavior);
+		leaderDeck.add(new LeaderCard("Leonardo da Vinci", effect, requirement));
 		
 		/**
 		 * Sandro Botticelli
@@ -197,12 +211,18 @@ public class GameInformation{
 		 */
 		
 		requirement = player -> player.getDevelopmentCards(GC.DEV_TERRITORY).size() >= 5; 
+		behavior = null; //TODO
+		effect = new Effect(GC.ONCE_PER_TURN, behavior);
+		leaderDeck.add(new LeaderCard("Federico da Montefeltro", effect, requirement));
 		
 		/**
 		 * Lorenzo de’ Medici TODO
 		 */
 		
 		requirement = player -> player.getResource().get(GC.RES_VICTORYPOINTS) >= 35;
+		behavior = null; //TODO
+		effect = new Effect(GC.IMMEDIATE, behavior);
+		leaderDeck.add(new LeaderCard("Lorenzo de’ Medici", effect, requirement));
 		
 		/**
 		 * Sisto IV

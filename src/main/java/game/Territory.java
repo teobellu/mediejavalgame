@@ -1,12 +1,20 @@
 package game;
 
+import java.util.List;
+
+import game.effect.Effect;
+
 public class Territory extends DevelopmentCard{
 	
-	@Override
-	public DevelopmentCard getTerritory(){
-		return this;
+	public Territory(String name, int age, Effect immediate, Effect permanent, int dice) {
+		super();
+		this.name = name;
+		this.age = age;
+		immediateEffect.add(immediate);
+		permanentEffect.add(permanent);
+		this.dice = dice;
 	}
-
+	
 	@Override
 	public void accept(DevelopmentCardVisitor visitor) {
 		visitor.visit(this);
@@ -17,21 +25,4 @@ public class Territory extends DevelopmentCard{
 		return GC.DEV_TERRITORY;
 	}
 	
-	/*
-	@Override
-	public void activateImmediateEffect(Player player) {
-		for (Effect x : immediateEffect){
-			x.setPlayer(player);
-			x.effect();
-		}
-	}
-	
-	@Override
-	public void activatePermanentEffect(Player player) {
-		for (Effect x : permanentEffect){
-			x.setPlayer(player);
-			x.effect();
-		}
-	}
-	 */
 }

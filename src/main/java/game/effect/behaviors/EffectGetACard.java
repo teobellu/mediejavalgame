@@ -45,7 +45,7 @@ public class EffectGetACard implements IEffectBehavior{
 	private void selectCard() {
 		int row = 0, column = 0;
 		
-		
+		//TODO
 	}
 	
 	private void getCard() throws GameException {

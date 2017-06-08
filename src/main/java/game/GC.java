@@ -11,6 +11,7 @@ public class GC {
 	public static final String ACTION_SPACE = "action space";
 	
 	public static final String IMMEDIATE = "immediate";
+	public static final String TEMP = "temp";
 	public static final String ONCE_PER_TURN = "opt";
 	public static final String WHEN_END = "when end";
 	public static final String WHEN_FIND_VALUE_ACTION = "when find value action";
@@ -72,6 +73,7 @@ public class GC {
 	public static final Integer MAX_DEVELOPMENT_CARDS = 6;
 	
 	public static final Integer END_REWARD_RESOURCE = 5;
+	
 	
 
 }

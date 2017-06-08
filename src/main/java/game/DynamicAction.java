@@ -215,16 +215,6 @@ public class DynamicAction {
 		return new Resource(GC.RES_MILITARYPOINTS, requirement);
 	}
 	
-	/*
-	public void canJoinSpace (FamilyMember familiar, Space space) throws GameException{
-		if (space.getFamiliar().isEmpty()) return;
-		player.getEffects().stream()
-			.forEach(effect -> effect.effect(new StateJoiningSpace(null)));
-		if (!player.isCheck()) throw new GameException();
-		player.setCheck(false);
-		canJoinArraySpace(familiar, space);
-	}*/
-	
 	//VERIFICA SE HO LA TESSERA SCOMINICA VIOLA
 	public void canPlaceMarket () throws GameException{
 		Boolean x = true;
@@ -267,30 +257,6 @@ public class DynamicAction {
 		if (!playerFamiliar.isEmpty()) throw new GameException();
 	}
 	
-	public void getYield (FamilyMember familiar, Space space) throws GameException{
-		//canDicePaySpace(familiar, space);
-		canJoinArraySpace(familiar, space);
-		if(space.getFamiliar().isEmpty()){
-			//do harvest max power
-		}
-		else
-			//do harvest less power //potrei avere ludovico arisoto ?
-		space.setFamiliar(familiar);
-		player.addEffect(space.getInstantEffect());
-	}
-	
-	public void placeHarvest (FamilyMember familiar) throws GameException{
-		Space space = board.getHarvestSpace();
-		canJoinArraySpace(familiar, space);
-		if(space.getFamiliar().isEmpty()){
-			//do harvest max power
-		}
-		else
-			//do harvest less power
-		space.setFamiliar(familiar);
-		player.addEffect(space.getInstantEffect());
-	}
-	
 	public void placeCouncilPalace (FamilyMember familiar) throws GameException{
 		Space space = board.getCouncilPalaceSpace();
 		//canDicePaySpace(familiar, space);
@@ -306,30 +272,45 @@ public class DynamicAction {
 		 * SPACE
 		 */
 		
-		Space space = board.getHarvestSpace();
+		Space space = board.getWorkSpace(action);
 		try{
 			canOccupySpace(familiar, space);
 		}
 		catch (GameException e) {
-			space = board.getHarvestLongPos();
+			space = board.getWorkLongSpace(action);
 			canOccupySpace(familiar, space);
 		}
+		//posso entrare in spazio
+		//gestire il malus di -3 produzione
+		space.getInstantEffect(); //TODO
+		player.addEffect(space.getInstantEffect()); //TODO
+		
+		//if instanceof... lo si toglie?
+		//OR
+		//EFFETTI DRAFT CHE SI TOLGONO ALLA FINE DEL TURNO? geniale o non funziona?
 		
 		/**
 		 * DICE
 		 */
 		int newPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
 		if (newPower < 1) throw new GameException();
-		work(power, action, GC.DEV_TERRITORY);
+		launchesWork(power, action);
+		space.setFamiliar(familiar);
 	}
 	
-	public void work (int power, String action, String cards){
-		System.out.println(action + power);
+	public void launchesWork(Integer power, String action){
+		switch(action){
+			case GC.HARVEST : work(power, action, GC.DEV_TERRITORY);
+			case GC.PRODUCTION : work(power, action, GC.DEV_BUILDING);
+			default : return;
+		}
+	}
+	
+	private void work (int power, String action, String cards){
 		int realActionPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
 		player.getDevelopmentCards(cards).stream()
 			.filter(card -> realActionPower >= card.getDice())
-			.forEach(card -> card.activatePermanentEffect());
-		System.out.println(action + realActionPower);
+			.forEach(card -> player.addEffect(card.getPermanentEffect()));
 	}
 	
 	public void pay (Resource res){
@@ -347,8 +328,16 @@ public class DynamicAction {
 		player.addDevelopmentCard(newCard);
 	}
 	
+	//do per scontato che la carta sia del giocatore
+	public void activateLeaderCard(LeaderCard card) throws GameException{
+		if (!card.canPlayThis(player))
+			throw new GameException();
+		player.removeLeaderCard(card);
+		player.addEffect(card.getEffect());
+	}
+	
 	public void discardLeaderCard(LeaderCard card){
-		player.discardLeaderCard(card);
+		player.removeLeaderCard(card);
 		player.gain(new Resource(GC.RES_COUNCIL, 1));
 	}
 	

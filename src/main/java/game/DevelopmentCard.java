@@ -7,17 +7,17 @@ import java.util.List;
 import game.effect.Effect;
 
 public abstract class DevelopmentCard implements ICard{
+
+	protected String name;
 	
-	private String name;
+	protected int age;
+	protected List<Effect> immediateEffect;
+	protected List<Effect> permanentEffect;
 	
-	private int age;
-	private List<Effect> immediateEffect;
-	private List<Effect> permanentEffect;
+	protected List<Resource> cost;
+	protected List<Resource> requirement;
 	
-	private List<Resource> cost;
-	private List<Resource> requirement;
-	
-	private int dice;
+	protected int dice;
 
 	public abstract void accept(DevelopmentCardVisitor visitor);
 	public abstract String toString();
@@ -26,11 +26,21 @@ public abstract class DevelopmentCard implements ICard{
 		immediateEffect = new ArrayList<>();
 		permanentEffect = new ArrayList<>();
 		cost = new ArrayList<>();
-		//effect.setSource(this.toString());
 		requirement = new ArrayList<>();
+		cost.add(new Resource());
 		requirement.add(null);
 	}
 	
+	protected void configureEffect(Effect effect){
+		if (effect != null)
+			effect.setSource(toString());
+	}
+	
+	protected void configureEffect(List<Effect> effects){
+		if (effects != null)
+			effects.forEach(effect -> configureEffect(effect));
+	}
+
 	public int getDice() {
 		return dice;
 	}
@@ -53,18 +63,6 @@ public abstract class DevelopmentCard implements ICard{
 	
 	public void addPermanentEffect(Effect effect) {
 		permanentEffect.add(effect);
-	}
-
-	public void activateImmediateEffect() {
-		for (Effect x : immediateEffect){
-//			x.effect();
-		}
-	}
-	
-	public void activatePermanentEffect() {
-		for (Effect x : permanentEffect){
-//			x.effect();
-		}
 	}
 	
 	public Resource getCost(int index) {
@@ -91,47 +89,20 @@ public abstract class DevelopmentCard implements ICard{
 	public Resource getRequirement() {
 		return requirement.get(0);
 	}
-
-	public void setPlayer(Player player) {
-		for (Effect x : immediateEffect){
-			x.setPlayer(player);
-		}
-		for (Effect x : permanentEffect){
-			x.setPlayer(player);
-		}
+	
+	public List<Effect> getImmediateEffect() {
+		configureEffect(immediateEffect);
+		return immediateEffect;
 	}
 	
-	public DevelopmentCard getTerritory(){
-		return null;
+	public List<Effect> getPermanentEffect() {
+		configureEffect(permanentEffect);
+		return permanentEffect;
 	}
-	
-	public DevelopmentCard getBuilding(){
-		return null;
-	}
-	
-	public DevelopmentCard getCharacter(){
-		return null;
-	}
-	
-	public DevelopmentCard getVenture(){
-		return null;
-	}
-	
-	public DevelopmentCard getCard(){
-		return this;
-	}
-	
-	
 	
 	/*
 	
-	public DevelopmentCard(cardType type, int age, Resource cost, Resource instantBenefit){
-		this.type = type;
-		this.age = age;
-		this.cost = cost;
-		this.instantBenefit = instantBenefit;
-		if (type == cardType.TERRITORY) return;
-	}
+	
 	
 	public Resource getCost(){
 		return cost;

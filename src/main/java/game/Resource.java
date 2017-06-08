@@ -1,50 +1,87 @@
 package game;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Optional;
 
+/**
+ * Class used to manage resources (as hoard or game loot), like coins or wood, 
+ * and perform math operations on related information
+ */
 public class Resource {
 	
-	private HashMap <String, Integer> minidb;
+	/**
+	 * Object that contains information about the resource package;
+	 * To the left the type of resource, to the right its quantity
+	 */
+	private HashMap <String, Integer> hoard;
 	
+	/**
+	 * Creates a resource pack and fills it with a single type of resource and his amount
+	 * @param type Type of resource to add
+	 * @param amount Quantity of resource type to add
+	 */
 	public Resource(String type, int amount) {
-		minidb = new HashMap <String, Integer>();
+		this();
 		add(type, amount);
 	}
 	
+	/**
+	 * Creates an empty resource package.
+	 */
 	public Resource() {
-		minidb = new HashMap <String, Integer>();
+		hoard = new HashMap <String, Integer>();
 	}
 
+	/**
+	 * Receives a single resource type and returns its current quantity;
+	 * The method returns 0 if the resource type does not exist in the hashmap, 
+	 * as it is logical that both
+	 * @param type Type of resource
+	 * @return Quantity of resource type
+	 */
 	public int get(String type){
-		if (minidb.containsKey(type))
-			return minidb.get(type);
+		if (hoard.containsKey(type))
+			return hoard.get(type);
 		return 0;
 	}
 	
+	/**
+	 * Adds a single type of resource to current resources
+	 * @param type Type of resource to add
+	 * @param amount Quantity of resource type to add
+	 */
 	public void add(String type, int amount){
-		minidb.putIfAbsent(type, 0);
-		int currentValue = minidb.get(type);
-		minidb.replace(type, currentValue + amount);		
+		hoard.putIfAbsent(type, 0);
+		int currentValue = hoard.get(type);
+		hoard.replace(type, currentValue + amount);		
 	}
 	
-	public void add(Resource res){
-		if(res == null) return;
+	/**
+	 * Adds additional resources to current resources
+	 * @param addition Resource to add
+	 */
+	public void add(Resource addition){
+		if(addition == null) return;
 		GC.RES_TYPES.stream()
-			.filter(type -> res.get(type) > 0)
-			.forEach(type -> add(type, res.get(type)));
+			.filter(type -> addition.get(type) > 0)
+			.forEach(type -> add(type, addition.get(type)));
 	}
 	
-	public void sub(Resource res) throws GameException{
-		if(res == null) return;
-		//controllo se posso pagare
-		for (String i : GC.RES_TYPES)
-			if (res.get(i) > 0){
-				if (minidb.containsKey(i) == false || minidb.get(i) < res.get(i))
-					throw new GameException();
-			}
-		//pago
+	/**
+	 * Subtracts resources from current resources using class java.util.Optional, 
+	 * only if for each resource type the quantity remains greater or equal to zero.
+	 * @param price Resource to subtract
+	 * @throws GameException Some types of resources have a negative amount
+	 */
+	public void sub(Resource price) throws GameException{
+		if(price == null) return;
+		Optional<String> check = GC.RES_TYPES.stream()
+			.filter(type -> price.get(type) > 0)
+			.filter(type -> hoard.containsKey(type) == false || hoard.get(type) < price.get(type))
+			.findFirst();
+		if (check.isPresent()) throw new GameException();
 		GC.RES_TYPES.stream()
-			.filter(type -> res.get(type) > 0)
-			.forEach(type -> add(type, -res.get(type)));
+			.filter(type -> price.get(type) > 0)
+			.forEach(type -> add(type, -price.get(type)));
 	}
 }

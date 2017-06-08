@@ -1,6 +1,7 @@
 package game;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import game.effect.Effect;
 import server.ConnectionHandler;
@@ -24,8 +25,6 @@ public class Player {
 	
 	private DynamicAction dynamicBar;
 	
-	private boolean check;
-	
 	private DevelopmentCardManager manager = new DevelopmentCardManager();
 
 	protected Player(){
@@ -37,7 +36,6 @@ public class Player {
 		effects = new ArrayList<>();
 		setFreeMember(new ArrayList<>());
 		dynamicBar = new DynamicAction(this);
-		setCheck(false);
 	}
 	
 	public void gain (Resource res){
@@ -49,6 +47,10 @@ public class Player {
 		resource.sub(cost);
 	}
 	
+	public void addEffect(List<Effect> permanentEffect) {
+		permanentEffect.forEach(effect -> addEffect(effect));
+	}
+	
 	public void addEffect (Effect eff){
 		if (eff == null) return;
 		eff.setPlayer(this);
@@ -58,20 +60,26 @@ public class Player {
 			effects.add(eff);
 	}
 	
+	public void removeTempEffects(){
+		effects.removeIf(effect -> effect.getWhenActivate() == GC.TEMP);
+	}
+	
 	public void addLeaderCard (LeaderCard newCard){
 		leaderCard.add(newCard);
 	}
 	
-	public void discardLeaderCard (LeaderCard cardToDiscard){
-		for (int i = 0; i < leaderCard.size(); i++)
-			if(leaderCard.get(i) == cardToDiscard)
-				leaderCard.remove(i);
+	public void removeLeaderCard (LeaderCard cardToDiscard){
+		leaderCard.removeIf(card -> card == cardToDiscard);
+	}
+	
+	public void showLeaderCard (){
+		leaderCard.stream().forEach(card -> System.out.println(card.getName()));
 	}
 	
 	public void addDevelopmentCard (DevelopmentCard newCard){
 		developmentCard.add(newCard);
 		manager.add(newCard);
-		newCard.setPlayer(this);
+		//newCard.setPlayer(this);
 		//newCard.activateImmediateEffect();
 	}
 	
@@ -151,14 +159,6 @@ public class Player {
 		return manager.getList(type);
 	}
 
-	public boolean isCheck() {
-		return check;
-	}
-
-	public void setCheck(boolean check) {
-		this.check = check;
-	}
-
 	public List<FamilyMember> getFreeMember() {
 		return freeMember;
 	}
@@ -166,5 +166,9 @@ public class Player {
 	public void setFreeMember(ArrayList<FamilyMember> freeMember) {
 		this.freeMember = freeMember;
 	}
+
+	
+
+	
 	
 }
