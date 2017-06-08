@@ -5,48 +5,87 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import game.effect.Effect;
-import game.state.*;
 
+/**
+ * An integral part of the game controller, acts as a player joystick.
+ * Encloses the actions that the player can do/perform
+ */
 public class DynamicAction {
 	
-	//cambio player corrente con pattern observer
-	
+	/**
+	 * Current player, ad the joystick holder
+	 */
 	protected Player player;
+	
+	//TODO
 	private GameBoard board;
 	
 	public void setBoardForTestOnly(GameBoard board){
 		this.board = board;
 	}
 	
-	
+	/**
+	 * Constructor
+	 * @param player Current player
+	 */
 	public DynamicAction(Player player){
 		this.player = player;
 	}
 	
-	
+	/**
+	 * Activates the effects without modifying objects
+	 * @Overload
+	 * @param time Type of effect to activate
+	 */
 	public void activateEffect(String time){
 		player.getEffects().stream()
 			.forEach(eff -> eff.activateEffect(time));
 	}
 	
+	/**
+	 * Activates the effects modifying objects
+	 * @Overload
+	 * @param param Object to be modified
+	 * @param time Type of effect to activate
+	 * @return Object modified by the effect
+	 */
 	public Object activateEffect(Object param, String time){
 		for (Effect eff : player.getEffects())
 			param = eff.activateEffect(time, param);
 		return param;
 	}
 	
+	/**
+	 * Activates the effects modifying objects depending on a string
+	 * @Overload
+	 * @param param Object to be modified
+	 * @param string The string from which the effect depends
+	 * @param time Type of effect to activate
+	 * @return Object modified by the effect
+	 */
 	public Object activateEffect(Object param, String string, String time){
 		for (Effect eff : player.getEffects())
 			param =  eff.activateEffect(time, param, string);
 		return param;
 	}
 
+	/**
+	 * Allows the player to earn resources
+	 * @Overload
+	 * @param res Resource to gain
+	 */
 	public void gain (Resource res){
 		if (res == null) return;
 		res = (Resource) activateEffect(res, GC.WHEN_GAIN);
 		player.gain(res);
 	}
 	
+	/**
+	 * Allows the player to earn resources depending on the source
+	 * @Overload
+	 * @param source Source of earnings
+	 * @param res Resource to gain
+	 */
 	public void gain (Effect source, Resource res){
 		if (res == null) return;
 		gain(res);
@@ -54,47 +93,42 @@ public class DynamicAction {
 			activateEffect(res, source.getSource(), GC.WHEN_GAIN);
 	}
 	
+	/**
+	 * Method that is launched at the beginning of the turn
+	 */
 	public void startTurn(){
 		activateEffect(GC.ONCE_PER_TURN);
 	}
 	
+	/**
+	 * Method that is launched just after the dices have been launched
+	 */
 	public void readDices(){
 		activateEffect(GC.WHEN_ROLL);
 	}
 	
+	/**
+	 * 
+	 * @param familiar
+	 * @param amount
+	 * @throws GameException
+	 */
 	public void increaseWorker (FamilyMember familiar, int amount) throws GameException{
 		int price = (Integer) activateEffect(amount, GC.WHEN_INCREASE_WORKER);
 		player.pay(new Resource(GC.RES_SERVANTS, price));
 		familiar.setValue(familiar.getValue() + amount);
 	}
 	
-	/*
-	public void canDicePaySpace (FamilyMember familiar, Space space) throws GameException{
-		if (familiar.getValue() < space.getRequiredDiceValue())
-			throw new GameException();
-	}*/
-	
-	//tipo 3 monete
-	public boolean playerHasToPayExtra (FamilyMember familiar, List<FamilyMember> placedFamiliar){
-		long countTransparent = placedFamiliar.stream()
-			.filter(fam -> fam.getOwner() == familiar.getOwner())
-			.count();
-		if(countTransparent > 0) return true;
-		return false;
-	}
-	
-	
 	/**
-	 * DA RIVEDERE I COMMENTI
-	 * @param familiar
-	 * @param space
-	 * @param coloumn
-	 * @return TRUE = DEVO PAGARE 3 MONETE, FALSE = NON DEVO
-	 * @throws GameException andrebbe tolta
+	 * Returns the tax to be paid according to the established rules of the game
+	 * @param space Action space to analyze
+	 * @param column Selected Tower
+	 * @return Tax to pay, Fee to pay
+	 * @throws GameException Column number is not valid
 	 */
-	public Resource findTaxToPay (Space space, int coloumn) throws GameException{
+	public Resource findTaxToPay (Space space, int column) throws GameException{
 		Resource tax = new Resource();
-		if (!board.getFamiliarInSameColoumn(coloumn).isEmpty()){
+		if (!board.getFamiliarInSameColumn(column).isEmpty()){
 			tax.add(GC.TAX_TOWER);
 			tax = (Resource) activateEffect(tax, GC.WHEN_PAY_TAX_TOWER);
 		}
@@ -102,32 +136,28 @@ public class DynamicAction {
 	}
 	
 	/**
-	 * VERIFICA SE HO IL DADO ABBASTANZA GRANDE
-	 * VERIFICA, SE LO SPAZIO E' SINGOLO, SE E' VUOTO O NO
-	 * 			SE E' PIENO VERIFICA SE HO LUDOVICO ARIOSTO
-	 * @param familiar
-	 * @param space
-	 * @throws GameException
+	 * If space is single it checks that the player can place his familiar
+	 * @param familiar The familiar that the player wants to place
+	 * @param space Action space to analyze
+	 * @throws GameException The player can not place his familiar in the space selected;
+	 * The space is single and is already occupied
 	 */
-	public void canOccupyForSpaceLogic(FamilyMember familiar, Space space) throws GameException{
-		//if (familiar.getValue() < space.getRequiredDiceValue()) throw new GameException();
-		//l'if qui sopra magari no
+	private void canOccupyForSpaceLogic(FamilyMember familiar, Space space) throws GameException{
 		if (space.isSingleObject()){
 			if(space.getFamiliar().isEmpty()) return;
-			Boolean x = true;
-			x = (Boolean) activateEffect(x, GC.WHEN_JOINING_SPACE);
-			if (x != null) throw new GameException();
+			if ((Boolean) activateEffect(true, GC.WHEN_JOINING_SPACE) != null) 
+				throw new GameException();
 		}
 	}
 	
 	/**
-	 * SI CREA UNA LISTA UNENDO GLI INPUT
-	 * SI VERIFICA CHE LA LISTA POSSA SUSSISTERE
-	 * @param familiar
-	 * @param placedFamiliar
-	 * @throws GameException
+	 * Designed if space is not single; It checks that the player can place his familiar;
+	 * Is called even if space is single, see Ludovico Ariosto's effect
+	 * @param familiar The familiar that the player wants to place
+	 * @param placedFamiliar Like family members in space
+	 * @throws GameException There are two non-transparent familiars of the same color
 	 */
-	public void canOccupyForColorLogic(FamilyMember familiar, List<FamilyMember> placedFamiliar) throws GameException{
+	private void canOccupyForColorLogic(FamilyMember familiar, List<FamilyMember> placedFamiliar) throws GameException{
 		List<FamilyMember> playerFamiliar = new ArrayList<>();
 		playerFamiliar.addAll(placedFamiliar);
 		playerFamiliar.add(familiar);
@@ -138,19 +168,32 @@ public class DynamicAction {
 		if(countNotTransparent > 1) throw new GameException();
 	}
 	
-
-	public void canOccupySpace (FamilyMember familiar, Space space) throws GameException{
+	/**
+	 * It checks that the player can place his familiar in the space selected
+	 * @param familiar The familiar that the player wants to place
+	 * @param space Action space to analyze
+	 * @throws GameException The player can not place his familiar in the space selected
+	 */
+	private void canOccupySpace (FamilyMember familiar, Space space) throws GameException{
 		canOccupyForSpaceLogic(familiar, space);
 		canOccupyForColorLogic(familiar, space.getFamiliar());
 	}
 	
-	public void placeInTowerStupidBigMethod(Integer value, int row, int coloumn) throws GameException {
+	/**
+	 * The method allows the player to get a card from a cell of ​​four towers
+	 * @param value Power of the action
+	 * @param row Floor selected
+	 * @param column Tower selected
+	 * @throws GameException The player does not meet the requirements for getting the card, 
+	 * for example he already has six development cards of the same type
+	 */
+	public void visitTower(Integer value, int row, int column) throws GameException {
 		Resource cost = new Resource();
-		Space space = board.getCell(row, coloumn);
+		Space space = board.getCell(row, column);
 		DevelopmentCard card = space.getCard();
 		if (card == null || player.getDevelopmentCards(card.toString()).size() == GC.MAX_DEVELOPMENT_CARDS)
 			throw new GameException();
-		cost.add(findTaxToPay(space, coloumn));
+		cost.add(findTaxToPay(space, column));
 		
 		// qui dovrei chiedere al giocatore, se cost != null, se proseguire o no.
 		
@@ -193,20 +236,39 @@ public class DynamicAction {
 		space.setCard(null);
 	}
 	
-	public void placeInTowerStupidBigMethod (FamilyMember familiar, int row, int coloumn) throws GameException{
-		Space space = board.getCell(row, coloumn);
+	/**
+	 * The method allows the player to place his familiar in a space of ​​four towers
+	 * @param familiar The familiar that the player wants to place
+	 * @param row Floor selected
+	 * @param column Tower selected
+	 * @throws GameException The player can not place his familiar in the space selected
+	 */
+	public void placeInTower (FamilyMember familiar, int row, int column) throws GameException{
+		Space space = board.getCell(row, column);
 		canOccupySpace(familiar, space);
-		canOccupyForColorLogic(familiar, board.getFamiliarInSameColoumn(coloumn));
-		placeInTowerStupidBigMethod(familiar.getValue(), row, coloumn);
-		space.setFamiliar(familiar);
+		canOccupyForColorLogic(familiar, board.getFamiliarInSameColumn(column));
+		visitTower(familiar.getValue(), row, column);
+		endAction(familiar, space);
 	}
 	
-	public void tryToPayRequirement(String typeOfCard, Resource requirement) throws GameException{
+	/**
+	 * Verifies that the player has the established requirement
+	 * @param typeOfCard Simply the type of cards
+	 * @param requirement Resource requirement that the player has to possess
+	 * @throws GameException The player does not have the necessary requirements
+	 */
+	private void tryToPayRequirement(String typeOfCard, Resource requirement) throws GameException{
 		requirement = (Resource) activateEffect(requirement, typeOfCard, GC.WHEN_PAY_REQUIREMENT);
 		player.pay(requirement);
 		player.gain(requirement);
 	}
 	
+	/**
+	 * To add a new card you need to make sure that you have the requirement set on the 
+	 * player dashboard; This method returns that requirement
+	 * @param newCard New card that the player would like to add to his dashboard
+	 * @return Returns the requirement set by the player dashboard
+	 */
 	public Resource getDashboardRequirement(DevelopmentCard newCard){
 		int index = player.getDevelopmentCards(newCard.toString()).size();
 		int requirement = 0;
@@ -215,21 +277,22 @@ public class DynamicAction {
 		return new Resource(GC.RES_MILITARYPOINTS, requirement);
 	}
 	
-	//VERIFICA SE HO LA TESSERA SCOMINICA VIOLA
-	public void canPlaceMarket () throws GameException{
-		Boolean x = true;
-		x = (Boolean) activateEffect(x, GC.WHEN_PLACE_FAMILIAR_MARKET);
-		if (x == null) throw new GameException();
-	}
-	
+	/**
+	 * The method allows the player to place his familiar in the market
+	 * @param familiar The familiar that the player wants to place
+	 * @param whichSpace In which space the player wants to place the family
+	 * @throws GameException The player can not place his familiar in the space selected
+	 */
 	public void placeMarket (FamilyMember familiar, int whichSpace) throws GameException{
-		canPlaceMarket();
+		if ((Boolean) activateEffect(true, GC.WHEN_PLACE_FAMILIAR_MARKET) == null) 
+			throw new GameException();
 		Space space = board.getMarketSpace(whichSpace);
 		canOccupySpace(familiar, space);
-		space.setFamiliar(familiar);
 		player.addEffect(space.getInstantEffect());
+		endAction(familiar, space);
 	}
 	
+	/*
 	public void placeTower (FamilyMember familiar, int row, int coloumn) throws GameException{
 		Space space = board.getCell(row, coloumn);
 		DevelopmentCard card = space.getCard();
@@ -239,39 +302,38 @@ public class DynamicAction {
 		//canJoinSpace(familiar, space); //e quindi canJoinArraySpace(familiar, space);
 		Resource totalReq = new Resource();
 		totalReq.add(card.getRequirement());
-		space.setFamiliar(familiar);
 		player.addEffect(space.getInstantEffect());
-	}
+		endAction(familiar, space);
+	}*/
 	
+	/*
 	//verifica che non ci siano due familiari blu in una volta
 	public void canJoinArraySpace (FamilyMember familiar, Space space) throws GameException{
-		/*
-		List<FamilyMember> list = space.getFamiliar();
-		for (FamilyMember fam : list)
-			if(fam.getOwner() == familiar.getOwner())
-				throw new GameException();
-				*/
 		List<FamilyMember> playerFamiliar = space.getFamiliar().stream()
 			.filter(fam -> fam.getOwner() == familiar.getOwner())
 			.collect(Collectors.toList());
 		if (!playerFamiliar.isEmpty()) throw new GameException();
-	}
+	}*/
 	
+	//TODO
 	public void placeCouncilPalace (FamilyMember familiar) throws GameException{
 		Space space = board.getCouncilPalaceSpace();
 		//canDicePaySpace(familiar, space);
 		space.setFamiliar(familiar);
 		player.addEffect(space.getInstantEffect());
 		//devo ora mettere il proprietario del familiare in coda a proxturno
+		endAction(familiar, space);
 	}
 	
-	//fatto come se fosse Harvest
-	public void placeWork (FamilyMember familiar, String action) throws GameException{
-		int power = familiar.getValue();
-		/**
-		 * SPACE
-		 */
-		
+	/**
+	 * If you choose to make an action such as harvest or production, 
+	 * the following method determines which space is appropriate for doing the action
+	 * @param familiar The familiar that the player wants to place
+	 * @param action Type of action
+	 * @return The appropriate space
+	 * @throws GameException No space is suitable for perform the action
+	 */
+	private Space findCorrectWorkSpace(FamilyMember familiar, String action) throws GameException{
 		Space space = board.getWorkSpace(action);
 		try{
 			canOccupySpace(familiar, space);
@@ -280,24 +342,33 @@ public class DynamicAction {
 			space = board.getWorkLongSpace(action);
 			canOccupySpace(familiar, space);
 		}
-		//posso entrare in spazio
-		//gestire il malus di -3 produzione
-		space.getInstantEffect(); //TODO
-		player.addEffect(space.getInstantEffect()); //TODO
-		
-		//if instanceof... lo si toglie?
-		//OR
-		//EFFETTI DRAFT CHE SI TOLGONO ALLA FINE DEL TURNO? geniale o non funziona?
-		
-		/**
-		 * DICE
-		 */
-		int newPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
-		if (newPower < 1) throw new GameException();
-		launchesWork(power, action);
-		space.setFamiliar(familiar);
+		return space;
 	}
 	
+	/**
+	 * The method is called when a player wants to do a work action, 
+	 * such as harvest or production
+	 * @param familiar The familiar that the player wants to place
+	 * @param action Type of action
+	 * @throws GameException The player can not perform the action
+	 */
+	public void placeWork (FamilyMember familiar, String action) throws GameException{
+		int power = familiar.getValue();
+		Space space = findCorrectWorkSpace(familiar, action);
+		player.addEffect(space.getInstantEffect());
+		int newPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
+		if (newPower < Math.max(space.getRequiredDiceValue(),1)) throw new GameException();
+		launchesWork(power, action);
+		endAction(familiar, space);
+	}
+	
+	/**
+	 * Depending on the action specified, determines which cards must be analyzed;
+	 * For example, production analyzes building cards;
+	 * Then, perform the work action; In that example the production action
+	 * @param power Value of the action
+	 * @param action Type of action
+	 */
 	public void launchesWork(Integer power, String action){
 		switch(action){
 			case GC.HARVEST : work(power, action, GC.DEV_TERRITORY);
@@ -306,6 +377,12 @@ public class DynamicAction {
 		}
 	}
 	
+	/**
+	 * This method is used to perform the harvest action and production action
+	 * @param power Value of the action
+	 * @param action Type of action
+	 * @param cards Type of cards, generally chosen by launchesWork method
+	 */
 	private void work (int power, String action, String cards){
 		int realActionPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
 		player.getDevelopmentCards(cards).stream()
@@ -313,34 +390,52 @@ public class DynamicAction {
 			.forEach(card -> player.addEffect(card.getPermanentEffect()));
 	}
 	
-	public void pay (Resource res){
-		if (res != null)
-			System.out.println("i'm paying nothing");
+	/**
+	 * This method is called after the player has successfully performed a familiar placement 
+	 * action
+	 * @param familiar Family used to perform the action
+	 * @param space The space where the action was performed
+	 */
+	private void endAction(FamilyMember familiar, Space space){
+		space.setFamiliar(familiar);
+		player.getFreeMember().removeIf(member -> member == familiar);
+		player.getEffects().removeIf(effect -> effect.getSource() == GC.ACTION_SPACE);
 	}
 	
+	/**
+	 * TODO TODO
+	 */
 	public void showVaticanSupport(){
 		activateEffect(GC.WHEN_SHOW_SUPPORT);
 	}
 	
-	public void addDevelopmentCard (DevelopmentCard newCard) throws GameException{
-		if (newCard.getCost() != null)
-			pay(newCard.getCost());
-		player.addDevelopmentCard(newCard);
-	}
-	
-	//do per scontato che la carta sia del giocatore
+	/**
+	 * The method allows the player to activate a specific leader card
+	 * @param card Leader card to activate
+	 * @throws GameException The player does not have the necessary requirements to activate 
+	 * the leader card
+	 */
 	public void activateLeaderCard(LeaderCard card) throws GameException{
 		if (!card.canPlayThis(player))
 			throw new GameException();
 		player.removeLeaderCard(card);
 		player.addEffect(card.getEffect());
+		//aggiungere la carta a quelle già attivate (game information)
 	}
 	
+	/**
+	 * The method allows the player to discard a leader card to gain a council privilege
+	 * @param card Leader card to discard
+	 */
 	public void discardLeaderCard(LeaderCard card){
 		player.removeLeaderCard(card);
-		player.gain(new Resource(GC.RES_COUNCIL, 1));
+		gain(new Resource(GC.RES_COUNCIL, 1));
 	}
 	
+	/**
+	 * This method is launched by each player at the end of the game, 
+	 * it counts the final victory points by consulting the rules of the game
+	 */
 	public void endGame (){
 		activateEffect(GC.WHEN_END);
 		int territory = player.getDevelopmentCards(GC.DEV_TERRITORY).size();
@@ -352,10 +447,15 @@ public class DynamicAction {
 		exchangeResourceToVictory();
 	}
 	
+	/**
+	 * Adds victory points depending on the amount of cards, of a certain type, 
+	 * accumulated until the end of the game
+	 * @param rewardList List of points provided by the game rules
+	 * @param index Amount of cards, of a certain type, that the player has
+	 */
 	public void addFinalReward (List<Integer> rewardList, int index){
 		Resource finalReward = new Resource(GC.RES_VICTORYPOINTS, rewardList.get(index));
 		player.gain(finalReward);
-		//player.gain(new Resource(GC.RES_VICTORYPOINTS, rewardList.get(index)));
 	}
 	
 
@@ -363,7 +463,7 @@ public class DynamicAction {
 	 * At the end of the game, assign to the player victory points 
 	 * based on his stock of resources.
 	 */
-	public void exchangeResourceToVictory(){
+	private void exchangeResourceToVictory(){
 		int amount = 0;
 		Resource toCount = player.getResource();
 		amount += toCount.get(GC.RES_COINS);

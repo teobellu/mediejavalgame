@@ -57,11 +57,12 @@ public class Test {
 		f.add(f4);
 		p.setFreeMember((ArrayList<FamilyMember>) f);
 		
+		//b.getWorkLongSpace(GC.HARVEST)args;
+		
 		p.addEffect(new Effect(GC.IMMEDIATE, new EffectGetACard(GC.DEV_TERRITORY, 1, sto1)));
 		
-		p.addEffect(new Effect(GC.IMMEDIATE, new EffectWork(GC.HARVEST, 6)));
-		//joy.placeWork(f3, GC.HARVEST);
-		//joy.placeWork(f4, GC.HARVEST);
+		joy.placeWork(f3, GC.HARVEST);
+		joy.placeWork(f4, GC.HARVEST);
 		
 		p.showRes();
 		
@@ -101,10 +102,10 @@ public class Test {
 		
 		p.addEffect(new Effect(GC.WHEN_GET_TOWER_BONUS, new EffectOverruleObject()));
 		
-		joy.placeInTowerStupidBigMethod(f4, 3, 0);
+		joy.placeInTower(f4, 3, 0);
 		joy.showVaticanSupport();
-		joy.placeInTowerStupidBigMethod(1, 1, 0);
-		joy.placeInTowerStupidBigMethod(f4, 2, 0);
+		joy.visitTower(1, 1, 0);
+		joy.placeInTower(f4, 2, 0);
 		
 		joy.placeMarket(f2, 0);
 		joy.placeMarket(f4, 0);

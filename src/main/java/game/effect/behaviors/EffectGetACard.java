@@ -52,7 +52,7 @@ public class EffectGetACard implements IEffectBehavior{
 		Effect eff = new Effect(GC.WHEN_FIND_COST_CARD, new EffectDiscountResource(typeOfCard, discount));
 		int index = player.getEffects().size();
 		player.addEffect(eff);
-		player.getDynamicBar().placeInTowerStupidBigMethod(value, 0, 0);
+		player.getDynamicBar().visitTower(value, 0, 0);
 		player.getEffects().remove(index);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.*;
 import game.UserConfig;
 import game.effect.Effect;
 import game.effect.behaviors.EffectGetResource;
+import game.effect.behaviors.EffectIncreaseActionPower;
 import game.state.StatePlaceFamiliar;
 
 
@@ -23,7 +24,7 @@ public class GameBoard {
 	public static final Effect eff = new Effect(GC.IMMEDIATE, new EffectGetResource(mil3));
 	
 	public static final int MAX_ROW = 4;
-	public static final int MAX_COLOUMN = 4;
+	public static final int MAX_COLUMN = 4;
 	private static final int MAX_EXCOMUNNICATION_CARD = 3;
 	private static final int MAX_DICES = 3;
 	private static int MAX_MARKET_SPACE = 4;
@@ -31,7 +32,7 @@ public class GameBoard {
 	private final UserConfig userConfig;
 	
 	//TODO O posso col polimorfismo?
-	private Cell[][] tower = new Cell[MAX_ROW][MAX_COLOUMN];
+	private Cell[][] tower = new Cell[MAX_ROW][MAX_COLUMN];
 
 	private ExcommunicationCard[] exCard = new ExcommunicationCard[MAX_EXCOMUNNICATION_CARD];
 	
@@ -58,11 +59,13 @@ public class GameBoard {
 		this.userConfig = userConfig;
 		Resource r1 = new Resource();
 		simulator();
+		Effect x = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.HARVEST, -3));
+		x.setSource(GC.ACTION_SPACE);
 		
 		market[0] = new Space(1, null, true);
 		harvestPos = new Space(1, null, true);
 		productionPos = new Space(1, null, true);
-		harvestLongPos = new Space(1, null, false);
+		harvestLongPos = new Space(1, x, false);
 		productionLongPos = new Space(1, null, false);
 	}
 	
@@ -102,30 +105,30 @@ public class GameBoard {
 		
 	}*/
 	
-	public boolean canGetCard(Player player, int row, int coloumn){
-		row--; coloumn--;
-		if (row < MAX_ROW && coloumn < MAX_COLOUMN && row >= 0 && coloumn >= 0) return false;
-		if (tower[row][coloumn].getCard() == null) return false;
+	public boolean canGetCard(Player player, int row, int column){
+		row--; column--;
+		if (row < MAX_ROW && column < MAX_COLUMN && row >= 0 && column >= 0) return false;
+		if (tower[row][column].getCard() == null) return false;
 		//if ()
 		return true;
 	}
 	
-	public DevelopmentCard getCard(int row, int coloumn) throws GameException{
-		return getCell(row,coloumn).getCard();
+	public DevelopmentCard getCard(int row, int column) throws GameException{
+		return getCell(row,column).getCard();
 	}
 	
-	public void obtainCard(Player player, int row, int coloumn) throws GameException{
+	public void obtainCard(Player player, int row, int column) throws GameException{
 		//vari controlli, ottieni bonus, ecc.
-		DevelopmentCard card = getCell(row, coloumn).getCard();
+		DevelopmentCard card = getCell(row, column).getCard();
 		player.addDevelopmentCard(card);
 		
 	}
 
-	public Cell getCell(int row, int coloumn) throws GameException {
+	public Cell getCell(int row, int column) throws GameException {
 		//servono davvero controlli?
-		if (row >= MAX_ROW || coloumn >= MAX_COLOUMN) throw new GameException();
-		if (row < 0 || coloumn < 0) throw new GameException();
-		return tower[row][coloumn];
+		if (row >= MAX_ROW || column >= MAX_COLUMN) throw new GameException();
+		if (row < 0 || column < 0) throw new GameException();
+		return tower[row][column];
 	}
 	
 	
@@ -173,11 +176,11 @@ public class GameBoard {
 	}
 	
 	//TODO magari rimuovere gameexception
-	public List<FamilyMember> getFamiliarInSameColoumn(int coloumn) throws GameException{
-		List<FamilyMember> familiarInSameColoumn = new ArrayList<>();
+	public List<FamilyMember> getFamiliarInSameColumn(int column) throws GameException{
+		List<FamilyMember> familiarInSameColumn = new ArrayList<>();
 		for (int row = 0; row < GameBoard.MAX_ROW; row++)
-			familiarInSameColoumn.addAll(getCell(row, coloumn).getFamiliar());
-		return familiarInSameColoumn;
+			familiarInSameColumn.addAll(getCell(row, column).getFamiliar());
+		return familiarInSameColumn;
 	}
 	
 

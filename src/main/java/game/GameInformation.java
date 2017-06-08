@@ -11,11 +11,13 @@ import java.util.function.Function;
 
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
+import game.effect.behaviors.EffectCopyLeader;
 import game.effect.behaviors.EffectDiscountResource;
 import game.effect.behaviors.EffectGetResource;
 import game.effect.behaviors.EffectIncreaseFamiliarStartPower;
 import game.effect.behaviors.EffectOverruleObject;
 import game.effect.behaviors.EffectSantaRita;
+import game.effect.behaviors.EffectSelectAndSetFamiliarStartPower;
 import game.effect.behaviors.EffectSetFamiliarStartPower;
 import game.effect.behaviors.EffectWork;
 
@@ -33,6 +35,9 @@ public class GameInformation{
 	
 	
 	private List<LeaderCard> leaderDeck;
+	private List<Player> playersTurn;
+	private List<Player> headPlayersTurn;
+	private List<Player> tailPlayersTurn;
 	
 	public List<LeaderCard> getLeaderDeck() {
 		return leaderDeck;
@@ -207,20 +212,20 @@ public class GameInformation{
 		leaderDeck.add(new LeaderCard("Lucrezia Borgia", effect, requirement));
 		
 		/**
-		 * Federico da Montefeltro TODO
+		 * Federico da Montefeltro
 		 */
 		
 		requirement = player -> player.getDevelopmentCards(GC.DEV_TERRITORY).size() >= 5; 
-		behavior = null; //TODO
+		behavior = new EffectSelectAndSetFamiliarStartPower(GC.FM_COLOR, 6);
 		effect = new Effect(GC.ONCE_PER_TURN, behavior);
 		leaderDeck.add(new LeaderCard("Federico da Montefeltro", effect, requirement));
 		
 		/**
-		 * Lorenzo de’ Medici TODO
+		 * Lorenzo de’ Medici
 		 */
 		
 		requirement = player -> player.getResource().get(GC.RES_VICTORYPOINTS) >= 35;
-		behavior = null; //TODO
+		behavior = new EffectCopyLeader();
 		effect = new Effect(GC.IMMEDIATE, behavior);
 		leaderDeck.add(new LeaderCard("Lorenzo de’ Medici", effect, requirement));
 		
@@ -311,6 +316,8 @@ public class GameInformation{
 		behavior = new EffectDiscountResource(GC.DEV_TYPES, resource);
 		effect = new Effect(GC.WHEN_FIND_COST_CARD, behavior);
 		leaderDeck.add(new LeaderCard("Pico della Mirandola", effect, requirement));
+		
+		Collections.shuffle(leaderDeck);
 	}
 
 }

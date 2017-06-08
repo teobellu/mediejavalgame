@@ -54,14 +54,11 @@ public class Player {
 	public void addEffect (Effect eff){
 		if (eff == null) return;
 		eff.setPlayer(this);
-		if (eff.getWhenActivate() == GC.IMMEDIATE)
-			eff.activateEffect(GC.IMMEDIATE);
-		else
-			effects.add(eff);
-	}
-	
-	public void removeTempEffects(){
-		effects.removeIf(effect -> effect.getWhenActivate() == GC.TEMP);
+		switch(eff.getWhenActivate()){
+			case GC.IMMEDIATE : eff.activateEffect(GC.IMMEDIATE); break;
+			case GC.ON_CALL : eff.activateEffect(GC.ON_CALL); break;
+			default : effects.add(eff);
+		}
 	}
 	
 	public void addLeaderCard (LeaderCard newCard){
