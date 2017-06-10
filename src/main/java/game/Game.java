@@ -21,6 +21,8 @@ public class Game implements Runnable {
 	private boolean _isOver = false;
 	private final Room _theRoom;
 	
+	private boolean _hasPlacedFamiliar = false;
+	
 	private int _turnDuration;
 	
 	public Game(Room room) {
@@ -47,6 +49,7 @@ public class Game implements Runnable {
 						_state = _state.doState();
 					} while(_state!=null);
 				}
+				_hasPlacedFamiliar = false;
 				_state = new StateStartingTurn(this);
 			}
 			_turn++;
@@ -68,10 +71,6 @@ public class Game implements Runnable {
 		return _players.get(_phase);
 	}
 	
-	public Client getCurrentClient(){
-		return _theRoom.getPlayers().get(_phase);
-	}
-
 	public GameBoard getGameBoard() {
 		return _board;
 	}
@@ -83,5 +82,19 @@ public class Game implements Runnable {
 	
 	private void setupGame(){
 		_board = new GameBoard(_theRoom.getConfig());//TODO
+	}
+	
+	public boolean hasPlacedFamiliarYet(){
+		return _hasPlacedFamiliar;
+	}
+	
+	public void sendToCurrentPlayer(String message){
+		getCurrentPlayer().getClient().getConnectionHandler().sendToClient(message);
+	}
+	
+	public void sendToAllPlayers(String message){
+		for(Player p : _players){
+			p.getClient().getConnectionHandler().sendToClient(message);
+		}
 	}
 }

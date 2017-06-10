@@ -11,13 +11,12 @@ public class StateStartingTurn extends State{
 
 	public StateStartingTurn(Game game) {
 		super(game);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public State doState() {
 		try{
-			_theGame.getCurrentClient().getConnectionHandler().startTurn();
+			_player.getClient().getConnectionHandler().startTurn();
 			
 			String action = _theGame.getNextGameAction();
 			
@@ -30,15 +29,39 @@ public class StateStartingTurn extends State{
 	
 	protected State processAction(String action) throws GameException {
 		if(action==CommandStrings.PUT_FAMILIAR){
-			return new StatePlaceFamiliar(theGame);
+			if(_theGame.hasPlacedFamiliarYet()){
+				//TODO digli che non può farlo
+				
+				
+				return this;
+			} else {
+				return new StatePlaceFamiliar(_theGame);
+			}
 		} else if(action==CommandStrings.ACTIVATE_LEADER_CARD){
-			return new StatePlayLeaderCard(theGame);
+				if(!_player.getActivableLeaderCards().isEmpty()){
+					return new StatePlayLeaderCard(_theGame);
+				} else {
+					//TODO avvisa il player che non può farlo
+					return this;
+				}
+				
 		} else if(action==CommandStrings.DROP_LEADER_CARD){
-			return new StateDropLeaderCard(theGame);
+			if(!_player.getLeaderCards().isEmpty()){
+				return new StateDropLeaderCard(_theGame);
+			} else {
+				//TODO avvisa il player che non può farlo
+				return this;
+			}
+			
 		} else if(action==CommandStrings.END_TURN){
-			//TODO check se il player pu� passare il turno
+			if(_theGame.hasPlacedFamiliarYet()){
+				return null;
+			} else {
+				//TODO avvisa il player che deve piazzare un familiare
+				return this;
+			}
 		} else {
-			throw new GameException(getClass()+"ERROR: Wrong command in initial state");
+			throw new GameException(getClass()+"ERROR: Wrong command in StateStartingTurn.processAction(String action)");
 		}
 	}
 	

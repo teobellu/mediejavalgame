@@ -28,7 +28,8 @@ public class StatePlaceFamiliar extends State {
 	@Override
 	protected State processAction(String action) throws GameException {
 		if(action==CommandStrings.PUT_WHICH_FAMILIAR){
-			//TODO salva l'informazione da qualche parte
+			_whichFamiliar = _theGame.getNextGameAction();
+			//TODO controllare che sia effettivamente un familiare valido
 			//TODO fai i dovuti controlli
 			
 			return processAction(_theGame.getNextGameAction());
@@ -38,9 +39,11 @@ public class StatePlaceFamiliar extends State {
 			
 			return new StateStartingTurn(_theGame);
 		} else {
-			return null;
+			throw new GameException(getClass()+"ERROR: Wrong command in StatePlaceFamiliar.processAction(String action)");
 		}
 	}
+	
+	private String _whichFamiliar;
 	
 	private Logger _log = Logger.getLogger(StatePlaceFamiliar.class.getName());
 }

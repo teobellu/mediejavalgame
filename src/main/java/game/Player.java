@@ -1,18 +1,17 @@
 package game;
 
-import java.sql.Array;
-import java.util.*;
-import java.util.stream.Collector;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import game.effect.Effect;
-import server.ConnectionHandler;
-import game.state.*;
-import game.GC.*;
 import game.development.DevelopmentCard;
 import game.development.DevelopmentCardManager;
+import game.effect.Effect;
+import server.Client;
 
 public class Player {
+	
+	private final Client _client;
 	
 	private final int id;
 	private final String name;
@@ -31,7 +30,8 @@ public class Player {
 	
 	private DevelopmentCardManager manager = new DevelopmentCardManager();
 
-	protected Player(){
+	protected Player(Client client){
+		_client = client;
 		id = 5555555;
 		name = new String();
 		resource = new Resource();
@@ -174,8 +174,12 @@ public class Player {
 		this.freeMember = freeMember;
 	}
 
-	
+	public List<LeaderCard> getLeaderCards(){
+		return leaderCard;
+	}
 
-	
+	public Client getClient(){
+		return _client;
+	}
 	
 }

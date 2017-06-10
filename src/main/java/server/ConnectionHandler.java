@@ -21,4 +21,6 @@ public abstract class ConnectionHandler {
 	protected boolean _isRunning;
 	
 	public abstract String startTurn() throws RemoteException;
+	
+	public abstract void sendToClient(String message);
 }

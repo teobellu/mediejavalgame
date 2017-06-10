@@ -1,7 +1,5 @@
 package server;
 
-import util.packets.Packet;
-
 public class Client {
 
 	public Client(ConnectionHandler handler, String uuid) {
@@ -15,10 +13,6 @@ public class Client {
 	
 	public String getUUID(){
 		return _uuid;
-	}
-	
-	public void processMessage(Packet message){
-		
 	}
 	
 	public boolean isReady() {

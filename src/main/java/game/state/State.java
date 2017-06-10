@@ -8,11 +8,12 @@ import server.Client;
 public abstract class State {
 	
 	protected final Game _theGame;
-	protected Player _player;
+	protected final Player _player;
 	protected Client _client;
 	
 	public State(Game game){
 		_theGame = game;
+		_player = _theGame.getCurrentPlayer();
 	}
 	
 	public abstract State doState();
