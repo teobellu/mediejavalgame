@@ -37,7 +37,7 @@ public class GraphicalUI implements UI {
 	public void setConnection(String connectionType, String host, int port) {
 		_connectionHandler = ConnectionServerHandlerFactory.getConnectionServerHandler(connectionType, host, port);
 		
-		_connectionHandler.run();
+		new Thread(_connectionHandler).start();
 		
 		if(_connectionHandler.isRunning()){
 			sendXML();

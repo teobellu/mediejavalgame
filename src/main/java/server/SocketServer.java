@@ -18,7 +18,7 @@ public class SocketServer extends Thread {
 	public void run(){
 		ExecutorService executor = Executors.newCachedThreadPool();
 		try {
-			ServerSocket _serverSocket = new ServerSocket(2334);//TODO
+			_serverSocket = new ServerSocket(2334);//TODO
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -26,22 +26,24 @@ public class SocketServer extends Thread {
 		_IS_RUNNING = true;
 		_log.log(Level.INFO, "SocketServer ready");
 		
-		while(_IS_RUNNING){
+		do {
 			try {
 				Socket socket = _serverSocket.accept();
 				SocketConnectionHandler handler = new SocketConnectionHandler(socket);
 				
 				executor.submit(handler);
 			} catch (Exception e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
 				break;
+			} finally {
+				try {
+					_serverSocket.close();
+				} catch (IOException e) {
+					_log.log(Level.SEVERE, e.getMessage(), e);
+				}
 			}
-		}
+		} while(_IS_RUNNING);
 		
-		try {
-			_serverSocket.close();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
 		executor.shutdown();
 	}
 	
