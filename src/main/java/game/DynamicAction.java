@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import game.development.DevelopmentCard;
 import game.effect.Effect;
 
 /**
@@ -19,6 +20,7 @@ public class DynamicAction {
 	
 	//TODO
 	private GameBoard board;
+	private GameInformation gameInformation = new GameInformation();
 	
 	public void setBoardForTestOnly(GameBoard board){
 		this.board = board;
@@ -89,7 +91,7 @@ public class DynamicAction {
 	public void gain (Effect source, Resource res){
 		if (res == null) return;
 		gain(res);
-		if (source.getWhenActivate() == GC.IMMEDIATE)
+		if (source.getWhenActivate().equals(GC.IMMEDIATE))
 			activateEffect(res, source.getSource(), GC.WHEN_GAIN);
 	}
 	
@@ -163,7 +165,7 @@ public class DynamicAction {
 		playerFamiliar.add(familiar);
 		long countNotTransparent = playerFamiliar.stream()
 			.filter(fam -> fam.getOwner() == familiar.getOwner())
-			.filter(fam -> fam.getColor() != GC.FM_TRANSPARENT)
+			.filter(fam -> !fam.getColor().equals(GC.FM_TRANSPARENT))
 			.count();
 		if(countNotTransparent > 1) throw new GameException();
 	}
@@ -272,7 +274,7 @@ public class DynamicAction {
 	public Resource getDashboardRequirement(DevelopmentCard newCard){
 		int index = player.getDevelopmentCards(newCard.toString()).size();
 		int requirement = 0;
-		if (newCard.toString() == GC.DEV_TERRITORY)
+		if (newCard.toString().equals(GC.DEV_TERRITORY))
 			requirement = GC.REQ_TERRITORY.get(index);
 		return new Resource(GC.RES_MILITARYPOINTS, requirement);
 	}
@@ -315,13 +317,19 @@ public class DynamicAction {
 		if (!playerFamiliar.isEmpty()) throw new GameException();
 	}*/
 	
-	//TODO
+	/**
+	 *  comments TODO
+	 * @param familiar The familiar that the player wants to place
+	 * @throws GameException TODO
+	 */
 	public void placeCouncilPalace (FamilyMember familiar) throws GameException{
 		Space space = board.getCouncilPalaceSpace();
-		//canDicePaySpace(familiar, space);
-		space.setFamiliar(familiar);
+		int power = (Integer) activateEffect(familiar.getValue(), GC.WHEN_FIND_VALUE_ACTION);
+		if (power < space.getRequiredDiceValue())
+			throw new GameException();
+		if (!gameInformation.getHeadPlayersTurn().contains(player))
+			gameInformation.getHeadPlayersTurn().add(player);
 		player.addEffect(space.getInstantEffect());
-		//devo ora mettere il proprietario del familiare in coda a proxturno
 		endAction(familiar, space);
 	}
 	
@@ -339,6 +347,7 @@ public class DynamicAction {
 			canOccupySpace(familiar, space);
 		}
 		catch (GameException e) {
+			canOccupyForColorLogic(familiar, space.getFamiliar());
 			space = board.getWorkLongSpace(action);
 			canOccupySpace(familiar, space);
 		}
@@ -371,8 +380,8 @@ public class DynamicAction {
 	 */
 	public void launchesWork(Integer power, String action){
 		switch(action){
-			case GC.HARVEST : work(power, action, GC.DEV_TERRITORY);
-			case GC.PRODUCTION : work(power, action, GC.DEV_BUILDING);
+			case GC.HARVEST : work(power, action, GC.DEV_TERRITORY); break;
+			case GC.PRODUCTION : work(power, action, GC.DEV_BUILDING); break;
 			default : return;
 		}
 	}
@@ -399,11 +408,11 @@ public class DynamicAction {
 	private void endAction(FamilyMember familiar, Space space){
 		space.setFamiliar(familiar);
 		player.getFreeMember().removeIf(member -> member == familiar);
-		player.getEffects().removeIf(effect -> effect.getSource() == GC.ACTION_SPACE);
+		player.getEffects().removeIf(effect -> effect.getSource().equals(GC.ACTION_SPACE));
 	}
 	
 	/**
-	 * TODO TODO
+	 * TODO
 	 */
 	public void showVaticanSupport(){
 		activateEffect(GC.WHEN_SHOW_SUPPORT);
@@ -440,8 +449,8 @@ public class DynamicAction {
 		activateEffect(GC.WHEN_END);
 		int territory = player.getDevelopmentCards(GC.DEV_TERRITORY).size();
 		int character = player.getDevelopmentCards(GC.DEV_CHARACTER).size();
-		int building = player.getDevelopmentCards(GC.DEV_BUILDING).size();
-		int venture = player.getDevelopmentCards(GC.DEV_VENTURE).size();
+		//int building = player.getDevelopmentCards(GC.DEV_BUILDING).size();
+		//int venture = player.getDevelopmentCards(GC.DEV_VENTURE).size();
 		addFinalReward(GC.REW_TERRITORY, territory);
 		addFinalReward(GC.REW_CHARACTER, character);
 		exchangeResourceToVictory();

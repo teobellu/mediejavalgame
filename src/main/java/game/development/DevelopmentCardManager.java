@@ -1,6 +1,8 @@
-package game;
+package game.development;
 
 import java.util.*;
+
+import game.GC;
 
 public class DevelopmentCardManager {
 	private List<DevelopmentCard> tList = new ArrayList<>();
@@ -33,7 +35,7 @@ public class DevelopmentCardManager {
     		case GC.DEV_CHARACTER : return cList;
     		case GC.DEV_BUILDING : return bList;
     		case GC.DEV_VENTURE : return vList;
-    		default : return null;
+    		default : return new ArrayList<>();
     	}
     }
 

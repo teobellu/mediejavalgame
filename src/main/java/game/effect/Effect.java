@@ -19,7 +19,6 @@ public class Effect {
 		this.whenActivate = whenActivate;
 		this.iEffectBehavior = iEffectBehavior;
 		source = GC.DEFAULT;
-		toScan = new String();
 	}
 	
 	public void activateEffect (String time){
@@ -75,6 +74,7 @@ public class Effect {
 	/**
 	 * TODO utile per gli effetti istantanei
 	 * @return
+	 * 
 	 */
 	public String getWhenActivate() {
 		return whenActivate;

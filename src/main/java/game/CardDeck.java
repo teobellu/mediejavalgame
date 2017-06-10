@@ -9,7 +9,7 @@ public class CardDeck<T extends ICard> {
 	private List<T> deck;
 	
 	public CardDeck(){
-		deck = new ArrayList<T>();
+		deck = new ArrayList<>();
 	}
 
 	public List<T> getDeck() {

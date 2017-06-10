@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+import game.development.DevelopmentCard;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 import game.effect.behaviors.EffectCopyLeader;
@@ -29,6 +30,16 @@ public class GameInformation{
 	 * Used for activate a specific leader card TODO
 	 */
 	private HashMap<LeaderCard, Player> discardedLeader;
+	
+
+	public void setQleaderDeck(List<? extends ICard> qleaderDeck) {
+		this.qleaderDeck = qleaderDeck;
+	}
+
+	public void setLeaderDeck(List<LeaderCard> leaderDeck) {
+		this.leaderDeck = leaderDeck;
+	}
+
 	private CardDeck<DevelopmentCard> developmentDeck;
 	private CardDeck<ExcommunicationCard> excommunicationDeck;
 	private CardDeck<LeaderCard> leaderCardsDeck;
@@ -39,20 +50,49 @@ public class GameInformation{
 	private List<Player> headPlayersTurn;
 	private List<Player> tailPlayersTurn;
 	
+	/**
+	 * TODO trova il prossimo ordine dei turni
+	 */
+	public void nextPlayersTurn(){
+		List<Player> nextList = new ArrayList<>();
+		headPlayersTurn.forEach(player -> nextList.add(player));
+		playersTurn.stream().forEach(player -> nextList.add(player));
+		playersTurn.clear();
+		nextList.stream()
+			.filter(player -> !playersTurn.contains(player))
+			.forEach(player -> playersTurn.add(player));
+		headPlayersTurn.clear();
+	}
+	
+	/**
+	 * TODO VERIFICA SE IL GIOCATORE DEVE SALTARE IL TURNO
+	 * @param player
+	 * @return
+	 */
+	public boolean hasToJumpTurn(Player player){
+		if (!tailPlayersTurn.contains(player))
+			return false;
+		tailPlayersTurn.removeIf(item -> item == player);
+		return true;
+	}
+	
 	public List<LeaderCard> getLeaderDeck() {
 		return leaderDeck;
 	}
-
+	
 	private List<? extends ICard> qdevelopmentDeck;
 	private List<? extends ICard> qexcommunicationDeck;
 	private List<? extends ICard> qleaderDeck;
 	
 	
 	public GameInformation(){
-		discardedLeader = new HashMap<LeaderCard, Player>();
+		discardedLeader = new HashMap<>();
 		developmentDeck = new CardDeck<>();
 		excommunicationDeck = new CardDeck<>();
 		leaderCardsDeck = new CardDeck<>();
+		playersTurn = new ArrayList<>();
+		headPlayersTurn = new ArrayList<>();
+		tailPlayersTurn = new ArrayList<>();
 	}
 	
 	public void deckBuilder(UserConfig userConfig){
@@ -68,8 +108,8 @@ public class GameInformation{
 			c = excommunicationDeck.getDeck().stream()
 				.filter(card -> card.getAge() == 1) //TODO
 				.findFirst();
-			if (!c.isPresent()) ; //TODO
-			exCard[i] = c.get();
+			if (c.isPresent()) //TODO
+				exCard[i] = c.get();
 		}
 	}
 
@@ -318,6 +358,66 @@ public class GameInformation{
 		leaderDeck.add(new LeaderCard("Pico della Mirandola", effect, requirement));
 		
 		Collections.shuffle(leaderDeck);
+	}
+	
+	public CardDeck<ExcommunicationCard> getExcommunicationDeck() {
+		return excommunicationDeck;
+	}
+
+	public void setExcommunicationDeck(CardDeck<ExcommunicationCard> excommunicationDeck) {
+		this.excommunicationDeck = excommunicationDeck;
+	}
+
+	public CardDeck<LeaderCard> getLeaderCardsDeck() {
+		return leaderCardsDeck;
+	}
+
+	public void setLeaderCardsDeck(CardDeck<LeaderCard> leaderCardsDeck) {
+		this.leaderCardsDeck = leaderCardsDeck;
+	}
+
+	public List<Player> getPlayersTurn() {
+		return playersTurn;
+	}
+
+	public void setPlayersTurn(List<Player> playersTurn) {
+		this.playersTurn = playersTurn;
+	}
+
+	public List<Player> getHeadPlayersTurn() {
+		return headPlayersTurn;
+	}
+
+	public void setHeadPlayersTurn(List<Player> headPlayersTurn) {
+		this.headPlayersTurn = headPlayersTurn;
+	}
+
+	public List<Player> getTailPlayersTurn() {
+		return tailPlayersTurn;
+	}
+
+	public void setTailPlayersTurn(List<Player> tailPlayersTurn) {
+		this.tailPlayersTurn = tailPlayersTurn;
+	}
+
+	public List<? extends ICard> getQdevelopmentDeck() {
+		return qdevelopmentDeck;
+	}
+
+	public void setQdevelopmentDeck(List<? extends ICard> qdevelopmentDeck) {
+		this.qdevelopmentDeck = qdevelopmentDeck;
+	}
+
+	public List<? extends ICard> getQexcommunicationDeck() {
+		return qexcommunicationDeck;
+	}
+
+	public void setQexcommunicationDeck(List<? extends ICard> qexcommunicationDeck) {
+		this.qexcommunicationDeck = qexcommunicationDeck;
+	}
+
+	public List<? extends ICard> getQleaderDeck() {
+		return qleaderDeck;
 	}
 
 }

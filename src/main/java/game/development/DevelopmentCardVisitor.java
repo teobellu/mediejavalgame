@@ -1,4 +1,4 @@
-package game;
+package game.development;
 
 public interface DevelopmentCardVisitor {
 	void visit(Territory t);

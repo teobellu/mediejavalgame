@@ -1,12 +1,16 @@
 package game;
 
+import java.sql.Array;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import game.effect.Effect;
 import server.ConnectionHandler;
 import game.state.*;
 import game.GC.*;
+import game.development.DevelopmentCard;
+import game.development.DevelopmentCardManager;
 
 public class Player {
 	
@@ -59,6 +63,12 @@ public class Player {
 			case GC.ON_CALL : eff.activateEffect(GC.ON_CALL); break;
 			default : effects.add(eff);
 		}
+	}
+	
+	public List<LeaderCard> getActivableLeaderCards(){
+		return leaderCard.stream()
+			.filter(card -> card.canPlayThis(this))
+			.collect(Collectors.toList());
 	}
 	
 	public void addLeaderCard (LeaderCard newCard){

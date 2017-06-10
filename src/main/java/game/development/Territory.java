@@ -1,7 +1,8 @@
-package game;
+package game.development;
 
 import java.util.List;
 
+import game.GC;
 import game.effect.Effect;
 
 public class Territory extends DevelopmentCard{

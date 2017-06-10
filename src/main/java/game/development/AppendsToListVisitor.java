@@ -1,4 +1,6 @@
-package game;
+package game.development;
+
+import game.GC;
 
 public class AppendsToListVisitor implements DevelopmentCardVisitor{
 

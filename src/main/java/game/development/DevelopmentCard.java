@@ -1,9 +1,11 @@
-package game;
+package game.development;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import game.ICard;
+import game.Resource;
 import game.effect.Effect;
 
 public abstract class DevelopmentCard implements ICard{

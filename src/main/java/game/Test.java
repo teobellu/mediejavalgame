@@ -1,11 +1,23 @@
 package game;
 
+import java.sql.Array;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import com.sun.javafx.runtime.async.AsyncOperationListener;
+
+import game.development.Building;
+import game.development.DevelopmentCard;
+import game.development.Venture;
 import game.effect.Effect;
 import game.effect.behaviors.*;
 
+/**
+ * classe per testare i metodi
+ *
+ */
 public class Test {
 	
 	public static final Resource ser3 = new Resource(GC.RES_SERVANTS, 3);
@@ -59,10 +71,38 @@ public class Test {
 		
 		//b.getWorkLongSpace(GC.HARVEST)args;
 		
+		Player g1 = new Player();
+		Player g2 = new Player();
+		Player g3 = new Player();
+		Player g4 = new Player();
+		
+		gi.getPlayersTurn().addAll(Arrays.asList(g1, g2, g3, g4));
+		
+		DynamicAction d1 = new DynamicAction(g1);
+		DynamicAction d2 = new DynamicAction(g2);
+		DynamicAction d3 = new DynamicAction(g3);
+		DynamicAction d4 = new DynamicAction(g4);
+		
+		gi.getHeadPlayersTurn().add(g2);
+		gi.getHeadPlayersTurn().add(g3);
+		gi.getHeadPlayersTurn().add(g2);
+		gi.getTailPlayersTurn().add(g3);
+		
+		gi.nextPlayersTurn();
+		
+		for (Player x : gi.getPlayersTurn())
+			if (x == g1) System.out.println(1);
+			else if (x == g2) System.out.println(2);
+			else if (x == g3) System.out.println(3);
+			else if (x == g4) System.out.println(4);
+		
+		
 		p.addEffect(new Effect(GC.IMMEDIATE, new EffectGetACard(GC.DEV_TERRITORY, 1, sto1)));
 		
 		joy.placeWork(f3, GC.HARVEST);
 		joy.placeWork(f4, GC.HARVEST);
+		
+		joy.placeCouncilPalace(f2);
 		
 		p.showRes();
 		

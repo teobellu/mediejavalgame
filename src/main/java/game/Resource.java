@@ -29,7 +29,7 @@ public class Resource {
 	 * Creates an empty resource package.
 	 */
 	public Resource() {
-		hoard = new HashMap <String, Integer>();
+		hoard = new HashMap <>();
 	}
 
 	/**
@@ -61,7 +61,8 @@ public class Resource {
 	 * @param addition Resource to add
 	 */
 	public void add(Resource addition){
-		if(addition == null) return;
+		if(addition == null) 
+			return;
 		GC.RES_TYPES.stream()
 			.filter(type -> addition.get(type) > 0)
 			.forEach(type -> add(type, addition.get(type)));
@@ -74,12 +75,14 @@ public class Resource {
 	 * @throws GameException Some types of resources have a negative amount
 	 */
 	public void sub(Resource price) throws GameException{
-		if(price == null) return;
+		if(price == null) 
+			return;
 		Optional<String> check = GC.RES_TYPES.stream()
 			.filter(type -> price.get(type) > 0)
-			.filter(type -> hoard.containsKey(type) == false || hoard.get(type) < price.get(type))
+			.filter(type -> !hoard.containsKey(type) || hoard.get(type) < price.get(type))
 			.findFirst();
-		if (check.isPresent()) throw new GameException();
+		if (check.isPresent()) 
+			throw new GameException();
 		GC.RES_TYPES.stream()
 			.filter(type -> price.get(type) > 0)
 			.forEach(type -> add(type, -price.get(type)));

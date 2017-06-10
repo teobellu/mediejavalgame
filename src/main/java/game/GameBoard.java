@@ -3,6 +3,8 @@ package game;
 import java.util.*;
 
 import game.UserConfig;
+import game.development.DevelopmentCard;
+import game.development.Territory;
 import game.effect.Effect;
 import game.effect.behaviors.EffectGetResource;
 import game.effect.behaviors.EffectIncreaseActionPower;
@@ -61,6 +63,8 @@ public class GameBoard {
 		simulator();
 		Effect x = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.HARVEST, -3));
 		x.setSource(GC.ACTION_SPACE);
+		
+		councilPalaceSpace = new Space(1, null, false);
 		
 		market[0] = new Space(1, null, true);
 		harvestPos = new Space(1, null, true);

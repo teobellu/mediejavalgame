@@ -6,6 +6,13 @@ import java.util.List;
 
 public class GC {
 	
+	/**
+	 * Private constructor to hide the implicit public one
+	 */
+	private GC(){
+		
+	}
+	
 	public static final String DEFAULT = "default";
 	public static final String LEADER_CARD = "leader card";
 	public static final String ACTION_SPACE = "action space";
@@ -58,8 +65,6 @@ public class GC {
 	public static final String HARVEST = "harvest";
 	public static final String PRODUCTION = "production";
 	
-	
-	
 	public static final String DEV_TERRITORY = "territory";
 	public static final String DEV_BUILDING = "building";
 	public static final String DEV_CHARACTER = "character";
@@ -73,7 +78,5 @@ public class GC {
 	public static final Integer MAX_DEVELOPMENT_CARDS = 6;
 	
 	public static final Integer END_REWARD_RESOURCE = 5;
-	
-	
 
 }
