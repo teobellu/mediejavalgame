@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
-import client.cli.UI;
-import client.cli.UIFactory;
 import client.network.ConnectionServerHandler;
 import util.Constants;
 import util.IOHandler;
@@ -25,14 +25,15 @@ public class Client extends Thread {
 		
 		//Get UI
 		_ioHandler.write("Vuoi giocare da Command Line Interface (CLI) o da Graphical User Interface (GUI)?");
-		int i = 0;
-		for(String ui : Constants.USER_INTERFACE_TYPES){
-			_ioHandler.write(i + ") " + ui);
-			i++;
-		}
-		i--;
 		
-		_ui = UIFactory.getUserInterface(_ioHandler.readNumberWithinInterval(i));
+		int index = 0;
+		for(String ui : Constants.USER_INTERFACE_TYPES){
+			_ioHandler.write(index + ") " + ui);
+			index++;
+		}
+		index--;
+		
+		_ui = UIFactory.getUserInterface(_ioHandler.readNumberWithinInterval(index));
 		
 		if (_ui == null) {
 			_log.log(Level.SEVERE, "Can't get a UserInterface. What's goign on?");

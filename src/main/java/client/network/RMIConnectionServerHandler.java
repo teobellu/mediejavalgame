@@ -105,4 +105,18 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	private Registry _registry;
 	private ConnectionHandlerRemote _connectionHandler;
 	private final Logger _logger = Logger.getLogger(RMIConnectionServerHandler.class.getName());
+	
+	/****************/
+	
+	@Override
+	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void putFamiliarWhere(String position) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -60,7 +60,7 @@ public class IOHandler {
 		do {
 			i = readNumber();
 			if(i<startingPoint || i>endingPoint){
-				_writer.write("You must choose between "+startingPoint+"and"+endingPoint);
+				write("You must choose between "+startingPoint+" and "+endingPoint);
 			} else {
 				break;
 			}

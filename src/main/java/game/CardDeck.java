@@ -16,7 +16,6 @@ public class CardDeck<T extends ICard> {
 		return deck;
 	}
 
-
 	public void setDeck(List<T> deck) {
 		this.deck = deck;
 	}

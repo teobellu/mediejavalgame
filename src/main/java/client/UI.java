@@ -1,4 +1,4 @@
-package client.cli;
+package client;
 
 public interface UI {
 		

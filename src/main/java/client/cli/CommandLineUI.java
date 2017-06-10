@@ -1,6 +1,7 @@
 package client.cli;
 
 import client.ClientText;
+import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
 import util.Constants;
@@ -8,6 +9,8 @@ import util.IOHandler;
 
 public class CommandLineUI implements UI {
 
+	private final IOHandler _ioHandler;
+	
 	public CommandLineUI() {
 		_ioHandler = new IOHandler();
 	}
@@ -65,6 +68,14 @@ public class CommandLineUI implements UI {
 	public void write(String str) {
 		_ioHandler.write(str);
 	}
-	
-	private final IOHandler _ioHandler;
+
+	@Override
+	public void start() {
+		_ioHandler.write("ok hai scelto CLI, ora qui sono bloccato. Cosa faccio?");
+	}
+
+	@Override
+	public void setConnection(String connectionType, String host, int port) {
+		// TODO Auto-generated method stub	
+	}
 }
