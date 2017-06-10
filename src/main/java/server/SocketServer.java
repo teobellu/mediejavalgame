@@ -1,5 +1,6 @@
 package server;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -22,6 +23,7 @@ public class SocketServer extends Thread {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
+		_IS_RUNNING = true;
 		_log.log(Level.INFO, "SocketServer ready");
 		
 		while(_IS_RUNNING){
@@ -32,9 +34,14 @@ public class SocketServer extends Thread {
 				executor.submit(handler);
 			} catch (Exception e) {
 				break;
-			}	
+			}
 		}
 		
+		try {
+			_serverSocket.close();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 		executor.shutdown();
 	}
 	

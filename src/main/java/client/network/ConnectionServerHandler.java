@@ -27,12 +27,34 @@ public abstract class ConnectionServerHandler extends Thread {
 		_client = client;
 	}
 	
-	public abstract void sendName(String name) throws RemoteException;
+	/**
+	 * Setup me
+	 * @param name the name of the player
+	 * @throws RemoteException
+	 */
+	public abstract void sendInitialInformations(String name) throws RemoteException;
 	
+	/**
+	 * Tell the server that I want to put a familiar somewhere
+	 * @return the list of available familiars
+	 * @throws RemoteException
+	 */
 	public abstract List<String> putFamiliar() throws RemoteException;
 	
+	
+	/**
+	 * Tell the server which familiar I want to place down
+	 * @param familiar the familiar I want to put down
+	 * @return list of available places
+	 * @throws RemoteException
+	 */
 	public abstract List<String> putFamiliarWhich(String familiar) throws RemoteException;
 	
+	/**
+	 * Tell the server where I want to put the familiar
+	 * @param position where i want to put the familiar
+	 * @throws RemoteException
+	 */
 	public abstract void putFamiliarWhere(String position) throws RemoteException;
 
 	/**
@@ -56,6 +78,10 @@ public abstract class ConnectionServerHandler extends Thread {
 	 */
 	public abstract void activateLeaderCard(String card) throws RemoteException;
 		
+	/**
+	 * Ping the server that I'm still connected
+	 * @throws RemoteException
+	 */
 	public abstract void ping() throws RemoteException;
 	
 	public abstract void onConnect() throws RemoteException;
@@ -66,6 +92,40 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws RemoteException
 	 */
 	public abstract boolean addMeToGame() throws RemoteException;
+	
+	/**
+	 * Tell the server if I want to spend my faith points
+	 * @param doI
+	 * @throws RemoteException
+	 */
+	public abstract void doIspendMyFaithPoints(boolean doI) throws RemoteException;
+	
+	/**
+	 * Tells the server that I want to end my turn
+	 * @return can I end my turn?
+	 * @throws RemoteException
+	 */
+	public abstract boolean endTurn() throws RemoteException;
+	
+	/**
+	 * Tell the server I want to drop a leader card
+	 * @return list of available leader cards
+	 * @throws RemoteException
+	 */
+	public abstract List<String> dropLeaderCard() throws RemoteException;
+	
+	/**
+	 * Tell the server which card I want to drop
+	 * @throws RemoteException
+	 */
+	public abstract void dropWhichLeaderCard() throws RemoteException;
+	
+	/**
+	 * Tell the server how I want to convert the council privilege
+	 * @param resource into i want to convert the privilege
+	 * @throws RemoteException
+	 */
+	public abstract void spendCouncilPrivilege(String resource) throws RemoteException;
 	
 	protected boolean _isRunning = false;
 	protected final String _host;

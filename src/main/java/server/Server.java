@@ -36,9 +36,9 @@ public class Server extends Thread {
 		_games = new ArrayList<>();
 		
 		//TODO condizione di stop
-		boolean condition = true;
+		_isRunning = true;
 		
-		while(condition){
+		while(_isRunning){
 			for(Room r : _games){
 				if(r.isReady() && !r.isRunning()){
 					r.start();
@@ -53,7 +53,8 @@ public class Server extends Thread {
 		stopServer();
 	}
 	
-	public void stopServer(){
+	private void stopServer(){
+		
 		for(Room r : _games){
 			_games.remove(r);
 		}
@@ -92,7 +93,12 @@ public class Server extends Thread {
 			return false;
 		}
 	}
+	
+	public void shutdown(){
+		_isRunning = false;
+	}
 
+	private boolean _isRunning = false;
 	private List<Room> _games;
 	private ServerRMI _serverRMI;
 	private SocketServer _serverSocket;

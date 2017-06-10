@@ -37,8 +37,8 @@ public class Client extends Thread {
 			_log.log(Level.SEVERE, "Can't get a UserInterface. What's goign on?");
 			this.shutdown();
 		}
-				
-		_ui.start();
+		
+		new Thread(_ui).start();
 	}
 	
 	private void doGame() throws RemoteException {

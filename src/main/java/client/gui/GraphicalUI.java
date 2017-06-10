@@ -28,7 +28,8 @@ public class GraphicalUI implements UI {
 		return _instance;
 	}
 	
-	public void start(){
+	@Override
+	public void run(){
 		Application.launch(GUI.class, new String[0]);
 	}
 
@@ -38,7 +39,7 @@ public class GraphicalUI implements UI {
 		
 		_connectionHandler.run();
 		
-		if(_connectionHandler!=null && _connectionHandler.isRunning()){
+		if(_connectionHandler.isRunning()){
 			sendXML();
 		}
 	}
