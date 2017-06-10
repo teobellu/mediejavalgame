@@ -1,7 +1,7 @@
 package game.state;
 
+import exceptions.GameException;
 import game.Game;
-import server.Client;
 
 public class VaticanState extends State {
 
@@ -11,6 +11,12 @@ public class VaticanState extends State {
 
 	@Override
 	public State doState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected State processAction(String action) throws GameException {
 		// TODO Auto-generated method stub
 		return null;
 	}

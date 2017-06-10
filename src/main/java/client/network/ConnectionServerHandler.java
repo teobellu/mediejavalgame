@@ -42,10 +42,9 @@ public abstract class ConnectionServerHandler implements Runnable {
 	
 	/**
 	 * Tell the server that you want to activate a leader card
-	 * @return a list of your leader cards
 	 * @throws RemoteException
 	 */
-	public abstract List<String> activateLeaderCard() throws RemoteException;
+	public abstract void activateLeaderCard() throws RemoteException;
 	
 	/**
 	 * Tell the server which leader card you want to activate

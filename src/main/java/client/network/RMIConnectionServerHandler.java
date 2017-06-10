@@ -44,13 +44,24 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	public void putFamiliar() throws RemoteException {
 		_connectionHandler.putFamiliar();
 	}
+	
+	@Override
+	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
+		_connectionHandler.putFamiliarWhich();
+	}
+
+	@Override
+	public void putFamiliarWhere(String position) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see client.network.ConnectionServerHandler#activateLeaderCard()
 	 */
 	@Override
-	public List<String> activateLeaderCard() throws RemoteException {
-		return _connectionHandler.activateLeaderCard();
+	public void activateLeaderCard() throws RemoteException {
+		_connectionHandler.activateLeaderCard();
 	}
 	
 	/* (non-Javadoc)
@@ -82,27 +93,15 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 		_connectionHandler.sendConfigFile(file);
 	}
 	
-	/*°***************metodi che attendono una risposta dal server*********************/
+	/*ï¿½***************metodi che attendono una risposta dal server*********************/
 	
 	public boolean hasMyTurnStarted() throws RemoteException{
 		return _connectionHandler.hasMyTurnStarted();
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	private ServerRemote _serverRMI;
 	private Registry _registry;
 	private ConnectionHandlerRemote _connectionHandler;
 	private final Logger _logger = Logger.getLogger(RMIConnectionServerHandler.class.getName());
+	
 }

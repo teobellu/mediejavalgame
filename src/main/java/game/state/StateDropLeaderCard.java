@@ -29,7 +29,7 @@ public class StateDropLeaderCard extends State {
 	protected State processAction(String whichLeaderCard) throws GameException {
 		for(LeaderCard lc : _player.getLeaderCards()){
 			if(lc.getName()==whichLeaderCard){
-				_player.getDynamicBar().discardLeaderCard(lc);
+				_theGame.getDynamicBar().discardLeaderCard(lc);
 				return new StateStartingTurn(_theGame);
 			}
 		}

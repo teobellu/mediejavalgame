@@ -17,10 +17,10 @@ public abstract class ConnectionHandler {
 	
 	public abstract void onConnect() throws RemoteException;
 	
-	protected Client _client;
-	protected boolean _isRunning;
-	
 	public abstract String startTurn() throws RemoteException;
 	
 	public abstract void sendToClient(String message);
+	
+	protected Client _client;
+	protected boolean _isRunning;
 }

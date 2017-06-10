@@ -3,10 +3,11 @@ package server;
 import java.rmi.RemoteException;
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Logger;
 
+import game.Game;
 import misc.ConnectionHandlerRemote;
+import util.CommandStrings;
 import util.Constants;
 
 public class RMIConnectionHandler extends ConnectionHandler implements Runnable, ConnectionHandlerRemote {
@@ -26,9 +27,18 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 		_lastPing = Date.from(Instant.now());	}
 
 	@Override
-	public List<String> activateLeaderCard() throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public void activateLeaderCard() throws RemoteException {
+		synchronized (_theGame.getCommandList()) {
+			_theGame.getCommandList().add(CommandStrings.ACTIVATE_LEADER_CARD);
+		}
+	}
+	
+	@Override
+	public void activateLeaderCard(String card) throws RemoteException {
+		synchronized (_theGame.getCommandList()) {
+			_theGame.getCommandList().add(CommandStrings.ACTIVATE_WHICH_LEADER_CARD);
+			_theGame.getCommandList().add(card);
+		}
 	}
 
 	@Override
@@ -39,8 +49,9 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 
 	@Override
 	public void putFamiliar() throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		synchronized (_theGame.getCommandList()) {
+			_theGame.getCommandList().add(CommandStrings.PUT_FAMILIAR);
+		}
 	}
 	
 	private boolean isTimeoutOver(){
@@ -64,9 +75,27 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 		
 	}
 	
-	public void startTurn(){
+	public String startTurn(){
 		_hasMyTurnStarted = true;
 	}
+	
+	@Override
+	public boolean hasMyTurnStarted() throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void sendToClient(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void setGame(){
+		_theGame = _client.getRoom().getGame();
+	}
+	
+	private Game _theGame = null;
 	
 	private boolean _hasMyTurnStarted = false;
 	private Date _lastPing;

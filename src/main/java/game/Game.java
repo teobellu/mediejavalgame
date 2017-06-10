@@ -1,9 +1,11 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
-import game.state.InitialState;
 import game.state.State;
 import game.state.StateStartingTurn;
 import game.state.VaticanState;
@@ -21,6 +23,10 @@ public class Game implements Runnable {
 	private boolean _isOver = false;
 	private final Room _theRoom;
 	
+	private Deque<String> _commandActionList = new ConcurrentLinkedDeque<>();
+	
+	private final DynamicAction _dynamicAction;
+	
 	private boolean _hasPlacedFamiliar = false;
 	
 	private int _turnDuration;
@@ -30,8 +36,10 @@ public class Game implements Runnable {
 		_turn = 0;
 		_phase = 0;
 		for(Client cli : _theRoom.getPlayers()){
-			_players.add(new Player());//TODO
+			_players.add(new Player(cli));//TODO
 		}
+		_dynamicAction = new DynamicAction(this);
+		
 	}
 	
 	@Override
@@ -96,5 +104,13 @@ public class Game implements Runnable {
 		for(Player p : _players){
 			p.getClient().getConnectionHandler().sendToClient(message);
 		}
+	}
+	
+	public DynamicAction getDynamicBar(){
+		return _dynamicAction;
+	}
+	
+	public Deque<String> getCommandList(){
+		return _commandActionList;
 	}
 }

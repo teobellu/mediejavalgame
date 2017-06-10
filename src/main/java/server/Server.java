@@ -70,14 +70,6 @@ public class Server extends Thread {
 		return;
 	}
 	
-	private void askForCustomSettings(Client client, Room r) {
-		// TODO Auto-generated method stub
-		
-		
-		
-		r.setStartTime(time);
-	}
-	
 	public synchronized boolean addMeToGame(ConnectionHandler handler){
 		String id = UUID.randomUUID().toString();
 		Client client = new Client(handler, id);

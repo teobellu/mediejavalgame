@@ -82,6 +82,10 @@ public class Room extends Thread {
 		
 	}
 	
+	public Game getGame(){
+		return _theGame;
+	}
+	
 	private long _startTimeSeconds = Constants.DEFAULT_START_ROOM_TIME_MILLIS;
 	private Game _theGame;
 	private boolean _isRunning = false;

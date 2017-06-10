@@ -58,7 +58,6 @@ public class ServerRMI extends Thread implements ServerRemote {
 	 */
 	public ConnectionHandler onConnect(){
 		/*TODO 
-		 * Server cerca il registro del client????
 		 * Viene chiamato onConnect() di Server.
 		 * */
 		ConnectionHandler connectionHandler = new RMIConnectionHandler();

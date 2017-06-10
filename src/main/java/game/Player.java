@@ -10,7 +10,7 @@ import game.effect.Effect;
 import server.Client;
 
 public class Player {
-	
+
 	private final Client _client;
 	
 	private final int id;

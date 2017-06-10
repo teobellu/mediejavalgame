@@ -17,7 +17,7 @@ public class SocketServer extends Thread {
 	public void run(){
 		ExecutorService executor = Executors.newCachedThreadPool();
 		try {
-			ServerSocket _serverSocket = new ServerSocket(2334);
+			ServerSocket _serverSocket = new ServerSocket(2334);//TODO
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -30,9 +30,6 @@ public class SocketServer extends Thread {
 				SocketConnectionHandler handler = new SocketConnectionHandler(socket);
 				
 				executor.submit(handler);
-				if(Server.getInstance().onConnect(handler)){
-					
-				}
 			} catch (Exception e) {
 				break;
 			}	
