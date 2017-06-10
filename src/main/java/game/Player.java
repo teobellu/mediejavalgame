@@ -129,6 +129,10 @@ public class Player {
 		return resource;
 	}
 
+	public List<LeaderCard> getLeaderCard() {
+		return leaderCard;
+	}
+
 	public List<Effect> getEffects() {
 		return effects;
 	}

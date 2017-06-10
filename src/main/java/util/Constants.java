@@ -1,18 +1,27 @@
 package util;
 
 public class Constants {
+	
+	/**
+	 * Private constructor to hide the implicit public one
+	 */
+	private Constants(){
+		
+	}
+	
+	
 	public static final String RMI = "RMI";
 	public static final String SOCKET = "Socket";
 	
-	public static final String[] CONNECTION_TYPES = new String[]{
+	protected static final String[] CONNECTION_TYPES = new String[]{
 		RMI,
 		SOCKET
 	};
 	
-	public final static String CLI = "CLI";
-	public final static String GUI = "GUI";
+	public static final String CLI = "CLI";
+	public static final  String GUI = "GUI";
 	
-	public static final String[] USER_INTERFACE_TYPES = new String[]{
+	protected static final String[] USER_INTERFACE_TYPES = new String[]{
 			CLI,
 			GUI
 	};
