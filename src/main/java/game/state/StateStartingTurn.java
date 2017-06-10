@@ -47,6 +47,7 @@ public class StateStartingTurn extends State{
 				
 		} else if(action==CommandStrings.DROP_LEADER_CARD){
 			if(!_player.getLeaderCards().isEmpty()){
+				_player.getClient().getConnectionHandler().sendToClient(CommandStrings.DROP_WHICH_LEADER_CARD);
 				return new StateDropLeaderCard(_theGame);
 			} else {
 				//TODO avvisa il player che non può farlo

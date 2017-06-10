@@ -2,10 +2,10 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import game.development.DevelopmentCard;
 import game.effect.Effect;
+import util.CommandStrings;
 
 /**
  * An integral part of the game controller, acts as a player joystick.
@@ -87,7 +87,21 @@ public class DynamicAction {
 		if (res == null) 
 			return;
 		res = (Resource) activateEffect(res, GC.WHEN_GAIN);
+		if(res.get(GC.RES_COUNCIL) > 0) {
+			handleCouncil(res);
+		}
 		player.gain(res);
+	}
+	
+	private void handleCouncil(Resource res){
+		game.getCurrentPlayer().getClient().getConnectionHandler().sendToClient(CommandStrings.HANDLE_COUNCIL);
+		String action = game.getNextGameAction();
+		if(action==CommandStrings.HANDLE_COUNCIL){
+			action = game.getNextGameAction();
+			if(GC.RES_TYPES.contains(action)&&action!=GC.RES_COUNCIL){
+				//TODO converti nella quantità di risorse corrispondenti e aggiungile a res
+			}
+		}
 	}
 	
 	/**

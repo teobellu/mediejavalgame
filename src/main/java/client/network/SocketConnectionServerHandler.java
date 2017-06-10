@@ -126,22 +126,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public synchronized List<String> activateLeaderCard() throws RemoteException {
+	public synchronized void activateLeaderCard() throws RemoteException {
 		try{
 			String message = CommandStrings.ACTIVATE_LEADER_CARD;
 			writeObject(message);
-			List<String> cards = new ArrayList<String>();
-			while(message!=CommandStrings.END_TRANSMISSION){
-				message = (String) readObject();
-				if(message!=null){
-					cards.add(message);
-				}
-			}
-			
-			return cards;
 		} catch (Exception e){
 			_log.log(Level.SEVERE, e.getMessage(), e);
-			return null;
 		}
 	}
 	

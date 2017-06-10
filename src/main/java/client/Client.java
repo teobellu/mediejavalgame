@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import client.network.ConnectionServerHandler;
 import util.Constants;

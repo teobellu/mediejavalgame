@@ -5,8 +5,11 @@ import java.util.List;
 
 import client.Client;
 
-public abstract class ConnectionServerHandler implements Runnable {
+public abstract class ConnectionServerHandler extends Thread {
 
+	@Override
+	public void run() {}
+	
 	public ConnectionServerHandler(String host, int port) {
 		_host = host;
 		_port = port;

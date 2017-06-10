@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import exceptions.GameException;
 import game.Game;
 import game.LeaderCard;
+import util.CommandStrings;
 
 public class StateDropLeaderCard extends State {
 
@@ -26,14 +27,19 @@ public class StateDropLeaderCard extends State {
 	}
 
 	@Override
-	protected State processAction(String whichLeaderCard) throws GameException {
-		for(LeaderCard lc : _player.getLeaderCards()){
-			if(lc.getName()==whichLeaderCard){
-				_theGame.getDynamicBar().discardLeaderCard(lc);
-				return new StateStartingTurn(_theGame);
+	protected State processAction(String action) throws GameException {
+		if(action==CommandStrings.DROP_WHICH_LEADER_CARD){
+			String whichLeaderCard = _theGame.getNextGameAction();
+			for(LeaderCard lc : _player.getLeaderCards()){
+				if(lc.getName()==whichLeaderCard){
+					_theGame.getDynamicBar().discardLeaderCard(lc);
+					return new StateStartingTurn(_theGame);
+				}
 			}
+			throw new GameException(getClass()+"ERROR: Wrong command "+ whichLeaderCard +" in StateDropLeaderCard.processAction(String action)");
+		} else {
+			throw new GameException(getClass()+"ERROR: Wrong command "+ action +" in StateDropLeaderCard.processAction(String action)");
 		}
-		throw new GameException(getClass()+"ERROR: Wrong command "+ whichLeaderCard +" in StateDropLeaderCard.processAction(String action)");
 	}
 
 	private Logger _log = Logger.getLogger(StateDropLeaderCard.class.getName());
