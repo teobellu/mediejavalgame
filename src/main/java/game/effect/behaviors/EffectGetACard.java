@@ -14,6 +14,10 @@ public class EffectGetACard implements IEffectBehavior{
 	private Resource discount;
 	private Integer value;
 
+	public EffectGetACard(Integer value) {
+		this.value = value;
+	}
+	
 	public EffectGetACard(String typeOfCard, Integer value) {
 		this.typeOfCard = typeOfCard;
 		this.value = value;
@@ -36,16 +40,14 @@ public class EffectGetACard implements IEffectBehavior{
 		}
 	}
 
-	
-
 	private void initializes(Effect ref){
 		player = ref.getPlayer();
 	}
 
 	private void selectCard() {
 		int row = 0, column = 0;
+		player.getClient().getConnectionHandler().sendToClient("gimme a numbah");
 		
-		//TODO
 	}
 	
 	private void getCard() throws GameException {

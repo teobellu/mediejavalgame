@@ -1,7 +1,6 @@
 package game.development;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import game.ICard;
@@ -102,15 +101,4 @@ public abstract class DevelopmentCard implements ICard{
 		return permanentEffect;
 	}
 	
-	/*
-	
-	
-	
-	public Resource getCost(){
-		return cost;
-	}
-	
-	public Resource getInstantBenefit(){
-		return instantBenefit;
-	}*/
 }

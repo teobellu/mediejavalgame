@@ -17,8 +17,15 @@ public class DynamicAction {
 	 * Current player, ad the joystick holder
 	 */
 	protected Player player;
-	
+
+	//TODO momentaneo
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+
 	//TODO
+	private Game game;
 	private GameBoard board;
 	private GameInformation gameInformation = new GameInformation();
 	
@@ -30,8 +37,8 @@ public class DynamicAction {
 	 * Constructor
 	 * @param player Current player
 	 */
-	public DynamicAction(Player player){
-		this.player = player;
+	public DynamicAction(Game game){
+		this.game = game;
 	}
 	
 	/**
@@ -77,7 +84,8 @@ public class DynamicAction {
 	 * @param res Resource to gain
 	 */
 	public void gain (Resource res){
-		if (res == null) return;
+		if (res == null) 
+			return;
 		res = (Resource) activateEffect(res, GC.WHEN_GAIN);
 		player.gain(res);
 	}
@@ -89,7 +97,8 @@ public class DynamicAction {
 	 * @param res Resource to gain
 	 */
 	public void gain (Effect source, Resource res){
-		if (res == null) return;
+		if (res == null) 
+			return;
 		gain(res);
 		if (source.getWhenActivate().equals(GC.IMMEDIATE))
 			activateEffect(res, source.getSource(), GC.WHEN_GAIN);
@@ -167,7 +176,8 @@ public class DynamicAction {
 			.filter(fam -> fam.getOwner() == familiar.getOwner())
 			.filter(fam -> !fam.getColor().equals(GC.FM_TRANSPARENT))
 			.count();
-		if(countNotTransparent > 1) throw new GameException();
+		if(countNotTransparent > 1) 
+			throw new GameException();
 	}
 	
 	/**
@@ -202,9 +212,13 @@ public class DynamicAction {
 		/**
 		* RESOURCE
 		 */
+		
+		
 		int index = 0;
 		//ma potrebbe avere anche 2 tipi di costo
-				
+		//if (card.getCost.size > 1)...		
+		
+		
 		tryToPayRequirement(card.toString(), card.getRequirement(index));
 		tryToPayRequirement(card.toString(), getDashboardRequirement(card));
 		
@@ -217,7 +231,8 @@ public class DynamicAction {
 		 */
 		value = (Integer) activateEffect(value, card.toString(), GC.WHEN_FIND_VALUE_ACTION);
 		
-		if (value < space.getRequiredDiceValue()) throw new GameException();
+		if (value < space.getRequiredDiceValue()) 
+			throw new GameException();
 		
 		
 		//canDicePaySpace(familiar, space);
@@ -293,29 +308,6 @@ public class DynamicAction {
 		player.addEffect(space.getInstantEffect());
 		endAction(familiar, space);
 	}
-	
-	/*
-	public void placeTower (FamilyMember familiar, int row, int coloumn) throws GameException{
-		Space space = board.getCell(row, coloumn);
-		DevelopmentCard card = space.getCard();
-		if (card == null) throw new GameException(); //vedi forum piazza
-		
-		//canDicePaySpace(familiar, space);
-		//canJoinSpace(familiar, space); //e quindi canJoinArraySpace(familiar, space);
-		Resource totalReq = new Resource();
-		totalReq.add(card.getRequirement());
-		player.addEffect(space.getInstantEffect());
-		endAction(familiar, space);
-	}*/
-	
-	/*
-	//verifica che non ci siano due familiari blu in una volta
-	public void canJoinArraySpace (FamilyMember familiar, Space space) throws GameException{
-		List<FamilyMember> playerFamiliar = space.getFamiliar().stream()
-			.filter(fam -> fam.getOwner() == familiar.getOwner())
-			.collect(Collectors.toList());
-		if (!playerFamiliar.isEmpty()) throw new GameException();
-	}*/
 	
 	/**
 	 *  comments TODO
@@ -449,8 +441,6 @@ public class DynamicAction {
 		activateEffect(GC.WHEN_END);
 		int territory = player.getDevelopmentCards(GC.DEV_TERRITORY).size();
 		int character = player.getDevelopmentCards(GC.DEV_CHARACTER).size();
-		//int building = player.getDevelopmentCards(GC.DEV_BUILDING).size();
-		//int venture = player.getDevelopmentCards(GC.DEV_VENTURE).size();
 		addFinalReward(GC.REW_TERRITORY, territory);
 		addFinalReward(GC.REW_CHARACTER, character);
 		exchangeResourceToVictory();
@@ -484,7 +474,5 @@ public class DynamicAction {
 			player.gain(new Resource(GC.RES_VICTORYPOINTS, amount));
 		}
 	}
-
-
 	
 }

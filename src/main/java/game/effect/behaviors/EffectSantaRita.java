@@ -1,17 +1,13 @@
 package game.effect.behaviors;
 
 import game.GC;
-import game.Player;
 import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
 public class EffectSantaRita implements IEffectBehavior{
 	
-	private Player player;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
-	
 	private Resource resource;		//la tassa
-	private String specificAction;		//se string = null, sempre, altrimenti solo quando azione
 	
 	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
 	private Resource normalGain; 	//ciò che guadagnerei normalmente
@@ -25,8 +21,10 @@ public class EffectSantaRita implements IEffectBehavior{
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
-		if(resource == null) return;
-		if(!GC.DEV_TYPES.contains(source)) return;
+		if(resource == null) 
+			return;
+		if(!GC.DEV_TYPES.contains(source)) 
+			return;
 		findNextGain();
 		applyTax();
 	}
@@ -35,7 +33,7 @@ public class EffectSantaRita implements IEffectBehavior{
 		this.ref = ref;
 		newGain = new Resource();
 		normalGain = (Resource) ref.getToAnalyze();
-		source = (String) ref.getToScan();
+		source = ref.getToScan();
 	}
 	
 	public void findNextGain(){

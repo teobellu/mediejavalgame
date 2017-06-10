@@ -27,18 +27,20 @@ public class Effect {
 	}
 	
 	public Object activateEffect (String time, Object param){
+		Object newParam;
 		toAnalyze = param;
 		activateEffect(time);
-		param = toAnalyze;
+		newParam = toAnalyze;
 		toAnalyze = null;
-		return param;
+		return newParam;
 	}
 	
 	public Object activateEffect (String time, Object param, String message){
+		Object newParam;
 		toScan = message;
-		param = activateEffect (time, param);
+		newParam = activateEffect (time, param);
 		toScan = null;
-		return param;
+		return newParam;
 	}
 	
 	public boolean canActivate(String time){
@@ -71,11 +73,6 @@ public class Effect {
 		return toScan;
 	}
 	
-	/**
-	 * TODO utile per gli effetti istantanei
-	 * @return
-	 * 
-	 */
 	public String getWhenActivate() {
 		return whenActivate;
 	}

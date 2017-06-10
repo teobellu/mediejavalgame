@@ -19,10 +19,6 @@ public class EffectCopyLeader implements IEffectBehavior{
 	private Player player;
 	private LeaderCard selectedCard;
 	
-	public EffectCopyLeader() {
-		
-	}
-	
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);

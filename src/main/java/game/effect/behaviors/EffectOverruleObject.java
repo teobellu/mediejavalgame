@@ -21,13 +21,14 @@ public class EffectOverruleObject implements IEffectBehavior{
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
-		if(specificAction != null && specificAction != thisAction) return;
+		if(specificAction != null && specificAction != thisAction) 
+			return;
 		overruleResource();
 	}
 	
 	private void initializes(Effect ref){
 		this.ref = ref;
-		thisAction = (String) ref.getToScan();
+		thisAction = ref.getToScan();
 	}
 	
 	private void overruleResource (){

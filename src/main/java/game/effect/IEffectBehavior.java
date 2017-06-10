@@ -4,6 +4,7 @@ package game.effect;
  * @Strategy_Design_Pattern 
  * Interface that all different effects behaviors must implement
  */
+@FunctionalInterface
 public interface IEffectBehavior {
 	
 	/**

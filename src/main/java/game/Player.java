@@ -26,8 +26,6 @@ public class Player {
 	private Resource harvestBonus;	
 	private Resource productionBonus;
 	
-	private DynamicAction dynamicBar;
-	
 	private DevelopmentCardManager manager = new DevelopmentCardManager();
 
 	protected Player(Client client){
@@ -39,7 +37,6 @@ public class Player {
 		leaderCard = new ArrayList<>();
 		effects = new ArrayList<>();
 		setFreeMember(new ArrayList<>());
-		dynamicBar = new DynamicAction(this);
 	}
 	
 	public void gain (Resource res){
@@ -56,11 +53,14 @@ public class Player {
 	}
 	
 	public void addEffect (Effect eff){
-		if (eff == null) return;
+		if (eff == null) 
+			return;
 		eff.setPlayer(this);
 		switch(eff.getWhenActivate()){
-			case GC.IMMEDIATE : eff.activateEffect(GC.IMMEDIATE); break;
-			case GC.ON_CALL : eff.activateEffect(GC.ON_CALL); break;
+			case GC.IMMEDIATE : eff.activateEffect(GC.IMMEDIATE); 
+				break;
+			case GC.ON_CALL : eff.activateEffect(GC.ON_CALL); 
+				break;
 			default : effects.add(eff);
 		}
 	}
@@ -90,41 +90,6 @@ public class Player {
 		//newCard.activateImmediateEffect();
 	}
 	
-	/*
-	public void harvest (int power){
-		
-		if (resource.get(type.SERVANTS) > 0){
-			//TODO aumentare power con i servitori
-		}
-		System.out.println("Sto facendo una produzione di valore " + power);
-		
-		for (DevelopmentCard card : developmentCard)
-			if (card instanceof Territory)
-				if (power >= card.getDice()){
-					card.activatePermanentEffect();
-					System.out.println("sss");
-				}
-	}
-	
-	public void market(int i){
-		//seleziona familiare
-		FamilyMember cosimo = new FamilyMember();
-		cosimo.setOwner(this);
-		cosimo.setValue(1);
-		freeMember.add(cosimo);
-		try {
-			b.market(i, freeMember.get(0));
-		} catch (GameException e) {
-			System.err.println("potrei finire qua");
-		}
-	}
-	
-	public void endGame (){
-		for (Effect x : effects){
-			x.effect(new StateEndingGame(null));
-		}
-	}
-	*/
 	public Resource getResource(){
 		return resource;
 	}
@@ -136,18 +101,7 @@ public class Player {
 	public List<Effect> getEffects() {
 		return effects;
 	}
-
-	public DynamicAction getDynamicBar() {
-		return dynamicBar;
-	}
 	
-	/*
-	public ArrayList<Effect> getEffects (){
-		ArrayList<Effect> effects = new ArrayList<>();
-		for (DevelopmentCard card : developmentCard) {
-		}
-	}*/
-
 	public void showRes() {
 		for (String i : GC.RES_TYPES)
 			if (getResource().get(i) > 0)
@@ -174,7 +128,7 @@ public class Player {
 		return freeMember;
 	}
 
-	public void setFreeMember(ArrayList<FamilyMember> freeMember) {
+	public void setFreeMember(List<FamilyMember> freeMember) {
 		this.freeMember = freeMember;
 	}
 

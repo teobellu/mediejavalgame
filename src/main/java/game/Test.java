@@ -45,8 +45,9 @@ public class Test {
 		gi.generateLeaderCard();
 		List<LeaderCard> ld = gi.getLeaderDeck();
 		
-		Player p = new Player();
-		DynamicAction joy = p.getDynamicBar();
+		Player p = new Player(null);
+		DynamicAction joy = new DynamicAction(null);
+		joy.setPlayer(p);
 		GameBoard b = new GameBoard(null);
 		joy.setBoardForTestOnly(b);
 		
@@ -71,17 +72,22 @@ public class Test {
 		
 		//b.getWorkLongSpace(GC.HARVEST)args;
 		
-		Player g1 = new Player();
-		Player g2 = new Player();
-		Player g3 = new Player();
-		Player g4 = new Player();
+		Player g1 = new Player(null);
+		Player g2 = new Player(null);
+		Player g3 = new Player(null);
+		Player g4 = new Player(null);
 		
 		gi.getPlayersTurn().addAll(Arrays.asList(g1, g2, g3, g4));
 		
-		DynamicAction d1 = new DynamicAction(g1);
-		DynamicAction d2 = new DynamicAction(g2);
-		DynamicAction d3 = new DynamicAction(g3);
-		DynamicAction d4 = new DynamicAction(g4);
+		DynamicAction d1 = new DynamicAction(null);
+		DynamicAction d2 = new DynamicAction(null);
+		DynamicAction d3 = new DynamicAction(null);
+		DynamicAction d4 = new DynamicAction(null);
+		
+		d1.setPlayer(g1);
+		d2.setPlayer(g2);
+		d3.setPlayer(g3);
+		d4.setPlayer(g4);
 		
 		gi.getHeadPlayersTurn().add(g2);
 		gi.getHeadPlayersTurn().add(g3);

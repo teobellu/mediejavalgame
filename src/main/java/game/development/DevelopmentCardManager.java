@@ -41,10 +41,14 @@ public class DevelopmentCardManager {
 
 	public void freeList(String type) {
 		switch(type){
-			case GC.DEV_TERRITORY : tList.clear(); break;
-			case GC.DEV_CHARACTER : cList.clear(); break;
-			case GC.DEV_BUILDING : bList.clear(); break;
-			case GC.DEV_VENTURE : vList.clear(); break;
+			case GC.DEV_TERRITORY : tList.clear(); 
+				break;
+			case GC.DEV_CHARACTER : cList.clear(); 
+				break;
+			case GC.DEV_BUILDING : bList.clear(); 
+				break;
+			case GC.DEV_VENTURE : vList.clear(); 
+				break;
 			default : return;
 		}
 	}
