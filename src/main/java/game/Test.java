@@ -42,7 +42,6 @@ public class Test {
 		 * TEST_OF_TOWER
 		 */
 		GameInformation gi = new GameInformation();
-		gi.generateLeaderCard();
 		List<LeaderCard> ld = gi.getLeaderDeck();
 		
 		Player p = new Player(null);

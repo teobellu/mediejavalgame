@@ -46,7 +46,7 @@ public class EffectGetACard implements IEffectBehavior{
 
 	private void selectCard() {
 		int row = 0, column = 0;
-		player.getClient().getConnectionHandler().sendToClient("gimme a numbah");
+		//player.getClient().getConnectionHandler().sendToClient("gimme a numbah");
 		
 	}
 	

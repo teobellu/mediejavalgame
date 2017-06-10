@@ -13,7 +13,7 @@ public class Constants {
 	public static final String RMI = "RMI";
 	public static final String SOCKET = "Socket";
 	
-	protected static final String[] CONNECTION_TYPES = new String[]{
+	public static final String[] CONNECTION_TYPES = new String[]{
 		RMI,
 		SOCKET
 	};
@@ -21,7 +21,7 @@ public class Constants {
 	public static final String CLI = "CLI";
 	public static final  String GUI = "GUI";
 	
-	protected static final String[] USER_INTERFACE_TYPES = new String[]{
+	public static final String[] USER_INTERFACE_TYPES = new String[]{
 			CLI,
 			GUI
 	};

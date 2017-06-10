@@ -103,5 +103,4 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	private Registry _registry;
 	private ConnectionHandlerRemote _connectionHandler;
 	private final Logger _logger = Logger.getLogger(RMIConnectionServerHandler.class.getName());
-	
 }

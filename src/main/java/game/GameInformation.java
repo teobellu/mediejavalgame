@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -25,27 +26,16 @@ import game.effect.behaviors.EffectWork;
 public class GameInformation{
 
 	private GameBoard board;
-	
+	private Game game;
 	/**
 	 * Used for activate a specific leader card TODO
 	 */
-	private HashMap<LeaderCard, Player> discardedLeader;
-	
-
-	public void setQleaderDeck(List<? extends ICard> qleaderDeck) {
-		this.qleaderDeck = qleaderDeck;
-	}
-
-	public void setLeaderDeck(List<LeaderCard> leaderDeck) {
-		this.leaderDeck = leaderDeck;
-	}
-
-	private CardDeck<DevelopmentCard> developmentDeck;
-	private CardDeck<ExcommunicationCard> excommunicationDeck;
-	private CardDeck<LeaderCard> leaderCardsDeck;
-	
+	private Map<LeaderCard, Player> discardedLeader;
 	
 	private List<LeaderCard> leaderDeck;
+	private List<DevelopmentCard> developmentDeck;
+	private List<ExcommunicationCard> excommunicationDeck;
+	
 	private List<Player> playersTurn;
 	private List<Player> headPlayersTurn;
 	private List<Player> tailPlayersTurn;
@@ -72,7 +62,7 @@ public class GameInformation{
 	public boolean hasToJumpTurn(Player player){
 		if (!tailPlayersTurn.contains(player))
 			return false;
-		tailPlayersTurn.removeIf(item -> item == player);
+		tailPlayersTurn.removeIf(item -> item == player); //TODO ogni turno di gioco => non posso
 		return true;
 	}
 	
@@ -80,19 +70,12 @@ public class GameInformation{
 		return leaderDeck;
 	}
 	
-	private List<? extends ICard> qdevelopmentDeck;
-	private List<? extends ICard> qexcommunicationDeck;
-	private List<? extends ICard> qleaderDeck;
-	
-	
 	public GameInformation(){
 		discardedLeader = new HashMap<>();
-		developmentDeck = new CardDeck<>();
-		excommunicationDeck = new CardDeck<>();
-		leaderCardsDeck = new CardDeck<>();
 		playersTurn = new ArrayList<>();
 		headPlayersTurn = new ArrayList<>();
 		tailPlayersTurn = new ArrayList<>();
+		generateLeaderCard();
 	}
 	
 	public void deckBuilder(UserConfig userConfig){
@@ -100,6 +83,7 @@ public class GameInformation{
 		//riempio i deck
 	}
 
+	/*
 	
 	public void setExcommunicationTitlesOnBoard(){
 		ExcommunicationCard[] exCard = new ExcommunicationCard[3];
@@ -111,9 +95,9 @@ public class GameInformation{
 			if (c.isPresent()) //TODO
 				exCard[i] = c.get();
 		}
-	}
+	}*/
 
-	public HashMap<LeaderCard, Player> getDiscardedLeader() {
+	public Map<LeaderCard, Player> getDiscardedLeader() {
 		return discardedLeader;
 	}
 
@@ -122,7 +106,7 @@ public class GameInformation{
 		this.discardedLeader.putIfAbsent(discardedLeader, owner);
 	}
 	
-	public void generateLeaderCard(){
+	private void generateLeaderCard(){
 		leaderDeck = new ArrayList<>();
 		
 		Function<Player, Boolean> requirement;
@@ -359,22 +343,6 @@ public class GameInformation{
 		
 		Collections.shuffle(leaderDeck);
 	}
-	
-	public CardDeck<ExcommunicationCard> getExcommunicationDeck() {
-		return excommunicationDeck;
-	}
-
-	public void setExcommunicationDeck(CardDeck<ExcommunicationCard> excommunicationDeck) {
-		this.excommunicationDeck = excommunicationDeck;
-	}
-
-	public CardDeck<LeaderCard> getLeaderCardsDeck() {
-		return leaderCardsDeck;
-	}
-
-	public void setLeaderCardsDeck(CardDeck<LeaderCard> leaderCardsDeck) {
-		this.leaderCardsDeck = leaderCardsDeck;
-	}
 
 	public List<Player> getPlayersTurn() {
 		return playersTurn;
@@ -398,26 +366,6 @@ public class GameInformation{
 
 	public void setTailPlayersTurn(List<Player> tailPlayersTurn) {
 		this.tailPlayersTurn = tailPlayersTurn;
-	}
-
-	public List<? extends ICard> getQdevelopmentDeck() {
-		return qdevelopmentDeck;
-	}
-
-	public void setQdevelopmentDeck(List<? extends ICard> qdevelopmentDeck) {
-		this.qdevelopmentDeck = qdevelopmentDeck;
-	}
-
-	public List<? extends ICard> getQexcommunicationDeck() {
-		return qexcommunicationDeck;
-	}
-
-	public void setQexcommunicationDeck(List<? extends ICard> qexcommunicationDeck) {
-		this.qexcommunicationDeck = qexcommunicationDeck;
-	}
-
-	public List<? extends ICard> getQleaderDeck() {
-		return qleaderDeck;
 	}
 
 }
