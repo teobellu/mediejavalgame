@@ -4,17 +4,20 @@ import client.cli.CommandLineUI;
 import client.gui.GraphicalUI;
 import util.Constants;
 
-public class UIFactory {
-	
-	/**
-	 * Private constructor to hide the implicit public one
-	 */
-	private UIFactory(){
-		
-	}
+/**
+ * This interface aims to create new user interface instances
+ * @Factory_Method
+ */
+public interface UIFactory {
 
-	public static UI getUserInterface(int i){
-		String uiType = Constants.USER_INTERFACE_TYPES[i];
+	/**
+	 * Returns an instance of the selected user interface using factory method
+	 * @Factory_Method
+	 * @param i User Interface chosen by the player
+	 * @return New instance of selected UI
+	 */
+	public static UI getUserInterface(int choose){
+		String uiType = Constants.USER_INTERFACE_TYPES[choose];
 		
 		switch(uiType){
 			case Constants.CLI : return new CommandLineUI();
