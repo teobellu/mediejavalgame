@@ -169,7 +169,8 @@ public class DynamicAction {
 	 */
 	private void canOccupyForSpaceLogic(FamilyMember familiar, Space space) throws GameException{
 		if (space.isSingleObject()){
-			if(space.getFamiliar().isEmpty()) return;
+			if(space.getFamiliar().isEmpty()) 
+				return;
 			if ((Boolean) activateEffect(true, GC.WHEN_JOINING_SPACE) != null) 
 				throw new GameException();
 		}
@@ -372,7 +373,8 @@ public class DynamicAction {
 		Space space = findCorrectWorkSpace(familiar, action);
 		player.addEffect(space.getInstantEffect());
 		int newPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
-		if (newPower < Math.max(space.getRequiredDiceValue(),1)) throw new GameException();
+		if (newPower < Math.max(space.getRequiredDiceValue(),1)) 
+			throw new GameException();
 		launchesWork(power, action);
 		endAction(familiar, space);
 	}
@@ -386,8 +388,10 @@ public class DynamicAction {
 	 */
 	public void launchesWork(Integer power, String action){
 		switch(action){
-			case GC.HARVEST : work(power, action, GC.DEV_TERRITORY); break;
-			case GC.PRODUCTION : work(power, action, GC.DEV_BUILDING); break;
+			case GC.HARVEST : work(power, action, GC.DEV_TERRITORY); 
+				break;
+			case GC.PRODUCTION : work(power, action, GC.DEV_BUILDING); 
+				break;
 			default : return;
 		}
 	}

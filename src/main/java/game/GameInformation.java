@@ -1,14 +1,12 @@
 package game;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import game.development.DevelopmentCard;
 import game.effect.Effect;
@@ -66,6 +64,48 @@ public class GameInformation{
 		return true;
 	}
 	
+	/**
+	 * Assigns prizes at the top of the military points track
+	 * @param players All the players in the room
+	 */
+	public void awardPrizeMilitary(List<Player> players){
+		List<Player> competitors = new ArrayList<>();
+		competitors.addAll(players);
+		List<Player> winners = getTheRichest(competitors, GC.RES_MILITARYPOINTS);
+		winners.forEach(player -> player.gain(GC.FIRST_PRIZE_MILITARY));
+		if (winners.size() > 1)
+			return;
+		competitors.removeAll(winners);
+		winners = getTheRichest(competitors, GC.RES_MILITARYPOINTS);
+		winners.forEach(player -> player.gain(GC.SECOND_PRIZE_MILITARY));
+	}
+	
+	/**
+	 * This method returns the winners of the game
+	 * @param players Players in the room
+	 * @return winners of the game
+	 */
+	public List<Player> getWinners(List<Player> players){
+		return getTheRichest(players, GC.RES_VICTORYPOINTS);
+	}
+	
+	/**
+	 * Returns players who have more resources of a certain type than others
+	 * @param players Competitors of the prize
+	 * @param resourceType Type of resource
+	 * @return Winners, the richest player of that type of resource
+	 */
+	private List<Player> getTheRichest(List<Player> players, String resourceType){
+		int max = 0;
+		for (Player player : players)
+			if (max < player.getResource(resourceType))
+				max = player.getResource(resourceType);
+		final int requirement = max;
+		return players.stream()
+				.filter(player -> player.getResource(resourceType) == requirement)
+				.collect(Collectors.toList());
+	}
+	
 	public List<LeaderCard> getLeaderDeck() {
 		return leaderDeck;
 	}
@@ -106,6 +146,12 @@ public class GameInformation{
 		this.discardedLeader.putIfAbsent(discardedLeader, owner);
 	}
 	
+	/**
+	 * This method generates the leader card deck using Lambda Expression and Function class;
+	 * In fact, by specifying, we do not have to load them from file.
+	 * We have separated all leader cards to make the game as configurable as possible 
+	 * (Programmer side)
+	 */
 	private void generateLeaderCard(){
 		leaderDeck = new ArrayList<>();
 		

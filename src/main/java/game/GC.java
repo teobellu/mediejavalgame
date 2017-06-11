@@ -74,6 +74,8 @@ public class GC {
 			Arrays.asList(DEV_TERRITORY, DEV_BUILDING, DEV_CHARACTER, DEV_VENTURE));
 	
 	public static final Resource TAX_TOWER = new Resource(RES_COINS, 3);
+	public static final Resource FIRST_PRIZE_MILITARY = new Resource(RES_VICTORYPOINTS, 5);
+	public static final Resource SECOND_PRIZE_MILITARY = new Resource(RES_VICTORYPOINTS, 2);
 	
 	public static final Integer MAX_DEVELOPMENT_CARDS = 6;
 	

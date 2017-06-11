@@ -11,6 +11,13 @@ public class FamilyMember {
 		value = 0;
 	}
 	
+	//utilizzeremo questo probabilmente
+	public FamilyMember(String color, Player player){
+		this.color = color;
+		owner = player;
+		value = 0;
+	}
+	
 	public String getColor(){
 		return color;
 	}

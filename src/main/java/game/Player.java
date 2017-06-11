@@ -93,6 +93,10 @@ public class Player {
 	public Resource getResource(){
 		return resource;
 	}
+	
+	public Integer getResource(String type){
+		return resource.get(type);
+	}
 
 	public List<LeaderCard> getLeaderCard() {
 		return leaderCard;

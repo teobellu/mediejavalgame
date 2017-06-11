@@ -1,6 +1,6 @@
 package exceptions;
 
-public class GameException extends Exception {
+public class ConnectionException extends Exception {
 	
 	/**
 	 * Default serial version ID to the selected type.
@@ -8,7 +8,7 @@ public class GameException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public GameException(String message) {
+	public ConnectionException(String message) {
 		super(message);
 	}
 }

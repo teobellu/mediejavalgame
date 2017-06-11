@@ -33,7 +33,6 @@ public class Test {
 	public static Resource rita = new Resource(GC.RES_COINS, 2);
 	
 	public static void main(String[] args) throws GameException {	
-		
 		santa.add(GC.RES_WOOD, 1);
 		santa.add(GC.RES_STONES, 1);
 		santa.add(GC.RES_SERVANTS, 1);
@@ -75,6 +74,23 @@ public class Test {
 		Player g2 = new Player(null);
 		Player g3 = new Player(null);
 		Player g4 = new Player(null);
+		
+		g1.gain(new Resource(GC.RES_COINS, 1));
+		g2.gain(new Resource(GC.RES_COINS, 2));
+		g3.gain(new Resource(GC.RES_COINS, 3));
+		g4.gain(new Resource(GC.RES_COINS, 4));
+		
+		g1.gain(new Resource(GC.RES_MILITARYPOINTS, 7));
+		g2.gain(new Resource(GC.RES_MILITARYPOINTS, 6));
+		g4.gain(new Resource(GC.RES_MILITARYPOINTS, 6));
+		
+		List<Player> list = Arrays.asList(g1, g2, g3, g4);
+		
+		gi.awardPrizeMilitary(list);
+		
+		list.forEach(xp -> xp.showRes());
+		
+		System.out.println("**************");
 		
 		gi.getPlayersTurn().addAll(Arrays.asList(g1, g2, g3, g4));
 		
