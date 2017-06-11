@@ -36,7 +36,7 @@ public class GameBoard {
 	//TODO O posso col polimorfismo?
 	private Cell[][] tower = new Cell[MAX_ROW][MAX_COLUMN];
 
-	private ExcommunicationCard[] exCard = new ExcommunicationCard[MAX_EXCOMUNNICATION_CARD];
+	private ExcommunicationTile[] exCard = new ExcommunicationTile[MAX_EXCOMUNNICATION_CARD];
 	
 	private Space councilPalaceSpace;
 	
@@ -147,7 +147,7 @@ public class GameBoard {
 		return market[whichSpace];
 	}
 	
-	public ExcommunicationCard[] getExCard() {
+	public ExcommunicationTile[] getExCard() {
 		return exCard;
 	}
 	
@@ -159,7 +159,7 @@ public class GameBoard {
 		this.dices = dices;
 	}
 
-	public void setExCard(ExcommunicationCard[] exCard) {
+	public void setExCard(ExcommunicationTile[] exCard) {
 		this.exCard = exCard;
 	}
 	

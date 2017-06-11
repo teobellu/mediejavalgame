@@ -32,7 +32,7 @@ public class GameInformation{
 	
 	private List<LeaderCard> leaderDeck;
 	private List<DevelopmentCard> developmentDeck;
-	private List<ExcommunicationCard> excommunicationDeck;
+	private List<ExcommunicationTile> excommunicationDeck;
 	
 	private List<Player> playersTurn;
 	private List<Player> headPlayersTurn;
@@ -60,7 +60,8 @@ public class GameInformation{
 	public boolean hasToJumpTurn(Player player){
 		if (!tailPlayersTurn.contains(player))
 			return false;
-		tailPlayersTurn.removeIf(item -> item == player); //TODO ogni turno di gioco => non posso
+		tailPlayersTurn.removeIf(item -> item == player); 
+		//TODO ogni turno di gioco => non posso
 		return true;
 	}
 	
