@@ -51,8 +51,9 @@ public class Client extends Thread {
 			do {
 				String path = _ui.askForConfigFile();
 				if(!path.isEmpty()){
+					FileReader customConfig = null;
 					try {
-						FileReader customConfig = new FileReader(path);
+						customConfig = new FileReader(path);
 						
 						StringBuilder sb = new StringBuilder();
 						BufferedReader br = new BufferedReader(customConfig);
@@ -68,7 +69,15 @@ public class Client extends Thread {
 						_ui.write("File not found.");
 					} catch(IOException e){
 						_ui.write("Invalid file. Using default settings...");
-						break;
+						//TODO ho tolto un break che c'era qua
+					} finally {
+						if (customConfig != null)
+							try {
+								customConfig.close();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 					}
 				} else{
 					break;

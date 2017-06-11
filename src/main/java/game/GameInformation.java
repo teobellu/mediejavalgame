@@ -41,7 +41,7 @@ public class GameInformation{
 	
 	public GameInformation(Game game) {
 		this.game = game;
-		this.board = board;
+		this.board = game.getBoard();
 		discardedLeader = new HashMap<>();
 		playersTurn = new ArrayList<>();
 		headPlayersTurn = new ArrayList<>();

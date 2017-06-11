@@ -29,10 +29,11 @@ public class Test {
 	public static final Resource vic3 = new Resource(GC.RES_VICTORYPOINTS, 3);
 	public static final Resource vic1 = new Resource(GC.RES_VICTORYPOINTS, 1);
 	public static final Resource mil3 = new Resource(GC.RES_MILITARYPOINTS, 3);
-	public static Resource santa = new Resource(GC.RES_COINS, 1);
-	public static Resource rita = new Resource(GC.RES_COINS, 2);
+	
 	
 	public static void main(String[] args) throws GameException {	
+		Resource santa = new Resource(GC.RES_COINS, 1);
+		Resource rita = new Resource(GC.RES_COINS, 2);
 		santa.add(GC.RES_WOOD, 1);
 		santa.add(GC.RES_STONES, 1);
 		santa.add(GC.RES_SERVANTS, 1);

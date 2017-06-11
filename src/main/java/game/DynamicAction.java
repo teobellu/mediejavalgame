@@ -421,9 +421,12 @@ public class DynamicAction {
 	
 	/**
 	 * TODO
+	 * @throws GameException 
 	 */
-	public void showVaticanSupport(){
+	public void showVaticanSupport() throws GameException{
+		int victory = player.getResource(GC.RES_MILITARYPOINTS);
 		activateEffect(GC.WHEN_SHOW_SUPPORT);
+		player.pay(new Resource(GC.RES_VICTORYPOINTS, victory));
 	}
 	
 	/**
@@ -437,7 +440,7 @@ public class DynamicAction {
 			throw new GameException();
 		player.removeLeaderCard(card);
 		player.addEffect(card.getEffect());
-		//aggiungere la carta a quelle già attivate (game information)
+		gameInformation.addDiscardedLeader(card, player);
 	}
 	
 	/**

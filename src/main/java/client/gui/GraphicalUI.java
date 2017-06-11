@@ -3,6 +3,7 @@ package client.gui;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,9 +81,10 @@ public class GraphicalUI implements UI {
 	}
 	
 	private void sendXML(){
+		FileReader customConfig = null;
 		try {
 			if(_xmlFile!=null){
-				FileReader customConfig = new FileReader(_xmlFile);
+				customConfig = new FileReader(_xmlFile);
 				
 				StringBuilder sb = new StringBuilder();
 				BufferedReader br = new BufferedReader(customConfig);
@@ -98,6 +100,15 @@ public class GraphicalUI implements UI {
 			}
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		finally{
+			if (customConfig != null)
+				try {
+					customConfig.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 	}
 	
