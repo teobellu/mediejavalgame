@@ -40,7 +40,7 @@ public class Test {
 		/**
 		 * TEST_OF_TOWER
 		 */
-		GameInformation gi = new GameInformation();
+		GameInformation gi = new GameInformation(null);
 		List<LeaderCard> ld = gi.getLeaderDeck();
 		
 		Player p = new Player(null);
@@ -86,7 +86,7 @@ public class Test {
 		
 		List<Player> list = Arrays.asList(g1, g2, g3, g4);
 		
-		gi.awardPrizeMilitary(list);
+		//gi.awardPrizeMilitary(list);
 		
 		list.forEach(xp -> xp.showRes());
 		

@@ -16,7 +16,10 @@ import util.Constants;
 public class Game implements Runnable {
 
 	private List<Player> _players = new ArrayList<>();
+
 	private GameBoard _board;
+	
+
 	private State _state;
 	private int _turn;
 	private int _phase;
@@ -30,6 +33,7 @@ public class Game implements Runnable {
 	private boolean _hasPlacedFamiliar = false;
 	
 	private int _turnDuration;
+	private GameInformation gameInformation;
 	
 	public Game(Room room) {
 		_theRoom = room;
@@ -39,7 +43,7 @@ public class Game implements Runnable {
 			_players.add(new Player(cli));//TODO
 		}
 		_dynamicAction = new DynamicAction(this);
-		
+		gameInformation = new GameInformation(this);
 	}
 	
 	@Override
@@ -52,16 +56,22 @@ public class Game implements Runnable {
 		
 		while(!isGameOver()){
 			for(int i = 0;i<Constants.NUMBER_OF_FAMILIARS; i++){
-				for(_phase = 0;_phase<_players.size();_phase++){
-					do{
-						_state = _state.doState();
-					} while(_state!=null);
-				}
+				cycleState();
 				_hasPlacedFamiliar = false;
 				_state = new StateStartingTurn(this);
 			}
 			_turn++;
 		}
+		
+		List<Player> winners = gameInformation.endOfTheGameFindWinners();
+		winners.forEach(player -> player.getClient().getConnectionHandler().sendToClient("GG U WIN"));
+	}
+	
+	//x sonar
+	private void cycleState(){
+		for(_phase = 0;_phase<_players.size();_phase++)
+			while(_state!=null)
+				_state = _state.doState();
 	}
 
 	public boolean isOver() {
@@ -101,9 +111,8 @@ public class Game implements Runnable {
 	}
 	
 	public void sendToAllPlayers(String message){
-		for(Player p : _players){
-			p.getClient().getConnectionHandler().sendToClient(message);
-		}
+		_players.forEach(player -> player.getClient().getConnectionHandler().sendToClient(message));
+		
 	}
 	
 	public DynamicAction getDynamicBar(){
@@ -112,5 +121,13 @@ public class Game implements Runnable {
 	
 	public Deque<String> getCommandList(){
 		return _commandActionList;
+	}
+	
+	public List<Player> getPlayers() {
+		return _players;
+	}
+	
+	public GameBoard getBoard() {
+		return _board;
 	}
 }

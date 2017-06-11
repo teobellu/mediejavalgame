@@ -25,6 +25,7 @@ public class GameInformation{
 
 	private GameBoard board;
 	private Game game;
+	
 	/**
 	 * Used for activate a specific leader card TODO
 	 */
@@ -38,10 +39,21 @@ public class GameInformation{
 	private List<Player> headPlayersTurn;
 	private List<Player> tailPlayersTurn;
 	
+	public GameInformation(Game game) {
+		this.game = game;
+		this.board = board;
+		discardedLeader = new HashMap<>();
+		playersTurn = new ArrayList<>();
+		headPlayersTurn = new ArrayList<>();
+		tailPlayersTurn = new ArrayList<>();
+		generateLeaderCard();
+	}
+	
 	/**
-	 * TODO trova il prossimo ordine dei turni
+	 * Finds the next order of the players
+	 * @return The new order of the players 
 	 */
-	public void nextPlayersTurn(){
+	public List<Player> getNextPlayersTurn(){
 		List<Player> nextList = new ArrayList<>();
 		headPlayersTurn.forEach(player -> nextList.add(player));
 		playersTurn.stream().forEach(player -> nextList.add(player));
@@ -50,6 +62,22 @@ public class GameInformation{
 			.filter(player -> !playersTurn.contains(player))
 			.forEach(player -> playersTurn.add(player));
 		headPlayersTurn.clear();
+		return nextList;
+	}
+	
+	/**
+	 * This method, applying the rules of the game, returns the winners of the game
+	 * @return winners of the game
+	 */
+	public List<Player> endOfTheGameFindWinners(){
+		DynamicAction bar = game.getDynamicBar();
+		List<Player> players = game.getPlayers();
+		for (Player activePlayer : players){
+			bar.setPlayer(activePlayer);
+			bar.endGame();
+		}
+		awardPrizeMilitary(players);
+		return getTheRichest(players, GC.RES_VICTORYPOINTS);
 	}
 	
 	/**
@@ -69,7 +97,7 @@ public class GameInformation{
 	 * Assigns prizes at the top of the military points track
 	 * @param players All the players in the room
 	 */
-	public void awardPrizeMilitary(List<Player> players){
+	private void awardPrizeMilitary(List<Player> players){
 		List<Player> competitors = new ArrayList<>();
 		competitors.addAll(players);
 		List<Player> winners = getTheRichest(competitors, GC.RES_MILITARYPOINTS);
@@ -79,15 +107,6 @@ public class GameInformation{
 		competitors.removeAll(winners);
 		winners = getTheRichest(competitors, GC.RES_MILITARYPOINTS);
 		winners.forEach(player -> player.gain(GC.SECOND_PRIZE_MILITARY));
-	}
-	
-	/**
-	 * This method returns the winners of the game
-	 * @param players Players in the room
-	 * @return winners of the game
-	 */
-	public List<Player> getWinners(List<Player> players){
-		return getTheRichest(players, GC.RES_VICTORYPOINTS);
 	}
 	
 	/**
@@ -111,14 +130,8 @@ public class GameInformation{
 		return leaderDeck;
 	}
 	
-	public GameInformation(){
-		discardedLeader = new HashMap<>();
-		playersTurn = new ArrayList<>();
-		headPlayersTurn = new ArrayList<>();
-		tailPlayersTurn = new ArrayList<>();
-		generateLeaderCard();
-	}
 	
+
 	public void deckBuilder(UserConfig userConfig){
 		//TODO
 		//riempio i deck

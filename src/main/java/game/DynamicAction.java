@@ -27,7 +27,7 @@ public class DynamicAction {
 	//TODO
 	private Game game;
 	private GameBoard board;
-	private GameInformation gameInformation = new GameInformation();
+	private GameInformation gameInformation = new GameInformation(game);
 	
 	public void setBoardForTestOnly(GameBoard board){
 		this.board = board;
@@ -94,7 +94,7 @@ public class DynamicAction {
 	}
 	
 	private void handleCouncil(Resource res){
-		game.getCurrentPlayer().getClient().getConnectionHandler().sendToClient(CommandStrings.HANDLE_COUNCIL);
+		player.getClient().getConnectionHandler().sendToClient(CommandStrings.HANDLE_COUNCIL);
 		String action = game.getNextGameAction();
 		if(action==CommandStrings.HANDLE_COUNCIL){
 			action = game.getNextGameAction();
@@ -146,12 +146,11 @@ public class DynamicAction {
 	
 	/**
 	 * Returns the tax to be paid according to the established rules of the game
-	 * @param space Action space to analyze
 	 * @param column Selected Tower
 	 * @return Tax to pay, Fee to pay
 	 * @throws GameException Column number is not valid
 	 */
-	public Resource findTaxToPay (Space space, int column) throws GameException{
+	public Resource findTaxToPay (int column) throws GameException{
 		Resource tax = new Resource();
 		if (!board.getFamiliarInSameColumn(column).isEmpty()){
 			tax.add(GC.TAX_TOWER);
@@ -162,12 +161,11 @@ public class DynamicAction {
 	
 	/**
 	 * If space is single it checks that the player can place his familiar
-	 * @param familiar The familiar that the player wants to place
 	 * @param space Action space to analyze
 	 * @throws GameException The player can not place his familiar in the space selected;
 	 * The space is single and is already occupied
 	 */
-	private void canOccupyForSpaceLogic(FamilyMember familiar, Space space) throws GameException{
+	private void canOccupyForSpaceLogic(Space space) throws GameException{
 		if (space.isSingleObject()){
 			if(space.getFamiliar().isEmpty()) 
 				return;
@@ -202,7 +200,7 @@ public class DynamicAction {
 	 * @throws GameException The player can not place his familiar in the space selected
 	 */
 	private void canOccupySpace (FamilyMember familiar, Space space) throws GameException{
-		canOccupyForSpaceLogic(familiar, space);
+		canOccupyForSpaceLogic(space);
 		canOccupyForColorLogic(familiar, space.getFamiliar());
 	}
 	
@@ -220,7 +218,7 @@ public class DynamicAction {
 		DevelopmentCard card = space.getCard();
 		if (card == null || player.getDevelopmentCards(card.toString()).size() == GC.MAX_DEVELOPMENT_CARDS)
 			throw new GameException();
-		cost.add(findTaxToPay(space, column));
+		cost.add(findTaxToPay(column));
 		
 		// qui dovrei chiedere al giocatore, se cost != null, se proseguire o no.
 		
