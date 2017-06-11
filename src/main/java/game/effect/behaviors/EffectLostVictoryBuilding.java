@@ -51,9 +51,8 @@ public class EffectLostVictoryBuilding implements IEffectBehavior{
 		malus.add(GC.RES_VICTORYPOINTS, countVictoryTax);
 		try {
 			player.pay(malus);
-		} catch (GameException e) {
-			// Non entrerò mai qui dentro
-			e.printStackTrace();
+		} catch (GameException e){
+			;
 		}
 	}
 }

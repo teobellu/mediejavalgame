@@ -107,7 +107,8 @@ public class GraphicalUI implements UI {
 					customConfig.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
+					//TODO sonar non vuole e.printStackTrace()
 				}
 		}
 	}

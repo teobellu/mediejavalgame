@@ -202,7 +202,7 @@ public class Test {
 			p.pay(ser2);
 		} catch (GameException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			//e1.printStackTrace();
 		}
 		
 		p.showRes();

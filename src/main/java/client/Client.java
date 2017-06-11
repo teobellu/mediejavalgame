@@ -75,8 +75,7 @@ public class Client extends Thread {
 							try {
 								customConfig.close();
 							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+								_ui.write("I can't close file!");
 							}
 					}
 				} else{
