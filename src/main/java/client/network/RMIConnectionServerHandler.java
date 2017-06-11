@@ -36,12 +36,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	@Override
-	public void sendName(String name) throws RemoteException {
-		_connectionHandler.sendName(name);
-	}
-
-	@Override
-	public void putFamiliar() throws RemoteException {
+	public List<String> putFamiliar() throws RemoteException {
 		_connectionHandler.putFamiliar();
 	}
 	
@@ -52,8 +47,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 
 	@Override
 	public void putFamiliarWhere(String position) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		_connectionHandler.putFamiliarWhere(position);
 	}
 
 	/* (non-Javadoc)
@@ -91,6 +85,37 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public void sendConfigFile(String file) throws RemoteException {
 		_connectionHandler.sendConfigFile(file);
+	}
+	
+	@Override
+	public void sendInitialInformations(String name) throws RemoteException {
+		_connectionHandler.sendInitialInformations(name);
+	}
+
+	@Override
+	public void doIspendMyFaithPoints(boolean doI) throws RemoteException {
+		_connectionHandler.doIspendMyFaithPoints(doI);
+	}
+
+	@Override
+	public boolean endTurn() throws RemoteException {
+		return _connectionHandler.endTurn();
+	}
+
+	@Override
+	public List<String> dropLeaderCard() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
+		_connectionHandler.dropWhichLeaderCard( leaderCard);
+	}
+
+	@Override
+	public void spendCouncilPrivilege(String resource) throws RemoteException {
+		_connectionHandler.spendCouncilPrivilege(resource);
 	}
 	
 	/*�***************metodi che attendono una risposta dal server*********************/

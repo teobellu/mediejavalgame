@@ -116,9 +116,10 @@ public abstract class ConnectionServerHandler extends Thread {
 	
 	/**
 	 * Tell the server which card I want to drop
+	 * @param leadercard the card i want to drop
 	 * @throws RemoteException
 	 */
-	public abstract void dropWhichLeaderCard() throws RemoteException;
+	public abstract void dropWhichLeaderCard(String leaderCard) throws RemoteException;
 	
 	/**
 	 * Tell the server how I want to convert the council privilege

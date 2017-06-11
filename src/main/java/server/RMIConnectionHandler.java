@@ -28,17 +28,13 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 
 	@Override
 	public void activateLeaderCard() throws RemoteException {
-		synchronized (_theGame.getCommandList()) {
-			_theGame.getCommandList().add(CommandStrings.ACTIVATE_LEADER_CARD);
-		}
+		addToGameCommandList(CommandStrings.ACTIVATE_LEADER_CARD);
 	}
 	
 	@Override
 	public void activateLeaderCard(String card) throws RemoteException {
-		synchronized (_theGame.getCommandList()) {
-			_theGame.getCommandList().add(CommandStrings.ACTIVATE_WHICH_LEADER_CARD);
-			_theGame.getCommandList().add(card);
-		}
+		addToGameCommandList(CommandStrings.ACTIVATE_WHICH_LEADER_CARD);
+		addToGameCommandList(card);
 	}
 
 	@Override
@@ -49,9 +45,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 
 	@Override
 	public void putFamiliar() throws RemoteException {
-		synchronized (_theGame.getCommandList()) {
-			_theGame.getCommandList().add(CommandStrings.PUT_FAMILIAR);
-		}
+		addToGameCommandList(CommandStrings.PUT_FAMILIAR);
 	}
 	
 	private boolean isTimeoutOver(){
@@ -93,6 +87,17 @@ public class RMIConnectionHandler extends ConnectionHandler implements Runnable,
 	
 	public void setGame(){
 		_theGame = _client.getRoom().getGame();
+	}
+	
+	public void doIspendMyFaithPoints(boolean doI) throws RemoteException{
+		addToGameCommandList(CommandStrings.SPEND_FAITH_POINTS);
+		addToGameCommandList(Boolean.toString(doI));
+	}
+	
+	private void addToGameCommandList(String command){
+		synchronized (_theGame.getCommandList()) {
+			_theGame.getCommandList().add(command);
+		}
 	}
 	
 	private Game _theGame = null;

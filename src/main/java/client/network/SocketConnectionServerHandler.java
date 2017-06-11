@@ -27,7 +27,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public void run() {
 		try {
-			
 			_socket = new Socket(_host, _port);
 			
 			_inputStream = new ObjectInputStream(_socket.getInputStream());
@@ -40,32 +39,15 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 	}
 	
-	
-	@Override
-	public void sendName(String name) throws RemoteException {
-		try {
-			String message = CommandStrings.SEND_NAME;
-			writeObject(message);
-			message = name;
-			writeObject(message);
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		
-	}
-
 	@Override
 	public List<String> putFamiliar() throws RemoteException {
-		try {
 			String message = CommandStrings.PUT_FAMILIAR;
 			writeObject(message);
 			
 			List<String> familiars = new ArrayList<String>();
 			while(message!=CommandStrings.END_TRANSMISSION){
 				message = (String) readObject();
-				if(message!=null){
-					familiars.add(message);
-				}
+				familiars.add(message);
 			}
 			
 			synchronized (familiars) {
@@ -76,87 +58,54 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			//TODO quale familiare
 			//TODO dove piazzarlo
 			//TODO aumentare il suo valore? Se s�, di quanto?
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return null;
-		}
-		
 	}
 	
 	@Override
 	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
-		try{
 			String message = CommandStrings.PUT_WHICH_FAMILIAR;
 			writeObject(message);
 			writeObject(familiar);
 			List<String> positions = new ArrayList<>();
 			while(message!=CommandStrings.END_TRANSMISSION){
 				message = (String) readObject();
-				if(message!=null){
-					positions.add(message);
-				}
+				positions.add(message);
 			}
 			
 			return positions;
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return null;
-		}
 	}
 
 	@Override
 	public void putFamiliarWhere(String position) throws RemoteException {
-		try {
 			writeObject(CommandStrings.PUT_WHERE_FAMILIAR);
 			writeObject(position);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
 	}
 	
 	@Override
 	public void sendConfigFile(String file) throws RemoteException {
-		try{	
 			String message = CommandStrings.ASK_FOR_CONFIG;
 			writeObject(message);
 			writeObject(file);
-		} catch(IOException e){
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
 	}
 
 	@Override
-	public synchronized void activateLeaderCard() throws RemoteException {
-		try{
+	public void activateLeaderCard() throws RemoteException {
 			String message = CommandStrings.ACTIVATE_LEADER_CARD;
 			writeObject(message);
-		} catch (Exception e){
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
 	}
 	
 	@Override
-	public synchronized void activateLeaderCard(String card){
-		try{
+	public void activateLeaderCard(String card){
 			String message = CommandStrings.ACTIVATE_WHICH_LEADER_CARD;
 			writeObject(message);
 			writeObject(card);
 			
 			//TODO se Federico da Montefeltro, chiedi quale familiare
 			//TODO se Lorenzo de� Medici, chiedi quale altro leader
-		} catch (IOException e) {
-			// TODO: handle exception
-		}
 	}
 
 	@Override
 	public void ping() throws RemoteException {
-		try {
 			writeObject(CommandStrings.PING);
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		
 	}
 	
 	@Override
@@ -198,13 +147,77 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		return false;
 	}
 	
-	private synchronized void writeObject(Object message) throws IOException{
-		_outputStream.writeObject(message);
-		_outputStream.flush();
+	private synchronized void writeObject(Object message){
+		try {
+			_outputStream.writeObject(message);
+			_outputStream.flush();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
 	}
 	
-	private synchronized Object readObject() throws ClassNotFoundException, IOException{
-		return _inputStream.readObject();
+	private synchronized Object readObject() {
+		try {
+			do {
+				Object obj = _inputStream.readObject();
+				if (obj!=null) {
+					return _inputStream.readObject();
+				}
+			} while (_isRunning);
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		return CommandStrings.END_TRANSMISSION;
+	}
+	
+	@Override
+	public void sendInitialInformations(String name) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void doIspendMyFaithPoints(boolean doI) throws RemoteException {
+		writeObject(CommandStrings.SPEND_FAITH_POINTS);
+		writeObject(Boolean.toString(doI));
+	}
+
+	@Override
+	public boolean endTurn() throws RemoteException {
+		writeObject(CommandStrings.END_TURN);
+		String response = (String) readObject();
+		if (response==CommandStrings.END_TURN) {
+			return true;
+		} else return false;
+	}
+
+	@Override
+	public List<String> dropLeaderCard() throws RemoteException {
+		writeObject(CommandStrings.DROP_LEADER_CARD);
+		String str = null;
+		List<String> leaders = new ArrayList<>();
+		do {
+			str = (String) readObject();
+			leaders.add(str);
+		} while (str!=CommandStrings.END_TRANSMISSION);
+		
+		//rimuovo il comando di fine trasmissione
+		leaders.remove(leaders.size()-1);
+		
+		return leaders;
+	}
+
+	@Override
+	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
+		writeObject(CommandStrings.DROP_WHICH_LEADER_CARD);
+		writeObject(leaderCard);
+	}
+
+	@Override
+	public void spendCouncilPrivilege(String resource) throws RemoteException {
+		writeObject(CommandStrings.HANDLE_COUNCIL);
+		writeObject(resource);
 	}
 	
 	private Socket _socket;

@@ -18,6 +18,8 @@ public final class CommandStrings {
 	public static final String PUT_WHICH_FAMILIAR = "put_which_familiar";
 	public static final String PUT_WHERE_FAMILIAR = "put_where_familiar";
 	
+	public static final String SPEND_FAITH_POINTS = "spend_faith_points";
+	
 	public static final String END_TURN = "end_turn";
 	
 	public static final String SEND_NAME = "send_name";

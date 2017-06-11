@@ -24,5 +24,17 @@ public interface ConnectionHandlerRemote extends Remote {
 	public void sendConfigFile(String file) throws RemoteException;
 
 	public boolean hasMyTurnStarted() throws RemoteException;
+
+	public boolean endTurn() throws RemoteException;
+
+	public void doIspendMyFaithPoints(boolean doI) throws RemoteException;
+
+	public void dropWhichLeaderCard(String leaderCard) throws RemoteException;
+
+	public void spendCouncilPrivilege(String resource) throws RemoteException;
+
+	public void sendInitialInformations(String name) throws RemoteException;
+
+	public void putFamiliarWhere(String position) throws RemoteException;
 	
 }
