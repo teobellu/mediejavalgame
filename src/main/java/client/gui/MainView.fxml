@@ -27,10 +27,10 @@
                       <AnchorPane maxHeight="315.0" maxWidth="360.0" minHeight="315.0" minWidth="360.0" prefHeight="315.0" prefWidth="360.0" />
                       <AnchorPane fx:id="_buttonPane" maxHeight="585.0" maxWidth="360.0" minHeight="585.0" minWidth="360.0" prefHeight="585.0" prefWidth="360.0">
                            <children>
-                              <Button fx:id="_firstButton" layoutX="137.0" layoutY="70.0" mnemonicParsing="false" text="Place familiar" />
-                              <Button fx:id="_secondButton" layoutX="117.0" layoutY="216.0" mnemonicParsing="false" text="Activate Leader Card" />
-                              <Button fx:id="_thirdButton" layoutX="148.0" layoutY="362.0" mnemonicParsing="false" text="End Turn" />
-                              <Button fx:id="_fourthButton" layoutX="143.0" layoutY="509.0" mnemonicParsing="false" text="Disconnect" />
+                              <Button fx:id="_firstButton" layoutX="137.0" layoutY="70.0" mnemonicParsing="false" onAction="#onFirstButtonClicked" text="Place familiar" />
+                              <Button fx:id="_secondButton" layoutX="117.0" layoutY="216.0" mnemonicParsing="false" onAction="#onSecondButtonClicked" text="Activate Leader Card" />
+                              <Button fx:id="_thirdButton" layoutX="120.0" layoutY="362.0" mnemonicParsing="false" onAction="#onThirdButtonClicked" text="Drop Leader Card" />
+                              <Button fx:id="_fourthButton" layoutX="143.0" layoutY="509.0" mnemonicParsing="false" onAction="#onFourthButtonClicked" text="End Turn" />
                            </children>
                         </AnchorPane>
                     </items>

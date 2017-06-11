@@ -94,6 +94,28 @@ public class GUI extends Application{
 	public Stage getPrimaryStage(){
 		return _primaryStage;
 	}
+	
+	public void showDropLeaderDialog(){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/DropLeaderDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = new Stage();
+			dialog.setTitle("Drop Leader Card");
+			dialog.initModality(Modality.WINDOW_MODAL);
+			dialog.initOwner(_primaryStage);
+			Scene scene = new Scene(pane);
+			dialog.setScene(scene);
+			
+			DropLeaderController controller = loader.getController();
+			controller.setDialogStage(dialog);
+			
+			dialog.showAndWait();
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
 
 	private Stage _primaryStage;
     private BorderPane _rootLayout;

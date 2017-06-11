@@ -1,5 +1,9 @@
 package client.gui;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -15,7 +19,7 @@ public class MainViewController {
 	@FXML
 	private Button _thirdButton;
 	@FXML
-	private Button _fourthButton;
+	private Button _fourthButton;//endturn
 
 	@FXML
 	private AnchorPane _buttonPane;
@@ -41,10 +45,20 @@ public class MainViewController {
 	
 	@FXML
 	private void onThirdButtonClicked(){
+		_GUI.showDropLeaderDialog();
 	}
 	
 	@FXML
 	private void onFourthButtonClicked(){
+		try {
+			if(GraphicalUI.getInstance().getConnection().endTurn()){
+				//TODO finisci il turno?
+			}
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 		
 	}
+	
+	private Logger _log = Logger.getLogger(MainViewController.class.getName());
 }

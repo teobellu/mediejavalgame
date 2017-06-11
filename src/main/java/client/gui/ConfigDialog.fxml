@@ -11,7 +11,7 @@
 
 <AnchorPane minHeight="200.0" minWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.CustomConfigController">
    <children>
-      <GridPane layoutX="34.0" layoutY="85.0" prefHeight="30.0" prefWidth="332.0">
+      <GridPane layoutX="34.0" layoutY="85.0" prefHeight="30.0" prefWidth="332.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="161.0" minWidth="10.0" prefWidth="118.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="214.0" />
@@ -28,7 +28,7 @@
             <Button fx:id="_fileButton" mnemonicParsing="false" onAction="#handleFileButtonClicked" text="Select file..." GridPane.columnIndex="1" />
          </children>
       </GridPane>
-      <ButtonBar layoutX="186.0" layoutY="146.0" prefHeight="40.0" prefWidth="200.0">
+      <ButtonBar layoutX="186.0" layoutY="146.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
         <buttons>
           <Button fx:id="_okButton" defaultButton="true" mnemonicParsing="false" onAction="#handleOkClicked" text="OK" />
             <Button fx:id="_cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#handleCancelClicked" text="Cancel" />

@@ -42,20 +42,32 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 		}
 	}
 	
-	public void sendToClient(Packet message){
+	public void sendToClient(String message){
 		try{
 			if(_isRunning){
-				_outputStream.writeObject(message);
-				_outputStream.flush();
+				synchronized (_outputQueue) {
+					_outputStream.writeObject(message);
+					_outputStream.flush();
+				}
 			}
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
-	@Override
-	public Packet getFromClient() throws ClassNotFoundException, IOException {
-		return (Packet)_inputStream.readObject();
+	private Object getFromClient(){
+		synchronized (_inputStream) {
+			try {
+				if(_isRunning){
+					return _inputStream.readObject();
+				} else {
+					return null;//TODO null o stringa vuota?
+				}
+			} catch (Exception e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+				return null;//TODO null o stringa vuota?
+			}
+		}
 	}
 	
 	@Override

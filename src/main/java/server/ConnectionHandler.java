@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 import util.CommandStrings;
 
-public abstract class ConnectionHandler {
+public abstract class ConnectionHandler implements Runnable {
 	public void setClient(Client client){
 		_client = client;
 	}

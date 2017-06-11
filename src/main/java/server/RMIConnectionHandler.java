@@ -10,7 +10,7 @@ import misc.ConnectionHandlerRemote;
 import util.CommandStrings;
 import util.Constants;
 
-public class RMIConnectionHandler extends ConnectionHandler implements Runnable, ConnectionHandlerRemote {
+public class RMIConnectionHandler extends ConnectionHandler implements ConnectionHandlerRemote {
 
 	@Override
 	public void run() {
