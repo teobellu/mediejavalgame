@@ -1,7 +1,9 @@
 package server;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,11 +39,29 @@ public class ConfigFileHandler {
 					}
 				}
 			}
+			
+			int a = Integer.parseInt(rootChildren.item(2).getChildNodes().item(0).getNodeValue());
+			List<Integer> bonus = new ArrayList<>();
+			for (int i = 0; i < 13; i++)
+				bonus.add(Integer.parseInt(rootChildren.item(2).getChildNodes().item(i).getNodeValue()));
+		
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		
 		return false;
+	}
+	
+	public void generateBonusFaith(NodeList rootBonusFaith){
+		List<Integer> bonus = new ArrayList<>();
+		for (int i = 0; i < rootBonusFaith.getLength(); i++){
+			String value = rootBonusFaith.item(i).getNodeValue();
+			bonus.add(Integer.parseInt(value));
+		}
+	}
+	
+	public void read(File xml){
+		
 	}
 	
 	public static boolean validateNodes(Node rootChild){

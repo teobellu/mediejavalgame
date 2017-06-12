@@ -134,6 +134,7 @@ public class Player {
 
 	public void setFreeMember(List<FamilyMember> freeMember) {
 		this.freeMember = freeMember;
+		this.freeMember.forEach(familiar -> familiar.setOwner(this));
 	}
 
 	public List<LeaderCard> getLeaderCards(){

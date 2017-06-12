@@ -31,7 +31,7 @@ public class Test {
 	public static final Resource mil3 = new Resource(GC.RES_MILITARYPOINTS, 3);
 	
 	
-	public static void main(String[] args) throws GameException {	
+	public static void main(String[] args) throws GameException {
 		Resource santa = new Resource(GC.RES_COINS, 1);
 		Resource rita = new Resource(GC.RES_COINS, 2);
 		santa.add(GC.RES_WOOD, 1);
