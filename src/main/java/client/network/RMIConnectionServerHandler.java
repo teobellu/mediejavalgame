@@ -26,12 +26,12 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 			
 			_connectionHandler = (ConnectionHandlerRemote) _serverRMI.onConnect();
 			
-			_logger.info("RMIConnection is up");
+			_log.info("RMIConnection is up");
 			
 			_isRunning = true;
 			
 		} catch (Exception e) {
-			_logger.log(Level.SEVERE, e.getMessage(), e);
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -118,6 +118,22 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 		_connectionHandler.spendCouncilPrivilege(resource);
 	}
 	
+	@Override
+	public String readResponse() throws RemoteException {
+		String response = null;
+		
+		do {
+			response = _connectionHandler.readResponse();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+			}
+		} while (response==null);
+		
+		return response;
+	}
+	
 	/*�***************metodi che attendono una risposta dal server*********************/
 	
 	public boolean hasMyTurnStarted() throws RemoteException{
@@ -127,5 +143,5 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	private ServerRemote _serverRMI;
 	private Registry _registry;
 	private ConnectionHandlerRemote _connectionHandler;
-	private final Logger _logger = Logger.getLogger(RMIConnectionServerHandler.class.getName());
+	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
 }

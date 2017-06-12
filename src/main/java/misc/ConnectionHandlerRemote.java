@@ -37,4 +37,6 @@ public interface ConnectionHandlerRemote extends Remote {
 
 	public void putFamiliarWhere(String position) throws RemoteException;
 	
+	public String readResponse() throws RemoteException;
+	
 }

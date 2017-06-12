@@ -41,19 +41,6 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 			shutdown();
 		}
 	}
-	
-	public void sendToClient(String message){
-		try{
-			if(_isRunning){
-				synchronized (_outputQueue) {
-					_outputStream.writeObject(message);
-					_outputStream.flush();
-				}
-			}
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
 
 	private Object getFromClient(){
 		synchronized (_inputStream) {
@@ -109,6 +96,14 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 			return "";
 		}
 	}
+	
+	@Override
+	public void sendToClient(String[] messages) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	
 	private Socket _socket;
 	private ObjectInput _inputStream;

@@ -128,6 +128,8 @@ public abstract class ConnectionServerHandler extends Thread {
 	 */
 	public abstract void spendCouncilPrivilege(String resource) throws RemoteException;
 	
+	public abstract String readResponse() throws RemoteException;
+	
 	protected boolean _isRunning = false;
 	protected final String _host;
 	protected final int _port;

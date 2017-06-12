@@ -3,6 +3,11 @@ package server;
 import java.rmi.RemoteException;
 import java.time.Instant;
 import java.util.Date;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.logging.Logger;
 
 import game.Game;
@@ -78,15 +83,11 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public void sendToClient(String message) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public void setGame(){
-		_theGame = _client.getRoom().getGame();
+		if(_client!=null){
+			_theGame = _client.getRoom().getGame();
+		}
 	}
 	
 	public void doIspendMyFaithPoints(boolean doI) throws RemoteException{
@@ -95,9 +96,42 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 	
 	private void addToGameCommandList(String command){
-		synchronized (_theGame.getCommandList()) {
-			_theGame.getCommandList().add(command);
+		synchronized (_theGame.getActionCommandList()) {
+			_theGame.getActionCommandList().add(command);
 		}
+	}
+	
+	@Override
+	public void sendToClient(String[] messages) {
+		synchronized (_outQueue) {
+			for(String s : messages){
+				_outQueue.add(s);
+			}
+			
+			_outQueue.add(CommandStrings.END_TRANSMISSION);
+		}
+	}
+	
+	@Override
+	public void sendToClient(String message) {
+		sendToClient(new String[]{message});
+	}
+	
+	/* (non-Javadoc)
+	 * @see misc.ConnectionHandlerRemote#readResponse()
+	 */
+	@Override
+	public String readResponse() throws RemoteException {
+		String response;
+		synchronized (_outQueue) {
+			try {
+				response = _outQueue.getFirst();
+			} catch (NoSuchElementException e) {
+				return null;
+			}
+		}
+		
+		return response;
 	}
 	
 	private Game _theGame = null;
@@ -106,4 +140,5 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	private Date _lastPing;
 	private Logger _logger = Logger.getLogger(RMIConnectionHandler.class.getName());
 	private Thread _timeout;
+	private LinkedList<String> _outQueue = new LinkedList<>();
 }

@@ -2,307 +2,335 @@
 <root>
 	<bonus_actions>
 
-	<market_space></market_space>
-	<production_space></production_space>
-	<crop_space></crop_space>
-	<turn_space></turn_space>
-	<tower_space></tower_space></bonus_actions>
+		<market_space></market_space>
+		<production_space></production_space>
+		<crop_space></crop_space>
+		<turn_space></turn_space>
+		<tower_space></tower_space>
+	</bonus_actions>
 	<bonus_bridge>
-	
+
 	</bonus_bridge>
 	<bonus_faith>
-	<bonus>0</bonus>
-	<bonus>1</bonus>
-	<bonus>2</bonus>
-	<bonus>3</bonus>
-	<bonus>4</bonus>
-	<bonus>5</bonus>
-	<bonus>7</bonus>
-	<bonus>9</bonus>
-	<bonus>11</bonus>
-	<bonus>13</bonus>
-	<bonus>15</bonus>
-	<bonus>17</bonus>
-	<bonus>19</bonus>
-	<bonus>22</bonus>
-	<bonus>25</bonus>
-	<bonus>30</bonus>
+		<bonus>0</bonus>
+		<bonus>1</bonus>
+		<bonus>2</bonus>
+		<bonus>3</bonus>
+		<bonus>4</bonus>
+		<bonus>5</bonus>
+		<bonus>7</bonus>
+		<bonus>9</bonus>
+		<bonus>11</bonus>
+		<bonus>13</bonus>
+		<bonus>15</bonus>
+		<bonus>17</bonus>
+		<bonus>19</bonus>
+		<bonus>22</bonus>
+		<bonus>25</bonus>
+		<bonus>30</bonus>
 	</bonus_faith>
 	<dev_cards>
 		<territories>
 			<territory_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Commercial Hub
+					Commercial Hub
 				</name>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
 
-				<cost>1</cost><get_resources>
-	<gold>1</gold></get_resources>
+					<cost>1</cost>
+					<get_resources>
+						<gold>1</gold>
+					</get_resources>
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Woods
+					Woods
 				</name>
 				<instant_effect>
 
-				<get_resources>
-					<wood>1</wood></get_resources></instant_effect>
+					<get_resources>
+						<wood>1</wood>
+					</get_resources>
+				</instant_effect>
 				<permanent_effect>
 					<cost>2</cost>
 					<get_resources>
-						<wood>1</wood></get_resources>
+						<wood>1</wood>
+					</get_resources>
 
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Village
+					Village
 				</name>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
 					<cost>3</cost>
 					<get_resources>
 						<gold>1</gold>
-						<servant>1</servant></get_resources>
+						<servant>1</servant>
+					</get_resources>
 
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Gravel Pit
+					Gravel Pit
 				</name>
 				<instant_effect>
 					<get_resources>
-						<stone>2</stone></get_resources>
+						<stone>2</stone>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>4</cost>
 					<get_resources>
-						<stone>2</stone></get_resources>
-				
+						<stone>2</stone>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Forest
+					Forest
 				</name>
 				<instant_effect>
 					<get_resources>
-						<wood>1</wood></get_resources>
+						<wood>1</wood>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>5</cost>
 					<get_resources>
-						<wood>3</wood></get_resources>
-				
+						<wood>3</wood>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Monastery
+					Monastery
 				</name>
 				<instant_effect>
 					<get_resources>
 						<military_point>2</military_point>
-						<servant>1</servant></get_resources>
+						<servant>1</servant>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>6</cost>
 					<get_resources>
 						<faith_point>1</faith_point>
-						<stone>1</stone></get_resources>
-				
+						<stone>1</stone>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Citadel
+					Citadel
 				</name>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
 					<cost>5</cost>
 					<get_resources>
 						<military_point>2</military_point>
-						<stone>1</stone></get_resources>
-				
+						<stone>1</stone>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				City
+					City
 				</name>
 				<instant_effect>
 					<get_resources>
-						<gold>3</gold></get_resources>
+						<gold>3</gold>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>6</cost>
 					<get_resources>
-						<council_favor>1</council_favor></get_resources>
-				
+						<council_favor>1</council_favor>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Gold mine
+					Gold mine
 				</name>
 				<instant_effect>
 					<get_resources>
-						<gold>1</gold></get_resources>
+						<gold>1</gold>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>1</cost>
 					<get_resources>
-						<gold>2</gold></get_resources>
-				
+						<gold>2</gold>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Mountain Town
+					Mountain Town
 				</name>
 				<instant_effect>
 					<get_resources>
-						<servant>1</servant></get_resources>
+						<servant>1</servant>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>3</cost>
 					<get_resources>
 						<military_point>1</military_point>
-						<wood>2</wood></get_resources>
-				
+						<wood>2</wood>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Mining Town
+					Mining Town
 				</name>
 				<instant_effect>
 					<get_resources>
 						<stone>1</stone>
-						<servant>2</servant></get_resources>
+						<servant>2</servant>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>4</cost>
 					<get_resources>
 						<servant>1</servant>
-						<stone>2</stone></get_resources>
-				
+						<stone>2</stone>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Rock Pit
+					Rock Pit
 				</name>
 				<instant_effect>
 					<get_resources>
-						<wood>1</wood></get_resources>
+						<wood>1</wood>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>3</cost>
 					<get_resources>
-						<stone>3</stone></get_resources>
-				
+						<stone>3</stone>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Estate
+					Estate
 				</name>
 				<instant_effect>
 					<get_resources>
 						<servant>2</servant>
-						<wood>1</wood></get_resources>
+						<wood>1</wood>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>4</cost>
 					<get_resources>
 						<gold>1</gold>
-						<wood>2</wood></get_resources>
-				
+						<wood>2</wood>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Hermitage
+					Hermitage
 				</name>
 				<instant_effect>
 					<get_resources>
-						<faith_point>1</faith_point></get_resources>
+						<faith_point>1</faith_point>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>2</cost>
 					<get_resources>
-						<faith_point>1</faith_point></get_resources>
-				
+						<faith_point>1</faith_point>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Manor House
+					Manor House
 				</name>
 				<instant_effect>
 
@@ -311,20 +339,22 @@
 					<cost>5</cost>
 					<get_resources>
 						<military_point>2</military_point>
-						<servant>2</servant></get_resources>
-				
+						<servant>2</servant>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Dukedom
+					Dukedom
 				</name>
 				<instant_effect>
 					<get_resources>
-						<gold>4</gold></get_resources>
+						<gold>4</gold>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
@@ -332,61 +362,67 @@
 					<get_resources>
 						<gold>1</gold>
 						<stone>1</stone>
-						<wood>2</wood></get_resources>
-				
+						<wood>2</wood>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Trading Town
+					Trading Town
 				</name>
 				<instant_effect>
 					<get_resources>
 						<gold>1</gold>
-						<servant>1</servant></get_resources>
+						<servant>1</servant>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>1</cost>
 					<get_resources>
-						<gold>3</gold></get_resources>
-				
+						<gold>3</gold>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Farm
+					Farm
 				</name>
 				<instant_effect>
 					<get_resources>
 						<wood>1</wood>
-						<winning_point>1</winning_point></get_resources>
+						<winning_point>1</winning_point>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>3</cost>
 					<get_resources>
 						<winning_point>2</winning_point>
-						<wood>2</wood></get_resources>
-				
+						<wood>2</wood>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Colony
+					Colony
 				</name>
 				<instant_effect>
 					<get_resources>
-						<military_point>2</military_point></get_resources>
+						<military_point>2</military_point>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
@@ -395,76 +431,82 @@
 						<winning_point>4</winning_point>
 						<wood>1</wood>
 					</get_resources>
-				
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Marble Pit
+					Marble Pit
 				</name>
 				<instant_effect>
 					<get_resources>
-						<winning_point>3</winning_point></get_resources>
+						<winning_point>3</winning_point>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>2</cost>
 					<get_resources>
 						<winning_point>1</winning_point>
-						<stone>2</stone></get_resources>
-				
+						<stone>2</stone>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Province
+					Province
 				</name>
 				<instant_effect>
 					<get_resources>
 						<council_favor>1</council_favor>
-						<stone>1</stone></get_resources>
+						<stone>1</stone>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>6</cost>
 					<get_resources>
 						<winning_point>4</winning_point>
-						<stone>1</stone></get_resources>
-				
+						<stone>1</stone>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Sanctuary
+					Sanctuary
 				</name>
 				<instant_effect>
 					<get_resources>
-						<faith_point>1</faith_point></get_resources>
+						<faith_point>1</faith_point>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>1</cost>
 					<get_resources>
 						<gold>1</gold>
-						<faith_point>1</faith_point></get_resources>
-				
+						<faith_point>1</faith_point>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Castle
+					Castle
 				</name>
 				<instant_effect>
 					<get_resources>
@@ -477,46 +519,51 @@
 					<cost>4</cost>
 					<get_resources>
 						<military_point>3</military_point>
-						<servant>1</servant></get_resources>
-				
+						<servant>1</servant>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 			<territory_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Fortified Town
+					Fortified Town
 				</name>
 				<instant_effect>
 					<get_resources>
 						<military_point>2</military_point>
-						<servant>1</servant></get_resources>
+						<servant>1</servant>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>2</cost>
 					<get_resources>
 						<military_point>1</military_point>
-						<servant>2</servant></get_resources>
-				
+						<servant>2</servant>
+					</get_resources>
+
 				</permanent_effect>
 			</territory_card>
 		</territories>
 		<buildings>
 			<building_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Mint
+					Mint
 				</name>
 				<cost>
 					<wood>1</wood>
-					<stone>3</stone></cost>
+					<stone>3</stone>
+				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>5</winning_point></get_resources>
+						<winning_point>5</winning_point>
+					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
@@ -524,14 +571,16 @@
 
 					<gain_for_every>
 						<gold>1</gold>
-						<building></building></gain_for_every></permanent_effect>
+						<building></building>
+					</gain_for_every>
+				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Tax Office
+					Tax Office
 				</name>
 				<cost>
 					<stone>1</stone>
@@ -539,44 +588,49 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>5</winning_point></get_resources>
-				
+						<winning_point>5</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost>5</cost>
 					<gain_for_every>
 						<gold>1</gold>
-						<territory></territory></gain_for_every>
+						<territory></territory>
+					</gain_for_every>
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Triumphal Arc
+					Triumphal Arc
 				</name>
 				<cost>
 					<gold>2</gold>
-					<stone>2</stone></cost>
+					<stone>2</stone>
+				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>6</winning_point></get_resources>
-				
+						<winning_point>6</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost>6</cost>
 					<gain_for_every>
 						<winning_point>1</winning_point>
-						<venture></venture></gain_for_every>
+						<venture></venture>
+					</gain_for_every>
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Theater
+					Theater
 				</name>
 				<cost>
 					<gold>2</gold>
@@ -584,22 +638,24 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>6</winning_point></get_resources>
-				
+						<winning_point>6</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost>6</cost>
 					<gain_for_every>
 						<winning_point>1</winning_point>
-						<character></character></gain_for_every>
+						<character></character>
+					</gain_for_every>
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Carpenter's Shop
+					Carpenter's Shop
 				</name>
 				<cost>
 					<gold>1</gold>
@@ -608,20 +664,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>3</winning_point></get_resources>
-				
+						<winning_point>3</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Stonemason's Shop
+					Stonemason's Shop
 				</name>
 				<cost>
 					<gold>1</gold>
@@ -630,20 +687,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>2</winning_point></get_resources>
-				
+						<winning_point>2</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Chapel
+					Chapel
 				</name>
 				<cost>
 					<wood>2</wood>
@@ -651,20 +709,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<faith_point>1</faith_point></get_resources>
-				
+						<faith_point>1</faith_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Residence
+					Residence
 				</name>
 				<cost>
 					<stone>2</stone>
@@ -672,20 +731,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>1</winning_point></get_resources>
-				
+						<winning_point>1</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Marketplace
+					Marketplace
 				</name>
 				<cost>
 					<wood>2</wood>
@@ -694,20 +754,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>3</winning_point></get_resources>
-				
+						<winning_point>3</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Treasury
+					Treasury
 				</name>
 				<cost>
 					<wood>3</wood>
@@ -715,20 +776,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>4</winning_point></get_resources>
-				
+						<winning_point>4</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Painter's Guild
+					Painter's Guild
 				</name>
 				<cost>
 					<wood>4</wood>
@@ -736,20 +798,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>5</winning_point></get_resources>
-				
+						<winning_point>5</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Sculptor's Guild
+					Sculptor's Guild
 				</name>
 				<cost>
 					<stone>4</stone>
@@ -757,20 +820,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>6</winning_point></get_resources>
-				
+						<winning_point>6</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Stonemason's Guild
+					Stonemason's Guild
 				</name>
 				<cost>
 					<stone>2</stone>
@@ -779,20 +843,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>4</winning_point></get_resources>
-				
+						<winning_point>4</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Baptistery
+					Baptistery
 				</name>
 				<cost>
 					<stone>3</stone>
@@ -801,20 +866,21 @@
 				<instant_effect>
 					<get_resources>
 						<winning_point>2</winning_point>
-						<faith_point>1</faith_point></get_resources>
-				
+						<faith_point>1</faith_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Barracks
+					Barracks
 				</name>
 				<cost>
 					<stone>1</stone>
@@ -823,20 +889,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>3</winning_point></get_resources>
-				
+						<winning_point>3</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Stronghold
+					Stronghold
 				</name>
 				<cost>
 					<gold>2</gold>
@@ -846,20 +913,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>8</winning_point></get_resources>
-				
+						<winning_point>8</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Bank
+					Bank
 				</name>
 				<cost>
 					<gold>3</gold>
@@ -869,20 +937,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>7</winning_point></get_resources>
-				
+						<winning_point>7</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Fair
+					Fair
 				</name>
 				<cost>
 					<gold>4</gold>
@@ -891,42 +960,45 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>8</winning_point></get_resources>
-				
+						<winning_point>8</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Garden
+					Garden
 				</name>
 				<cost>
 
-				<servant>2</servant>
-				<wood>4</wood>
-				<stone>2</stone></cost>
+					<servant>2</servant>
+					<wood>4</wood>
+					<stone>2</stone>
+				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>10</winning_point></get_resources>
-				
+						<winning_point>10</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Fortress
+					Fortress
 				</name>
 				<cost>
 					<gold>2</gold>
@@ -936,20 +1008,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>9</winning_point></get_resources>
-				
+						<winning_point>9</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Palace
+					Palace
 				</name>
 				<cost>
 					<gold>3</gold>
@@ -959,20 +1032,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>9</winning_point></get_resources>
-				
+						<winning_point>9</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Church
+					Church
 				</name>
 				<cost>
 					<wood>1</wood>
@@ -982,20 +1056,21 @@
 				<instant_effect>
 					<get_resources>
 						<winning_point>5</winning_point>
-						<faith_point>1</faith_point></get_resources>
-				
+						<faith_point>1</faith_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Military Academy
+					Military Academy
 				</name>
 				<cost>
 					<servant>1</servant>
@@ -1005,20 +1080,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>7</winning_point></get_resources>
-				
+						<winning_point>7</winning_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 			<building_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Cathedral
+					Cathedral
 				</name>
 				<cost>
 					<stone>4</stone>
@@ -1028,828 +1104,829 @@
 				<instant_effect>
 					<get_resources>
 						<winning_point>7</winning_point>
-						<faith_point>3</faith_point></get_resources>
-				
+						<faith_point>3</faith_point>
+					</get_resources>
+
 				</instant_effect>
 				<permanent_effect>
 					<cost></cost>
-				
+
 				</permanent_effect>
 			</building_card>
 		</buildings>
 		<characters>
 			<character_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Warlord
+					Warlord
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Stonemason
+					Stonemason
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Dame
+					Dame
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Knight
+					Knight
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Farmer
+					Farmer
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Artisan
+					Artisan
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Preacher
+					Preacher
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Abbess
+					Abbess
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Captain
+					Captain
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Architect
+					Architect
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Patron
+					Patron
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Hero
+					Hero
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Peasant
+					Peasant
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Scholar
+					Scholar
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Papal Messenger
+					Papal Messenger
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>2</period>
 				<name>
-				Royal Messenger
+					Royal Messenger
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Noble
+					Noble
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Governor
+					Governor
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Paramour
+					Paramour
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Herald
+					Herald
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Cardinal
+					Cardinal
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Bishop
+					Bishop
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>3</period>
 				<name>
-				General
+					General
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 			<character_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Ambassador
+					Ambassador
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</character_card>
 		</characters>
 		<ventures>
 			<venture_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Hiring recruits
+					Hiring recruits
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Repairing the Church
+					Repairing the Church
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Building the walls
+					Building the walls
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Raising a statue
+					Raising a statue
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Military Campaign
+					Military Campaign
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Hosting panhandlers
+					Hosting panhandlers
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Fighting heresies
+					Fighting heresies
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				1
+					1
 				</period>
 				<name>
-				Support to the Bishop
+					Support to the Bishop
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Hiring soldiers
+					Hiring soldiers
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Repairing the Abbey
+					Repairing the Abbey
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Building the bastions
+					Building the bastions
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Support to the King
+					Support to the King
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Improving the canals
+					Improving the canals
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Hosting foreigners
+					Hosting foreigners
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Crusade
+					Crusade
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				2
+					2
 				</period>
 				<name>
-				Support to the Cardinal
+					Support to the Cardinal
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Hiring mercenaries
+					Hiring mercenaries
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Repairing the Cathedral
+					Repairing the Cathedral
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Building the towers
+					Building the towers
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Promoting Sacred Arts
+					Promoting Sacred Arts
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Military Conquest
+					Military Conquest
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Improving the roads
+					Improving the roads
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Sacred War
+					Sacred War
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 			<venture_card>
 				<period>
-				3
+					3
 				</period>
 				<name>
-				Support to the Pope
+					Support to the Pope
 				</name>
 				<cost>
-				
+
 				</cost>
 				<instant_effect>
-				
+
 				</instant_effect>
 				<permanent_effect>
-				
+
 				</permanent_effect>
 			</venture_card>
 		</ventures>
@@ -1859,117 +1936,142 @@
 			<period>1</period>
 
 			<get_less_resources>
-				<military_point>1</military_point></get_less_resources></ban_card>
+				<military_point>1</military_point>
+			</get_less_resources>
+		</ban_card>
 		<ban_card>
 			<period>1</period>
 			<get_less_resources>
-				<gold>1</gold></get_less_resources>
+				<gold>1</gold>
+			</get_less_resources>
 
 		</ban_card>
 		<ban_card>
 			<period>1</period>
 			<get_less_resources>
-				<servant>1</servant></get_less_resources>
+				<servant>1</servant>
+			</get_less_resources>
 
 		</ban_card>
 		<ban_card>
 			<period>1</period>
 			<get_less_resources>
 				<wood>1</wood>
-				<stone>1</stone></get_less_resources>
+				<stone>1</stone>
+			</get_less_resources>
 
 		</ban_card>
 		<ban_card>
 			<period>1</period>
 
-			<less_value_production_action>3</less_value_production_action></ban_card>
+			<less_value_production_action>3</less_value_production_action>
+		</ban_card>
 		<ban_card>
 			<period>1</period>
 
-			<less_value_crop_action>3</less_value_crop_action></ban_card>
+			<less_value_crop_action>3</less_value_crop_action>
+		</ban_card>
 		<ban_card>
 			<period>1</period>
 
-			<less_value_familiars>1</less_value_familiars></ban_card>
+			<less_value_familiars>1</less_value_familiars>
+		</ban_card>
 		<ban_card>
 			<period>2</period>
 
 			<less_value_card_action>
 				<type>territory</type>
-				<value>4</value></less_value_card_action></ban_card>
+				<value>4</value>
+			</less_value_card_action>
+		</ban_card>
 		<ban_card>
 			<period>2</period>
 			<less_value_card_action>
 				<type>building</type>
-				<value>4</value></less_value_card_action>
+				<value>4</value>
+			</less_value_card_action>
 
 		</ban_card>
 		<ban_card>
 			<period>2</period>
 			<less_value_card_action>
 				<type>character</type>
-				<value>4</value></less_value_card_action>
+				<value>4</value>
+			</less_value_card_action>
 
 		</ban_card>
 		<ban_card>
 			<period>2</period>
 			<less_value_card_action>
 				<type>venture</type>
-				<value>4</value></less_value_card_action>
+				<value>4</value>
+			</less_value_card_action>
 
 		</ban_card>
 		<ban_card>
 			<period>2</period>
 
-			<no_market></no_market></ban_card>
+			<no_market></no_market>
+		</ban_card>
 		<ban_card>
 			<period>2</period>
 
-			<half_servants_value></half_servants_value></ban_card>
+			<half_servants_value></half_servants_value>
+		</ban_card>
 		<ban_card>
 			<period>2</period>
 
-			<delay_first_action></delay_first_action></ban_card>
+			<delay_first_action></delay_first_action>
+		</ban_card>
 		<ban_card>
 			<period>3</period>
 			<lose_winning_points>
-				<winning_point>5</winning_point></lose_winning_points>
+				<winning_point>5</winning_point>
+			</lose_winning_points>
 
 		</ban_card>
 		<ban_card>
 			<period>3</period>
 
 			<no_winning_points>
-				<territory></territory></no_winning_points></ban_card>
-		<ban_card>
-			<period>3</period>
-			<no_winning_points>
-				<character></character></no_winning_points>
-
+				<territory></territory>
+			</no_winning_points>
 		</ban_card>
 		<ban_card>
 			<period>3</period>
 			<no_winning_points>
-				<military></military></no_winning_points>
+				<character></character>
+			</no_winning_points>
+
+		</ban_card>
+		<ban_card>
+			<period>3</period>
+			<no_winning_points>
+				<military></military>
+			</no_winning_points>
 
 		</ban_card>
 		<ban_card>
 			<period>3</period>
 			<lose_winning_points>
-				<military_point>1</military_point></lose_winning_points>
+				<military_point>1</military_point>
+			</lose_winning_points>
 
 		</ban_card>
 		<ban_card>
 			<period>3</period>
 			<lose_winning_points>
-				<resources>1</resources></lose_winning_points>
+				<resources>1</resources>
+			</lose_winning_points>
 
 		</ban_card>
 		<ban_card>
 			<period>3</period>
 
 			<lose_winning_points>
-				<building_costs>1</building_costs></lose_winning_points></ban_card>
+				<building_costs>1</building_costs>
+			</lose_winning_points>
+		</ban_card>
 	</ban_cards>
 	<timeout_start>20</timeout_start>
 	<timeout_turn>

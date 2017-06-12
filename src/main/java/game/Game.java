@@ -119,7 +119,7 @@ public class Game implements Runnable {
 		return _dynamicAction;
 	}
 	
-	public Deque<String> getCommandList(){
+	public Deque<String> getActionCommandList(){
 		return _commandActionList;
 	}
 	

@@ -157,6 +157,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		
 	}
 	
+	/**
+	 * Read an object from the {@link ObjectInputStream}. Cannot return <code>null</code> value.
+	 * @return the object read
+	 */
 	private synchronized Object readObject() {
 		try {
 			do {
@@ -218,6 +222,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	public void spendCouncilPrivilege(String resource) throws RemoteException {
 		writeObject(CommandStrings.HANDLE_COUNCIL);
 		writeObject(resource);
+	}
+	
+	@Override
+	public String readResponse() throws RemoteException {
+		return (String) readObject();
 	}
 	
 	private Socket _socket;
