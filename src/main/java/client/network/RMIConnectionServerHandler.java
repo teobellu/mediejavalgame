@@ -24,6 +24,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 			
 			ServerRemote _serverRMI = (ServerRemote) _registry.lookup(Constants.RMI);
 			
+			//TODO da cambiare... usare registry lookup
 			_connectionHandler = (ConnectionHandlerRemote) _serverRMI.onConnect();
 			
 			_log.info("RMIConnection is up");
@@ -38,11 +39,14 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public List<String> putFamiliar() throws RemoteException {
 		_connectionHandler.putFamiliar();
+		//TODO
+		return null;
 	}
 	
 	@Override
 	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
-		_connectionHandler.putFamiliarWhich();
+		//TODO
+		return null;
 	}
 
 	@Override
@@ -144,4 +148,9 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	private Registry _registry;
 	private ConnectionHandlerRemote _connectionHandler;
 	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
+	@Override
+	public String sendCiao() throws RemoteException {
+		_connectionHandler.sendCiao();
+		return readResponse();
+	}
 }

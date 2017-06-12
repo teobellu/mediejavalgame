@@ -63,7 +63,7 @@ public class StartingViewController {
 		int port;
 		if(address.isEmpty()){
 			address = "localhost";
-			port = 8080;//TODO porta per connessione
+			port = 1099;//TODO porta per connessione
 		} else {
 			port = Integer.parseInt(address.split(":")[1]);
 			address = address.split(":")[0];

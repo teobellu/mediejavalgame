@@ -79,7 +79,7 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	
 	@Override
 	public void onConnect() throws RemoteException {
-		Server.getInstance().onConnect(this);
+		//TODO
 	}
 	
 	private void writeObject(Object obj) throws IOException{
@@ -88,13 +88,8 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	}
 	
 	public String startTurn(){
-		try {
-			writeObject(CommandStrings.START_TURN);
-			//TODO leggi risposta?
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return "";
-		}
+		//TODO
+		return null;
 	}
 	
 	@Override
@@ -103,10 +98,15 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 		
 	}
 	
-	
+	@Override
+	public void sendToClient(String message) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	private Socket _socket;
 	private ObjectInput _inputStream;
 	private ObjectOutput _outputStream;
 	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
+	
 }

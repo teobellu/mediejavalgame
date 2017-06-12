@@ -1,13 +1,11 @@
 package server;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.time.Instant;
 import java.util.Date;
-import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.logging.Logger;
 
 import game.Game;
@@ -15,7 +13,7 @@ import misc.ConnectionHandlerRemote;
 import util.CommandStrings;
 import util.Constants;
 
-public class RMIConnectionHandler extends ConnectionHandler implements ConnectionHandlerRemote {
+public class RMIConnectionHandler extends ConnectionHandler implements ConnectionHandlerRemote, Serializable {
 
 	@Override
 	public void run() {
@@ -75,7 +73,8 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 	
 	public String startTurn(){
-		_hasMyTurnStarted = true;
+		//TODO
+		return null;
 	}
 	
 	@Override
@@ -132,6 +131,41 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		}
 		
 		return response;
+	}
+	
+	@Override
+	public boolean endTurn() throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void spendCouncilPrivilege(String resource) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendInitialInformations(String name) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void putFamiliarWhere(String position) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void sendCiao() throws RemoteException {
+		Server.getInstance().sendCiao(this);
 	}
 	
 	private Game _theGame = null;

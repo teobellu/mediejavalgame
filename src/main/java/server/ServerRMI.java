@@ -56,11 +56,11 @@ public class ServerRMI extends Thread implements ServerRemote {
 	 * A client should call this method to connect to the server.
 	 * 
 	 */
-	public ConnectionHandler onConnect(){
+	public RMIConnectionHandler onConnect(){
 		/*TODO 
 		 * Viene chiamato onConnect() di Server.
 		 * */
-		ConnectionHandler connectionHandler = new RMIConnectionHandler();
+		RMIConnectionHandler connectionHandler = new RMIConnectionHandler();
 				
 		return connectionHandler;
 	}

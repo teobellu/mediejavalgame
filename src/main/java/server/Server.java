@@ -97,6 +97,10 @@ public class Server extends Thread {
 	public void shutdown(){
 		_isRunning = false;
 	}
+	
+	public void sendCiao(RMIConnectionHandler ch){
+		ch.sendToClient("come va?");
+	}
 
 	private boolean _isRunning = false;
 	private List<Room> _games;

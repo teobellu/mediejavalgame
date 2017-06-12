@@ -1,9 +1,10 @@
 package misc;
 
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface ConnectionHandlerRemote extends Remote {
+public interface ConnectionHandlerRemote extends Remote, Serializable {
 
 	public void sendName(String name) throws RemoteException;
 
@@ -38,5 +39,7 @@ public interface ConnectionHandlerRemote extends Remote {
 	public void putFamiliarWhere(String position) throws RemoteException;
 	
 	public String readResponse() throws RemoteException;
+	
+	public void sendCiao() throws RemoteException;
 	
 }
