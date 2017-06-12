@@ -2,11 +2,219 @@
 <root>
 	<bonus_actions>
 
-		<market_space></market_space>
-		<production_space></production_space>
-		<crop_space></crop_space>
-		<turn_space></turn_space>
-		<tower_space></tower_space>
+		<market>
+			<market_space>
+				<instant_effect>
+					<get_resources>
+						<coins>5</coins>
+					</get_resources>
+				</instant_effect>
+			</market_space>
+		
+			<market_space>
+				<instant_effect>
+					<get_resources>
+						<servants>5</servants>
+					</get_resources>
+				</instant_effect>
+			</market_space>
+		
+			<market_space>
+				<instant_effect>
+					<get_resources>
+						<military_points>3</military_points>
+						<coins>2</coins>
+					</get_resources>
+				</instant_effect>
+			</market_space>
+		
+			<market_space>
+				<instant_effect>
+					<get_resources>
+						<councils>2</councils>
+					</get_resources>
+				</instant_effect>
+			</market_space>
+		</market>
+		
+		<harvest>
+			<harvest_space>
+				<instant_effect>
+					<less_value_harvest_action>0</less_value_harvest_action>
+				</instant_effect>
+			</harvest_space>
+			
+			<harvest_space>
+				<instant_effect>
+					<less_value_harvest_action>3</less_value_harvest_action>
+				</instant_effect>
+			</harvest_space>
+		</harvest>
+		
+		<production>
+			<production_space>
+				<instant_effect>
+					<less_value_production_action>0</less_value_production_action>
+				</instant_effect>
+			</production_space>
+			
+			<production_space>
+				<instant_effect>
+					<less_value_production_action>3</less_value_production_action>
+				</instant_effect>
+			</production_space>
+		</production>
+		
+		
+		
+		
+		<turn_space>
+			<instant_effect>
+				<get_resources>
+					<councils>1</councils>
+					<coins>1</coins>
+				</get_resources>
+			</instant_effect>
+		</turn_space>
+		
+		<towers>
+			<tower>
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<wood>2</wood>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<wood>1</wood>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<wood>0</wood>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<wood>0</wood>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+			</tower>
+			
+			<tower>
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<stones>2</stones>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<stones>1</stones>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<stones>0</stones>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<stones>0</stones>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+			</tower>
+			
+			<tower>
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<military_points>2</military_points>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<military_points>1</military_points>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<military_points>0</military_points>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<military_points>0</military_points>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+			</tower>
+			
+			<tower>
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<coins>2</coins>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<coins>1</coins>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<coins>0</coins>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+				
+				<tower_space>
+					<instant_effect>
+						<get_resources>
+							<coins>0</coins>
+						</get_resources>
+					</instant_effect>
+				</tower_space>
+			</tower>
+		</towers>
+		
 	</bonus_actions>
 	<bonus_bridge>
 
