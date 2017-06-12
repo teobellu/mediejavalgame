@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -50,13 +52,33 @@ public class GameInformation{
 	}
 	
 	/**
+	 * This method simply rolls dices and set new family members to all the players;
+	 * Then refresh gameboard's dices
+	 */
+	public void rollDices(){
+		List<FamilyMember> familiars = new ArrayList<>();
+		Random random = new Random();
+		GC.FM_TYPE.forEach(color -> familiars.add(new FamilyMember(color)));
+		familiars.stream()
+			.filter(familiar -> familiar.getColor() != GC.FM_TRANSPARENT)
+			.forEach(familiar -> familiar.setValue(random.nextInt(6) + 1));
+		int size = board.getdices().length;
+		int[] dices = new int [size];
+		for (int i = 0; i < size; i++)
+			for (FamilyMember familiar : familiars)
+				dices[i] = familiar.getValue();
+		game.getPlayers().forEach(player -> player.setFreeMember(new ArrayList<>(familiars)));
+	}
+	
+	/**
 	 * Finds the next order of the players
 	 * @return The new order of the players 
 	 */
 	public List<Player> getNextPlayersTurn(){
 		List<Player> nextList = new ArrayList<>();
-		headPlayersTurn.forEach(player -> nextList.add(player));
-		playersTurn.stream().forEach(player -> nextList.add(player));
+		Consumer<Player> add = player -> nextList.add(player);
+		headPlayersTurn.forEach(add);
+		playersTurn.forEach(add);
 		playersTurn.clear();
 		nextList.stream()
 			.filter(player -> !playersTurn.contains(player))

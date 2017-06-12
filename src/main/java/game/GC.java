@@ -55,6 +55,9 @@ public class GC {
 	public static final String FM_ORANGE = "orange";
 	public static final String FM_TRANSPARENT = "transparent";
 	
+	public static final List<String> FM_TYPE = Collections.unmodifiableList(
+			Arrays.asList(FM_BLACK, FM_WHITE, FM_ORANGE, FM_TRANSPARENT));
+	
 	public static final String HARVEST = "harvest";
 	public static final String PRODUCTION = "production";
 	

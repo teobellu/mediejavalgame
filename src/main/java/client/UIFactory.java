@@ -17,7 +17,7 @@ public interface UIFactory {
 	 * @return New instance of selected UI
 	 */
 	public static UI getUserInterface(int choose){
-		String uiType = Constants.USER_INTERFACE_TYPES.get(choose);
+		String uiType = Constants.UI_TYPES.get(choose);
 		
 		switch(uiType){
 			case Constants.CLI : return new CommandLineUI();

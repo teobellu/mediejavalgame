@@ -15,7 +15,7 @@ public class Constants {
 	public static final String CLI = "CLI";
 	public static final  String GUI = "GUI";
 	
-	public static final List<String> USER_INTERFACE_TYPES = Collections.unmodifiableList(
+	public static final List<String> UI_TYPES = Collections.unmodifiableList(
 			Arrays.asList(CLI, GUI));
 	
 	public static final int MAX_PLAYER = 4;

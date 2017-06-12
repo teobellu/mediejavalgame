@@ -22,16 +22,13 @@ public class Client extends Thread {
 	public void run(){
 		
 		//Get UI
-		_ioHandler.write("Vuoi giocare da Command Line Interface (CLI) o da Graphical User Interface (GUI)?");
+		_ioHandler.write("Select your User Interface");
 		
-		int index = 0;
-		for(String ui : Constants.USER_INTERFACE_TYPES){
-			_ioHandler.write(index + ") " + ui);
-			index++;
-		}
-		index--;
-		
-		_ui = UIFactory.getUserInterface(_ioHandler.readNumberWithinInterval(index));
+		Constants.UI_TYPES
+		.forEach(ui -> _ioHandler.write(Constants.UI_TYPES.indexOf(ui) + ") " + ui));
+	
+		_ui = UIFactory.getUserInterface(_ioHandler
+				.readNumberWithinInterval(Constants.UI_TYPES.size() - 1));
 		
 		if (_ui == null) {
 			_log.log(Level.SEVERE, "Can't get a UserInterface. What's goign on?");

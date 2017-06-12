@@ -28,7 +28,7 @@ public class GameBoard {
 	public static final int MAX_ROW = 4;
 	public static final int MAX_COLUMN = 4;
 	private static final int MAX_EXCOMUNNICATION_CARD = 3;
-	private static final int MAX_DICES = 3;
+	protected static final int MAX_DICES = 3;
 	private static int MAX_MARKET_SPACE = 4;
 	
 	private final UserConfig userConfig;
@@ -92,8 +92,8 @@ public class GameBoard {
 	}
 	
 	public void roll(){
-		for (int i = 0; i < dices.length; i++)
-			dices[i] = (int)(Math.random()*6) + 1;
+		for (int dice : dices)
+			dice = (int)(Math.random()*6) + 1;
 	}
 	
 	public int[] getdices(){
