@@ -1,7 +1,10 @@
 package client.gui;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.rmi.RemoteException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import client.Client;
@@ -37,9 +40,7 @@ public class GraphicalUI implements UI {
 		
 		new Thread(_connectionHandler).start();
 		
-		if(_connectionHandler.isRunning()){
-			sendXML();
-		}
+		sendXML();
 	}
 	
 	public ConnectionServerHandler getConnection(){
@@ -78,39 +79,33 @@ public class GraphicalUI implements UI {
 	}
 	
 	private void sendXML(){
-//		FileReader customConfig = null;
-//		try {
-//			if(_xmlFile!=null){
-//				customConfig = new FileReader(_xmlFile);
-//				
-//				StringBuilder sb = new StringBuilder();
-//				BufferedReader br = new BufferedReader(customConfig);
-//				String line;
-//				while((line = br.readLine() ) != null) {
-//				    sb.append(line);
-//				}
-//				
-//				br.close();
-//				_connectionHandler.sendConfigFile(sb.toString());
-//			} else {
-//				_connectionHandler.sendConfigFile("");
-//			}
-//		} catch (Exception e) {
-//			_log.log(Level.SEVERE, e.getMessage(), e);
-//		}
-//		finally{
-//			if (customConfig != null)
-//				try {
-//					customConfig.close();
-//				} catch (IOException e) {
-//					_log.log(Level.SEVERE, e.getMessage(), e);
-//				}
-//		}
-		
+		FileReader customConfig = null;
 		try {
-			System.out.println(_connectionHandler.sendCiao());
-		} catch (RemoteException e) {
-			System.out.println("porcoddio");
+			if(_xmlFile!=null){
+				customConfig = new FileReader(_xmlFile);
+				
+				StringBuilder sb = new StringBuilder();
+				BufferedReader br = new BufferedReader(customConfig);
+				String line;
+				while((line = br.readLine() ) != null) {
+				    sb.append(line);
+				}
+				
+				br.close();
+				_connectionHandler.sendConfigFile(sb.toString());
+			} else {
+				_connectionHandler.sendConfigFile("");
+			}
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		finally{
+			if (customConfig != null)
+				try {
+					customConfig.close();
+				} catch (IOException e) {
+					_log.log(Level.SEVERE, e.getMessage(), e);
+				}
 		}
 	}
 	

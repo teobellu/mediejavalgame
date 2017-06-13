@@ -14,8 +14,6 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	
 	public void activateLeaderCard(String card) throws RemoteException;
 
-	public void sendConfigFile() throws RemoteException;
-
 	public void putFamiliar() throws RemoteException;
 	
 	public void onConnect() throws RemoteException;
@@ -39,7 +37,5 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	public void putFamiliarWhere(String position) throws RemoteException;
 	
 	public String readResponse() throws RemoteException;
-	
-	public void sendCiao() throws RemoteException;
 	
 }

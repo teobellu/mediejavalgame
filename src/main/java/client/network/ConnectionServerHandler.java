@@ -130,11 +130,9 @@ public abstract class ConnectionServerHandler extends Thread {
 	
 	public abstract String readResponse() throws RemoteException;
 	
-	public abstract String sendCiao() throws RemoteException;
-	
 	protected boolean _isRunning = false;
 	protected final String _host;
-	protected final int _port;
+	protected int _port;
 	protected Client _client;
 	
 }

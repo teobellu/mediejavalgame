@@ -15,6 +15,14 @@ public abstract class ConnectionHandler implements Runnable {
 		_isRunning = false;
 	}
 	
+	public String getConfigFile(){
+		if(_configFile==null){
+			return "";
+		} else {
+			return _configFile;
+		}
+	}
+	
 	public abstract void onConnect() throws RemoteException;
 	
 	public abstract String startTurn() throws RemoteException;
@@ -24,5 +32,7 @@ public abstract class ConnectionHandler implements Runnable {
 	public abstract void sendToClient(String[] messages);
 	
 	protected Client _client;
-	protected boolean _isRunning;
+	protected volatile boolean _isRunning;
+	
+	protected String _configFile = null;
 }

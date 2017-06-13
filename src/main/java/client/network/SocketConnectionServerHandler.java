@@ -1,9 +1,7 @@
 package client.network;
 
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
@@ -13,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import util.CommandStrings;
+import util.Constants;
 
 /**
  * @author Jacopo
@@ -22,21 +21,29 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
 	public SocketConnectionServerHandler(String host, int port) {
 		super(host, port);
-	}
-	
-	@Override
-	public void run() {
+		
+		if(port==0){
+			_port=Constants.DEFAULT_SOCKET_PORT;
+		}
+		
 		try {
 			_socket = new Socket(_host, _port);
 			
-			_inputStream = new ObjectInputStream(_socket.getInputStream());
 			_outputStream = new ObjectOutputStream(_socket.getOutputStream());
+			_inputStream = new ObjectInputStream(_socket.getInputStream());
+			
+			_log.info("Socket Connection is up");
 			
 			_isRunning = true;
 			
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+	
+	@Override
+	public void run() {
+		
 	}
 	
 	@Override
@@ -82,8 +89,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	
 	@Override
 	public void sendConfigFile(String file) throws RemoteException {
-			String message = CommandStrings.ASK_FOR_CONFIG;
-			writeObject(message);
+			writeObject(CommandStrings.ASK_FOR_CONFIG);
 			writeObject(file);
 	}
 
@@ -166,7 +172,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			do {
 				Object obj = _inputStream.readObject();
 				if (obj!=null) {
-					return _inputStream.readObject();
+					return obj;
+				} else {
+					Thread.sleep(500);
 				}
 			} while (_isRunning);
 		} catch (Exception e) {
@@ -230,7 +238,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	private Socket _socket;
-	private ObjectInput _inputStream;
-	private ObjectOutput _outputStream;
+	private ObjectInputStream _inputStream;
+	private ObjectOutputStream _outputStream;
 	private final Logger _log = Logger.getLogger(SocketConnectionServerHandler.class.getName());
 }

@@ -28,6 +28,8 @@ public class Constants {
 	
 	public static final int DEFAULT_START_ROOM_TIME_MILLIS = 20000; 
 	
+	public static final int DEFAULT_SOCKET_PORT = 2334;
+	
 	/**
 	 * Private constructor to hide the implicit public one
 	 */

@@ -9,7 +9,7 @@ import util.Constants;
 
 public class Room extends Thread {
 	
-	public Room() {
+	public Room(String configFile) {
 		_players = new ArrayList<>();
 	}
 	

@@ -50,23 +50,34 @@ public class StartingViewController {
 	private void onConnectPressed(){
 		String username = _username.getText().trim();
 		 if(username.isEmpty()){
-			 Alert alert = new Alert(AlertType.WARNING);
-	        	alert.initOwner(_GUI.getPrimaryStage());
-	        	alert.setTitle("No username");
-	        	alert.setHeaderText("No username provided");
-	        	alert.setContentText("Please choose a username");
-	        	alert.showAndWait();
-	        	return;
+			Alert alert = new Alert(AlertType.WARNING);
+        	alert.initOwner(_GUI.getPrimaryStage());
+        	alert.setTitle("No username");
+        	alert.setHeaderText("No username provided");
+        	alert.setContentText("Please choose a username");
+        	alert.showAndWait();
+        	return;
 		 } 
 		
 		String address = _address.getText().trim();
 		int port;
 		if(address.isEmpty()){
 			address = "localhost";
-			port = 1099;//TODO porta per connessione
+			port = 0;
 		} else {
-			port = Integer.parseInt(address.split(":")[1]);
-			address = address.split(":")[0];
+			
+			try {
+				port = Integer.parseInt(address.split(":")[1]);
+				address = address.split(":")[0];
+			} catch (NumberFormatException e) {
+				Alert alert = new Alert(AlertType.WARNING);
+	        	alert.initOwner(_GUI.getPrimaryStage());
+	        	alert.setTitle("Invalid Address");
+	        	alert.setHeaderText("Cannot parse address");
+	        	alert.setContentText("Please write an address with the following pattern: 'address:port'");
+	        	alert.showAndWait();
+	        	return;
+			}
 		}
 		
 		String connectionType = _connectionType.getValue();

@@ -85,7 +85,7 @@ public class Server extends Thread {
 					}
 				}
 			} 
-			Room r = new Room();
+			Room r = new Room(handler.getConfigFile());
 			r.addPlayer(client);
 			isFirst = _games.add(r);
 			return isFirst;
@@ -96,10 +96,6 @@ public class Server extends Thread {
 	
 	public void shutdown(){
 		_isRunning = false;
-	}
-	
-	public void sendCiao(RMIConnectionHandler ch){
-		ch.sendToClient("come va?");
 	}
 
 	private boolean _isRunning = false;

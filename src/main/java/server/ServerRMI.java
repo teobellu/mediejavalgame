@@ -1,11 +1,13 @@
 package server;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import misc.ConnectionHandlerRemote;
 import misc.ServerRemote;
 import util.Constants;
 
@@ -34,7 +36,7 @@ public class ServerRMI extends Thread implements ServerRemote {
 				_registry.list();
 			}
 			catch(Exception e){
-				_registry = LocateRegistry.createRegistry(1099);
+				_registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
 			}
 			ServerRemote stub = (ServerRemote) UnicastRemoteObject.exportObject(this, 0);
 			_registry.bind(Constants.RMI, stub);
@@ -56,13 +58,18 @@ public class ServerRMI extends Thread implements ServerRemote {
 	 * A client should call this method to connect to the server.
 	 * 
 	 */
-	public RMIConnectionHandler onConnect(){
+	public ConnectionHandlerRemote onConnect(){
 		/*TODO 
 		 * Viene chiamato onConnect() di Server.
 		 * */
-		RMIConnectionHandler connectionHandler = new RMIConnectionHandler();
-				
-		return connectionHandler;
+		try {
+			RMIConnectionHandler connectionHandler = new RMIConnectionHandler();
+			
+			return (ConnectionHandlerRemote) UnicastRemoteObject.exportObject(connectionHandler, 0);
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return null;
+		}
 	}
 	
 	private Registry _registry = null;

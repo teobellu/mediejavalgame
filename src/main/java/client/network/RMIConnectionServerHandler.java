@@ -15,16 +15,16 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 
 	public RMIConnectionServerHandler(String host, int port) {
 		super(host, port);
-	}
-	
-	@Override
-	public void run() {
+		
+		if(port==0){
+			_port = Registry.REGISTRY_PORT;
+		}
+		
 		try {
 			Registry _registry = LocateRegistry.getRegistry(_host, _port);
 			
 			ServerRemote _serverRMI = (ServerRemote) _registry.lookup(Constants.RMI);
 			
-			//TODO da cambiare... usare registry lookup
 			_connectionHandler = (ConnectionHandlerRemote) _serverRMI.onConnect();
 			
 			_log.info("RMIConnection is up");
@@ -34,6 +34,11 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+	
+	@Override
+	public void run() {
+		
 	}
 	
 	@Override
@@ -148,9 +153,4 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	private Registry _registry;
 	private ConnectionHandlerRemote _connectionHandler;
 	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
-	@Override
-	public String sendCiao() throws RemoteException {
-		_connectionHandler.sendCiao();
-		return readResponse();
-	}
 }

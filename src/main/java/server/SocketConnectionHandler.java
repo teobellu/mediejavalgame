@@ -1,43 +1,41 @@
 package server;
 
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import util.CommandStrings;
-
 public class SocketConnectionHandler extends ConnectionHandler implements Runnable {
 
 	public SocketConnectionHandler(Socket socket) {
-		_socket = socket;
-		_isRunning = false;
+		try {
+			_socket = socket;
+
+			_outputStream = new ObjectOutputStream(_socket.getOutputStream());
+			_inputStream = new ObjectInputStream(_socket.getInputStream());
+			
+			_isRunning = true;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
 	}
 	
 	@Override
 	public void run() {
 		try {
-			_inputStream = new ObjectInputStream(_socket.getInputStream());
-			_outputStream = new ObjectOutputStream(_socket.getOutputStream());
-			
-			_isRunning = true;
-			
-			String addMeToGame = null;
-			do {
-				addMeToGame = (String) _inputStream.readObject();
-			} while (addMeToGame!=CommandStrings.ADD_TO_GAME);
-			
-			if(Server.getInstance().addMeToGame(this)){
-				writeObject(CommandStrings.ASK_FOR_CONFIG);
+			while(_isRunning){
+				Object obj = getFromClient();
+				if(obj!=null){
+					processObject(obj);
+				}
+				Thread.sleep(300);
 			}
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
-		} finally {
 			shutdown();
 		}
 	}
@@ -55,6 +53,19 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 				return null;//TODO null o stringa vuota?
 			}
 		}
+	}
+	
+	private void processObject(Object obj){
+		if(obj instanceof String){
+			processString((String) obj);
+		} else {
+			//TODO manderemo mai cose che non sono stringhe?
+			//TODO se sì, le manderemo in entrambe le direzioni?
+		}
+	}
+	
+	private void processString(String str){
+		
 	}
 	
 	@Override
@@ -85,6 +96,7 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	private void writeObject(Object obj) throws IOException{
 		_outputStream.writeObject(obj);
 		_outputStream.flush();
+		System.out.println("mandata risposta");
 	}
 	
 	public String startTurn(){
@@ -105,8 +117,8 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	}
 	
 	private Socket _socket;
-	private ObjectInput _inputStream;
-	private ObjectOutput _outputStream;
+	private ObjectInputStream _inputStream;
+	private ObjectOutputStream _outputStream;
 	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
 	
 }

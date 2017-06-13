@@ -41,12 +41,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public void sendConfigFile() throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void putFamiliar() throws RemoteException {
 		addToGameCommandList(CommandStrings.PUT_FAMILIAR);
 	}
@@ -68,8 +62,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	
 	@Override
 	public void sendConfigFile(String file) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		_configFile = file;
 	}
 	
 	public String startTurn(){
@@ -161,11 +154,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	public void putFamiliarWhere(String position) throws RemoteException {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	@Override
-	public void sendCiao() throws RemoteException {
-		Server.getInstance().sendCiao(this);
 	}
 	
 	private Game _theGame = null;
