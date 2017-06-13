@@ -71,7 +71,7 @@ public class Server extends Thread {
 		return;
 	}
 	
-	public synchronized boolean addMeToGame(ConnectionHandler handler){
+	public synchronized boolean addMeToGame(ConnectionHandler handler){//TODO controllarlo
 		String id = UUID.randomUUID().toString();
 		Client client = new Client(handler, id);
 		handler.setClient(client);

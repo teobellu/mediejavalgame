@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,6 +12,7 @@ import client.Client;
 import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
+import game.GameException;
 import javafx.application.Application;
 
 public class GraphicalUI implements UI {
@@ -106,6 +108,16 @@ public class GraphicalUI implements UI {
 				} catch (IOException e) {
 					_log.log(Level.SEVERE, e.getMessage(), e);
 				}
+		}
+	}
+	
+	public void addMeToGame() throws GameException {// TODO override?
+		try {
+			if(!_connectionHandler.addMeToGame()){
+				throw new GameException("Cannot add this client to a game");
+			}
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	

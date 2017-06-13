@@ -8,6 +8,8 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import util.CommandStrings;
+
 public class SocketConnectionHandler extends ConnectionHandler implements Runnable {
 
 	public SocketConnectionHandler(Socket socket) {
@@ -65,7 +67,14 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	}
 	
 	private void processString(String str){
-		
+		if(str.equals(CommandStrings.ADD_TO_GAME)){
+			if(Server.getInstance().addMeToGame(this)){
+				sendToClient(CommandStrings.ADD_TO_GAME);
+			} else {
+				//TODO in teoria posso mandare quello che voglio, ma da rivedere per sicurezza
+				sendToClient(CommandStrings.END_TURN);
+			}
+		}
 	}
 	
 	@Override
@@ -106,14 +115,24 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	
 	@Override
 	public void sendToClient(String[] messages) {
-		// TODO Auto-generated method stub
-		
+		try {
+			for(String s : messages){
+				writeObject(s);
+			}
+			writeObject(CommandStrings.END_TRANSMISSION);
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 	
 	@Override
 	public void sendToClient(String message) {
-		// TODO Auto-generated method stub
-		
+		try {
+			writeObject(message);
+			//TODO mando anche qui end transmission?
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 	
 	private Socket _socket;

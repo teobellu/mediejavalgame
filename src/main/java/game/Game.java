@@ -3,12 +3,10 @@ package game;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 import game.state.State;
 import game.state.StateStartingTurn;
-import game.state.VaticanState;
 import server.Client;
 import server.Room;
 import util.Constants;
@@ -99,7 +97,7 @@ public class Game implements Runnable {
 	}
 	
 	private void setupGame(){
-		_board = new GameBoard(_theRoom.getConfig());//TODO
+		//TODO
 	}
 	
 	public boolean hasPlacedFamiliarYet(){
