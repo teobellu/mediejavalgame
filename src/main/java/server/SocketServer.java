@@ -25,7 +25,7 @@ public class SocketServer extends Thread {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		_IS_RUNNING = true;
+		_isRunning = true;
 		
 		_log.log(Level.INFO, "SocketServer ready");
 		
@@ -46,20 +46,20 @@ public class SocketServer extends Thread {
 				}
 				break;
 			}
-		} while(_IS_RUNNING);
+		} while(_isRunning);
 		
 		executor.shutdown();
 	}
 	
 	public void stopServer() {
-		_IS_RUNNING = false;		
+		_isRunning = false;		
 	}
 
 	public boolean isRunning() {
-		return _IS_RUNNING;
+		return _isRunning;
 	}
 
-	private boolean _IS_RUNNING = false;
+	private boolean _isRunning = false;
 	private ServerSocket _serverSocket;
 	private Logger _log = Logger.getLogger(SocketServer.class.getName());
 }

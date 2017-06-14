@@ -26,6 +26,9 @@ public class Game implements Runnable {
 	private boolean _isOver = false;
 	private final Room _theRoom;
 	
+	/**
+	 * Queue with FIFO logic in which the game commands will be put
+	 */
 	private Deque<String> _commandActionList = new ConcurrentLinkedDeque<>();
 	
 	private final DynamicAction _dynamicAction;
@@ -119,6 +122,10 @@ public class Game implements Runnable {
 		return _dynamicAction;
 	}
 	
+	/**
+	 * Return the command list, usually to add or pop a command
+	 * @return the command list
+	 */
 	public Deque<String> getActionCommandList(){
 		return _commandActionList;
 	}

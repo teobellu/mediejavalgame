@@ -1,5 +1,7 @@
 package client;
 
+import java.util.List;
+
 public interface UI extends Runnable{
 		
 	public String getStringValue(boolean isEmptyAllowed);
@@ -11,4 +13,6 @@ public interface UI extends Runnable{
 	public void write(String str);
 		
 	public void setConnection(String connectionType, String host, int port);
+
+	public List<String> dropLeaderCard();
 }

@@ -3,8 +3,10 @@ package server;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
@@ -18,11 +20,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public void run() {
 		
-	}
-	
-	@Override
-	public void sendName(String name) throws RemoteException {
-		_client.setName(name);
 	}
 
 	@Override
@@ -99,7 +96,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 			for(String s : messages){
 				_outQueue.add(s);
 			}
-			
 			_outQueue.add(CommandStrings.END_TRANSMISSION);
 		}
 	}
@@ -109,11 +105,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		sendToClient(new String[]{message});
 	}
 	
-	/* (non-Javadoc)
-	 * @see misc.ConnectionHandlerRemote#readResponse()
-	 */
-	@Override
-	public String readResponse() throws RemoteException {
+	private String readResponse() throws RemoteException {
 		String response;
 		synchronized (_outQueue) {
 			try {
@@ -132,6 +124,20 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		return false;
 	}
 
+	@Override
+	public List<String> dropLeaderCard() throws RemoteException {
+		_theGame.getActionCommandList().add(CommandStrings.DROP_LEADER_CARD);
+		List<String> leaders = new ArrayList<>();
+		String leader = "";
+		while(!leader.equals(CommandStrings.END_TRANSMISSION)){
+			leader = readResponse();
+			if(leader!=null && !leader.equals(CommandStrings.END_TRANSMISSION)){
+				leaders.add(leader);
+			}
+		}
+		return leaders;
+	}
+	
 	@Override
 	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
 		// TODO Auto-generated method stub
@@ -156,11 +162,10 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		
 	}
 	
-	private Game _theGame = null;
+	private transient Game _theGame = null;
 	
 	private boolean _hasMyTurnStarted = false;
 	private Date _lastPing;
-	private Logger _logger = Logger.getLogger(RMIConnectionHandler.class.getName());
-	private Thread _timeout;
+	private transient Logger _logger = Logger.getLogger(RMIConnectionHandler.class.getName());
 	private LinkedList<String> _outQueue = new LinkedList<>();
 }

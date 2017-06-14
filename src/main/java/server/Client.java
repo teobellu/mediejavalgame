@@ -1,16 +1,14 @@
 package server;
 
-import game.Player;
+import util.CommandStrings;
 
 public class Client {
 
 	public Client(ConnectionHandler handler, String uuid) {
 		_connectionHandler = handler;
 		_uuid = uuid;
-	}
-
-	public void setName(String name){
-		_name = name;
+		//manda al client il suo id per la riconnessione
+		_connectionHandler.sendToClient(new String[]{CommandStrings.UUID, _uuid});
 	}
 	
 	public ConnectionHandler getConnectionHandler(){
@@ -22,16 +20,24 @@ public class Client {
 	}
 	
 	public boolean isReady() {
-		// TODO Auto-generated method stub
-		return false;
+		if(_room!= null && _connectionHandler!=null){
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public Room getRoom(){
 		return _room;
 	}
 	
-	private Room _room;
+	public void setRoom(Room room){
+		if(_room==null){
+			_room = room;
+		}
+	}
+	
+	private Room _room = null;
 	private final ConnectionHandler _connectionHandler;
 	private final String _uuid;
-	private String _name;
 }

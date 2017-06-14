@@ -113,8 +113,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 
 	@Override
 	public List<String> dropLeaderCard() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		return _connectionHandler.dropLeaderCard();
 	}
 
 	@Override
@@ -128,7 +127,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	@Override
-	public String readResponse() throws RemoteException {
+	public String readResponse() throws RemoteException {//TODO vedere se serve realmente
 		String response = null;
 		
 		do {
@@ -137,6 +136,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				_log.log(Level.SEVERE, e.getMessage(), e);
+				Thread.currentThread().interrupt();
 			}
 		} while (response==null);
 		
@@ -149,8 +149,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 		return _connectionHandler.hasMyTurnStarted();
 	}
 	
-	private ServerRemote _serverRMI;
-	private Registry _registry;
 	private ConnectionHandlerRemote _connectionHandler;
 	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
 }

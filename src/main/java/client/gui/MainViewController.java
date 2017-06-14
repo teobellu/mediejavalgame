@@ -45,6 +45,7 @@ public class MainViewController {
 	
 	@FXML
 	private void onThirdButtonClicked(){
+		GraphicalUI.getInstance().dropLeaderCard();
 		_GUI.showDropLeaderDialog();
 	}
 	

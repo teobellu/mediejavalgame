@@ -109,7 +109,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	
 	/**
 	 * Tell the server I want to drop a leader card
-	 * @return list of available leader cards
+	 * @return list of available leader cards (might be empty)
 	 * @throws RemoteException
 	 */
 	public abstract List<String> dropLeaderCard() throws RemoteException;

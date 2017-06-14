@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import client.Client;
 import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
@@ -109,14 +111,23 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
+	@Override
+	public List<String> dropLeaderCard(){
+		List<String> leaders = new ArrayList<>();
+		try {
+			leaders = _connectionHandler.dropLeaderCard();
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		return leaders;
+	}
+	
 	private File _xmlFile;
 	
 	private String _name;
 	
 	private static GraphicalUI _instance = null;
 	
-	private Client _client = null;
-    
     private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
     
     private ConnectionServerHandler _connectionHandler = null;
