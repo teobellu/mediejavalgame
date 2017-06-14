@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
+import game.GameException;
 import javafx.application.Application;
 
 public class GraphicalUI implements UI {
@@ -120,6 +121,16 @@ public class GraphicalUI implements UI {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		return leaders;
+	}
+	
+	public void addMeToGame() throws GameException {// TODO override?
+		try {
+			if(!_connectionHandler.addMeToGame()){
+				throw new GameException("Cannot add this client to a game");
+			}
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 	
 	private File _xmlFile;

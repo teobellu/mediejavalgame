@@ -145,7 +145,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	public boolean addMeToGame() throws RemoteException {
 		try {
 			writeObject(CommandStrings.ADD_TO_GAME);
-			return true;
+			if (readObject().equals(CommandStrings.ADD_TO_GAME)) {
+				return true;
+			}
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}

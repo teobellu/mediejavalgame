@@ -1,5 +1,9 @@
 package client.gui;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import game.GameException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -84,6 +88,18 @@ public class StartingViewController {
 		
 		GraphicalUI.getInstance().setConnection(connectionType, address,port);
 		GraphicalUI.getInstance().setName(username);
+		try {
+			GraphicalUI.getInstance().addMeToGame();
+		} catch (GameException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			Alert alert = new Alert(AlertType.ERROR);
+        	alert.initOwner(_GUI.getPrimaryStage());
+        	alert.setTitle("Error on connection");
+        	alert.setHeaderText("Cannot join game");
+        	alert.setContentText("Something went wrong while trying to join a game");
+        	alert.showAndWait();
+			return;
+		}
 		
 		_GUI.setMainScene();
 	}
@@ -101,4 +117,6 @@ public class StartingViewController {
 			alert.showAndWait();
 		}
 	}
+	
+	private final Logger _log = Logger.getLogger(StartingViewController.class.getName());
 }
