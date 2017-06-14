@@ -15,10 +15,6 @@ public class EffectGetResource implements IEffectBehavior{
 		this.bonus = bonus;
 	}
 	
-	public EffectGetResource(String fonte, Resource bonus) {
-		this.bonus = bonus;
-	}
-	
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);

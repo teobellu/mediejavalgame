@@ -607,14 +607,14 @@
 				<instant_effect>
 					<get_resources>
 						<wood>1</wood>
-						<winning_point>1</winning_point>
+						<victory_points>1</victory_points>
 					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>3</cost>
 					<get_resources>
-						<winning_point>2</winning_point>
+						<victory_points>2</victory_points>
 						<wood>2</wood>
 					</get_resources>
 
@@ -636,7 +636,7 @@
 				<permanent_effect>
 					<cost>5</cost>
 					<get_resources>
-						<winning_point>4</winning_point>
+						<victory_points>4</victory_points>
 						<wood>1</wood>
 					</get_resources>
 
@@ -651,14 +651,14 @@
 				</name>
 				<instant_effect>
 					<get_resources>
-						<winning_point>3</winning_point>
+						<victory_points>3</victory_points>
 					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>2</cost>
 					<get_resources>
-						<winning_point>1</winning_point>
+						<victory_points>1</victory_points>
 						<stone>2</stone>
 					</get_resources>
 
@@ -681,7 +681,7 @@
 				<permanent_effect>
 					<cost>6</cost>
 					<get_resources>
-						<winning_point>4</winning_point>
+						<victory_points>4</victory_points>
 						<stone>1</stone>
 					</get_resources>
 
@@ -719,7 +719,7 @@
 				<instant_effect>
 					<get_resources>
 						<gold>2</gold>
-						<winning_point>2</winning_point>
+						<victory_points>2</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -770,7 +770,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>5</winning_point>
+						<victory_points>5</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -796,7 +796,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>5</winning_point>
+						<victory_points>5</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -821,14 +821,14 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>6</winning_point>
+						<victory_points>6</victory_points>
 					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>6</cost>
 					<gain_for_every>
-						<winning_point>1</winning_point>
+						<victory_points>1</victory_points>
 						<venture></venture>
 					</gain_for_every>
 				</permanent_effect>
@@ -846,14 +846,14 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>6</winning_point>
+						<victory_points>6</victory_points>
 					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
 					<cost>6</cost>
 					<gain_for_every>
-						<winning_point>1</winning_point>
+						<victory_points>1</victory_points>
 						<character></character>
 					</gain_for_every>
 				</permanent_effect>
@@ -872,7 +872,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>3</winning_point>
+						<victory_points>3</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -895,7 +895,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>2</winning_point>
+						<victory_points>2</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -939,7 +939,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>1</winning_point>
+						<victory_points>1</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -962,7 +962,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>3</winning_point>
+						<victory_points>3</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -984,7 +984,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>4</winning_point>
+						<victory_points>4</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1006,7 +1006,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>5</winning_point>
+						<victory_points>5</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1028,7 +1028,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>6</winning_point>
+						<victory_points>6</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1051,7 +1051,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>4</winning_point>
+						<victory_points>4</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1073,7 +1073,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>2</winning_point>
+						<victory_points>2</victory_points>
 						<faith_point>1</faith_point>
 					</get_resources>
 
@@ -1097,7 +1097,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>3</winning_point>
+						<victory_points>3</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1121,7 +1121,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>8</winning_point>
+						<victory_points>8</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1145,7 +1145,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>7</winning_point>
+						<victory_points>7</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1168,7 +1168,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>8</winning_point>
+						<victory_points>8</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1192,7 +1192,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>10</winning_point>
+						<victory_points>10</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1216,7 +1216,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>9</winning_point>
+						<victory_points>9</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1240,7 +1240,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>9</winning_point>
+						<victory_points>9</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1263,7 +1263,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>5</winning_point>
+						<victory_points>5</victory_points>
 						<faith_point>1</faith_point>
 					</get_resources>
 
@@ -1288,7 +1288,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>7</winning_point>
+						<victory_points>7</victory_points>
 					</get_resources>
 
 				</instant_effect>
@@ -1311,7 +1311,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<winning_point>7</winning_point>
+						<victory_points>7</victory_points>
 						<faith_point>3</faith_point>
 					</get_resources>
 
@@ -2231,55 +2231,62 @@
 
 			<delay_first_action></delay_first_action>
 		</ban_card>
+		
+		
+		
 		<ban_card>
 			<period>3</period>
-			<lose_winning_points>
-				<winning_point>5</winning_point>
-			</lose_winning_points>
-
-		</ban_card>
-		<ban_card>
-			<period>3</period>
-
-			<no_winning_points>
-				<territory></territory>
-			</no_winning_points>
-		</ban_card>
-		<ban_card>
-			<period>3</period>
-			<no_winning_points>
+			<no_victory_points>
 				<character></character>
-			</no_winning_points>
-
+			</no_victory_points>
 		</ban_card>
+		
 		<ban_card>
 			<period>3</period>
-			<no_winning_points>
-				<military></military>
-			</no_winning_points>
-
+			<no_victory_points>
+				<venture></venture>
+			</no_victory_points>
 		</ban_card>
+		
 		<ban_card>
 			<period>3</period>
-			<lose_winning_points>
-				<military_point>1</military_point>
-			</lose_winning_points>
-
+			<no_victory_points>
+				<territory></territory>
+			</no_victory_points>
 		</ban_card>
+		
 		<ban_card>
 			<period>3</period>
-			<lose_winning_points>
-				<resources>1</resources>
-			</lose_winning_points>
-
+			<lose_victory_points>
+				<victory_points>5</victory_points>
+			</lose_victory_points>
 		</ban_card>
+		
+		<ban_card>
+			<period>3</period>
+			<lose_victory_points>
+				<military_points>1</military_points>
+			</lose_victory_points>
+		</ban_card>
+		
 		<ban_card>
 			<period>3</period>
 
-			<lose_winning_points>
+			<lose_victory_points>
 				<building_costs>1</building_costs>
-			</lose_winning_points>
+			</lose_victory_points>
 		</ban_card>
+		
+		<ban_card>
+			<period>3</period>
+			<lose_victory_points>
+				<coins>1</coins>
+				<wood>1</wood>
+				<stones>1</stones>
+				<servants>1</servants>
+			</lose_victory_points>
+		</ban_card>
+		
 	</ban_cards>
 	<timeout_start>20</timeout_start>
 	<timeout_turn>
