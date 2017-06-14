@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import game.Game;
@@ -111,6 +112,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 			try {
 				response = _outQueue.getFirst();
 			} catch (NoSuchElementException e) {
+				_log.log(Level.FINE, e.getMessage(), e);
 				return null;
 			}
 		}
@@ -128,13 +130,14 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	public List<String> dropLeaderCard() throws RemoteException {
 		_theGame.getActionCommandList().add(CommandStrings.DROP_LEADER_CARD);
 		List<String> leaders = new ArrayList<>();
-		String leader = "";
-		while(!leader.equals(CommandStrings.END_TRANSMISSION)){
+		String leader = new String();
+		do {
 			leader = readResponse();
 			if(leader!=null && !leader.equals(CommandStrings.END_TRANSMISSION)){
 				leaders.add(leader);
 			}
-		}
+		} while(leader!=null && !leader.equals(CommandStrings.END_TRANSMISSION));
+		
 		return leaders;
 	}
 	
@@ -166,6 +169,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	
 	private boolean _hasMyTurnStarted = false;
 	private Date _lastPing;
-	private transient Logger _logger = Logger.getLogger(RMIConnectionHandler.class.getName());
+	private transient Logger _log = Logger.getLogger(RMIConnectionHandler.class.getName());
 	private LinkedList<String> _outQueue = new LinkedList<>();
 }

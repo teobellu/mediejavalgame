@@ -111,7 +111,7 @@ public class Room extends Thread {
 	
 	public void shutdown(){
 		if(_theGame!=null){
-			//TODO devo spegnere cose dal game?
+			//TODO devo spegnere/togliere cose dal game?
 		}
 		
 		if(_clients!=null && !_clients.isEmpty()){

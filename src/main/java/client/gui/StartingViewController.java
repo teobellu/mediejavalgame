@@ -1,5 +1,6 @@
 package client.gui;
 
+import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,10 +12,15 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import util.Constants;
 
 public class StartingViewController {
 
+	@FXML
+	private ImageView _backgroundImage;
+	
 	@FXML
 	private TextField _username;
 	
@@ -36,6 +42,11 @@ public class StartingViewController {
 	private void initialize(){
 		_connectionType.getItems().addAll(Constants.CONNECTION_TYPES);
 		_connectionType.getSelectionModel().selectFirst();
+		
+		File file = new File("src/main/resources/javafx/images/punchboard_b_c_04.jpg");
+		Image bg = new Image(file.toURI().toString());
+		
+		_backgroundImage.setImage(bg);
 		
 		//source: https://stackoverflow.com/questions/12744542/requestfocus-in-textfield-doesnt-work/12744775#12744775
 		Platform.runLater(new Runnable() {

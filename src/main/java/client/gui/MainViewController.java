@@ -1,16 +1,22 @@
 package client.gui;
 
+import java.io.File;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 public class MainViewController {
 
 	private GUI _GUI;
+	
+	@FXML
+	private ImageView _backgroundImage;
 	
 	@FXML
 	private Button _firstButton;
@@ -26,7 +32,10 @@ public class MainViewController {
 	
 	@FXML
 	private void initialize(){		
+		File file = new File("src/main/resources/javafx/images/gameboard_f_c.jpeg");
+		Image bg = new Image(file.toURI().toString());
 		
+		_backgroundImage.setImage(bg);
 	}
 	
 	public void setGUI(GUI gui){
@@ -45,8 +54,8 @@ public class MainViewController {
 	
 	@FXML
 	private void onThirdButtonClicked(){
-		GraphicalUI.getInstance().dropLeaderCard();
-		_GUI.showDropLeaderDialog();
+		_GUI.showDropLeaderDialog(
+				GraphicalUI.getInstance().dropLeaderCard());
 	}
 	
 	@FXML

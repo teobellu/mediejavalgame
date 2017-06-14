@@ -32,23 +32,25 @@ public class SocketServer extends Thread {
 		do {
 			try {
 				Socket socket = _serverSocket.accept();
-				SocketConnectionHandler handler = new SocketConnectionHandler(socket);
-				
-				executor.submit(handler);
-				
-				_log.info("New SocketConnectionHandler created");
+				if(_isRunning){
+					SocketConnectionHandler handler = new SocketConnectionHandler(socket);
+					
+					executor.submit(handler);
+					
+					_log.info("New SocketConnectionHandler created");
+				}
 			} catch (Exception e) {
 				_log.log(Level.SEVERE, e.getMessage(), e);
-				try {
-					_serverSocket.close();
-				} catch (IOException io) {
-					_log.log(Level.SEVERE, io.getMessage(), io);
-				}
 				break;
 			}
 		} while(_isRunning);
 		
 		executor.shutdown();
+		try {
+			_serverSocket.close();
+		} catch (IOException io) {
+			_log.log(Level.SEVERE, io.getMessage(), io);
+		}
 	}
 	
 	public void stopServer() {

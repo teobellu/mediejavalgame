@@ -169,10 +169,14 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	 * Read an object from the {@link ObjectInputStream}. Cannot return <code>null</code> value.
 	 * @return the object read
 	 */
-	private synchronized Object readObject() {
+	private Object readObject() {
 		try {
 			do {
-				Object obj = _inputStream.readObject();
+				Object obj = null;
+				synchronized (_inputStream) {
+					obj = _inputStream.readObject();
+				}
+				
 				if (obj!=null) {
 					return obj;
 				} else {

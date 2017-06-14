@@ -33,7 +33,6 @@ public class Game implements Runnable {
 	
 	private boolean _hasPlacedFamiliar = false;
 	
-	private int _turnDuration;
 	private GameInformation gameInformation;
 	
 	public Game(Room room) {

@@ -58,13 +58,12 @@ public class Server extends Thread {
 							return;
 						}
 					} while (true);
-					
-					
 				} catch (Exception e) {
+					_log.log(Level.SEVERE, e.getMessage(), e);
 					try {
 						reader.close();
 					} catch (IOException e1) {
-						System.out.println("Error on reader in Server.java");
+						_log.log(Level.SEVERE, e1.getMessage(), e1);
 					}
 				}
 			}
@@ -142,6 +141,7 @@ public class Server extends Thread {
 			r.addPlayer(client);
 			return _games.add(r);
 		} catch(GameException e){
+			_log.log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 	}

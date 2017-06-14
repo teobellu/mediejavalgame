@@ -1,12 +1,15 @@
 package client.gui;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -58,6 +61,13 @@ public class GUI extends Application{
 			loader.setLocation(GUI.class.getResource("/client/gui/MainView.fxml"));
 			AnchorPane pane = loader.load();
 			
+			double width = pane.getWidth();
+			double height = pane.getHeight();
+			
+			_rootLayout.setMinSize(width, height);
+			_rootLayout.setMaxSize(width, height);
+			_rootLayout.setPrefSize(width, height);
+			
 			_rootLayout.setCenter(pane);
 			MainViewController controller = loader.getController();
 			controller.setGUI(this);
@@ -95,23 +105,32 @@ public class GUI extends Application{
 		return _primaryStage;
 	}
 	
-	public void showDropLeaderDialog(){
+	public void showDropLeaderDialog(List<String> leaders){
 		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/DropLeaderDialog.fxml"));
-			AnchorPane pane = loader.load();
-			
-			Stage dialog = new Stage();
-			dialog.setTitle("Drop Leader Card");
-			dialog.initModality(Modality.WINDOW_MODAL);
-			dialog.initOwner(_primaryStage);
-			Scene scene = new Scene(pane);
-			dialog.setScene(scene);
-			
-			DropLeaderController controller = loader.getController();
-			controller.setDialogStage(dialog);
-			
-			dialog.showAndWait();
+			if(leaders.isEmpty()){
+				Alert alert = new Alert(AlertType.WARNING);
+	        	alert.initOwner(_primaryStage);
+	        	alert.setTitle("No Leaders");
+	        	alert.setHeaderText("No leader card available");
+	        	alert.setContentText("You cannot do this. You don't have any leader card");
+	        	alert.showAndWait();
+			} else {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(GUI.class.getResource("/client/gui/DropLeaderDialog.fxml"));
+				AnchorPane pane = loader.load();
+				
+				Stage dialog = new Stage();
+				dialog.setTitle("Drop Leader Card");
+				dialog.initModality(Modality.WINDOW_MODAL);
+				dialog.initOwner(_primaryStage);
+				Scene scene = new Scene(pane);
+				dialog.setScene(scene);
+				
+				DropLeaderController controller = loader.getController();
+				controller.setLeaderList(leaders);
+				
+				dialog.showAndWait();
+			}
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
