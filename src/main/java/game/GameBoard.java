@@ -78,7 +78,6 @@ public class GameBoard {
 		
 		DevelopmentCard terr0 = new Territory("a", 1, null, eff, 4);
 		DevelopmentCard terr1 = new Territory("b", 1, null, eff, 6);
-		
 		tower[0][0] = new Cell(terr0, 1, null);
 		tower[1][0] = new Cell(terr1, 3, null);
 		tower[2][0] = new Cell(terr1, 5, null);

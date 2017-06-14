@@ -25,6 +25,7 @@ import game.effect.Effect;
 import game.effect.IEffectBehavior;
 import game.effect.behaviors.EffectDiscountResource;
 import game.effect.behaviors.EffectDontGetVictoryFor;
+import game.effect.behaviors.EffectGetACard;
 import game.effect.behaviors.EffectGetResource;
 import game.effect.behaviors.EffectIncreaseActionPower;
 import game.effect.behaviors.EffectIncreaseFamiliarStartPower;
@@ -32,6 +33,7 @@ import game.effect.behaviors.EffectLostVictoryDepicted;
 import game.effect.behaviors.EffectLostVictoryForEach;
 import game.effect.behaviors.EffectOverruleObject;
 import game.effect.behaviors.EffectPayMoreForIncreaseWorker;
+import game.effect.behaviors.EffectRecieveRewardForEach;
 
 public class Test {
 	
@@ -109,14 +111,48 @@ public class Test {
 	public static Effect factoryEffectBehavior(Node node){
 		IEffectBehavior behavior;
 		switch (node.getNodeName()){
+		
 			case "get_resources": {
 				List<Node> typesOfResource = getNodesFromNodeList(node.getChildNodes());
 				Resource resource = new Resource();
 				typesOfResource.forEach(type -> 
 					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
 				behavior = new EffectGetResource(resource);
+				
 			}
-			
+			case "gain_for_every":{
+				List<Node> parameters = getNodesFromNodeList(node.getChildNodes());
+				Node resNode = parameters.get(0);
+				Resource resource = new Resource(
+						resNode.getNodeName(), Integer.parseInt(resNode.getTextContent()));
+				String typeOfCard = parameters.get(1).getTextContent();
+				behavior = new EffectRecieveRewardForEach(resource, typeOfCard);
+				return new Effect(GC.IMMEDIATE, behavior);
+			}
+			case "get_discount":{
+				List<Node> parameters = getNodesFromNodeList(node.getChildNodes());
+				String action = parameters.get(0).getTextContent();
+				parameters.remove(0);
+				Resource resource = new Resource();
+				parameters.forEach(type -> 
+					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+				behavior = new EffectDiscountResource(action, resource);
+				return new Effect(GC.WHEN_FIND_COST_CARD, behavior);
+			}
+			case "block_floor":{
+				behavior = new EffectOverruleObject();
+				return new Effect(GC.WHEN_GET_TOWER_BONUS, behavior);
+			}
+			case "get_card":{
+				List<Node> parameters = getNodesFromNodeList(node.getChildNodes());
+				switch(parameters.size()){
+					case 1: behavior = new EffectGetACard(Integer.parseInt(parameters.get(0).getTextContent()));
+						break;
+					case 2: behavior = new EffectGetACard(parameters.get(0).getTextContent(), Integer.parseInt(parameters.get(1).getTextContent()));
+						break;
+					default : return null; //TODO generate exception
+				}
+			}
 			
 			
 			/*Excommunication tiles*/
@@ -132,16 +168,6 @@ public class Test {
 				behavior = new EffectDiscountResource(resource);
 				return new Effect(GC.WHEN_GAIN, behavior);
 			}
-			case "less_value_harvest_action": {
-				int value = Integer.parseInt(node.getTextContent());
-				behavior = new EffectIncreaseActionPower("harvest", -value);
-				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
-			}
-			case "less_value_production_action": {
-				int value = Integer.parseInt(node.getTextContent());
-				behavior = new EffectIncreaseActionPower("production", -value);
-				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
-			}
 			case "less_value_familiars": {
 				int value = Integer.parseInt(node.getTextContent());
 				behavior = new EffectIncreaseFamiliarStartPower(GC.FM_COLOR, value);
@@ -151,11 +177,11 @@ public class Test {
 			/**
 			 * Second Age
 			 */
-			case "less_value_card_action": {
+			case "increase_value_action": {
 				List<Node> nodes = getNodesFromNodeList(node.getChildNodes());
-				String typeOfCard = nodes.get(0).getTextContent();
+				String action = nodes.get(0).getTextContent();
 				int value = Integer.parseInt(nodes.get(1).getTextContent());
-				behavior = new EffectIncreaseActionPower(typeOfCard, -value);
+				behavior = new EffectIncreaseActionPower(action, value);
 				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
 			}
 			case "no_market": {
@@ -205,7 +231,7 @@ public class Test {
 		}
 		List<Node> effects = getNodesFromNodeList(node.getChildNodes());
 		Node effect = effects.get(0);
-		
+		System.err.println("parsing impossible");
 		return null;
 		
 	}
@@ -240,6 +266,18 @@ public class Test {
 		
 		getSpaceBonus(listNode.get(0));
 		//getBonusFaith(listNode.get(2));
+		
+		/*ban_cards*/
+		Node x = listNode.get(4);
+		/*ban_card 19*/
+		Node y = getNodesFromNodeList(x.getChildNodes()).get(19);
+		/*effect*/
+		Node w = getNodesFromNodeList(y.getChildNodes()).get(1);
+		
+		Effect z = factoryEffectBehavior(w);
+		
+		System.out.println(w.getNodeName());
+		System.out.println(z.getWhenActivate());
 		
 	}
 }
