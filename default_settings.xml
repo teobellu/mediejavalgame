@@ -2214,44 +2214,42 @@
 				<type>venture</type>
 				<value>4</value>
 			</less_value_card_action>
-
 		</ban_card>
+		
 		<ban_card>
 			<period>2</period>
-
 			<no_market></no_market>
 		</ban_card>
+		
 		<ban_card>
 			<period>2</period>
-
-			<half_servants_value></half_servants_value>
+			<pay_more_increase_worker>2</pay_more_increase_worker>
 		</ban_card>
+		
 		<ban_card>
 			<period>2</period>
-
 			<delay_first_action></delay_first_action>
 		</ban_card>
-		
-		
+
 		
 		<ban_card>
 			<period>3</period>
 			<no_victory_points>
-				<character></character>
+				<type>character</type>
 			</no_victory_points>
 		</ban_card>
 		
 		<ban_card>
 			<period>3</period>
 			<no_victory_points>
-				<venture></venture>
+				<type>venture</type>
 			</no_victory_points>
 		</ban_card>
 		
 		<ban_card>
 			<period>3</period>
 			<no_victory_points>
-				<territory></territory>
+				<type>territory</type>
 			</no_victory_points>
 		</ban_card>
 		
@@ -2271,10 +2269,11 @@
 		
 		<ban_card>
 			<period>3</period>
-
-			<lose_victory_points>
-				<building_costs>1</building_costs>
-			</lose_victory_points>
+			<lose_victory_points_depicted_resource>
+				<type>building</type>
+				<wood>1</wood>
+				<stones>1</stones>
+			</lose_victory_points_depicted_resource>
 		</ban_card>
 		
 		<ban_card>

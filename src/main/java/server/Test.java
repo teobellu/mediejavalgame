@@ -15,8 +15,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.sun.media.jfxmedia.events.MarkerEvent;
 import com.sun.media.jfxmedia.events.PlayerEvent;
 
+import game.GC;
 import game.Player;
 import game.Resource;
 import game.effect.Effect;
@@ -25,7 +27,11 @@ import game.effect.behaviors.EffectDiscountResource;
 import game.effect.behaviors.EffectDontGetVictoryFor;
 import game.effect.behaviors.EffectGetResource;
 import game.effect.behaviors.EffectIncreaseActionPower;
+import game.effect.behaviors.EffectIncreaseFamiliarStartPower;
+import game.effect.behaviors.EffectLostVictoryDepicted;
 import game.effect.behaviors.EffectLostVictoryForEach;
+import game.effect.behaviors.EffectOverruleObject;
+import game.effect.behaviors.EffectPayMoreForIncreaseWorker;
 
 public class Test {
 	
@@ -72,7 +78,7 @@ public class Test {
 					Node ins_eff = getNodesFromNodeList(gettedNode.getChildNodes()).get(0);
 					Node res_eff = getNodesFromNodeList(ins_eff.getChildNodes()).get(0);
 					System.out.println(res_eff.getNodeName());
-					IEffectBehavior d = factoryEffectBehavior(res_eff);
+					Effect d = factoryEffectBehavior(res_eff);
 					System.out.println(4);
 					break;
 				}
@@ -96,52 +102,103 @@ public class Test {
 	}
 	
 	/**
-	 * This method reads a node, which represents an effect, and converts it into a effect behavior
+	 * This method reads a node, which represents an effect, and converts it into a effect
 	 * @param node The node which represents an effect
-	 * @return Behavior of the effect, attention, not the actual effect
+	 * @return Effect with his behavior
 	 */
-	public static IEffectBehavior factoryEffectBehavior(Node node){
+	public static Effect factoryEffectBehavior(Node node){
+		IEffectBehavior behavior;
 		switch (node.getNodeName()){
 			case "get_resources": {
 				List<Node> typesOfResource = getNodesFromNodeList(node.getChildNodes());
 				Resource resource = new Resource();
 				typesOfResource.forEach(type -> 
 					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
-				return new EffectGetResource(resource);
+				behavior = new EffectGetResource(resource);
 			}
 			
 			
 			
 			/*Excommunication tiles*/
+			
+			/**
+			 * First Age
+			 */
 			case "get_less_resources": {
 				List<Node> typesOfResource = getNodesFromNodeList(node.getChildNodes());
 				Resource resource = new Resource();
 				typesOfResource.forEach(type -> 
 					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
-				return new EffectDiscountResource(resource);
+				behavior = new EffectDiscountResource(resource);
+				return new Effect(GC.WHEN_GAIN, behavior);
 			}
 			case "less_value_harvest_action": {
 				int value = Integer.parseInt(node.getTextContent());
-				return new EffectIncreaseActionPower("harvest", -value);
+				behavior = new EffectIncreaseActionPower("harvest", -value);
+				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
 			}
 			case "less_value_production_action": {
 				int value = Integer.parseInt(node.getTextContent());
-				return new EffectIncreaseActionPower("production", -value);
+				behavior = new EffectIncreaseActionPower("production", -value);
+				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
+			}
+			case "less_value_familiars": {
+				int value = Integer.parseInt(node.getTextContent());
+				behavior = new EffectIncreaseFamiliarStartPower(GC.FM_COLOR, value);
+				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
 			}
 			
+			/**
+			 * Second Age
+			 */
+			case "less_value_card_action": {
+				List<Node> nodes = getNodesFromNodeList(node.getChildNodes());
+				String typeOfCard = nodes.get(0).getTextContent();
+				int value = Integer.parseInt(nodes.get(1).getTextContent());
+				behavior = new EffectIncreaseActionPower(typeOfCard, -value);
+				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
+			}
+			case "no_market": {
+				behavior = new EffectOverruleObject();
+				return new Effect(GC.WHEN_PLACE_FAMILIAR_MARKET, behavior);
+			}
+			case "pay_more_increase_worker": {
+				int malus = Integer.parseInt(node.getTextContent());
+				behavior = new EffectPayMoreForIncreaseWorker(malus);
+				return new Effect(GC.WHEN_INCREASE_WORKER, behavior);
+			}
+			case "delay_first_action": {
+				//TODO Come lo vogliamo gestire?
+				
+			}
+			
+			/**
+			 * Third Age
+			 */
 			case "no_victory_points": {
 				Node nodeWithTypeOfCard = getNodesFromNodeList(node.getChildNodes()).get(0);
-				String typeOfCard = nodeWithTypeOfCard.getNodeName();
-				return new EffectDontGetVictoryFor(typeOfCard);
+				String typeOfCard = nodeWithTypeOfCard.getTextContent();
+				behavior = new EffectDontGetVictoryFor(typeOfCard);
+				return new Effect(GC.WHEN_END, behavior);
+			}
+			case "lose_victory_points_depicted_resource": {
+				List<Node> nodes = getNodesFromNodeList(node.getChildNodes());
+				String typeOfCard = nodes.get(0).getTextContent();
+				nodes.remove(0);
+				Resource resource = new Resource();
+				nodes.forEach(type -> 
+					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+				behavior = new EffectLostVictoryDepicted(typeOfCard, resource);
+				return new Effect(GC.WHEN_END, behavior);
 			}
 			case "lose_victory_points": {
 				List<Node> typesOfResource = getNodesFromNodeList(node.getChildNodes());
 				Resource resource = new Resource();
 				typesOfResource.forEach(type -> 
 					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
-				return new EffectLostVictoryForEach(resource);
+				behavior = new EffectLostVictoryForEach(resource);
+				return new Effect(GC.WHEN_END, behavior);
 			}
-			
 			default : {
 				System.out.println(100);
 			}

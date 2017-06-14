@@ -258,7 +258,7 @@ public class Test {
 		
 		//7 ok -1 -1
 		
-		Effect eff8 = new Effect(GC.WHEN_END,new EffectLostVictoryBuilding(ser2));
+		Effect eff8 = new Effect(GC.WHEN_END,new EffectLostVictoryDepicted(ser2));
 		p.addEffect(eff8);
 		
 		DevelopmentCard c1 = new Venture();
@@ -309,7 +309,7 @@ public class Test {
 		
 		joy.endGame();
 		
-		Effect eff80 = new Effect(GC.WHEN_END, new EffectLostVictoryBuilding(ser1));
+		Effect eff80 = new Effect(GC.WHEN_END, new EffectLostVictoryDepicted(ser1));
 		p.addEffect(eff80);
 		
 		DevelopmentCard c10 = new Venture();

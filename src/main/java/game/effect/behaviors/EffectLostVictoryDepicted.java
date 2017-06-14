@@ -4,16 +4,18 @@ import game.effect.Effect;
 import game.effect.IEffectBehavior;
 import game.*;
 
-public class EffectLostVictoryBuilding implements IEffectBehavior{
+public class EffectLostVictoryDepicted implements IEffectBehavior{
 
 	private Resource payForEach;		//paga 1 victory per ogni forEach
+	private String typeOfCard;
 	private Resource costOfFilteredCards;
 	private Resource malus;			//quanto pagare effettivamente
 	private int countVictoryTax;	//contatore punti da pagare
 	private Resource playerRes;		//risorse possedute dal giocatore
 	private Player player;
 	
-	public EffectLostVictoryBuilding(Resource payForEach) {
+	public EffectLostVictoryDepicted(String typeOfCard, Resource payForEach) {
+		this.typeOfCard = typeOfCard;
 		this.payForEach = payForEach;
 	}
 	
@@ -34,7 +36,7 @@ public class EffectLostVictoryBuilding implements IEffectBehavior{
 	}
 	
 	private void findCostOfAllFilteredCards() {
-		player.getDevelopmentCards(GC.DEV_BUILDING).stream()
+		player.getDevelopmentCards(typeOfCard).stream()
 		.forEach(card -> costOfFilteredCards.add(card.getCost()));
 	}
 	
