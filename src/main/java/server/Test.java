@@ -302,7 +302,9 @@ public class Test {
 						break;
 					case 2: behavior = new EffectGetACard(parameters.get(0).getTextContent(), Integer.parseInt(parameters.get(1).getTextContent()));
 						break;
-					default : ;//return null; //TODO generate exception
+					default : 
+						;//return null; 
+						//TODO generate exception
 				}
 				return new Effect(GC.IMMEDIATE, new EffectDoNothing());
 			}
