@@ -1,8 +1,21 @@
 package game.development;
 
+import java.util.List;
+
 import game.GC;
+import game.Resource;
+import game.effect.Effect;
 
 public class Character extends DevelopmentCard{
+
+	public Character(int age, String name, Resource cost, List<Effect> immediate, List<Effect> permanent) {
+		super();
+		this.age = age;
+		this.name = name;
+		this.cost.add(cost);
+		this.immediateEffect.addAll(immediate);
+		this.permanentEffect.addAll(permanent);
+	}
 
 	@Override
 	public void accept(DevelopmentCardVisitor visitor) {

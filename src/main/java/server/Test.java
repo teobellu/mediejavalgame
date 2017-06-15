@@ -23,11 +23,15 @@ import game.GC;
 import game.ICard;
 import game.Player;
 import game.Resource;
+import game.development.Building;
+import game.development.Character;
 import game.development.Territory;
+import game.development.Venture;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 import game.effect.behaviors.EffectConvertResource;
 import game.effect.behaviors.EffectDiscountResource;
+import game.effect.behaviors.EffectDoNothing;
 import game.effect.behaviors.EffectDontGetVictoryFor;
 import game.effect.behaviors.EffectGetACard;
 import game.effect.behaviors.EffectGetResource;
@@ -95,29 +99,130 @@ public class Test {
 		}
 	}
 	
-	public static void uploadTerritory(Node root){/*territories*/
+	public static Effect getEffectFromContainerNode(Node container){
+		List<Node> effects = getNodesFromNodeList(container.getChildNodes());
+		Effect effect = GC.NIX;
+		if (effects.size() >= 1)
+			effect = factoryEffectBehavior(effects.get(0));
+		return effect;
+	}
+	
+	public static List<Effect> getEffectListFromContainerNode(Node container){
+		List<Effect> effectList = new ArrayList<>();
+		List<Node> effects = getNodesFromNodeList(container.getChildNodes());
+		if (effects.size() >= 1)
+			for (Node node : effects)
+				effectList.add(factoryEffectBehavior(node));
+		else
+			effectList.add(GC.NIX);
+		return effectList;
+	}
+	
+	public static int getIntegerFromNode(Node node){
+		String text = node.getTextContent();
+		return Integer.parseInt(text.trim());
+	}
+	
+	public static String getStringFromNode(Node node){
+		String text = node.getTextContent();
+		return text.trim();
+	}
+	
+	public static Resource getResourceFromNode(Node node){
+		List<Node> list = getNodesFromNodeList(node.getChildNodes());
+		Resource resource = new Resource();
+		list.forEach(type -> 
+			resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+		return resource;
+	}
+	
+	public static void uploadTerritories(Node root){/*territories*/
 		List<ICard> deck = new ArrayList<>();
 		List<Node> territoryCards = getNodesFromNodeList(root.getChildNodes());
 		for(Node territory : territoryCards){
 			List<Node> parameters = getNodesFromNodeList(territory.getChildNodes());
-			int age = Integer.parseInt(parameters.get(0).getTextContent().trim());
-			String name = parameters.get(1).getTextContent().trim();
-			List<Node> immediateEffects = getNodesFromNodeList(parameters.get(2).getChildNodes());
-			Effect immediate = new Effect("NONE", null);
-			if (immediateEffects.size() >= 1){
-				immediate = factoryEffectBehavior(immediateEffects.get(0));
-			}
-			List<Node> permanentEffects = getNodesFromNodeList(parameters.get(3).getChildNodes());
-			Effect permanent = new Effect("NONE", null);
-			if (permanentEffects.size() >= 1){
-				permanent = factoryEffectBehavior(permanentEffects.get(0));
-			}
-			int dice = Integer.parseInt(parameters.get(4).getTextContent().trim());
+			int age = getIntegerFromNode(parameters.get(0));
+			String name = getStringFromNode(parameters.get(1));
+			Effect immediate = getEffectFromContainerNode(parameters.get(2));
+			Effect permanent = getEffectFromContainerNode(parameters.get(3));
+			int dice = getIntegerFromNode(parameters.get(4));
 			deck.add(new Territory(name, age, immediate, permanent, dice));
-			System.out.println("add territory card, name = " + name + "age = " + age + 
-					", immediate = " + immediate.getWhenActivate() + 
-					", permanent = " + permanent.getWhenActivate() + ", dice = " + dice);
+			System.out.println("add territory card, name = " + name + ", age = " + age + ", immediate = " + immediate.getWhenActivate() + ", permanent = " + permanent.getWhenActivate() + ", dice = " + dice);
 		}
+	}
+	
+	public static void uploadBuildings(Node root){/*buildings*/
+		List<ICard> deck = new ArrayList<>();
+		List<Node> buildingCards = getNodesFromNodeList(root.getChildNodes());
+		for(Node building : buildingCards){
+			List<Node> parameters = getNodesFromNodeList(building.getChildNodes());
+			int age = getIntegerFromNode(parameters.get(0));
+			String name = getStringFromNode(parameters.get(1));
+			Resource cost = getResourceFromNode(parameters.get(2));
+			Effect immediate = getEffectFromContainerNode(parameters.get(3));
+			Effect permanent = getEffectFromContainerNode(parameters.get(4));
+			int dice = getIntegerFromNode(parameters.get(5));
+			deck.add(new Building(age, name, cost, immediate, permanent, dice));
+			stamparisorse(cost);
+			System.out.println("add building card, name = " + name + ", age = " + age + ", immediate = " + immediate.getWhenActivate() + ", permanent = " + permanent.getWhenActivate() + ", dice = " + dice);
+		}
+	}
+	
+	public static void uploadCharacters(Node root){/*characters*/
+		List<ICard> deck = new ArrayList<>();
+		List<Node> characterCards = getNodesFromNodeList(root.getChildNodes());
+		for(Node character : characterCards){
+			List<Node> parameters = getNodesFromNodeList(character.getChildNodes());
+			int age = getIntegerFromNode(parameters.get(0));
+			String name = getStringFromNode(parameters.get(1));
+			Resource cost = getResourceFromNode(parameters.get(2));
+			List<Effect> immediate = getEffectListFromContainerNode(parameters.get(3));
+			List<Effect> permanent = getEffectListFromContainerNode(parameters.get(4));
+			deck.add(new Character(age, name, cost, immediate, permanent));
+			stamparisorse(cost);
+			System.out.println("add character card, name = " + name + ", age = " + age + ", immediate = " + immediate.size() + ", permanent = " + permanent.size());
+		}
+	}
+	
+	public static void uploadVentures(Node root){/*ventures*/
+		List<ICard> deck = new ArrayList<>();
+		List<Node> ventureCards = getNodesFromNodeList(root.getChildNodes());
+		for(Node venture : ventureCards){
+			List<Node> parameters = getNodesFromNodeList(venture.getChildNodes());
+			int age = getIntegerFromNode(parameters.get(0));
+			String name = getStringFromNode(parameters.get(1));
+			List<Resource> requires = lectureVentureRequires(parameters.get(2));
+			List<Resource> cost = lectureVentureCost(parameters.get(2));
+			List<Effect> immediate = getEffectListFromContainerNode(parameters.get(3));
+			int reward = getIntegerFromNode(parameters.get(4));
+			deck.add(new Venture(age, name, requires, cost, immediate, reward));
+			System.out.println("add venture card, name = " + name + ", age = " + age + ", immediate = " + immediate.size() + ", cost = " + cost.size());
+		}
+	}
+	
+	private static List<Resource> lectureVentureRequires(Node costRoot){
+		List<Node> options = getNodesFromNodeList(costRoot.getChildNodes());
+		List<Resource> requires = new ArrayList<>();
+		for (Node option : options){
+			List<Node> singleResource = getNodesFromNodeList(option.getChildNodes());
+			Node firstNode = singleResource.get(0);
+			requires.add(new Resource(firstNode.getNodeName(), getIntegerFromNode(firstNode)));
+		}
+		return requires;
+	}
+	
+	private static List<Resource> lectureVentureCost(Node costRoot){
+		List<Node> options = getNodesFromNodeList(costRoot.getChildNodes());
+		List<Resource> cost = new ArrayList<>();
+		for (Node option : options){
+			List<Node> singleResource = getNodesFromNodeList(option.getChildNodes());
+			singleResource.remove(0);
+			Resource singleCost = new Resource();
+			singleResource.forEach(node -> 
+				singleCost.add(node.getNodeName(), getIntegerFromNode(node)));
+			cost.add(singleCost);
+		}
+		return cost;
 	}
 	
 	public static void uploadExcommunicationTiles(Node root){ /*ban_cards*/
@@ -178,6 +283,7 @@ public class Test {
 				Resource gainResource = getResourceFromNodeList(gain);
 				Resource eachResource = getResourceFromNodeList(each);
 				//TODO
+				return GC.NIX;
 			}
 			case "get_discount":{
 				String action = parameters.get(0).getTextContent();
@@ -196,12 +302,13 @@ public class Test {
 						break;
 					case 2: behavior = new EffectGetACard(parameters.get(0).getTextContent(), Integer.parseInt(parameters.get(1).getTextContent()));
 						break;
-					default : return null; //TODO generate exception
+					default : ;//return null; //TODO generate exception
 				}
+				return new Effect(GC.IMMEDIATE, new EffectDoNothing());
 			}
 			case "work":{
 				String action = parameters.get(0).getNodeName();
-				int value = Integer.parseInt(parameters.get(0).getTextContent());
+				int value = Integer.parseInt(parameters.get(0).getTextContent().trim());
 				behavior = new EffectWork(action, value);
 				return new Effect(GC.IMMEDIATE, behavior);
 			}
@@ -326,9 +433,13 @@ public class Test {
 		uploadExcommunicationTiles(x);
 		
 		Node m = getNodesFromNodeList(listNode.get(3).getChildNodes()).get(0);
-		
-		uploadTerritory(m);
-		
+		Node n = getNodesFromNodeList(listNode.get(3).getChildNodes()).get(1);
+		Node k = getNodesFromNodeList(listNode.get(3).getChildNodes()).get(2);
+		Node g = getNodesFromNodeList(listNode.get(3).getChildNodes()).get(3);
+		uploadTerritories(m);
+		uploadBuildings(n);
+		uploadCharacters(k);
+		uploadVentures(g);
 		System.out.println("finish");
 		/*ban_card 19*/
 		Node y = getNodesFromNodeList(x.getChildNodes()).get(19);

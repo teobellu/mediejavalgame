@@ -4,12 +4,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import game.effect.Effect;
+import game.effect.behaviors.EffectDoNothing;
+
 public class GC {
 	
 	public static final String DEFAULT = "default";
 	public static final String LEADER_CARD = "leader card";
 	public static final String ACTION_SPACE = "action space";
 	
+	public static final String NEVER = "never";
 	public static final String IMMEDIATE = "immediate";
 	public static final String ON_CALL = "on call";
 	public static final String ONCE_PER_TURN = "opt";
@@ -32,9 +36,9 @@ public class GC {
 	public static final String RES_STONES = "stones";
 	public static final String RES_SERVANTS = "servants";
 	public static final String RES_COUNCIL = "council";
-	public static final String RES_VICTORYPOINTS = "victorypoints";
-	public static final String RES_MILITARYPOINTS = "militarypoints";
-	public static final String RES_FAITHPOINTS = "faithpoints";
+	public static final String RES_VICTORYPOINTS = "victory_points";
+	public static final String RES_MILITARYPOINTS = "military_points";
+	public static final String RES_FAITHPOINTS = "faith_points";
 	
 	public static final List<String> RES_TYPES = Collections.unmodifiableList(
 			Arrays.asList(RES_COINS, RES_WOOD, RES_STONES, RES_SERVANTS, RES_COUNCIL, 
@@ -77,6 +81,7 @@ public class GC {
 	
 	public static final Integer END_REWARD_RESOURCE = 5;
 
+	public static final Effect NIX = new Effect(NEVER, new EffectDoNothing());
 	/**
 	 * Private constructor to hide the implicit public one
 	 */
