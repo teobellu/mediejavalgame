@@ -41,13 +41,13 @@ import game.effect.behaviors.EffectWork;
 
 public class ConfigFileHandler {
 	
-	public static final Map<String, List<Effect>> SPACE_BONUS = new HashMap<>();
-	public static final Map<String, List<Resource>> BONUS_PLAYER_DASHBOARD = new HashMap<>();
-	public static final List<Integer> BONUS_FAITH = new ArrayList<>();
-	public static final List<ICard> DEVELOPMENT_DECK = new ArrayList<>();
-	public static final List<ICard> EXCOMMUNICATION_DECK = new ArrayList<>();
-	public static int TIMEOUT_START;
-	public static int TIMEOUT_TURN;
+	protected static final Map<String, List<Effect>> SPACE_BONUS = new HashMap<>();
+	protected static final Map<String, List<Resource>> BONUS_PLAYER_DASHBOARD = new HashMap<>();
+	protected static final List<Integer> BONUS_FAITH = new ArrayList<>();
+	protected static final List<ICard> DEVELOPMENT_DECK = new ArrayList<>();
+	protected static final List<ICard> EXCOMMUNICATION_DECK = new ArrayList<>();
+	protected int TIMEOUT_START;
+	protected int TIMEOUT_TURN;
 
 	public static void main(String[] args) {
 		try{
