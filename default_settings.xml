@@ -61,121 +61,116 @@
 			</production_space>
 		</production>
 		
+		<council_palace>
+			<turn_space>
+				<get_resources>
+					<councils>1</councils>
+					<coins>1</coins>
+				</get_resources>
+			</turn_space>
+		</council_palace>
 		
-		
-		
-		<turn_space>
-			<get_resources>
-				<councils>1</councils>
-				<coins>1</coins>
-			</get_resources>
-		</turn_space>
-		
-		<towers>
-			<tower>
-				<tower_space>
-					<get_resources>
-						<wood>2</wood>
-					</get_resources>
-				</tower_space>
+		<tower>
+			<tower_space>
+				<get_resources>
+					<wood>2</wood>
+				</get_resources>
+			</tower_space>
 				
-				<tower_space>
-					<get_resources>
-						<wood>1</wood>
-					</get_resources>
-				</tower_space>
+			<tower_space>
+				<get_resources>
+					<wood>1</wood>
+				</get_resources>
+			</tower_space>
 				
-				<tower_space>
-					<get_resources>
-						<wood>0</wood>
-					</get_resources>
-				</tower_space>
+			<tower_space>
+				<get_resources>
+					<wood>0</wood>
+				</get_resources>
+			</tower_space>
 				
-				<tower_space>
-					<get_resources>
-						<wood>0</wood>
-					</get_resources>
-				</tower_space>
-			</tower>
+			<tower_space>
+				<get_resources>
+					<wood>0</wood>
+				</get_resources>
+			</tower_space>
 			
-			<tower>
-				<tower_space>
-					<get_resources>
-						<stones>2</stones>
-					</get_resources>
-				</tower_space>
-				
-				<tower_space>
-					<get_resources>
-						<stones>1</stones>
-					</get_resources>
-				</tower_space>
-				
-				<tower_space>
-					<get_resources>
-						<stones>0</stones>
-					</get_resources>
-				</tower_space>
-				
-				<tower_space>
-					<get_resources>
-						<stones>0</stones>
-					</get_resources>
-				</tower_space>
-			</tower>
 			
-			<tower>
-				<tower_space>
-					<get_resources>
-						<military_points>2</military_points>
-					</get_resources>
-				</tower_space>
+			<tower_space>
+				<get_resources>
+					<stones>2</stones>
+				</get_resources>
+			</tower_space>
 				
-				<tower_space>
-					<get_resources>
-						<military_points>1</military_points>
-					</get_resources>
-				</tower_space>
+			<tower_space>
+				<get_resources>
+					<stones>1</stones>
+				</get_resources>
+			</tower_space>
 				
-				<tower_space>
-					<get_resources>
-						<military_points>0</military_points>
-					</get_resources>
-				</tower_space>
+			<tower_space>
+				<get_resources>
+					<stones>0</stones>
+				</get_resources>
+			</tower_space>
 				
-				<tower_space>
-					<get_resources>
-						<military_points>0</military_points>
-					</get_resources>
-				</tower_space>
-			</tower>
+			<tower_space>
+				<get_resources>
+					<stones>0</stones>
+				</get_resources>
+			</tower_space>
+				
 			
-			<tower>
-				<tower_space>
-					<get_resources>
-						<coins>2</coins>
-					</get_resources>
-				</tower_space>
+			<tower_space>
+				<get_resources>
+					<military_points>2</military_points>
+				</get_resources>
+			</tower_space>
 				
-				<tower_space>
-					<get_resources>
-						<coins>1</coins>
-					</get_resources>
-				</tower_space>
+			<tower_space>
+				<get_resources>
+					<military_points>1</military_points>
+				</get_resources>
+			</tower_space>
 				
-				<tower_space>
-					<get_resources>
-						<coins>0</coins>
-					</get_resources>
-				</tower_space>
+			<tower_space>
+				<get_resources>
+					<military_points>0</military_points>
+				</get_resources>
+			</tower_space>
 				
-				<tower_space>
-					<get_resources>
-						<coins>0</coins>
-					</get_resources>
-				</tower_space>
-			</tower>
-		</towers>
+			<tower_space>
+				<get_resources>
+					<military_points>0</military_points>
+				</get_resources>
+			</tower_space>
+				
+				
+			<tower_space>
+				<get_resources>
+					<coins>2</coins>
+				</get_resources>
+			</tower_space>
+				
+			<tower_space>
+				<get_resources>
+					<coins>1</coins>
+				</get_resources>
+			</tower_space>
+				
+			<tower_space>
+				<get_resources>
+					<coins>0</coins>
+				</get_resources>
+			</tower_space>
+				
+			<tower_space>
+				<get_resources>
+					<coins>0</coins>
+				</get_resources>
+			</tower_space>
+			
+		</tower>
 		
 	</bonus_actions>
 	<bonus_bridge>

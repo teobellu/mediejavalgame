@@ -62,8 +62,14 @@ public class GC {
 	public static final List<String> FM_TYPE = Collections.unmodifiableList(
 			Arrays.asList(FM_BLACK, FM_WHITE, FM_ORANGE, FM_TRANSPARENT));
 	
+	public static final String MARKET = "market";
 	public static final String HARVEST = "harvest";
 	public static final String PRODUCTION = "production";
+	public static final String COUNCIL_PALACE = "council_palace";
+	public static final String TOWER = "tower";
+	
+	public static final List<String> SPACE_TYPE = Collections.unmodifiableList(
+			Arrays.asList(MARKET, HARVEST, PRODUCTION, COUNCIL_PALACE, TOWER));
 	
 	public static final String DEV_TERRITORY = "territory";
 	public static final String DEV_BUILDING = "building";
