@@ -4,76 +4,60 @@
 
 		<market>
 			<market_space>
-				<instant_effect>
-					<get_resources>
-						<coins>5</coins>
-					</get_resources>
-				</instant_effect>
+				<get_resources>
+					<coins>5</coins>
+				</get_resources>
 			</market_space>
 		
 			<market_space>
-				<instant_effect>
-					<get_resources>
-						<servants>5</servants>
-					</get_resources>
-				</instant_effect>
+				<get_resources>
+					<servants>5</servants>
+				</get_resources>
 			</market_space>
 		
 			<market_space>
-				<instant_effect>
-					<get_resources>
-						<military_points>3</military_points>
-						<coins>2</coins>
-					</get_resources>
-				</instant_effect>
+				<get_resources>
+					<military_points>3</military_points>
+					<coins>2</coins>
+				</get_resources>
 			</market_space>
 		
 			<market_space>
-				<instant_effect>
-					<get_resources>
-						<councils>2</councils>
-					</get_resources>
-				</instant_effect>
+				<get_resources>
+					<councils>2</councils>
+				</get_resources>
 			</market_space>
 		</market>
 		
 		<harvest>
 			<harvest_space>
-				<instant_effect>
-					<increase_value_action>
-						<action>harvest</action>
-						<value>0</value>
-					</increase_value_action>
-				</instant_effect>
+				<increase_value_action>
+					<action>harvest</action>
+					<value>0</value>
+				</increase_value_action>
 			</harvest_space>
 			
 			<harvest_space>
-				<instant_effect>
-					<increase_value_action>
-						<action>harvest</action>
-						<value>-3</value>
-					</increase_value_action>
-				</instant_effect>
+				<increase_value_action>
+					<action>harvest</action>
+					<value>-3</value>
+				</increase_value_action>
 			</harvest_space>
 		</harvest>
 		
 		<production>
 			<production_space>
-				<instant_effect>
-					<increase_value_action>
-						<action>production</action>
-						<value>0</value>
-					</increase_value_action>
-				</instant_effect>
+				<increase_value_action>
+					<action>production</action>
+					<value>0</value>
+				</increase_value_action>
 			</production_space>
 			
 			<production_space>
-				<instant_effect>
-					<increase_value_action>
-						<action>production</action>
-						<value>-3</value>
-					</increase_value_action>
-				</instant_effect>
+				<increase_value_action>
+					<action>production</action>
+					<value>-3</value>
+				</increase_value_action>
 			</production_space>
 		</production>
 		
@@ -81,155 +65,179 @@
 		
 		
 		<turn_space>
-			<instant_effect>
-				<get_resources>
-					<councils>1</councils>
-					<coins>1</coins>
-				</get_resources>
-			</instant_effect>
+			<get_resources>
+				<councils>1</councils>
+				<coins>1</coins>
+			</get_resources>
 		</turn_space>
 		
 		<towers>
 			<tower>
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<wood>2</wood>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<wood>2</wood>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<wood>1</wood>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<wood>1</wood>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<wood>0</wood>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<wood>0</wood>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<wood>0</wood>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<wood>0</wood>
+					</get_resources>
 				</tower_space>
 			</tower>
 			
 			<tower>
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<stones>2</stones>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<stones>2</stones>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<stones>1</stones>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<stones>1</stones>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<stones>0</stones>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<stones>0</stones>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<stones>0</stones>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<stones>0</stones>
+					</get_resources>
 				</tower_space>
 			</tower>
 			
 			<tower>
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<military_points>2</military_points>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<military_points>2</military_points>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<military_points>1</military_points>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<military_points>1</military_points>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<military_points>0</military_points>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<military_points>0</military_points>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<military_points>0</military_points>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<military_points>0</military_points>
+					</get_resources>
 				</tower_space>
 			</tower>
 			
 			<tower>
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<coins>2</coins>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<coins>2</coins>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<coins>1</coins>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<coins>1</coins>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<coins>0</coins>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<coins>0</coins>
+					</get_resources>
 				</tower_space>
 				
 				<tower_space>
-					<instant_effect>
-						<get_resources>
-							<coins>0</coins>
-						</get_resources>
-					</instant_effect>
+					<get_resources>
+						<coins>0</coins>
+					</get_resources>
 				</tower_space>
 			</tower>
 		</towers>
 		
 	</bonus_actions>
 	<bonus_bridge>
-
+		<option>
+			<harvest>
+				<wood>1</wood>
+				<stones>1</stones>
+				<servants>1</servants>
+			</harvest>
+			<production>
+				<military_points>1</military_points>
+				<coins>2</coins>
+			</production>
+		</option>
+		
+		<option>
+			<harvest>
+				<wood>1</wood>
+				<stones>1</stones>
+				<military_points>1</military_points>
+			</harvest>
+			<production>
+				<servants>2</servants>
+				<coins>1</coins>
+			</production>
+		</option>
+		
+		<option>
+			<harvest>
+				<wood>1</wood>
+				<stones>1</stones>
+				<servants>1</servants>
+			</harvest>
+			<production>
+				<military_points>2</military_points>
+				<coins>1</coins>
+			</production>
+		</option>
+		
+		<option>
+			<harvest>
+				<wood>1</wood>
+				<stones>1</stones>
+				<military_points>1</military_points>
+			</harvest>
+			<production>
+				<servants>1</servants>
+				<coins>2</coins>
+			</production>
+		</option>
+		
+		<option>
+			<harvest>
+				<wood>1</wood>
+				<stones>1</stones>
+				<coins>1</coins>
+			</harvest>
+			<production>
+				<servants>1</servants>
+				<military_points>2</military_points>
+			</production>
+		</option>
 	</bonus_bridge>
 	<bonus_faith>
 		<bonus>0</bonus>
@@ -2055,16 +2063,19 @@
 					Hiring recruits
 				</name>
 				<cost>
-					<coins>4</coins>
+					<option>
+						<military_points>0</military_points>
+						<coins>4</coins>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<military_points>5</military_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					4
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2074,16 +2085,21 @@
 					Repairing the Church
 				</name>
 				<cost>
+					<option>
+						<military_points>0</military_points>
+						<coins>1</coins>
+						<wood>1</wood>
+						<stones>1</stones>
+					</option>
+				</cost>
+				<instant_effect>
 					<get_resources>
 						<faith_points>1</faith_points>
 					</get_resources>
-				</cost>
-				<instant_effect>
-
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					5
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2093,17 +2109,20 @@
 					Building the walls
 				</name>
 				<cost>
+					<option>
+						<military_points>0</military_points>
+						<stones>3</stones>
+					</option>
+				</cost>
+				<instant_effect>
 					<get_resources>
 						<military_points>2</military_points>
 						<councils>1</councils>
 					</get_resources>
-				</cost>
-				<instant_effect>
-
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					3
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2113,16 +2132,20 @@
 					Raising a statue
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<wood>2</wood>
+						<stones>2</stones>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<councils>2</councils>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					4
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2132,16 +2155,19 @@
 					Military Campaign
 				</name>
 				<cost>
-
+					<option>
+						<military_points>3</military_points>
+						<military_points>2</military_points>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<coins>3</coins>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					5
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2151,16 +2177,19 @@
 					Hosting panhandlers
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<wood>3</wood>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<servants>4</servants>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					4
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2170,16 +2199,19 @@
 					Fighting Heresies
 				</name>
 				<cost>
-
+					<option>
+						<military_points>5</military_points>
+						<military_points>3</military_points>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<faith_points>2</faith_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					5
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2189,16 +2221,25 @@
 					Support to the Bishop
 				</name>
 				<cost>
-
+					<option>
+						<military_points>4</military_points>
+						<military_points>2</military_points>
+					</option>
+					<option>
+						<military_points>0</military_points>
+						<wood>1</wood>
+						<stones>1</stones>
+						<coins>2</coins>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<faith_points>3</faith_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					1
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2208,16 +2249,19 @@
 					Hiring soldiers
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<coins>6</coins>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<military_points>6</military_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					5
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2227,16 +2271,21 @@
 					Repairing the Abbey
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<coins>2</coins>
+						<wood>2</wood>
+						<stones>2</stones>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<faith_points>2</faith_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					6
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2246,7 +2295,10 @@
 					Building the bastions
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<stones>4</stones>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
@@ -2254,9 +2306,9 @@
 						<councils>1</councils>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					2
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2266,7 +2318,10 @@
 					Support to the King
 				</name>
 				<cost>
-
+					<option>
+						<military_points>6</military_points>
+						<military_points>3</military_points>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
@@ -2274,28 +2329,32 @@
 						<councils>1</councils>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					3
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
 					2
 				</period>
 				<name>
-					Improving the canals
+					Improving the Canals
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<servants>2</servants>
+						<coins>3</coins>
+					</option>
 				</cost>
 				<instant_effect>
 					<work>
 						<harvest>4</harvest>
 					</work>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					5
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2305,16 +2364,19 @@
 					Hosting foreigners
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<wood>4</wood>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<servants>5</servants>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					4
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2324,7 +2386,10 @@
 					Crusade
 				</name>
 				<cost>
-
+					<option>
+						<military_points>8</military_points>
+						<military_points>4</military_points>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
@@ -2332,9 +2397,9 @@
 						<faith_points>1</faith_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					5
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2344,35 +2409,47 @@
 					Support to the Cardinal
 				</name>
 				<cost>
-
+					<option>
+						<military_points>7</military_points>
+						<military_points>4</military_points>
+					</option>
+					<option>
+						<military_points>0</military_points>
+						<wood>2</wood>
+						<coins>3</coins>
+						<stones>2</stones>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<faith_points>3</faith_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					4
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
 					3
 				</period>
 				<name>
-					Hiring mercenaries
+					Hiring Mercenaries
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<coins>8</coins>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<military_points>7</military_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					6
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2382,7 +2459,12 @@
 					Repairing the Cathedral
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<coins>3</coins>
+						<wood>3</wood>
+						<stones>3</stones>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_card>
@@ -2392,9 +2474,9 @@
 						<faith_points>1</faith_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					5
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2404,7 +2486,10 @@
 					Building the towers
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<stones>6</stones>
+					</option>		
 				</cost>
 				<instant_effect>
 					<get_resources>
@@ -2412,28 +2497,31 @@
 						<councils>1</councils>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					4
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
 					3
 				</period>
 				<name>
-					Promoting Sacred Arts
+					Promoting Sacred Art
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<wood>6</wood>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<faith_points>3</faith_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					3
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2443,7 +2531,10 @@
 					Military Conquest
 				</name>
 				<cost>
-
+					<option>
+						<military_points>12</military_points>
+						<military_points>6</military_points>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
@@ -2452,9 +2543,9 @@
 						<stones>3</stones>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					7
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2464,16 +2555,20 @@
 					Improving the roads
 				</name>
 				<cost>
-
+					<option>
+						<military_points>0</military_points>
+						<servants>3</servants>
+						<coins>4</coins>
+					</option>
 				</cost>
 				<instant_effect>
 					<work>
 						<production>3</production>
 					</work>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					5
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2483,16 +2578,19 @@
 					Sacred War
 				</name>
 				<cost>
-
+					<option>
+						<military_points>15</military_points>
+						<military_points>8</military_points>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<faith_points>4</faith_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					8
+				</victory_reward>
 			</venture_card>
 			<venture_card>
 				<period>
@@ -2502,16 +2600,25 @@
 					Support to the Pope
 				</name>
 				<cost>
-
+					<option>
+						<military_points>10</military_points>
+						<military_points>5</military_points>
+					</option>
+					<option>
+						<military_points>0</military_points>
+						<wood>3</wood>
+						<stones>3</stones>
+						<coins>4</coins>
+					</option>
 				</cost>
 				<instant_effect>
 					<get_resources>
 						<faith_points>2</faith_points>
 					</get_resources>
 				</instant_effect>
-				<permanent_effect>
-
-				</permanent_effect>
+				<victory_reward>
+					10
+				</victory_reward>
 			</venture_card>
 		</ventures>
 	</dev_cards>
@@ -2663,7 +2770,9 @@
 		</ban_card>
 		
 	</ban_cards>
-	<timeout_start>20</timeout_start>
+	<timeout_start>
+		20
+	</timeout_start>
 	<timeout_turn>
 		120
 	</timeout_turn>

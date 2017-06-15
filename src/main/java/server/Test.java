@@ -18,9 +18,12 @@ import org.xml.sax.SAXException;
 import com.sun.media.jfxmedia.events.MarkerEvent;
 import com.sun.media.jfxmedia.events.PlayerEvent;
 
+import game.ExcommunicationTile;
 import game.GC;
+import game.ICard;
 import game.Player;
 import game.Resource;
+import game.development.Territory;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 import game.effect.behaviors.EffectConvertResource;
@@ -59,13 +62,11 @@ public class Test {
 		values.forEach(value -> System.out.println(value));
 	}
 	
-	public static void getSpaceBonus(Node node){
-		List<Integer> values = new ArrayList<>();
-		NodeList childList = node.getChildNodes();
-		List<Node> listNode = getNodesFromNodeList(childList);
-		for (Node gettedNode : listNode){
-			NodeList sublist = gettedNode.getChildNodes();
-			switch(gettedNode.getNodeName()){
+	public static void getSpaceBonus(Node root){ 
+		List<Node> listNode = getNodesFromNodeList(root.getChildNodes());
+		for (Node node : listNode){
+			List<Node> sublist = getNodesFromNodeList(node.getChildNodes());
+			switch(node.getNodeName()){
 				case "market" :{
 					System.out.println(1);
 					break;
@@ -75,15 +76,15 @@ public class Test {
 					break;
 				}
 				case "production" :{
-					System.out.println(3);
+					Node pro_spa = getNodesFromNodeList(node.getChildNodes()).get(0);
+					Node ins_eff = getNodesFromNodeList(pro_spa.getChildNodes()).get(0);
+					//Node ins_eff = getNodesFromNodeList(node.getChildNodes()).get(0);
 					break;
 				}
 				case "turn_space" :{
-					Node ins_eff = getNodesFromNodeList(gettedNode.getChildNodes()).get(0);
+					Node ins_eff = getNodesFromNodeList(node.getChildNodes()).get(0);
 					Node res_eff = getNodesFromNodeList(ins_eff.getChildNodes()).get(0);
-					System.out.println(res_eff.getNodeName());
-					Effect d = factoryEffectBehavior(res_eff);
-					System.out.println(4);
+					Effect effect = factoryEffectBehavior(res_eff);
 					break;
 				}
 				case "towers" :{
@@ -94,15 +95,45 @@ public class Test {
 		}
 	}
 	
-	public static Node openSingleNode(Node node){
-		return getNodesFromNodeList(node.getChildNodes()).get(0);
+	public static void uploadTerritory(Node root){/*territories*/
+		List<ICard> deck = new ArrayList<>();
+		List<Node> territoryCards = getNodesFromNodeList(root.getChildNodes());
+		for(Node territory : territoryCards){
+			List<Node> parameters = getNodesFromNodeList(territory.getChildNodes());
+			int age = Integer.parseInt(parameters.get(0).getTextContent().trim());
+			String name = parameters.get(1).getTextContent().trim();
+			List<Node> immediateEffects = getNodesFromNodeList(parameters.get(2).getChildNodes());
+			Effect immediate = new Effect("NONE", null);
+			if (immediateEffects.size() >= 1){
+				immediate = factoryEffectBehavior(immediateEffects.get(0));
+			}
+			List<Node> permanentEffects = getNodesFromNodeList(parameters.get(3).getChildNodes());
+			Effect permanent = new Effect("NONE", null);
+			if (permanentEffects.size() >= 1){
+				permanent = factoryEffectBehavior(permanentEffects.get(0));
+			}
+			int dice = Integer.parseInt(parameters.get(4).getTextContent().trim());
+			deck.add(new Territory(name, age, immediate, permanent, dice));
+			System.out.println("add territory card, name = " + name + "age = " + age + 
+					", immediate = " + immediate.getWhenActivate() + 
+					", permanent = " + permanent.getWhenActivate() + ", dice = " + dice);
+		}
 	}
 	
-	public static Effect getEffectFromNode(Node node){ 
-		Node effect = getNodesFromNodeList(node.getChildNodes()).get(0);
-		System.out.println(effect.getNodeName().toString());
-		//effect.getNodeName();
-		return null;
+	public static void uploadExcommunicationTiles(Node root){ /*ban_cards*/
+		List<ICard> deck = new ArrayList<>();
+		List<Node> banCards = getNodesFromNodeList(root.getChildNodes());
+		for(Node banCard : banCards){
+			List<Node> parameters = getNodesFromNodeList(banCard.getChildNodes());
+			int age = Integer.parseInt(parameters.get(0).getTextContent());
+			Effect effect = factoryEffectBehavior(parameters.get(1));
+			deck.add(new ExcommunicationTile(age, effect));
+			System.out.println("add ban card, age = " + age + ", effect = " + effect.getWhenActivate());
+		}
+	}
+	
+	public static Node openSingleNode(Node node){
+		return getNodesFromNodeList(node.getChildNodes()).get(0);
 	}
 	
 	public static void stamparisorse(Resource w){
@@ -131,7 +162,7 @@ public class Test {
 			case "get_resources": {
 				Resource resource = getResourceFromNodeList(parameters);
 				behavior = new EffectGetResource(resource);
-				
+				return new Effect(GC.IMMEDIATE, behavior);
 			}
 			case "gain_for_every":{
 				Node resNode = parameters.get(0);
@@ -181,26 +212,9 @@ public class Test {
 					List<Node> option = getNodesFromNodeList(trade.getChildNodes());
 					List<Node> pay = getNodesFromNodeList(option.get(0).getChildNodes());
 					List<Node> gain = getNodesFromNodeList(option.get(1).getChildNodes());
-					Resource resource1 = new Resource();
-					pay.forEach(type -> 
-						resource1.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
-					Resource resource2 = new Resource();
-					gain.forEach(type -> 
-						resource2.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
-					payOptions.add(resource1);
-					gainOptions.add(resource2);
+					payOptions.add(getResourceFromNodeList(pay));
+					gainOptions.add(getResourceFromNodeList(gain));
 				}
-				System.out.println("1 lista");
-				System.out.println("pay");
-				stamparisorse(payOptions.get(0));
-				System.out.println("gain");
-				stamparisorse(gainOptions.get(0));
-				
-				System.out.println("2 lista");
-				System.out.println("pay");
-				stamparisorse(payOptions.get(1));
-				System.out.println("gain");
-				stamparisorse(gainOptions.get(1));
 				behavior = new EffectConvertResource(payOptions, gainOptions);
 				return new Effect(GC.IMMEDIATE, behavior);
 			}
@@ -240,8 +254,8 @@ public class Test {
 				return new Effect(GC.WHEN_INCREASE_WORKER, behavior);
 			}
 			case "delay_first_action": {
-				//TODO Come lo vogliamo gestire?
-				
+				//TODO
+				return new Effect("TODO", null);
 			}
 			
 			/**
@@ -303,11 +317,19 @@ public class Test {
 		
 		List<Node> listNode = getNodesFromNodeList(rootChildren);
 		
-		getSpaceBonus(listNode.get(0));
+		//getSpaceBonus(listNode.get(0));
 		//getBonusFaith(listNode.get(2));
 		
 		/*ban_cards*/
 		Node x = listNode.get(4);
+		
+		uploadExcommunicationTiles(x);
+		
+		Node m = getNodesFromNodeList(listNode.get(3).getChildNodes()).get(0);
+		
+		uploadTerritory(m);
+		
+		System.out.println("finish");
 		/*ban_card 19*/
 		Node y = getNodesFromNodeList(x.getChildNodes()).get(19);
 		/*effect*/

@@ -4,6 +4,8 @@ import game.GC;
 
 public class Venture extends DevelopmentCard{
 	
+	int victoryReward;
+	
 	@Override
 	public void accept(DevelopmentCardVisitor visitor) {
 		visitor.visit(this);

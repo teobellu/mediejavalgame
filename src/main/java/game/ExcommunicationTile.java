@@ -25,12 +25,10 @@ public class ExcommunicationTile implements ICard{
 	
 	/**
 	 * Constructor of a single excommunication card
-	 * @param name Name of the card to set
 	 * @param age Age of the card to set
 	 * @param effect Malus of the card to set
 	 */
-	public ExcommunicationTile(int id, int age, Effect effect){
-		this.id = id;
+	public ExcommunicationTile(int age, Effect effect){
 		this.age = age;
 		this.effect = effect;
 	}
