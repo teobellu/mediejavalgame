@@ -1,5 +1,6 @@
 package game.state;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,20 +28,52 @@ public class StateDropLeaderCard extends State {
 	}
 
 	@Override
-	protected State processAction(String action) throws GameException {
-		if(action==CommandStrings.DROP_WHICH_LEADER_CARD){
-			String whichLeaderCard = _theGame.getNextGameAction();
-			for(LeaderCard lc : _player.getLeaderCards()){
-				if(lc.getName()==whichLeaderCard){
-					_theGame.getDynamicBar().discardLeaderCard(lc);
-					return new StateStartingTurn(_theGame);
-				}
-			}
-			throw new GameException(getClass()+"ERROR: Wrong command "+ whichLeaderCard +" in StateDropLeaderCard.processAction(String action)");
-		} else {
-			throw new GameException(getClass()+"ERROR: Wrong command "+ action +" in StateDropLeaderCard.processAction(String action)");
-		}
+	public List<String> dropLeaderCard() throws GameException {
+		throw new GameException("Called method dropLeaderCard in StateDropLeaderCard");
 	}
 
+	@Override
+	public void dropWhichLeaderCard(String leader) throws GameException {
+		for(LeaderCard lc : _player.getLeaderCards()){
+			if(lc.getName().equals(leader)){
+				_theGame.getDynamicBar().discardLeaderCard(lc);
+				
+				//TODO
+				
+				_theGame.setState(new StateStartingTurn(_theGame));
+			}
+		}
+	}
+	
+	@Override
+	public boolean endTurn() throws GameException {
+		throw new GameException("Called method endTurn in StateDropLeaderCard");
+	}
+
+	@Override
+	public List<String> activateLeaderCard() throws GameException {
+		throw new GameException("Called method activateLeaderCard in StateDropLeaderCard");
+	}
+
+	@Override
+	public void activateWhichLeaderCard(String leader) throws GameException {
+		throw new GameException("Called method activateWhichLeaderCard in StateDropLeaderCard");
+	}
+
+	@Override
+	public List<String> placeFamiliar() throws GameException {
+		throw new GameException("Called method placeFamiliar in StateDropLeaderCard");
+	}
+
+	@Override
+	public List<String> placeWhichFamiliar(String familiar) throws GameException {
+		throw new GameException("Called method placeWhichFamiliar in StateDropLeaderCard");
+	}
+
+	@Override
+	public void placeWhereFamiliar(String position) throws GameException {
+		throw new GameException("Called method placeWhereFamiliar in StateDropLeaderCard");
+	}
+	
 	private Logger _log = Logger.getLogger(StateDropLeaderCard.class.getName());
 }

@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import game.Game;
+import exceptions.GameException;
 import misc.ConnectionHandlerRemote;
 import util.CommandStrings;
 import util.Constants;
@@ -74,7 +74,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		return false;
 	}
 	
-	public void setGame(){
+	public void setGame(){//TODO da chiamare questo metodo alla creazione del gioco(probabilmente nella room)
 		if(_client!=null){
 			_theGame = _client.getRoom().getGame();
 		}
@@ -92,7 +92,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 	
 	@Override
-	public void sendToClient(String[] messages) {
+	public void sendToClient(List<String> messages) {
 		synchronized (_outQueue) {
 			for(String s : messages){
 				_outQueue.add(s);
@@ -103,7 +103,9 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	
 	@Override
 	public void sendToClient(String message) {
-		sendToClient(new String[]{message});
+		List<String> list = new ArrayList<>();
+		list.add(message);
+		sendToClient(list);
 	}
 	
 	private String readResponse() throws RemoteException {
@@ -122,29 +124,31 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	
 	@Override
 	public boolean endTurn() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			return _theGame.getState().endTurn();
+		} catch (GameException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return false;
+		}
 	}
 
 	@Override
 	public List<String> dropLeaderCard() throws RemoteException {
-		_theGame.getActionCommandList().add(CommandStrings.DROP_LEADER_CARD);
-		List<String> leaders = new ArrayList<>();
-		String leader = new String();
-		do {
-			leader = readResponse();
-			if(leader!=null && !leader.equals(CommandStrings.END_TRANSMISSION)){
-				leaders.add(leader);
-			}
-		} while(leader!=null && !leader.equals(CommandStrings.END_TRANSMISSION));
-		
-		return leaders;
+		try {
+			return _theGame.getState().dropLeaderCard();
+		} catch (GameException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return new ArrayList<>();
+		}
 	}
 	
 	@Override
 	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		try {
+			_theGame.getState().dropWhichLeaderCard(leaderCard);
+		} catch (GameException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
 	@Override
@@ -165,9 +169,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		
 	}
 	
-	private transient Game _theGame = null;
-	
-	private boolean _hasMyTurnStarted = false;
 	private Date _lastPing;
 	private transient Logger _log = Logger.getLogger(RMIConnectionHandler.class.getName());
 	private LinkedList<String> _outQueue = new LinkedList<>();

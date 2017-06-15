@@ -1,5 +1,7 @@
 package game.state;
 
+import java.util.List;
+
 import exceptions.GameException;
 import game.Game;
 import game.Player;
@@ -18,5 +20,21 @@ public abstract class State {
 	
 	public abstract State doState();
 	
-	protected abstract State processAction(String action) throws GameException;
+	public abstract List<String> dropLeaderCard() throws GameException;
+	
+	public abstract void dropWhichLeaderCard(String leader) throws GameException;
+	
+	public abstract boolean endTurn() throws GameException;
+	
+	public abstract List<String> activateLeaderCard() throws GameException;
+
+	//TODO alcune carte richiedono interazione
+	public abstract void activateWhichLeaderCard(String leader) throws GameException;
+	
+	public abstract List<String> placeFamiliar() throws GameException;
+	
+	public abstract List<String> placeWhichFamiliar(String familiar) throws GameException;
+	
+	//TODO string?
+	public abstract void placeWhereFamiliar(String position) throws GameException;
 }

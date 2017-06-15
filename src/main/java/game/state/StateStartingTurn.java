@@ -1,10 +1,13 @@
 package game.state;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.Game;
+import game.LeaderCard;
 import util.CommandStrings;
 
 public class StateStartingTurn extends State{
@@ -27,44 +30,71 @@ public class StateStartingTurn extends State{
 		}
 	}
 	
-	protected State processAction(String action) throws GameException {
-		if(action==CommandStrings.PUT_FAMILIAR){
-			if(_theGame.hasPlacedFamiliarYet()){
-				//TODO digli che non può farlo
-				
-				
-				return this;
-			} else {
-				return new StatePlaceFamiliar(_theGame);
+	@Override
+	public List<String> dropLeaderCard() throws GameException {
+		List<String> leaders = new ArrayList<>();
+		if(!_player.getLeaderCards().isEmpty()){
+			for(LeaderCard lc : _player.getLeaderCards()){
+				leaders.add(lc.getName());
 			}
-		} else if(action==CommandStrings.ACTIVATE_LEADER_CARD){
-				if(!_player.getActivableLeaderCards().isEmpty()){
-					return new StatePlayLeaderCard(_theGame);
-				} else {
-					//TODO avvisa il player che non può farlo
-					return this;
-				}
-				
-		} else if(action==CommandStrings.DROP_LEADER_CARD){
-			if(!_player.getLeaderCards().isEmpty()){
-				_player.getClient().getConnectionHandler().sendToClient(CommandStrings.DROP_WHICH_LEADER_CARD);
-				return new StateDropLeaderCard(_theGame);
-			} else {
-				//TODO avvisa il player che non può farlo
-				return this;
-			}
-			
-		} else if(action==CommandStrings.END_TURN){
-			if(_theGame.hasPlacedFamiliarYet()){
-				return null;
-			} else {
-				//TODO avvisa il player che deve piazzare un familiare
-				return this;
-			}
+		}
+		_theGame.setState(new StateDropLeaderCard(_theGame));
+		
+		return leaders;
+	}
+
+	@Override
+	public void dropWhichLeaderCard(String leader) throws GameException {
+		throw new GameException("Called method dropWhichLeaderCard in StateStartingTurn");
+	}
+	
+	@Override
+	public boolean endTurn() throws GameException {
+		if(_theGame.hasPlacedFamiliarYet()){
+			//TODO tell the game the turn is over
+			return true;
 		} else {
-			throw new GameException(getClass()+"ERROR: Wrong command in StateStartingTurn.processAction(String action)");
+			return false;
 		}
 	}
 	
+	@Override
+	public List<String> activateLeaderCard() throws GameException {
+		List<String> leaders = new ArrayList<>();
+		if(!_player.getActivableLeaderCards().isEmpty()){
+			for(LeaderCard lc : _player.getActivableLeaderCards()){
+				leaders.add(lc.getName());
+			}
+		}
+		
+		_theGame.setState(new StateActivateLeaderCard(_theGame));
+		
+		return leaders;
+	}
+	
+	@Override
+	public void activateWhichLeaderCard(String leader) throws GameException {
+		throw new GameException("Called method activateWhichLeaderCard in StateStartingTurn");
+	}
+	
+	@Override
+	public List<String> placeFamiliar() throws GameException {
+		//TODO
+		return null;
+	}
+
+	@Override
+	public List<String> placeWhichFamiliar(String familiar) throws GameException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void placeWhereFamiliar(String position) throws GameException {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private Logger _log = Logger.getLogger(StateStartingTurn.class.getName());
+
 }

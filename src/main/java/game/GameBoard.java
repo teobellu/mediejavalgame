@@ -1,14 +1,14 @@
 package game;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import game.UserConfig;
+import exceptions.GameException;
 import game.development.DevelopmentCard;
 import game.development.Territory;
 import game.effect.Effect;
 import game.effect.behaviors.EffectGetResource;
 import game.effect.behaviors.EffectIncreaseActionPower;
-import game.state.StatePlaceFamiliar;
 
 
 public class GameBoard {

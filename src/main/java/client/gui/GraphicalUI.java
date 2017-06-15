@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
-import game.GameException;
+import exceptions.GameException;
 import javafx.application.Application;
 
 public class GraphicalUI implements UI {
@@ -121,6 +121,15 @@ public class GraphicalUI implements UI {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		return leaders;
+	}
+	
+	//TODO override?
+	public void dropWhichLeaderCard(String leader){
+		try {
+			_connectionHandler.dropWhichLeaderCard(leader);
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 	
 	public void addMeToGame() throws GameException {// TODO override?

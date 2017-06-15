@@ -19,6 +19,19 @@ public class MainViewController {
 	private ImageView _backgroundImage;
 	
 	@FXML
+	private ImageView _leaderCard1;
+	@FXML
+	private ImageView _leaderCard2;
+	@FXML
+	private ImageView _leaderCard3;
+	@FXML
+	private ImageView _leaderCard4;
+	@FXML
+	private ImageView _leaderCard5;
+	@FXML
+	private ImageView _leaderDeck;
+	
+	@FXML
 	private Button _firstButton;
 	@FXML
 	private Button _secondButton;

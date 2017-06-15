@@ -115,6 +115,14 @@ public class Game implements Runnable {
 		
 	}
 	
+	public State getState(){
+		return _state;
+	}
+	
+	public void setState(State state){
+		_state = state;
+	}
+	
 	public DynamicAction getDynamicBar(){
 		return _dynamicAction;
 	}

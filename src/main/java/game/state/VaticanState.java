@@ -15,10 +15,4 @@ public class VaticanState extends State {
 		return null;
 	}
 
-	@Override
-	protected State processAction(String action) throws GameException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

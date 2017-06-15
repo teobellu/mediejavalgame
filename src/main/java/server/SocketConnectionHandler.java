@@ -5,9 +5,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import exceptions.GameException;
 import util.CommandStrings;
 
 public class SocketConnectionHandler extends ConnectionHandler implements Runnable {
@@ -74,6 +77,14 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 				//TODO in teoria posso mandare quello che voglio, ma da rivedere per sicurezza
 				sendToClient(CommandStrings.END_TURN);
 			}
+		} else if(str.equals(CommandStrings.DROP_LEADER_CARD)){
+			List<String> leaders = new ArrayList<>();
+			try {
+				leaders = _theGame.getState().dropLeaderCard();
+			} catch (GameException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+			}
+			sendToClient(leaders);
 		}
 	}
 	
@@ -114,7 +125,7 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	}
 	
 	@Override
-	public void sendToClient(String[] messages) {
+	public void sendToClient(List<String> messages) {
 		try {
 			for(String s : messages){
 				writeObject(s);
@@ -139,5 +150,4 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	private ObjectInputStream _inputStream;
 	private ObjectOutputStream _outputStream;
 	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
-	
 }

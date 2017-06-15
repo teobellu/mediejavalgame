@@ -1,5 +1,7 @@
 package game.state;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,23 +26,49 @@ public class StatePlaceFamiliar extends State {
 			return null;
 		}
 	}
+	
+	@Override
+	public List<String> dropLeaderCard() throws GameException {
+		throw new GameException("Called method dropLeaderCard in StatePlaceFamiliar");
+	}
 
 	@Override
-	protected State processAction(String action) throws GameException {
-		if(action==CommandStrings.PUT_WHICH_FAMILIAR){
-			_whichFamiliar = _theGame.getNextGameAction();
-			//TODO controllare che sia effettivamente un familiare valido
-			//TODO fai i dovuti controlli
-			
-			return processAction(_theGame.getNextGameAction());
-		} else if(action==CommandStrings.PUT_WHERE_FAMILIAR) {
-			//TODO compi l'azione
-			//TODO controlli, as usual
-			
-			return new StateStartingTurn(_theGame);
-		} else {
-			throw new GameException(getClass()+"ERROR: Wrong command in StatePlaceFamiliar.processAction(String action)");
-		}
+	public void dropWhichLeaderCard(String leader) throws GameException {
+		throw new GameException("Called method dropWhichLeaderCard in StatePlaceFamiliar");
+	}
+
+	@Override
+	public boolean endTurn() throws GameException {
+		throw new GameException("Called method endTurn in StatePlaceFamiliar");
+	}
+
+	@Override
+	public List<String> activateLeaderCard() throws GameException {
+		throw new GameException("Called method activateLeaderCard in StatePlaceFamiliar");
+	}
+
+	@Override
+	public void activateWhichLeaderCard(String leader) throws GameException {
+		throw new GameException("Called method activateWhichLeaderCard in StatePlaceFamiliar");
+	}
+	
+	@Override
+	public List<String> placeFamiliar() throws GameException {
+		throw new GameException("Called method placeFamiliar in StatePlaceFamiliar");
+	}
+
+	@Override
+	public List<String> placeWhichFamiliar(String familiar) throws GameException {
+		_whichFamiliar = familiar;
+		List<String> placesAvailable = new ArrayList<>();
+		//TODO calcolare quale posti sono disponibili
+		
+		return placesAvailable;
+	}
+
+	@Override
+	public void placeWhereFamiliar(String position) throws GameException {
+		// TODO Auto-generated method stub
 	}
 	
 	private String _whichFamiliar;

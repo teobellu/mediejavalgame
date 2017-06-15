@@ -219,7 +219,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			str = (String) readObject();
 			leaders.add(str);
 		} while (str!=CommandStrings.END_TRANSMISSION);
-		
+
 		//rimuovo il comando di fine trasmissione
 		leaders.remove(leaders.size()-1);
 		

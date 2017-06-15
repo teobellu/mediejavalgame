@@ -3,6 +3,8 @@ package game;
 import java.util.HashMap;
 import java.util.Optional;
 
+import exceptions.GameException;
+
 /**
  * Class used to manage resources (as hoard or game loot), like coins or wood, 
  * and perform math operations on related information
