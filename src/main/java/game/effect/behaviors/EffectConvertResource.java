@@ -1,5 +1,7 @@
 package game.effect.behaviors;
 
+import java.util.List;
+
 import game.GC;
 import game.GameException;
 import game.Player;
@@ -18,6 +20,10 @@ public class EffectConvertResource implements IEffectBehavior{
 		this.resourceToGain = resourceToGain;
 	}
 	
+	public EffectConvertResource(List<Resource> payOptions, List<Resource> gainOptions) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);

@@ -23,6 +23,7 @@ import game.Player;
 import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
+import game.effect.behaviors.EffectConvertResource;
 import game.effect.behaviors.EffectDiscountResource;
 import game.effect.behaviors.EffectDontGetVictoryFor;
 import game.effect.behaviors.EffectGetACard;
@@ -34,6 +35,7 @@ import game.effect.behaviors.EffectLostVictoryForEach;
 import game.effect.behaviors.EffectOverruleObject;
 import game.effect.behaviors.EffectPayMoreForIncreaseWorker;
 import game.effect.behaviors.EffectRecieveRewardForEach;
+import game.effect.behaviors.EffectWork;
 
 public class Test {
 	
@@ -103,6 +105,19 @@ public class Test {
 		return null;
 	}
 	
+	public static void stamparisorse(Resource w){
+		GC.RES_TYPES.stream()
+			.filter(t -> w.get(t) > 0)
+			.forEach(t -> System.out.println(t + " " + w.get(t)));
+	}
+	
+	public static Resource getResourceFromNodeList(List<Node> list){
+		Resource resource = new Resource();
+		list.forEach(type -> 
+			resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+		return resource;
+	}
+	
 	/**
 	 * This method reads a node, which represents an effect, and converts it into a effect
 	 * @param node The node which represents an effect
@@ -110,18 +125,15 @@ public class Test {
 	 */
 	public static Effect factoryEffectBehavior(Node node){
 		IEffectBehavior behavior;
+		List<Node> parameters = getNodesFromNodeList(node.getChildNodes());
 		switch (node.getNodeName()){
 		
 			case "get_resources": {
-				List<Node> typesOfResource = getNodesFromNodeList(node.getChildNodes());
-				Resource resource = new Resource();
-				typesOfResource.forEach(type -> 
-					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+				Resource resource = getResourceFromNodeList(parameters);
 				behavior = new EffectGetResource(resource);
 				
 			}
 			case "gain_for_every":{
-				List<Node> parameters = getNodesFromNodeList(node.getChildNodes());
 				Node resNode = parameters.get(0);
 				Resource resource = new Resource(
 						resNode.getNodeName(), Integer.parseInt(resNode.getTextContent()));
@@ -129,13 +141,17 @@ public class Test {
 				behavior = new EffectRecieveRewardForEach(resource, typeOfCard);
 				return new Effect(GC.IMMEDIATE, behavior);
 			}
+			case "gain_for_each":{
+				List<Node> gain = getNodesFromNodeList(parameters.get(0).getChildNodes());
+				List<Node> each = getNodesFromNodeList(parameters.get(1).getChildNodes());
+				Resource gainResource = getResourceFromNodeList(gain);
+				Resource eachResource = getResourceFromNodeList(each);
+				//TODO
+			}
 			case "get_discount":{
-				List<Node> parameters = getNodesFromNodeList(node.getChildNodes());
 				String action = parameters.get(0).getTextContent();
 				parameters.remove(0);
-				Resource resource = new Resource();
-				parameters.forEach(type -> 
-					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+				Resource resource = getResourceFromNodeList(parameters);
 				behavior = new EffectDiscountResource(action, resource);
 				return new Effect(GC.WHEN_FIND_COST_CARD, behavior);
 			}
@@ -144,7 +160,6 @@ public class Test {
 				return new Effect(GC.WHEN_GET_TOWER_BONUS, behavior);
 			}
 			case "get_card":{
-				List<Node> parameters = getNodesFromNodeList(node.getChildNodes());
 				switch(parameters.size()){
 					case 1: behavior = new EffectGetACard(Integer.parseInt(parameters.get(0).getTextContent()));
 						break;
@@ -153,7 +168,42 @@ public class Test {
 					default : return null; //TODO generate exception
 				}
 			}
-			
+			case "work":{
+				String action = parameters.get(0).getNodeName();
+				int value = Integer.parseInt(parameters.get(0).getTextContent());
+				behavior = new EffectWork(action, value);
+				return new Effect(GC.IMMEDIATE, behavior);
+			}
+			case "trade":{
+				List<Resource> payOptions = new ArrayList<>();
+				List<Resource> gainOptions = new ArrayList<>();
+				for (Node trade : parameters){
+					List<Node> option = getNodesFromNodeList(trade.getChildNodes());
+					List<Node> pay = getNodesFromNodeList(option.get(0).getChildNodes());
+					List<Node> gain = getNodesFromNodeList(option.get(1).getChildNodes());
+					Resource resource1 = new Resource();
+					pay.forEach(type -> 
+						resource1.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+					Resource resource2 = new Resource();
+					gain.forEach(type -> 
+						resource2.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+					payOptions.add(resource1);
+					gainOptions.add(resource2);
+				}
+				System.out.println("1 lista");
+				System.out.println("pay");
+				stamparisorse(payOptions.get(0));
+				System.out.println("gain");
+				stamparisorse(gainOptions.get(0));
+				
+				System.out.println("2 lista");
+				System.out.println("pay");
+				stamparisorse(payOptions.get(1));
+				System.out.println("gain");
+				stamparisorse(gainOptions.get(1));
+				behavior = new EffectConvertResource(payOptions, gainOptions);
+				return new Effect(GC.IMMEDIATE, behavior);
+			}
 			
 			/*Excommunication tiles*/
 			
@@ -161,10 +211,7 @@ public class Test {
 			 * First Age
 			 */
 			case "get_less_resources": {
-				List<Node> typesOfResource = getNodesFromNodeList(node.getChildNodes());
-				Resource resource = new Resource();
-				typesOfResource.forEach(type -> 
-					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+				Resource resource = getResourceFromNodeList(parameters);
 				behavior = new EffectDiscountResource(resource);
 				return new Effect(GC.WHEN_GAIN, behavior);
 			}
@@ -178,9 +225,8 @@ public class Test {
 			 * Second Age
 			 */
 			case "increase_value_action": {
-				List<Node> nodes = getNodesFromNodeList(node.getChildNodes());
-				String action = nodes.get(0).getTextContent();
-				int value = Integer.parseInt(nodes.get(1).getTextContent());
+				String action = parameters.get(0).getTextContent();
+				int value = Integer.parseInt(parameters.get(1).getTextContent());
 				behavior = new EffectIncreaseActionPower(action, value);
 				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
 			}
@@ -202,26 +248,19 @@ public class Test {
 			 * Third Age
 			 */
 			case "no_victory_points": {
-				Node nodeWithTypeOfCard = getNodesFromNodeList(node.getChildNodes()).get(0);
-				String typeOfCard = nodeWithTypeOfCard.getTextContent();
+				String typeOfCard = parameters.get(0).getTextContent();
 				behavior = new EffectDontGetVictoryFor(typeOfCard);
 				return new Effect(GC.WHEN_END, behavior);
 			}
 			case "lose_victory_points_depicted_resource": {
-				List<Node> nodes = getNodesFromNodeList(node.getChildNodes());
-				String typeOfCard = nodes.get(0).getTextContent();
-				nodes.remove(0);
-				Resource resource = new Resource();
-				nodes.forEach(type -> 
-					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+				String typeOfCard = parameters.get(0).getTextContent();
+				parameters.remove(0);
+				Resource resource = getResourceFromNodeList(parameters);
 				behavior = new EffectLostVictoryDepicted(typeOfCard, resource);
 				return new Effect(GC.WHEN_END, behavior);
 			}
 			case "lose_victory_points": {
-				List<Node> typesOfResource = getNodesFromNodeList(node.getChildNodes());
-				Resource resource = new Resource();
-				typesOfResource.forEach(type -> 
-					resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
+				Resource resource = getResourceFromNodeList(parameters);
 				behavior = new EffectLostVictoryForEach(resource);
 				return new Effect(GC.WHEN_END, behavior);
 			}
@@ -278,6 +317,23 @@ public class Test {
 		
 		System.out.println(w.getNodeName());
 		System.out.println(z.getWhenActivate());
+		
+		
+		/*******************/
+		
+		/*dev_cards*/
+		Node a = listNode.get(3);
+		/*buildings*/
+		Node a2 = getNodesFromNodeList(a.getChildNodes()).get(1);
+		System.out.println(a2.getNodeName());
+		/*dev_card 29*/
+		Node b = getNodesFromNodeList(a2.getChildNodes()).get(4);
+		/*effect_p*/
+		Node c = getNodesFromNodeList(b.getChildNodes()).get(4);
+		/*effect*/
+		Node d = getNodesFromNodeList(c.getChildNodes()).get(0);
+		
+		Effect e = factoryEffectBehavior(d);
 		
 	}
 }

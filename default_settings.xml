@@ -887,7 +887,24 @@
 
 				</instant_effect>
 				<permanent_effect>
-					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					<trade>
+						<option>
+							<pay>
+								<wood>1</wood>
+							</pay>
+							<gain>
+								<coins>3</coins>
+							</gain>
+						</option>
+						<option>
+							<pay>
+								<wood>2</wood>
+							</pay>
+							<gain>
+								<coins>5</coins>
+							</gain>
+						</option>
+					</trade>
 
 				</permanent_effect>
 				<dice>4</dice>
@@ -911,7 +928,24 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<stones>1</stones>
+							</pay>
+							<gain>
+								<coins>3</coins>
+							</gain>
+						</option>
+						<option>
+							<pay>
+								<stones>2</stones>
+							</pay>
+							<gain>
+								<coins>5</coins>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>3</dice>
 			</building_card>
@@ -928,12 +962,21 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<faith_point>1</faith_point>
+						<faith_points>1</faith_points>
 					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<coins>1</coins>
+							</pay>
+							<gain>
+								<faith_points>1</faith_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>2</dice>
 			</building_card>
@@ -955,7 +998,16 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<coins>1</coins>
+							</pay>
+							<gain>
+								<councils>1</councils>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>1</dice>
 			</building_card>
@@ -969,7 +1021,6 @@
 				<cost>
 					<wood>2</wood>
 					<stones>1</stones>
-
 				</cost>
 				<instant_effect>
 					<get_resources>
@@ -978,7 +1029,17 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<coins>3</coins>
+							</pay>
+							<gain>
+								<wood>2</wood>
+								<stones>2</stones>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>3</dice>
 			</building_card>
@@ -1000,7 +1061,24 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<coins>1</coins>
+							</pay>
+							<gain>
+								<victory_points>3</victory_points>
+							</gain>
+						</option>
+						<option>
+							<pay>
+								<coins>2</coins>
+							</pay>
+							<gain>
+								<victory_points>5</victory_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>3</dice>
 			</building_card>
@@ -1022,7 +1100,24 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<wood>1</wood>
+							</pay>
+							<gain>
+								<victory_points>3</victory_points>
+							</gain>
+						</option>
+						<option>
+							<pay>
+								<wood>3</wood>
+							</pay>
+							<gain>
+								<victory_points>7</victory_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>4</dice>
 			</building_card>
@@ -1044,7 +1139,24 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<stones>1</stones>
+							</pay>
+							<gain>
+								<victory_points>3</victory_points>
+							</gain>
+						</option>
+						<option>
+							<pay>
+								<stones>3</stones>
+							</pay>
+							<gain>
+								<victory_points>7</victory_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>5</dice>
 			</building_card>
@@ -1067,7 +1179,18 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<servants>1</servants>
+								<wood>1</wood>
+								<stones>1</stones>
+							</pay>
+							<gain>
+								<victory_points>6</victory_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>4</dice>
 			</building_card>
@@ -1085,12 +1208,22 @@
 				<instant_effect>
 					<get_resources>
 						<victory_points>2</victory_points>
-						<faith_point>1</faith_point>
+						<faith_points>1</faith_points>
 					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<faith_points>1</faith_points>
+							</pay>
+							<gain>
+								<coins>2</coins>
+								<victory_points>2</victory_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>2</dice>
 			</building_card>
@@ -1113,7 +1246,16 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<servants>1</servants>
+							</pay>
+							<gain>
+								<military_points>3</military_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>1</dice>
 			</building_card>
@@ -1137,7 +1279,10 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<get_resources>
+						<military_points>2</military_points>
+						<victory_points>2</victory_points>
+					</get_resources>
 				</permanent_effect>
 				<dice>6</dice>
 			</building_card>
@@ -1161,7 +1306,9 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<get_resources>
+						<coins>5</coins>
+					</get_resources>
 				</permanent_effect>
 				<dice>2</dice>
 			</building_card>
@@ -1184,7 +1331,17 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<coins>4</coins>
+							</pay>
+							<gain>	
+								<wood>3</wood>
+								<stones>3</stones>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>4</dice>
 			</building_card>
@@ -1208,7 +1365,9 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<get_resources>
+						<victory_points>3</victory_points>
+					</get_resources>
 				</permanent_effect>
 				<dice>1</dice>
 			</building_card>
@@ -1232,7 +1391,10 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<get_resources>
+						<victory_points>2</victory_points>
+						<councils>1</councils>
+					</get_resources>
 				</permanent_effect>
 				<dice>5</dice>
 			</building_card>
@@ -1256,7 +1418,17 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<coins>1</coins>
+							</pay>
+							<gain>
+								<servants>2</servants>
+								<victory_points>4</victory_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>6</dice>
 			</building_card>
@@ -1275,12 +1447,29 @@
 				<instant_effect>
 					<get_resources>
 						<victory_points>5</victory_points>
-						<faith_point>1</faith_point>
+						<faith_points>1</faith_points>
 					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<wood>1</wood>
+							</pay>
+							<gain>
+								<faith_points>2</faith_points>
+							</gain>
+						</option>
+						<option>
+							<pay>
+								<stones>1</stones>
+							</pay>
+							<gain>
+								<faith_points>2</faith_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>1</dice>
 			</building_card>
@@ -1304,7 +1493,17 @@
 
 				</instant_effect>
 				<permanent_effect>
-
+					<trade>
+						<option>
+							<pay>
+								<servants>1</servants>
+							</pay>
+							<gain>
+								<military_points>3</military_points>
+								<victory_points>1</victory_points>
+							</gain>
+						</option>
+					</trade>
 				</permanent_effect>
 				<dice>3</dice>
 			</building_card>
@@ -1323,12 +1522,14 @@
 				<instant_effect>
 					<get_resources>
 						<victory_points>7</victory_points>
-						<faith_point>3</faith_point>
+						<faith_points>3</faith_points>
 					</get_resources>
 
 				</instant_effect>
 				<permanent_effect>
-
+					<get_resources>
+						<victory_points>1</victory_points>
+					</get_resources>
 				</permanent_effect>
 				<dice>2</dice>
 			</building_card>
@@ -1766,7 +1967,12 @@
 					<coins>4</coins>
 				</cost>
 				<instant_effect>
-					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					<work>
+						<harvest>4</harvest>
+					</work>
+					<get_resources>
+						<faith_points>2</faith_points>
+					</get_resources>
 				</instant_effect>
 				<permanent_effect>
 
@@ -1783,7 +1989,12 @@
 					<coins>5</coins>
 				</cost>
 				<instant_effect>
-					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					<work>
+						<production>4</production>
+					</work>
+					<get_resources>
+						<faith_points>1</faith_points>
+					</get_resources>
 				</instant_effect>
 				<permanent_effect>
 
@@ -1798,7 +2009,15 @@
 					<coins>5</coins>
 				</cost>
 				<instant_effect>
-					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					<gain_for_each>
+						<gain>
+							<victory_points>1</victory_points>
+						</gain>
+						<each>
+							<military_points>2</military_points>
+						</each>
+						
+					</gain_for_each>
 				</instant_effect>
 				<permanent_effect>
 
@@ -2070,7 +2289,9 @@
 
 				</cost>
 				<instant_effect>
-					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					<work>
+						<harvest>4</harvest>
+					</work>
 				</instant_effect>
 				<permanent_effect>
 
@@ -2246,7 +2467,9 @@
 
 				</cost>
 				<instant_effect>
-					@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					<work>
+						<production>3</production>
+					</work>
 				</instant_effect>
 				<permanent_effect>
 
