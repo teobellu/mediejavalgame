@@ -2,10 +2,10 @@ package server;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,21 +48,25 @@ public class ConfigFileHandler {
 	protected static final List<ICard> EXCOMMUNICATION_DECK = new ArrayList<>();
 	protected int TIMEOUT_START;
 	protected int TIMEOUT_TURN;
+	
+	private static final Map<String, Function<Node , Effect>> EFFECTS = new HashMap<>();
 
 	public static void main(String[] args) {
+		ConfigFileHandler cfh = new ConfigFileHandler();
 		try{
-			validate();
+			cfh.validate();
 		} catch (Exception e) {
 			System.err.println("file is not good"); //TODO e se scelgo GUI?
 			/**TODO le carte caricate prima dell'errore rimangono!
 			 * così su 2 piedi mi vengono in mente 2 opzioni, ce ne saranno di migliori:
 			 * 1- svuotare tutto, space_bonus ecc. ma perderebbo "final"
 			 * 2- chiudere il gioco
+			 * 3- fare un metodo clean() //possibile?
 			 */
 		}
 	}
 	
-	public static void validate() throws Exception{
+	private void validate() throws Exception{
 		File fileXML = new File("default_settings.xml");
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();			
@@ -73,11 +77,13 @@ public class ConfigFileHandler {
 		root.normalize();
 			
 		List<Node> listNode = getChildNodesFromNode(root);
-			
+		
+		
+		buildMap();
 		GC.SPACE_TYPE.forEach(type -> SPACE_BONUS.putIfAbsent(type, new ArrayList<>()));
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.HARVEST, new ArrayList<>());
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.PRODUCTION, new ArrayList<>());
-			
+		
 		uploadSpaceBonus(listNode.get(0));
 		uploadPlayerDashboardBonus(listNode.get(1));
 		uploadFaithTracing(listNode.get(2));
@@ -95,48 +101,32 @@ public class ConfigFileHandler {
 		// metodo jacopo
 	}
 	
-	public static void uploadSpaceBonus(Node root){ 
-		List<Node> typeOfSpaces = getChildNodesFromNode(root);
-		for (Node node : typeOfSpaces){
-			String name = node.getNodeName();
-			List<Node> spaces = getChildNodesFromNode(node);
-			if(!GC.SPACE_TYPE.contains(node.getNodeName()))
-				;//lancia eccezione
-			spaces.forEach(space -> SPACE_BONUS.get(name)
-				.add(getEffectFromContainerNode(space)));
-		}
-	}
-	
-	public static Effect getEffectFromContainerNode(Node container){
-		List<Node> effects = getChildNodesFromNode(container);
-		Effect effect = GC.NIX;
-		if (!effects.isEmpty())
-			effect = factoryEffectBehavior(effects.get(0));
-		return effect;
-	}
-	
-	public static List<Effect> getEffectListFromContainerNode(Node container){
-		List<Effect> effectList = new ArrayList<>();
-		List<Node> effects = getChildNodesFromNode(container);
-		if (!effects.isEmpty())
-			for (Node node : effects)
-				effectList.add(factoryEffectBehavior(node));
-		else
-			effectList.add(GC.NIX);
-		return effectList;
-	}
-	
-	public static int getIntegerFromNode(Node node){
+	/**
+	 * Read an integer from a node
+	 * @param node Node to read
+	 * @return value read
+	 */
+	private int getIntegerFromNode(Node node){
 		String text = node.getTextContent();
 		return Integer.parseInt(text.trim());
 	}
 	
-	public static String getStringFromNode(Node node){
+	/**
+	 * Read a string from a node
+	 * @param node Node to read
+	 * @return value read
+	 */
+	private String getStringFromNode(Node node){
 		String text = node.getTextContent();
 		return text.trim();
 	}
 	
-	public static Resource getResourceFromNode(Node node){
+	/**
+	 * Read a resource from a node
+	 * @param node Node to read
+	 * @return value read
+	 */
+	private Resource getResourceFromNode(Node node){
 		List<Node> list = getChildNodesFromNode(node);
 		Resource resource = new Resource();
 		list.forEach(type -> 
@@ -144,7 +134,28 @@ public class ConfigFileHandler {
 		return resource;
 	}
 	
-	public static void uploadPlayerDashboardBonus(Node root){
+	/**
+	 * Loads bonus on all the spaces from the xml file
+	 * @param root Root node
+	 * @throws Exception The node has not a valid name
+	 */
+	private void uploadSpaceBonus(Node root) throws Exception{ 
+		List<Node> typeOfSpaces = getChildNodesFromNode(root);
+		for (Node node : typeOfSpaces){
+			String name = node.getNodeName();
+			List<Node> spaces = getChildNodesFromNode(node);
+			if(!GC.SPACE_TYPE.contains(node.getNodeName()))
+				throw new Exception();
+			spaces.forEach(space -> SPACE_BONUS.get(name)
+				.add(getEffectFromContainerNode(space)));
+		}
+	}
+	
+	/**
+	 * Loads bonus on the player dashboard from the xml file
+	 * @param root Root node
+	 */
+	private void uploadPlayerDashboardBonus(Node root){
 		List<Node> options = getChildNodesFromNode(root);
 		for (Node option : options){
 			List<Node> work = getChildNodesFromNode(option);
@@ -156,14 +167,22 @@ public class ConfigFileHandler {
 		}
 	}
 	
-	public static void uploadFaithTracing(Node node){
+	/**
+	 * Loads bonus of faith tracing from the xml file
+	 * @param root Root node
+	 */
+	private void uploadFaithTracing(Node node){
 		List<Integer> values = new ArrayList<>();
 		List<Node> listNode = getChildNodesFromNode(node);
 		listNode.forEach(lnode -> values.add(Integer.parseInt(lnode.getTextContent())));
 		values.forEach(value -> BONUS_FAITH.add(value));
 	}
 	
-	public static void uploadTerritories(Node root){/*territories*/
+	/**
+	 * Loads territory cards from the xml file
+	 * @param root Root node
+	 */
+	private void uploadTerritories(Node root){
 		List<Node> territoryCards = getChildNodesFromNode(root);
 		for(Node territory : territoryCards){
 			List<Node> parameters = getChildNodesFromNode(territory);
@@ -173,11 +192,14 @@ public class ConfigFileHandler {
 			Effect permanent = getEffectFromContainerNode(parameters.get(3));
 			int dice = getIntegerFromNode(parameters.get(4));
 			DEVELOPMENT_DECK.add(new Territory(name, age, immediate, permanent, dice));
-			System.out.println("add territory card, name = " + name + ", age =" + age + " , immediate = " + immediate.getWhenActivate() + ", permanent = " + permanent.getWhenActivate() + ", dice = " + dice);
 		}
 	}
 	
-	public static void uploadBuildings(Node root){/*buildings*/
+	/**
+	 * Loads building cards from the xml file
+	 * @param root Root node
+	 */
+	private void uploadBuildings(Node root){
 		List<Node> buildingCards = getChildNodesFromNode(root);
 		for(Node building : buildingCards){
 			List<Node> parameters = getChildNodesFromNode(building);
@@ -188,11 +210,14 @@ public class ConfigFileHandler {
 			Effect permanent = getEffectFromContainerNode(parameters.get(4));
 			int dice = getIntegerFromNode(parameters.get(5));
 			DEVELOPMENT_DECK.add(new Building(age, name, cost, immediate, permanent, dice));
-			System.out.println("add building card, name = " + name + ", age =" + age + " , immediate = " + immediate.getWhenActivate() + ", permanent = " + permanent.getWhenActivate() + ", dice = " + dice);
 		}
 	}
 	
-	public static void uploadCharacters(Node root){/*characters*/
+	/**
+	 * Loads character cards from the xml file
+	 * @param root Root node
+	 */
+	private void uploadCharacters(Node root){
 		List<Node> characterCards = getChildNodesFromNode(root);
 		for(Node character : characterCards){
 			List<Node> parameters = getChildNodesFromNode(character);
@@ -202,11 +227,14 @@ public class ConfigFileHandler {
 			List<Effect> immediate = getEffectListFromContainerNode(parameters.get(3));
 			List<Effect> permanent = getEffectListFromContainerNode(parameters.get(4));
 			DEVELOPMENT_DECK.add(new Character(age, name, cost, immediate, permanent));
-			System.out.println("add character card, name = " + name + ", age = " + age + ", immediate = " + immediate.size() + ", permanent = " + permanent.size());
 		}
 	}
 	
-	public static void uploadVentures(Node root){/*ventures*/
+	/**
+	 * Loads venture cards from the xml file
+	 * @param root Root node
+	 */
+	private void uploadVentures(Node root){/*ventures*/
 		List<Node> ventureCards = getChildNodesFromNode(root);
 		for(Node venture : ventureCards){
 			List<Node> parameters = getChildNodesFromNode(venture);
@@ -217,12 +245,16 @@ public class ConfigFileHandler {
 			List<Effect> immediate = getEffectListFromContainerNode(parameters.get(3));
 			int reward = getIntegerFromNode(parameters.get(4));
 			DEVELOPMENT_DECK.add(new Venture(age, name, requires, cost, immediate, reward));
-			System.out.println("add venture card, name = " + name + ", age = " + age + ", immediate = " + immediate.size() + ", cost = " + cost.size());
 		}
 	}
 	
-	private static List<Resource> lectureVentureRequires(Node costRoot){
-		List<Node> options = getChildNodesFromNode(costRoot);
+	/**
+	 * This method is used to read the requirement of venture cards
+	 * @param requiresRoot Root node
+	 * @return List of requires
+	 */
+	private List<Resource> lectureVentureRequires(Node requirementRoot){
+		List<Node> options = getChildNodesFromNode(requirementRoot);
 		List<Resource> requires = new ArrayList<>();
 		for (Node option : options){
 			List<Node> singleResource = getChildNodesFromNode(option);
@@ -232,7 +264,12 @@ public class ConfigFileHandler {
 		return requires;
 	}
 	
-	private static List<Resource> lectureVentureCost(Node costRoot){
+	/**
+	 * This method is used to read the cost of venture cards
+	 * @param costRoot Root node
+	 * @return List of costs
+	 */
+	private List<Resource> lectureVentureCost(Node costRoot){
 		List<Node> options = getChildNodesFromNode(costRoot);
 		List<Resource> cost = new ArrayList<>();
 		for (Node option : options){
@@ -246,26 +283,42 @@ public class ConfigFileHandler {
 		return cost;
 	}
 	
-	public static void uploadExcommunicationTiles(Node root){ /*ban_cards*/
+	/**
+	 * Loads the excommunication tiles from the xml file
+	 * @param root Root node
+	 */
+	private void uploadExcommunicationTiles(Node root){ /*ban_cards*/
 		List<Node> banCards = getChildNodesFromNode(root);
 		for(Node banCard : banCards){
 			List<Node> parameters = getChildNodesFromNode(banCard);
 			int age = Integer.parseInt(parameters.get(0).getTextContent());
 			Effect effect = factoryEffectBehavior(parameters.get(1));
 			EXCOMMUNICATION_DECK.add(new ExcommunicationTile(age, effect));
-			System.out.println("add ban card, age = " + age + ", effect = " + effect.getWhenActivate());
 		}
 	}
 	
-	public static void uploadTimerStart(Node root){
+	/**
+	 * Upload start timer duration
+	 * @param root Root
+	 */
+	private void uploadTimerStart(Node root){
 		TIMEOUT_START = getIntegerFromNode(root);
 	}
 	
-	public static void uploadTimerTurn(Node root){
+	/**
+	 * Upload turn timer duration
+	 * @param root Root
+	 */
+	private void uploadTimerTurn(Node root){
 		TIMEOUT_TURN = getIntegerFromNode(root);
 	}
 	
-	public static Resource getResourceFromNodeList(List<Node> list){
+	/**
+	 * Gets a resource package from a list of nodes
+	 * @param list List of nodes
+	 * @return New resource package
+	 */
+	private static Resource getResourceFromNodeList(List<Node> list){
 		Resource resource = new Resource();
 		list.forEach(type -> 
 			resource.add(type.getNodeName(), Integer.parseInt(type.getTextContent())));
@@ -277,141 +330,280 @@ public class ConfigFileHandler {
 	 * @param node The node which represents an effect
 	 * @return Effect with his behavior
 	 */
-	public static Effect factoryEffectBehavior(Node node){
-		IEffectBehavior behavior;
-		List<Node> parameters = getChildNodesFromNode(node);
-		switch (node.getNodeName()){
-		
-			case "get_resources": {
-				Resource resource = getResourceFromNodeList(parameters);
-				behavior = new EffectGetResource(resource);
-				return new Effect(GC.IMMEDIATE, behavior);
-			}
-			case "gain_for_every":{
-				Node resNode = parameters.get(0);
-				Resource resource = new Resource(
-						resNode.getNodeName(), Integer.parseInt(resNode.getTextContent()));
-				String typeOfCard = parameters.get(1).getTextContent();
-				behavior = new EffectRecieveRewardForEach(resource, typeOfCard);
-				return new Effect(GC.IMMEDIATE, behavior);
-			}
-			case "gain_for_each":{
-				List<Node> gain = getChildNodesFromNode(parameters.get(0));
-				List<Node> each = getChildNodesFromNode(parameters.get(1));
-				Resource gainResource = getResourceFromNodeList(gain);
-				Resource eachResource = getResourceFromNodeList(each);
-				//TODO
-				return GC.NIX;
-			}
-			case "get_discount":{
-				String action = parameters.get(0).getTextContent();
-				parameters.remove(0);
-				Resource resource = getResourceFromNodeList(parameters);
-				behavior = new EffectDiscountResource(action, resource);
-				return new Effect(GC.WHEN_FIND_COST_CARD, behavior);
-			}
-			case "block_floor":{
-				behavior = new EffectOverruleObject();
-				return new Effect(GC.WHEN_GET_TOWER_BONUS, behavior);
-			}
-			case "get_card":{
-				switch(parameters.size()){
-					case 1: behavior = new EffectGetACard(Integer.parseInt(parameters.get(0).getTextContent()));
-						break;
-					case 2: behavior = new EffectGetACard(parameters.get(0).getTextContent(), Integer.parseInt(parameters.get(1).getTextContent()));
-						break;
-					default : ;//TODO generate exception
-				}
-				return new Effect(GC.IMMEDIATE, new EffectDoNothing());
-			}
-			case "work":{
-				String action = parameters.get(0).getNodeName();
-				int value = Integer.parseInt(parameters.get(0).getTextContent().trim());
-				behavior = new EffectWork(action, value);
-				return new Effect(GC.IMMEDIATE, behavior);
-			}
-			case "trade":{
-				List<Resource> payOptions = new ArrayList<>();
-				List<Resource> gainOptions = new ArrayList<>();
-				for (Node trade : parameters){
-					List<Node> option = getChildNodesFromNode(trade);
-					List<Node> pay = getChildNodesFromNode(option.get(0));
-					List<Node> gain = getChildNodesFromNode(option.get(1));
-					payOptions.add(getResourceFromNodeList(pay));
-					gainOptions.add(getResourceFromNodeList(gain));
-				}
-				behavior = new EffectConvertResource(payOptions, gainOptions);
-				return new Effect(GC.IMMEDIATE, behavior);
-			}
-			
-			/*Excommunication tiles*/
-			
-			/**
-			 * First Age
-			 */
-			case "get_less_resources": {
-				Resource resource = getResourceFromNodeList(parameters);
-				behavior = new EffectDiscountResource(resource);
-				return new Effect(GC.WHEN_GAIN, behavior);
-			}
-			case "less_value_familiars": {
-				int value = Integer.parseInt(node.getTextContent());
-				behavior = new EffectIncreaseFamiliarStartPower(GC.FM_COLOR, value);
-				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
-			}
-			
-			/**
-			 * Second Age
-			 */
-			case "increase_value_action": {
-				String action = parameters.get(0).getTextContent();
-				int value = Integer.parseInt(parameters.get(1).getTextContent());
-				behavior = new EffectIncreaseActionPower(action, value);
-				return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
-			}
-			case "no_market": {
-				behavior = new EffectOverruleObject();
-				return new Effect(GC.WHEN_PLACE_FAMILIAR_MARKET, behavior);
-			}
-			case "pay_more_increase_worker": {
-				int malus = Integer.parseInt(node.getTextContent());
-				behavior = new EffectPayMoreForIncreaseWorker(malus);
-				return new Effect(GC.WHEN_INCREASE_WORKER, behavior);
-			}
-			case "delay_first_action": {
-				//TODO
-				return new Effect("TODO", null);
-			}
-			
-			/**
-			 * Third Age
-			 */
-			case "no_victory_points": {
-				String typeOfCard = parameters.get(0).getTextContent();
-				behavior = new EffectDontGetVictoryFor(typeOfCard);
-				return new Effect(GC.WHEN_END, behavior);
-			}
-			case "lose_victory_points_depicted_resource": {
-				String typeOfCard = parameters.get(0).getTextContent();
-				parameters.remove(0);
-				Resource resource = getResourceFromNodeList(parameters);
-				behavior = new EffectLostVictoryDepicted(typeOfCard, resource);
-				return new Effect(GC.WHEN_END, behavior);
-			}
-			case "lose_victory_points": {
-				Resource resource = getResourceFromNodeList(parameters);
-				behavior = new EffectLostVictoryForEach(resource);
-				return new Effect(GC.WHEN_END, behavior);
-			}
-			default : {
-				System.err.println("Can't load this effect");
-				return GC.NIX;
-			}
-		}
-		
+	private Effect factoryEffectBehavior(Node node){
+		return EFFECTS.get(node.getNodeName()).apply(node);
 	}
 	
-	public static List<Node> getChildNodesFromNode(Node father){
+	/**
+	 * Each element of the map corresponds to the pair string and function from the node
+	 * to the effect
+	 */
+	private void buildMap(){
+		EFFECTS.putIfAbsent("get_resources", ConfigFileHandler::getResources);
+		EFFECTS.putIfAbsent("gain_for_every", ConfigFileHandler::gainForEvery);
+		EFFECTS.putIfAbsent("gain_for_each", ConfigFileHandler::gainForEach); //TODO
+		EFFECTS.putIfAbsent("get_discount", ConfigFileHandler::getDiscount);
+		EFFECTS.putIfAbsent("block_floor",ConfigFileHandler::blockFloor);
+		EFFECTS.putIfAbsent("get_card", ConfigFileHandler::getCard); //TODO
+		EFFECTS.putIfAbsent("work", ConfigFileHandler::work);
+		EFFECTS.putIfAbsent("trade", ConfigFileHandler::trade);
+		EFFECTS.putIfAbsent("get_less_resources", ConfigFileHandler::getLessResources);
+		EFFECTS.putIfAbsent("less_value_familiars", ConfigFileHandler::lessValueFamiliar);
+		EFFECTS.putIfAbsent("increase_value_action", ConfigFileHandler::increaseValueAction);
+		EFFECTS.putIfAbsent("no_market", ConfigFileHandler::noMarket);
+		EFFECTS.putIfAbsent("pay_more_increase_worker", ConfigFileHandler::payMoreIncreaseWorker);
+		EFFECTS.putIfAbsent("delay_first_action", ConfigFileHandler::delayFirstAction); //TODO
+		EFFECTS.putIfAbsent("no_victory_points", ConfigFileHandler::noVictoryPoints);
+		EFFECTS.putIfAbsent("lose_victory_points_depicted_resource", ConfigFileHandler::loseVictoryPointsDepictedResource);
+		EFFECTS.putIfAbsent("lose_victory_points", ConfigFileHandler::loseVictoryPoints);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectGetResource
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect delayFirstAction(Node node){
+		//TODO ANCHE DESCRIZIONE
+		return GC.NIX;
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectGetResource
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect getResources(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		Resource resource = getResourceFromNodeList(parameters);
+		IEffectBehavior behavior = new EffectGetResource(resource);
+		return new Effect(GC.IMMEDIATE, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectRecieveRewardForEach
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect gainForEvery(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		Node resNode = parameters.get(0);
+		Resource resource = new Resource(
+				resNode.getNodeName(), Integer.parseInt(resNode.getTextContent()));
+		String typeOfCard = parameters.get(1).getTextContent();
+		IEffectBehavior behavior = new EffectRecieveRewardForEach(resource, typeOfCard);
+		return new Effect(GC.IMMEDIATE, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of TODO
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect gainForEach(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		List<Node> gain = getChildNodesFromNode(parameters.get(0));
+		List<Node> each = getChildNodesFromNode(parameters.get(1));
+		Resource gainResource = getResourceFromNodeList(gain);
+		Resource eachResource = getResourceFromNodeList(each);
+		//TODO ANCHE LA DESCRIZIONE
+		return GC.NIX;
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectDiscountResource
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect getDiscount(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		String action = parameters.get(0).getTextContent();
+		parameters.remove(0);
+		Resource resource = getResourceFromNodeList(parameters);
+		IEffectBehavior behavior = new EffectDiscountResource(action, resource);
+		return new Effect(GC.WHEN_FIND_COST_CARD, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectOverruleObject
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect blockFloor(Node node){
+		IEffectBehavior behavior = new EffectOverruleObject();
+		return new Effect(GC.WHEN_GET_TOWER_BONUS, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectGetACard
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect getCard(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		IEffectBehavior behavior;
+		switch(parameters.size()){
+		case 1: behavior = new EffectGetACard(Integer.parseInt(parameters.get(0).getTextContent()));
+			break;
+		case 2: behavior = new EffectGetACard(parameters.get(0).getTextContent(), Integer.parseInt(parameters.get(1).getTextContent()));
+			break;
+		default : ;//TODO generate exception
+		return new Effect(GC.IMMEDIATE, new EffectDoNothing());
+	}
+	return new Effect(GC.IMMEDIATE, new EffectDoNothing());
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectWork
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect work(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		String action = parameters.get(0).getNodeName();
+		int value = Integer.parseInt(parameters.get(0).getTextContent().trim());
+		IEffectBehavior behavior = new EffectWork(action, value);
+		return new Effect(GC.IMMEDIATE, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectConvertResource
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect trade(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		List<Resource> payOptions = new ArrayList<>();
+		List<Resource> gainOptions = new ArrayList<>();
+		for (Node trade : parameters){
+			List<Node> option = getChildNodesFromNode(trade);
+			List<Node> pay = getChildNodesFromNode(option.get(0));
+			List<Node> gain = getChildNodesFromNode(option.get(1));
+			payOptions.add(getResourceFromNodeList(pay));
+			gainOptions.add(getResourceFromNodeList(gain));
+		}
+		IEffectBehavior behavior = new EffectConvertResource(payOptions, gainOptions);
+		return new Effect(GC.IMMEDIATE, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectDiscountResource
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect getLessResources(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		Resource resource = getResourceFromNodeList(parameters);
+		IEffectBehavior behavior = new EffectDiscountResource(resource);
+		return new Effect(GC.WHEN_GAIN, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectIncreaseFamiliarStartPower
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect lessValueFamiliar(Node node){
+		int value = Integer.parseInt(node.getTextContent());
+		IEffectBehavior behavior = new EffectIncreaseFamiliarStartPower(GC.FM_COLOR, value);
+		return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectIncreaseActionPower
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect increaseValueAction(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		String action = parameters.get(0).getTextContent();
+		int value = Integer.parseInt(parameters.get(1).getTextContent());
+		IEffectBehavior behavior = new EffectIncreaseActionPower(action, value);
+		return new Effect(GC.WHEN_FIND_VALUE_ACTION, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectOverruleObject
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect noMarket(Node node){
+		IEffectBehavior behavior = new EffectOverruleObject();
+		return new Effect(GC.WHEN_PLACE_FAMILIAR_MARKET, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectPayMoreForIncreaseWorker
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect payMoreIncreaseWorker(Node node){
+		int malus = Integer.parseInt(node.getTextContent());
+		IEffectBehavior behavior = new EffectPayMoreForIncreaseWorker(malus);
+		return new Effect(GC.WHEN_INCREASE_WORKER, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectDontGetVictory
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect noVictoryPoints(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		String typeOfCard = parameters.get(0).getTextContent();
+		IEffectBehavior behavior = new EffectDontGetVictoryFor(typeOfCard);
+		return new Effect(GC.WHEN_END, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectLostVictoryDepicted
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect loseVictoryPointsDepictedResource(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		String typeOfCard = parameters.get(0).getTextContent();
+		parameters.remove(0);
+		Resource resource = getResourceFromNodeList(parameters);
+		IEffectBehavior behavior = new EffectLostVictoryDepicted(typeOfCard, resource);
+		return new Effect(GC.WHEN_END, behavior);
+	}
+	
+	/**
+	 * Generate an effect
+	 * @Factory Create a new instance of EffectLostVictoryForEach
+	 * @param node Root node
+	 * @return the triggered effect
+	 */
+	private static Effect loseVictoryPoints(Node node){
+		List<Node> parameters = getChildNodesFromNode(node);
+		Resource resource = getResourceFromNodeList(parameters);
+		IEffectBehavior behavior = new EffectLostVictoryForEach(resource);
+		return new Effect(GC.WHEN_END, behavior);
+	}
+	
+	/**
+	 * Is equivalent to method org.w3c.dom.Node.getChildNodes() but gets only true nodes
+	 * @param father Root node
+	 * @return List of child nodes
+	 */
+	private static List<Node> getChildNodesFromNode(Node father){
 		NodeList nodeList = father.getChildNodes(); 
 		List<Node> listNode = new ArrayList<>();
 		for (int i = 0; i < nodeList.getLength(); i++){
@@ -420,6 +612,35 @@ public class ConfigFileHandler {
 				listNode.add(node);
 		}
 		return listNode;
+	}
+	
+	/**
+	 * Reads a single effect form a container node, like a root node
+	 * @param container Node to read
+	 * @return Effect Effect read
+	 */
+	private Effect getEffectFromContainerNode(Node container){
+		List<Node> effects = getChildNodesFromNode(container);
+		Effect effect = GC.NIX;
+		if (!effects.isEmpty())
+			effect = factoryEffectBehavior(effects.get(0));
+		return effect;
+	}
+	
+	/**
+	 * Reads effects form a container node, like a root node
+	 * @param container Node to read
+	 * @return List of effects
+	 */
+	private List<Effect> getEffectListFromContainerNode(Node container){
+		List<Effect> effectList = new ArrayList<>();
+		List<Node> effects = getChildNodesFromNode(container);
+		if (!effects.isEmpty())
+			for (Node node : effects)
+				effectList.add(factoryEffectBehavior(node));
+		else
+			effectList.add(GC.NIX);
+		return effectList;
 	}
 	
 }
