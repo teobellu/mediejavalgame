@@ -1,7 +1,8 @@
 package game.effect.behaviors;
 
+import exceptions.GameException;
+
 import game.GC;
-import game.GameException;
 import game.Player;
 import game.Resource;
 import game.effect.Effect;

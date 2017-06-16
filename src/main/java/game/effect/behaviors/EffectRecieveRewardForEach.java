@@ -10,15 +10,27 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 
 	private Effect ref;
 	private Resource reward;
-	private String forEach;
+	private String card;
+	private Resource loot;
 	
 	private Player player;
 	
-	private int count = 0;
+	private int count;
+	
+	private EffectRecieveRewardForEach(Resource reward) {
+		count = 0;
+		this.reward = reward;
+		loot = new Resource();
+	}
 	
 	public EffectRecieveRewardForEach(Resource reward, String forEach) {
-		this.reward = reward;
-		this.forEach = forEach;
+		this(reward);
+		this.card = forEach;
+	}
+	
+	public EffectRecieveRewardForEach(Resource reward, Resource forEach) {
+		this(reward);
+		this.loot = forEach;
 	}
 	
 	@Override
@@ -34,23 +46,12 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	}
 	
 	private void establishReward(){
-		for (String type : GC.DEV_TYPES){
-			if (type == forEach){
-				count += player.getDevelopmentCards(type).size();
-			}
-		}
-		for (String type : GC.RES_TYPES){
-			if (type == forEach){
-				count += player.getResource().get(type);
-			}
-		}
-		
-		/**
-		 * TODO DELETE OR CONVERT
-		 */
 		GC.DEV_TYPES.stream()
-			.filter(type -> type == forEach);
-			
+			.filter(type -> type == card)
+			.forEach(type -> count += player.getDevelopmentCards(type).size());
+		GC.RES_TYPES.stream()
+			.filter(type -> player.getResource(type) > 0 && loot.get(type) > 0)
+			.forEach(type -> count += player.getResource(type) / loot.get(type));
 	}
 	
 	private void addReward(){

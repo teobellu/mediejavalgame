@@ -20,11 +20,13 @@ import game.ICard;
 import game.Resource;
 import game.development.Building;
 import game.development.Character;
+import game.development.DevelopmentCard;
 import game.development.Territory;
 import game.development.Venture;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 import game.effect.behaviors.EffectConvertResource;
+import game.effect.behaviors.EffectDelayFirstAction;
 import game.effect.behaviors.EffectDiscountResource;
 import game.effect.behaviors.EffectDoNothing;
 import game.effect.behaviors.EffectDontGetVictoryFor;
@@ -44,17 +46,19 @@ public class ConfigFileHandler {
 	protected static final Map<String, List<Effect>> SPACE_BONUS = new HashMap<>();
 	protected static final Map<String, List<Resource>> BONUS_PLAYER_DASHBOARD = new HashMap<>();
 	protected static final List<Integer> BONUS_FAITH = new ArrayList<>();
-	protected static final List<ICard> DEVELOPMENT_DECK = new ArrayList<>();
-	protected static final List<ICard> EXCOMMUNICATION_DECK = new ArrayList<>();
-	protected int TIMEOUT_START;
-	protected int TIMEOUT_TURN;
+	protected static final List<DevelopmentCard> DEVELOPMENT_DECK = new ArrayList<>();
+	protected static final List<ExcommunicationTile> EXCOMMUNICATION_DECK = new ArrayList<>();
+	protected long TIMEOUT_START;
+	protected long TIMEOUT_TURN;
 	
 	private static final Map<String, Function<Node , Effect>> EFFECTS = new HashMap<>();
-
-	public static void main(String[] args) {
-		ConfigFileHandler cfh = new ConfigFileHandler();
+	
+	public void read(File xml){
 		try{
-			cfh.validate();
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			Document doc = db.parse(xml);
+			validate(doc);
 		} catch (Exception e) {
 			System.err.println("file is not good"); //TODO e se scelgo GUI?
 			/**TODO le carte caricate prima dell'errore rimangono!
@@ -66,12 +70,7 @@ public class ConfigFileHandler {
 		}
 	}
 	
-	private void validate() throws Exception{
-		File fileXML = new File("default_settings.xml");
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();			
-		Document doc = db.parse(fileXML);
-		
+	public void validate(Document doc) throws Exception{
 		Node root = doc.getDocumentElement();
 			
 		root.normalize();
@@ -94,11 +93,6 @@ public class ConfigFileHandler {
 		uploadExcommunicationTiles(listNode.get(4));
 		uploadTimerStart(listNode.get(5));
 		uploadTimerTurn(listNode.get(6));
-	}
-	
-	
-	public void read(File xml){
-		// metodo jacopo
 	}
 	
 	/**
@@ -341,7 +335,7 @@ public class ConfigFileHandler {
 	private void buildMap(){
 		EFFECTS.putIfAbsent("get_resources", ConfigFileHandler::getResources);
 		EFFECTS.putIfAbsent("gain_for_every", ConfigFileHandler::gainForEvery);
-		EFFECTS.putIfAbsent("gain_for_each", ConfigFileHandler::gainForEach); //TODO
+		EFFECTS.putIfAbsent("gain_for_each", ConfigFileHandler::gainForEach);
 		EFFECTS.putIfAbsent("get_discount", ConfigFileHandler::getDiscount);
 		EFFECTS.putIfAbsent("block_floor",ConfigFileHandler::blockFloor);
 		EFFECTS.putIfAbsent("get_card", ConfigFileHandler::getCard); //TODO
@@ -352,7 +346,7 @@ public class ConfigFileHandler {
 		EFFECTS.putIfAbsent("increase_value_action", ConfigFileHandler::increaseValueAction);
 		EFFECTS.putIfAbsent("no_market", ConfigFileHandler::noMarket);
 		EFFECTS.putIfAbsent("pay_more_increase_worker", ConfigFileHandler::payMoreIncreaseWorker);
-		EFFECTS.putIfAbsent("delay_first_action", ConfigFileHandler::delayFirstAction); //TODO
+		EFFECTS.putIfAbsent("delay_first_action", ConfigFileHandler::delayFirstAction);
 		EFFECTS.putIfAbsent("no_victory_points", ConfigFileHandler::noVictoryPoints);
 		EFFECTS.putIfAbsent("lose_victory_points_depicted_resource", ConfigFileHandler::loseVictoryPointsDepictedResource);
 		EFFECTS.putIfAbsent("lose_victory_points", ConfigFileHandler::loseVictoryPoints);
@@ -360,13 +354,13 @@ public class ConfigFileHandler {
 	
 	/**
 	 * Generate an effect
-	 * @Factory Create a new instance of EffectGetResource
+	 * @Factory Create a new instance of EffectDelayFirstAction
 	 * @param node Root node
 	 * @return the triggered effect
 	 */
 	private static Effect delayFirstAction(Node node){
-		//TODO ANCHE DESCRIZIONE
-		return GC.NIX;
+		IEffectBehavior behavior = new EffectDelayFirstAction();
+		return new Effect(GC.IMMEDIATE, behavior); //è un gc. immediate? TODO
 	}
 	
 	/**
@@ -400,7 +394,7 @@ public class ConfigFileHandler {
 	
 	/**
 	 * Generate an effect
-	 * @Factory Create a new instance of TODO
+	 * @Factory Create a new instance of EffectRecieveRewardForEach
 	 * @param node Root node
 	 * @return the triggered effect
 	 */
@@ -410,8 +404,8 @@ public class ConfigFileHandler {
 		List<Node> each = getChildNodesFromNode(parameters.get(1));
 		Resource gainResource = getResourceFromNodeList(gain);
 		Resource eachResource = getResourceFromNodeList(each);
-		//TODO ANCHE LA DESCRIZIONE
-		return GC.NIX;
+		IEffectBehavior behavior = new EffectRecieveRewardForEach(gainResource, eachResource);
+		return new Effect(GC.IMMEDIATE, behavior);
 	}
 	
 	/**
@@ -636,8 +630,7 @@ public class ConfigFileHandler {
 		List<Effect> effectList = new ArrayList<>();
 		List<Node> effects = getChildNodesFromNode(container);
 		if (!effects.isEmpty())
-			for (Node node : effects)
-				effectList.add(factoryEffectBehavior(node));
+			effects.forEach(node -> effectList.add(factoryEffectBehavior(node)));
 		else
 			effectList.add(GC.NIX);
 		return effectList;

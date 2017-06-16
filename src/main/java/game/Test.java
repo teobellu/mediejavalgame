@@ -118,7 +118,7 @@ public class Test {
 		gi.getHeadPlayersTurn().add(g2);
 		gi.getTailPlayersTurn().add(g3);
 		
-		gi.nextPlayersTurn();
+		//gi.nextPlayersTurn();
 		
 		for (Player x : gi.getPlayersTurn())
 			if (x == g1) System.out.println(1);
@@ -190,7 +190,7 @@ public class Test {
 
 		p.gain(coi3);
 		
-		DevelopmentCard b1 = new Building();
+		DevelopmentCard b1 = new Building(1, "A", null, null, null, 3);
 		b1.setCost(null);
 		
 		p.addDevelopmentCard(b1);
@@ -266,11 +266,11 @@ public class Test {
 		
 		//7 ok -1 -1
 		
-		Effect eff8 = new Effect(GC.WHEN_END,new EffectLostVictoryDepicted(ser2));
+		Effect eff8 = new Effect(GC.WHEN_END,new EffectLostVictoryDepicted(GC.DEV_BUILDING, ser2));
 		p.addEffect(eff8);
 		
-		DevelopmentCard c1 = new Venture();
-		DevelopmentCard c2 = new Building();
+		DevelopmentCard c1 = new Venture(2, "a", null, null, null, 3);
+		DevelopmentCard c2 = new Building(3, "b", null, null, null, 1);
 		c1.setCost(ser1);
 		c2.setCost(ser2);
 		p.addDevelopmentCard(c1);
@@ -317,13 +317,6 @@ public class Test {
 		
 		joy.endGame();
 		
-		Effect eff80 = new Effect(GC.WHEN_END, new EffectLostVictoryDepicted(ser1));
-		p.addEffect(eff80);
-		
-		DevelopmentCard c10 = new Venture();
-		DevelopmentCard c20 = new Building();
-		c10.setCost(ser1);
-		c20.setCost(ser3);
 		p.addDevelopmentCard(c1);
 		p.addDevelopmentCard(c2);
 		

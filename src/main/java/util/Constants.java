@@ -26,7 +26,7 @@ public class Constants {
 	
 	public static final int NUMBER_OF_FAMILIARS = 4;
 	
-	public static final int DEFAULT_START_ROOM_TIME_MILLIS = 20000; 
+	//public static final int DEFAULT_START_ROOM_TIME_MILLIS = 20000; 
 	
 	public static final int DEFAULT_SOCKET_PORT = 2334;
 	

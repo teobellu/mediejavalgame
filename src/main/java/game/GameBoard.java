@@ -2,16 +2,19 @@ package game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import exceptions.GameException;
 import game.development.DevelopmentCard;
-import game.development.Territory;
 import game.effect.Effect;
 import game.effect.behaviors.EffectGetResource;
 import game.effect.behaviors.EffectIncreaseActionPower;
 
 
+
 public class GameBoard {
+
+	
 
 	/**da cancellare**/
 	public static final Resource ser3 = new Resource(GC.RES_SERVANTS, 3);
@@ -29,9 +32,7 @@ public class GameBoard {
 	public static final int MAX_COLUMN = 4;
 	private static final int MAX_EXCOMUNNICATION_CARD = 3;
 	protected static final int MAX_DICES = 3;
-	private static int MAX_MARKET_SPACE = 4;
-	
-	private final UserConfig userConfig;
+	private static final int MAX_MARKET_SPACE = 4;
 	
 	//TODO O posso col polimorfismo?
 	private Cell[][] tower = new Cell[MAX_ROW][MAX_COLUMN];
@@ -54,13 +55,9 @@ public class GameBoard {
 	//private int diceWhite;
 	private int dices[] = new int[MAX_DICES];
 	
-	
-	
-	public GameBoard(UserConfig userConfig){
+	public GameBoard(){
 		
-		this.userConfig = userConfig;
 		Resource r1 = new Resource();
-		simulator();
 		Effect x = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.HARVEST, -3));
 		x.setSource(GC.ACTION_SPACE);
 		
@@ -73,16 +70,37 @@ public class GameBoard {
 		productionLongPos = new Space(1, null, false);
 	}
 	
-	//TODO da cancellare in futuro, serve solo per test
-	public void simulator(){
-		
-		DevelopmentCard terr0 = new Territory("a", 1, null, eff, 4);
-		DevelopmentCard terr1 = new Territory("b", 1, null, eff, 6);
-		tower[0][0] = new Cell(terr0, 1, null);
-		tower[1][0] = new Cell(terr1, 3, null);
-		tower[2][0] = new Cell(terr1, 5, null);
-		tower[3][0] = new Cell(terr1, 7, null);
-		
+	public GameBoard(Map<String, List<Effect>> spaceBonus) {
+		councilPalaceSpace = new Space(1, spaceBonus.get(GC.COUNCIL_PALACE).get(0), false);
+		harvestPos = new Space(1, spaceBonus.get(GC.HARVEST).get(0), true);
+		harvestLongPos = new Space(1, spaceBonus.get(GC.HARVEST).get(1), false);
+		productionPos = new Space(1, spaceBonus.get(GC.PRODUCTION).get(0), true);
+		productionLongPos = new Space(1, spaceBonus.get(GC.PRODUCTION).get(1), false);
+		for (int index = 0; index < MAX_MARKET_SPACE; index++)
+			market[index] = new Space(1, spaceBonus.get(GC.COUNCIL_PALACE).get(index), true);
+		int effectIndex = 0;
+		for (int column = 0; column < MAX_COLUMN; column++)
+			for(int row = MAX_ROW - 1; row >= 0; row--){
+				int cost = 2 * row + 1;
+				Effect effect = spaceBonus.get(GC.TOWER).get(effectIndex);
+				tower[row][column] = new Cell(cost, effect);
+				effectIndex++;
+			}		
+	}
+	
+	public void generateDevelopmentCards(List<DevelopmentCard> cards, int age){
+		for (int column = 0; column < MAX_COLUMN; column++)
+			for(int row = 0; row < MAX_ROW; row++)
+				putCard(cards, age, row, column);
+	}
+	
+	private void putCard(List<DevelopmentCard> cards, int age, int row, int column){
+		for(DevelopmentCard card : cards)
+			if (card.toString() == GC.DEV_TYPES.get(column) && card.getAge() == age){
+				tower[row][column].setCard(card);
+				cards.removeIf(elem -> elem == card);
+				return;
+			}
 	}
 	
 	public void refresh(){
@@ -103,16 +121,13 @@ public class GameBoard {
 		//TODO
 	}
 	
-	/*
-	public boolean canPutFamiliar(Player player, Space space){
-		
-	}*/
-	
 	public boolean canGetCard(Player player, int row, int column){
-		row--; column--;
-		if (row < MAX_ROW && column < MAX_COLUMN && row >= 0 && column >= 0) return false;
-		if (tower[row][column].getCard() == null) return false;
-		//if ()
+		row--; 
+		column--;
+		if (row < MAX_ROW && column < MAX_COLUMN && row >= 0 && column >= 0) 
+			return false;
+		if (tower[row][column].getCard() == null) 
+			return false;
 		return true;
 	}
 	
@@ -185,7 +200,6 @@ public class GameBoard {
 			familiarInSameColumn.addAll(getCell(row, column).getFamiliar());
 		return familiarInSameColumn;
 	}
-	
 
 }
 
@@ -193,9 +207,8 @@ class Cell extends Space{
 	
 	private DevelopmentCard card;
 	
-	public Cell(DevelopmentCard card, int cost, Effect instantEffect){
+	public Cell(int cost, Effect instantEffect){
 		super(cost, instantEffect, true);
-		this.card = card;
 	}
 	
 	/*

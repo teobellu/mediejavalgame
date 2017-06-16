@@ -14,43 +14,67 @@ import org.xml.sax.InputSource;
 
 import exceptions.GameException;
 import game.Game;
+import game.GameBoard;
+import game.GameInformation;
 import util.Constants;
 
 public class Room extends Thread {
 	
+	private long startTimeout;// = Constants.DEFAULT_START_ROOM_TIME_MILLIS; //TODO
+	private final long startTime;
+	private Game theGame;
+	private boolean isRunning = false;
+	private List<Client> clients;
+	private ConfigFileHandler fileHandler;
+	
+	private Logger log = Logger.getLogger(Room.class.getName());
+	
 	public Room(String configFile) {
-		_clients = new ArrayList<>();
+		clients = new ArrayList<>();
+		
+		fileHandler = new ConfigFileHandler();
 		
 		/*https://stackoverflow.com/questions/19661047/java-convert-string-to-xml-and-parse-node*/
 		try {
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(configFile)));
 			//TODO usare questo xml
+			fileHandler.validate(doc);
 		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
+			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		_startTime = new Date().getTime();
+		startTime = new Date().getTime();
 		
-		//TODO prendere dallo xml il valore del timeout e settarlo
+		startTimeout = fileHandler.TIMEOUT_START * 1000;
+		//TODO
 	}
 	
 	@Override
 	public void run(){
-		_theGame = new Game(this);
+		theGame = new Game(this);
 		
+		setupGame(theGame, fileHandler);
 		//TODO passare config a game
 		
-		new Thread(_theGame).start();
+		new Thread(theGame).start();
 		
-		_isRunning = true;
+		isRunning = true;
 		
-		_log.info("New Room started");
+		log.info("New Room started");
 	}
 	
+	private void setupGame(Game game, ConfigFileHandler fileHandler) {
+		GameBoard board = new GameBoard(fileHandler.SPACE_BONUS);
+		GameInformation info = game.getGameInformation();
+		info.setDevelopmentDeck(fileHandler.DEVELOPMENT_DECK);
+		info.setExcommunicationDeck(fileHandler.EXCOMMUNICATION_DECK);
+		info.createBoard(fileHandler.SPACE_BONUS);
+	}
+
 	public synchronized void addPlayer(Client client) throws GameException {
-		if(_clients.size() < Constants.MAX_PLAYER){
+		if(clients.size() < Constants.MAX_PLAYER){
 			client.setRoom(this);
-			_clients.add(client);
+			clients.add(client);
 		} else{
 			throw new GameException("Cannot add player to this room, room is full. What's going on?");
 		}
@@ -58,12 +82,12 @@ public class Room extends Thread {
 	}
 
 	public boolean isFull() {
-		return _clients.size() == Constants.MAX_PLAYER;//TODO
+		return clients.size() == Constants.MAX_PLAYER;//TODO
 	}
 	
 	public boolean isReady(){
 		if(isFull()){
-			for(Client player : _clients){
+			for(Client player : clients){
 				if(!player.isReady()){
 					return false;
 				}
@@ -75,25 +99,25 @@ public class Room extends Thread {
 	}
 	
 	public boolean isRunning(){
-		return _isRunning;
+		return isRunning;
 	}
 	
 	public boolean isOver(){
-		return _theGame.isOver();
+		return theGame.isOver();
 	}
 
 	public List<Client> getPlayers(){
-		return _clients;
+		return clients;
 	}
 	
 	public void broadcastMessage(String message){
-		for(Client p : _clients){
+		for(Client p : clients){
 			p.getConnectionHandler().sendToClient(message);
 		}
 	}
 	
 	public void setStartTimeout(long time){
-		_startTimeout = time;
+		startTimeout = time;
 	}
 	
 	public void getConfig(){
@@ -101,34 +125,27 @@ public class Room extends Thread {
 	}
 	
 	public Game getGame(){
-		return _theGame;
+		return theGame;
 	}
 	
 	public boolean isTimeoutOver(){
 		long currentTime = new Date().getTime();
-		return currentTime-_startTime > _startTimeout;
+		return currentTime-startTime > startTimeout;
 	}
 	
 	public void shutdown(){
-		if(_theGame!=null){
+		if(theGame!=null){
 			//TODO devo spegnere/togliere cose dal game?
 		}
 		
-		if(_clients!=null && !_clients.isEmpty()){
-			for(Client c : _clients){
+		if(clients!=null && !clients.isEmpty()){
+			for(Client c : clients){
 				//TODO togliere cose in client?
-				_clients.remove(c);
+				clients.remove(c);
 			}
 		}
 		
-		_isRunning = false;
+		isRunning = false;
 	}
 	
-	private long _startTimeout = Constants.DEFAULT_START_ROOM_TIME_MILLIS;//TODO
-	private final long _startTime;
-	private Game _theGame;
-	private boolean _isRunning = false;
-	private List<Client> _clients;
-	
-	private Logger _log = Logger.getLogger(Room.class.getName());
 }

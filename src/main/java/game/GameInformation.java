@@ -22,6 +22,7 @@ import game.effect.behaviors.EffectSantaRita;
 import game.effect.behaviors.EffectSelectAndSetFamiliarStartPower;
 import game.effect.behaviors.EffectSetFamiliarStartPower;
 import game.effect.behaviors.EffectWork;
+import server.ConfigFileHandler;
 
 public class GameInformation{
 
@@ -32,6 +33,10 @@ public class GameInformation{
 	 * Used for activate a specific leader card TODO
 	 */
 	private Map<LeaderCard, Player> discardedLeader;
+	
+	private Map<String, List<Effect>> spaceBonus;
+	private Map<String, List<Resource>> bonusPlayerDashBoard;
+	private List<Integer> bonusFaith;
 	
 	private List<LeaderCard> leaderDeck;
 	private List<DevelopmentCard> developmentDeck;
@@ -50,6 +55,23 @@ public class GameInformation{
 		tailPlayersTurn = new ArrayList<>();
 		generateLeaderCard();
 	}
+	
+	public void setupGame(ConfigFileHandler setup){
+		
+	}
+	
+	public void createBoard(Map<String, List<Effect>> spaceBonus) {
+		GameBoard b = new GameBoard(spaceBonus);
+	}
+	
+	public void setupANewTurn(){
+		int age = 0;
+		//TODO TEST, non passando una copia, dovrebbe togliere le carte dal mazzo
+		System.out.println(developmentDeck.size());
+		board.generateDevelopmentCards(developmentDeck, age);
+		System.out.println(developmentDeck.size() + "-> deve essere più piccolo del numero sopra");
+	}
+
 	
 	/**
 	 * This method simply rolls dices and set new family members to all the players;
@@ -159,19 +181,19 @@ public class GameInformation{
 		//riempio i deck
 	}
 
-	/*
-	
 	public void setExcommunicationTitlesOnBoard(){
-		ExcommunicationCard[] exCard = new ExcommunicationCard[3];
-		Optional<ExcommunicationCard> c;
-		for (int i = 0; i < 3; i++){
-			c = excommunicationDeck.getDeck().stream()
-				.filter(card -> card.getAge() == 1) //TODO
-				.findFirst();
-			if (c.isPresent()) //TODO
-				exCard[i] = c.get();
-		}
-	}*/
+		ExcommunicationTile[] exCard = new ExcommunicationTile[3];
+		Collections.shuffle(excommunicationDeck);
+		for (int age = 1; age <= 3; age++)
+			for (ExcommunicationTile card : excommunicationDeck)
+				if (card.getAge() == age)
+					exCard[age] = card;
+		board.setExCard(exCard);
+	}
+	
+	public void setDevelopmentCardOnBoard(int age){
+		//TODO
+	}
 
 	public Map<LeaderCard, Player> getDiscardedLeader() {
 		return discardedLeader;
@@ -450,4 +472,21 @@ public class GameInformation{
 		this.tailPlayersTurn = tailPlayersTurn;
 	}
 
+	public List<DevelopmentCard> getDevelopmentDeck() {
+		return developmentDeck;
+	}
+
+	public void setDevelopmentDeck(List<DevelopmentCard> developmentDeck) {
+		this.developmentDeck = developmentDeck;
+	}
+
+	public List<ExcommunicationTile> getExcommunicationDeck() {
+		return excommunicationDeck;
+	}
+
+	public void setExcommunicationDeck(List<ExcommunicationTile> excommunicationDeck) {
+		this.excommunicationDeck = excommunicationDeck;
+	}
+
+	
 }

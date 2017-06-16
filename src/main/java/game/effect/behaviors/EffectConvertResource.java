@@ -2,8 +2,7 @@ package game.effect.behaviors;
 
 import java.util.List;
 
-import game.GC;
-import game.GameException;
+import exceptions.GameException;
 import game.Player;
 import game.Resource;
 import game.effect.Effect;

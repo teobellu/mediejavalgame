@@ -35,6 +35,10 @@ public class Game implements Runnable {
 	
 	private GameInformation gameInformation;
 	
+	public GameInformation getGameInformation() {
+		return gameInformation;
+	}
+
 	public Game(Room room) {
 		_theRoom = room;
 		_turn = 0;

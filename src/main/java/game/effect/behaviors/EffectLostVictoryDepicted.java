@@ -2,6 +2,7 @@ package game.effect.behaviors;
 
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
+import exceptions.GameException;
 import game.*;
 
 public class EffectLostVictoryDepicted implements IEffectBehavior{
@@ -51,10 +52,14 @@ public class EffectLostVictoryDepicted implements IEffectBehavior{
 		int playerVictory = playerRes.get(GC.RES_VICTORYPOINTS);
 		countVictoryTax = Math.min(countVictoryTax, playerVictory);
 		malus.add(GC.RES_VICTORYPOINTS, countVictoryTax);
+		
+		//Sostituito al try catch sotto. TODO riguardare
+		//player.getResource().add(GC.RES_VICTORYPOINTS, -countVictoryTax);
+		
 		try {
 			player.pay(malus);
-		} catch (GameException e){
-			;
+		} catch (GameException e) {
+			
 		}
 	}
 }
