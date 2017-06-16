@@ -56,7 +56,7 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	
 	private void addReward(){
 		for (int i = 0; i < count; i++)
-			player.getDynamicBar().gain(ref, reward); //TODO è giusta la getDynamicBar?
+			ref.getBar().gain(ref, reward); //TODO è giusta la getDynamicBar?
 	}
 
 }

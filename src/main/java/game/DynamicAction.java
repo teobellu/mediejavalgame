@@ -19,20 +19,10 @@ public class DynamicAction {
 	 */
 	protected Player player;
 
-	//TODO momentaneo
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
-
 	//TODO
 	private Game game;
 	private GameBoard board;
 	private GameInformation gameInformation = new GameInformation(game);
-	
-	public void setBoardForTestOnly(GameBoard board){
-		this.board = board;
-	}
 	
 	/**
 	 * Constructor
@@ -42,12 +32,26 @@ public class DynamicAction {
 		this.game = game;
 	}
 	
+	private void setBarEffect(){
+		player.getEffects().forEach(effect -> effect.setBar(this));
+	}
+	
+	public void setBoardForTestOnly(GameBoard board){
+		this.board = board;
+	}
+	
+	//TODO momentaneo
+		public void setPlayer(Player player) {
+			this.player = player;
+		}
+	
 	/**
 	 * Activates the effects without modifying objects
 	 * @Overload
 	 * @param time Type of effect to activate
 	 */
 	public void activateEffect(String time){
+		setBarEffect();
 		player.getEffects().stream()
 			.forEach(eff -> eff.activateEffect(time));
 	}
@@ -60,9 +64,11 @@ public class DynamicAction {
 	 * @return Object modified by the effect
 	 */
 	public Object activateEffect(Object param, String time){
+		setBarEffect();
+		Object output = param;
 		for (Effect eff : player.getEffects())
-			param = eff.activateEffect(time, param);
-		return param;
+			output = eff.activateEffect(time, output);
+		return output;
 	}
 	
 	/**
@@ -74,9 +80,11 @@ public class DynamicAction {
 	 * @return Object modified by the effect
 	 */
 	public Object activateEffect(Object param, String string, String time){
+		setBarEffect();
+		Object output = param;
 		for (Effect eff : player.getEffects())
-			param =  eff.activateEffect(time, param, string);
-		return param;
+			output =  eff.activateEffect(time, output, string);
+		return output;
 	}
 
 	/**
@@ -289,9 +297,10 @@ public class DynamicAction {
 	 * @throws GameException The player does not have the necessary requirements
 	 */
 	private void tryToPayRequirement(String typeOfCard, Resource requirement) throws GameException{
-		requirement = (Resource) activateEffect(requirement, typeOfCard, GC.WHEN_PAY_REQUIREMENT);
-		player.pay(requirement);
-		player.gain(requirement);
+		Resource resourcesRequired = requirement;
+		resourcesRequired = (Resource) activateEffect(resourcesRequired, typeOfCard, GC.WHEN_PAY_REQUIREMENT);
+		player.pay(resourcesRequired);
+		player.gain(resourcesRequired);
 	}
 	
 	/**
@@ -421,13 +430,34 @@ public class DynamicAction {
 	}
 	
 	/**
-	 * TODO
-	 * @throws GameException 
+	 * This method allows the player to show support to the Vatican. 
+	 * If he does not have the requirements this method will automatically call the method
+	 * dontShowVaticanSupport()
+	 * @param age Age //TODO anche senza
+	 * @throws GameException It will generally not be launched unless there are errors in xml
 	 */
-	public void showVaticanSupport() throws GameException{
-		int victory = player.getResource(GC.RES_MILITARYPOINTS);
-		activateEffect(GC.WHEN_SHOW_SUPPORT);
+	public void showVaticanSupport(int age) throws GameException{
+		int faithPoints = player.getResource(GC.RES_FAITHPOINTS);
+		if (faithPoints < 2 + age){
+			dontShowVaticanSupport(age);
+			return;
+		}
+		player.pay(new Resource(GC.RES_FAITHPOINTS, faithPoints));
+		int indexFaith = Math.min(faithPoints, gameInformation.getBonusFaith().size() - 1);
+		int victory = gameInformation.getBonusFaith().get(indexFaith);
 		player.pay(new Resource(GC.RES_VICTORYPOINTS, victory));
+		activateEffect(GC.WHEN_SHOW_SUPPORT);
+	}
+	
+	/**
+	 * This method will be called by players who can not or do not want to show support to the Vatican
+	 * @param age TODO, non dovrebbe ricevere in input niente
+	 */
+	public void dontShowVaticanSupport(int age){
+		ExcommunicationTile tile = board.getExCard()[age];
+		Effect malus = tile.getEffect();
+		player.addEffect(malus);
+		//TODO GUI ?
 	}
 	
 	/**
@@ -451,6 +481,13 @@ public class DynamicAction {
 	public void discardLeaderCard(LeaderCard card){
 		player.removeLeaderCard(card);
 		gain(new Resource(GC.RES_COUNCIL, 1));
+	}
+	
+	/**
+	 * Add player to a list because he has the delay first action malus
+	 */
+	public void addDelayMalus() {
+		gameInformation.getTailPlayersTurn().add(player);
 	}
 	
 	/**
@@ -494,5 +531,7 @@ public class DynamicAction {
 			player.gain(new Resource(GC.RES_VICTORYPOINTS, amount));
 		}
 	}
+
+	
 	
 }

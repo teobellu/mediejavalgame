@@ -6,6 +6,7 @@ import game.effect.IEffectBehavior;
 
 public class EffectDelayFirstAction implements IEffectBehavior{
 
+	private Effect effect;
 	private Player player;
 	
 	@Override
@@ -15,10 +16,11 @@ public class EffectDelayFirstAction implements IEffectBehavior{
 	}
 
 	private void initializes(Effect ref){
+		effect = ref;
 		player = ref.getPlayer();
 	}
 	
 	private void delayTurn(){
-		//TODO
+		effect.getBar().addDelayMalus();
 	}
 }

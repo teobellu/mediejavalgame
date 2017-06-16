@@ -1,5 +1,6 @@
 package game.effect;
 
+import game.DynamicAction;
 import game.GC;
 import game.Player;
 
@@ -14,6 +15,7 @@ public class Effect {
 	private Object toAnalyze;
 	private String toScan;
 	private Player player;
+	private DynamicAction bar;
 	
 	public Effect (String whenActivate, IEffectBehavior iEffectBehavior){
 		this.whenActivate = whenActivate;
@@ -83,6 +85,14 @@ public class Effect {
 
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	public DynamicAction getBar() {
+		return bar;
+	}
+
+	public void setBar(DynamicAction bar) {
+		this.bar = bar;
 	}
 	
 }

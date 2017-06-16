@@ -1,12 +1,11 @@
 package game.effect.behaviors;
 
-import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
 public class EffectWork implements IEffectBehavior{
 
-	private Player player;			
+	private Effect effect;		
 	private String action;
 	private Integer value;
 
@@ -22,10 +21,10 @@ public class EffectWork implements IEffectBehavior{
 	}
 
 	private void initializes(Effect ref){
-		player = ref.getPlayer();
+		effect = ref;
 	}
 
 	private void performWork() {
-		player.getDynamicBar().launchesWork(value, action);
+		effect.getBar().launchesWork(value, action);
 	}
 }

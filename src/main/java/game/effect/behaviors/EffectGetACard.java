@@ -14,6 +14,7 @@ public class EffectGetACard implements IEffectBehavior{
 	private String typeOfCard;
 	private Resource discount;
 	private Integer value;
+	private Effect effect;
 
 	public EffectGetACard(Integer value) {
 		this.value = value;
@@ -43,6 +44,7 @@ public class EffectGetACard implements IEffectBehavior{
 
 	private void initializes(Effect ref){
 		player = ref.getPlayer();
+		effect = ref;
 	}
 
 	private void selectCard() {
@@ -55,7 +57,7 @@ public class EffectGetACard implements IEffectBehavior{
 		Effect eff = new Effect(GC.WHEN_FIND_COST_CARD, new EffectDiscountResource(typeOfCard, discount));
 		int index = player.getEffects().size();
 		player.addEffect(eff);
-		player.getDynamicBar().visitTower(value, 0, 0);
+		effect.getBar().visitTower(value, 0, 0);
 		player.getEffects().remove(index);
 	}
 }

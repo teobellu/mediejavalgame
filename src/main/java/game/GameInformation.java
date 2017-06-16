@@ -34,7 +34,6 @@ public class GameInformation{
 	 */
 	private Map<LeaderCard, Player> discardedLeader;
 	
-	private Map<String, List<Effect>> spaceBonus;
 	private Map<String, List<Resource>> bonusPlayerDashBoard;
 	private List<Integer> bonusFaith;
 	
@@ -486,6 +485,14 @@ public class GameInformation{
 
 	public void setExcommunicationDeck(List<ExcommunicationTile> excommunicationDeck) {
 		this.excommunicationDeck = excommunicationDeck;
+	}
+
+	public List<Integer> getBonusFaith() {
+		return bonusFaith;
+	}
+
+	public void setBonusFaith(List<Integer> bonusFaith) {
+		this.bonusFaith = bonusFaith;
 	}
 
 	

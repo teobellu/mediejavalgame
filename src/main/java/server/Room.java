@@ -68,7 +68,9 @@ public class Room extends Thread {
 		GameInformation info = game.getGameInformation();
 		info.setDevelopmentDeck(fileHandler.DEVELOPMENT_DECK);
 		info.setExcommunicationDeck(fileHandler.EXCOMMUNICATION_DECK);
-		info.createBoard(fileHandler.SPACE_BONUS);
+		info.createBoard(fileHandler.SPACE_BONUS);//TODO
+		info.setBonusFaith(fileHandler.BONUS_FAITH);
+		
 	}
 
 	public synchronized void addPlayer(Client client) throws GameException {
