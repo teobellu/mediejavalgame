@@ -44,6 +44,8 @@ public class GraphicalUI implements UI {
 		new Thread(_connectionHandler).start();
 		
 		sendXML();
+		
+		waitForStartingTurn();
 	}
 	
 	public ConnectionServerHandler getConnection(){
@@ -140,6 +142,10 @@ public class GraphicalUI implements UI {
 		} catch (RemoteException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+	
+	private void waitForStartingTurn(){
+		//TODO
 	}
 	
 	private File _xmlFile;

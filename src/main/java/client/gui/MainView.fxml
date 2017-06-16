@@ -6,9 +6,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="900.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.MainViewController">
+<AnchorPane maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="1350.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.MainViewController">
    <children>
-      <SplitPane dividerPositions="0.7" layoutX="-335.0" layoutY="354.0" maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="900.0" prefWidth="1068.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.7" layoutX="-335.0" layoutY="354.0" maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="900.0" prefWidth="1068.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane maxHeight="900.0" maxWidth="753.0" minHeight="900.0" minWidth="753.0" prefHeight="900.0" prefWidth="753.0">
                <children>
@@ -18,32 +18,32 @@
                            <children>
                               <ImageView fx:id="_leaderCard1" fitHeight="140.0" fitWidth="200.0" layoutX="-11.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="5.0">
                                  <image>
-                                    <Image url="@../../../resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg" />
+                                    <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="_leaderCard2" fitHeight="140.0" fitWidth="200.0" layoutX="13.0" layoutY="153.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="153.5">
                                  <image>
-                                    <Image url="@../../../resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg" />
+                                    <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="_leaderCard3" fitHeight="140.0" fitWidth="200.0" layoutX="16.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="302.0">
                                  <image>
-                                    <Image url="@../../../resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg" />
+                                    <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="_leaderCard4" fitHeight="140.0" fitWidth="200.0" layoutX="6.0" layoutY="450.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="450.5">
                                  <image>
-                                    <Image url="@../../../resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg" />
+                                    <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="_leaderCard5" fitHeight="140.0" fitWidth="200.0" layoutX="14.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="599.0">
                                  <image>
-                                    <Image url="@../../../resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg" />
+                                    <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
                               </ImageView>
                               <ImageView fx:id="_leaderDeck" fitHeight="140.0" fitWidth="200.0" layoutX="11.0" layoutY="747.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="747.5">
                                  <image>
-                                    <Image url="@../../../resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg" />
+                                    <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
                               </ImageView>
                            </children></AnchorPane>
@@ -68,10 +68,11 @@
                       <AnchorPane maxHeight="315.0" maxWidth="315.0" minHeight="315.0" minWidth="315.0" prefHeight="315.0" prefWidth="315.0" />
                       <AnchorPane fx:id="_buttonPane" maxHeight="585.0" maxWidth="315.0" minHeight="585.0" minWidth="315.0" prefHeight="585.0" prefWidth="315.0">
                            <children>
-                              <Button fx:id="_firstButton" layoutX="137.0" layoutY="70.0" mnemonicParsing="false" onAction="#onFirstButtonClicked" text="Place familiar" />
-                              <Button fx:id="_secondButton" layoutX="117.0" layoutY="140.0" mnemonicParsing="false" onAction="#onSecondButtonClicked" text="Activate Leader Card" />
-                              <Button fx:id="_thirdButton" layoutX="120.0" layoutY="210.0" mnemonicParsing="false" onAction="#onThirdButtonClicked" text="Drop Leader Card" />
-                              <Button fx:id="_fourthButton" layoutX="143.0" layoutY="280.0" mnemonicParsing="false" onAction="#onFourthButtonClicked" text="End Turn" />
+                              <Button fx:id="_firstButton" layoutX="114.0" layoutY="50.0" mnemonicParsing="false" onAction="#onFirstButtonClicked" text="Place familiar" />
+                              <Button fx:id="_secondButton" layoutX="95.0" layoutY="100.0" mnemonicParsing="false" onAction="#onSecondButtonClicked" text="Activate Leader Card" />
+                              <Button fx:id="_thirdButton" layoutX="103.0" layoutY="150.0" mnemonicParsing="false" onAction="#onThirdButtonClicked" text="Drop Leader Card" />
+                              <Button fx:id="_fourthButton" layoutX="126.0" layoutY="200.0" mnemonicParsing="false" onAction="#onFourthButtonClicked" text="End Turn" />
+                              <Button fx:id="_fifthButton" layoutX="105.0" layoutY="250.0" mnemonicParsing="false" onAction="#onFifthButtonClicked" text="Show Your Cards" />
                            </children>
                         </AnchorPane>
                     </items>

@@ -135,6 +135,57 @@ public class GUI extends Application{
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
+	
+	public void showInitialSelectLeaderDialog(List<String> leaders){
+		if(!leaders.isEmpty()){
+			try {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(GUI.class.getResource("/client/gui/InitialSelectLeaderDialog.fxml"));
+				AnchorPane pane = loader.load();
+				
+				Stage dialog = new Stage();
+				
+				dialog.setTitle("Choose Leader Card");
+				dialog.initModality(Modality.WINDOW_MODAL);
+				dialog.initOwner(_primaryStage);
+				Scene scene = new Scene(pane);
+				dialog.setScene(scene);
+				
+				InitialSelectLeaderController controller = loader.getController();
+				controller.setLeaderList(leaders);
+				
+				dialog.showAndWait();
+				
+			} catch (IOException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+			}
+		} else {
+			_log.log(Level.SEVERE, "List vuota in showInitialSelectLeaderDialog");
+		}
+	}
+	
+	public void showCardsInfoDialog() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/CardsInfoDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = new Stage();
+			
+			dialog.setTitle("Cards Summary");
+			dialog.initModality(Modality.WINDOW_MODAL);
+			dialog.initOwner(_primaryStage);
+			Scene scene = new Scene(pane);
+			dialog.setScene(scene);
+			
+			CardsInfoController controller = loader.getController();
+			
+			dialog.showAndWait();
+			
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
 
 	private Stage _primaryStage;
     private BorderPane _rootLayout;

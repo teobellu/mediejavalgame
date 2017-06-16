@@ -1,5 +1,8 @@
 package server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import util.CommandStrings;
 
 public class Client {
@@ -8,7 +11,10 @@ public class Client {
 		_connectionHandler = handler;
 		_uuid = uuid;
 		//manda al client il suo id per la riconnessione
-		_connectionHandler.sendToClient(new String[]{CommandStrings.UUID, _uuid});
+		List<String> list = new ArrayList<>();
+		list.add(CommandStrings.UUID);
+		list.add(_uuid);
+		_connectionHandler.sendToClient(list);
 	}
 	
 	public ConnectionHandler getConnectionHandler(){

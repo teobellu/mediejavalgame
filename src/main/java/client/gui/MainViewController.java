@@ -32,13 +32,15 @@ public class MainViewController {
 	private ImageView _leaderDeck;
 	
 	@FXML
-	private Button _firstButton;
+	private Button _firstButton;//place familiar
 	@FXML
-	private Button _secondButton;
+	private Button _secondButton;//activate leader card
 	@FXML
-	private Button _thirdButton;
+	private Button _thirdButton;//drop leader card
 	@FXML
 	private Button _fourthButton;//endturn
+	@FXML
+	private Button _fifthButton;//show your cards
 
 	@FXML
 	private AnchorPane _buttonPane;
@@ -81,6 +83,11 @@ public class MainViewController {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
+	}
+	
+	@FXML
+	private void onFifthButtonClicked(){
+		_GUI.showCardsInfoDialog();
 	}
 	
 	private Logger _log = Logger.getLogger(MainViewController.class.getName());
