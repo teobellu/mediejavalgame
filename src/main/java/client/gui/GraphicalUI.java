@@ -144,6 +144,7 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
+	//TODO private?
 	private void waitForStartingTurn(){
 		//TODO
 	}

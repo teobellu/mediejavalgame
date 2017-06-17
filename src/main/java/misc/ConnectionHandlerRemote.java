@@ -10,7 +10,7 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 
 	public void ping() throws RemoteException;
 
-	public void activateLeaderCard() throws RemoteException;
+	public List<String> activateLeaderCard() throws RemoteException;
 	
 	public void activateLeaderCard(String card) throws RemoteException;
 

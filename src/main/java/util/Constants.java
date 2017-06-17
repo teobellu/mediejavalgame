@@ -18,7 +18,11 @@ public class Constants {
 	public static final List<String> UI_TYPES = Collections.unmodifiableList(
 			Arrays.asList(CLI, GUI));
 	
+	public static final int MIN_PLAYER = 2;
+	
 	public static final int MAX_PLAYER = 4;
+
+	public static final int LEADER_CARDS_PER_PLAYER = 4;
 	
 	public static final int MAX_TURN = 3;
 	

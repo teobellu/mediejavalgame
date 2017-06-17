@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -9,20 +10,24 @@ import game.state.State;
 import game.state.StateStartingTurn;
 import server.Client;
 import server.Room;
+import util.CommandStrings;
 import util.Constants;
 
 public class Game implements Runnable {
 
+	List<List<String>> _tempLeaderCardForEachPlayer = new ArrayList<>();
+	
 	private List<Player> _players = new ArrayList<>();
 
 	private GameBoard _board;
-	
 
 	private State _state;
 	private int _turn;
 	private int _phase;
 	private boolean _isOver = false;
 	private final Room _theRoom;
+	
+	private List<LeaderCard> _leaders = new ArrayList<>();
 	
 	/**
 	 * Queue with FIFO logic in which the game commands will be put
@@ -98,12 +103,26 @@ public class Game implements Runnable {
 	}
 	
 	public String getNextGameAction(){
-		//TODO
+		//TODO forse...?
 		return "";
 	}
 	
 	private void setupGame(){
 		//TODO
+		_leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
+		Collections.shuffle(_leaders);
+		
+		for(int i = 0;i<_players.size();i++){
+			List<String> leadersnames = new ArrayList<>();
+			for(int j = i*Constants.LEADER_CARDS_PER_PLAYER;j<(i+1)*Constants.LEADER_CARDS_PER_PLAYER-1;j++){
+				leadersnames.add(_leaders.get(j).getName());
+			}
+			_tempLeaderCardForEachPlayer.add(i, leadersnames);
+		}
+		
+		for(Player p : _players){
+			p.getClient().getConnectionHandler().sendToClient(CommandStrings.GAME_STARTED);
+		}
 	}
 	
 	public boolean hasPlacedFamiliarYet(){
@@ -117,6 +136,15 @@ public class Game implements Runnable {
 	public void sendToAllPlayers(String message){
 		_players.forEach(player -> player.getClient().getConnectionHandler().sendToClient(message));
 		
+	}
+	
+	public void switchLeaderList(Client cli){
+		//TODO
+		for(int i = 0;i<_players.size();i++){
+			if(_players.get(i).getClient().equals(cli)){
+				
+			}
+		}
 	}
 	
 	public State getState(){

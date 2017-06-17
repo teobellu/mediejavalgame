@@ -6,13 +6,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="1350.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.MainViewController">
+<AnchorPane maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="900.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.MainViewController">
    <children>
       <SplitPane dividerPositions="0.7" layoutX="-335.0" layoutY="354.0" maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="900.0" prefWidth="1068.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane maxHeight="900.0" maxWidth="753.0" minHeight="900.0" minWidth="753.0" prefHeight="900.0" prefWidth="753.0">
                <children>
-                  <SplitPane dividerPositions="0.29797979797979796" maxWidth="753.0" minWidth="753.0" prefHeight="900.0" prefWidth="753.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.29797979797979796" maxHeight="900.0" maxWidth="753.0" minHeight="900.0" minWidth="753.0" prefHeight="900.0" prefWidth="753.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                       <AnchorPane maxHeight="900.0" maxWidth="100.0" minHeight="900.0" minWidth="100.0" prefHeight="900.0" prefWidth="100.0">
                            <children>
@@ -73,6 +73,16 @@
                               <Button fx:id="_thirdButton" layoutX="103.0" layoutY="150.0" mnemonicParsing="false" onAction="#onThirdButtonClicked" text="Drop Leader Card" />
                               <Button fx:id="_fourthButton" layoutX="126.0" layoutY="200.0" mnemonicParsing="false" onAction="#onFourthButtonClicked" text="End Turn" />
                               <Button fx:id="_fifthButton" layoutX="105.0" layoutY="250.0" mnemonicParsing="false" onAction="#onFifthButtonClicked" text="Show Your Cards" />
+                              <ImageView fitHeight="145.0" fitWidth="315.0" layoutX="78.0" layoutY="293.0" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="293.0">
+                                 <image>
+                                    <Image url="@../../../resources/javafx/images/risorse2.jpg" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="145.0" fitWidth="315.0" layoutX="58.0" layoutY="421.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <image>
+                                    <Image url="@../../../resources/javafx/images/risorse1.jpg" />
+                                 </image>
+                              </ImageView>
                            </children>
                         </AnchorPane>
                     </items>

@@ -67,9 +67,10 @@ public abstract class ConnectionServerHandler extends Thread {
 	
 	/**
 	 * Tell the server that you want to activate a leader card
+	 * @return list of leader card that I can activate (could be null)
 	 * @throws RemoteException
 	 */
-	public abstract void activateLeaderCard() throws RemoteException;
+	public abstract List<String> activateLeaderCard() throws RemoteException;
 	
 	/**
 	 * Tell the server which leader card you want to activate

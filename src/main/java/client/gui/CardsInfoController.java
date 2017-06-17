@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class CardsInfoController {
 
@@ -43,16 +44,34 @@ public class CardsInfoController {
 	
 	private boolean _isArrowClicked = false;
 	
+	private Stage _dialogStage;
+	
+	@FXML
+	private void initialize(){
+		_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom1.jpg").toURI().toString()));
+	}
+	
 	@FXML
 	private void onArrowClicked(){
 		if(_isArrowClicked){
 			_arrowButton.setText(">");
-			_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom1.jpeg").toURI().toString()));
+			_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom1.jpg").toURI().toString()));
 			//TODO mostrare immagini corrette
+			_isArrowClicked = false;
 		} else {
 			_arrowButton.setText("<");
-			_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom2.jpeg").toURI().toString()));
+			_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom2.jpg").toURI().toString()));
 			//TODO mostrare immagini corrette
+			_isArrowClicked = true;
 		}
+	}
+	
+	public void setDialogStage(Stage stage){
+		_dialogStage = stage;
+	}
+	
+	@FXML
+	private void onOkClicked(){
+		_dialogStage.close();
 	}
 }

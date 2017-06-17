@@ -61,20 +61,22 @@ public class GUI extends Application{
 			loader.setLocation(GUI.class.getResource("/client/gui/MainView.fxml"));
 			AnchorPane pane = loader.load();
 			
-			double width = pane.getWidth();
-			double height = pane.getHeight();
+			double width = 1068;//TODO non hardcoded
+			double height = 900;
+			
+			System.out.println(width + " e " + height);
 			
 			_rootLayout.setMinSize(width, height);
 			_rootLayout.setMaxSize(width, height);
 			_rootLayout.setPrefSize(width, height);
 			
 			_rootLayout.setCenter(pane);
+			
 			MainViewController controller = loader.getController();
 			controller.setGUI(this);
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
 	}
 	
 	public boolean showConfigDialog(){
@@ -179,6 +181,7 @@ public class GUI extends Application{
 			dialog.setScene(scene);
 			
 			CardsInfoController controller = loader.getController();
+			controller.setDialogStage(dialog);
 			
 			dialog.showAndWait();
 			

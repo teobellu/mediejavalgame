@@ -41,7 +41,6 @@ public class Server extends Thread {
 		//creazione delle room e loro gestione
 		_games = new ArrayList<>();
 		
-		//TODO condizione di stop
 		_isRunning = true;
 		
 		Thread tr = new Thread(new Runnable() {
@@ -88,6 +87,7 @@ public class Server extends Thread {
 							_gameExecutor.execute(r);
 						}
 					} else {
+						r.shutdown();
 						_games.remove(r);
 						_log.info("Room removed 'cause timeout was over");
 						

@@ -28,14 +28,22 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		_lastPing = Date.from(Instant.now());	}
 
 	@Override
-	public void activateLeaderCard() throws RemoteException {
-		addToGameCommandList(CommandStrings.ACTIVATE_LEADER_CARD);
+	public List<String> activateLeaderCard() throws RemoteException {
+		try {
+			return _theGame.getState().activateLeaderCard();
+		} catch (GameException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return new ArrayList<>();
+		}
 	}
 	
 	@Override
 	public void activateLeaderCard(String card) throws RemoteException {
-		addToGameCommandList(CommandStrings.ACTIVATE_WHICH_LEADER_CARD);
-		addToGameCommandList(card);
+		try {
+			_theGame.getState().activateWhichLeaderCard(card);
+		} catch (GameException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
 	@Override

@@ -14,12 +14,9 @@
    <children>
       <Pane layoutX="-136.0" layoutY="-168.0" maxHeight="430.0" maxWidth="900.0" minHeight="430.0" minWidth="900.0" prefHeight="430.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fitHeight="380.4" fitWidth="847.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../resources/javafx/images/custom1.jpg" />
-               </image>
+            <ImageView fx:id="_bg" fitHeight="380.4" fitWidth="847.0" pickOnBounds="true" preserveRatio="true">
             </ImageView>
-            <Button defaultButton="true" layoutX="379.0" layoutY="386.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="142.0" text="OK">
+            <Button defaultButton="true" layoutX="379.0" layoutY="386.0" mnemonicParsing="false" onAction="#onOkClicked" prefHeight="25.0" prefWidth="142.0" text="OK">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -52,7 +49,7 @@
                   <ImageView fx:id="_card15" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-            <Button fx:id="_arrowButton" layoutX="861.0" layoutY="165.0" maxHeight="50.0" minHeight="50.0" mnemonicParsing="false" prefHeight="50.0" text="&gt;" />
+            <Button fx:id="_arrowButton" layoutX="861.0" layoutY="165.0" maxHeight="50.0" minHeight="50.0" mnemonicParsing="false" onAction="#onArrowClicked" prefHeight="50.0" text="&gt;" />
          </children>
       </Pane>
    </children>

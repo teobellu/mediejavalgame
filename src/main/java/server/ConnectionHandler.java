@@ -1,6 +1,7 @@
 package server;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 import game.Game;
@@ -31,6 +32,12 @@ public abstract class ConnectionHandler implements Runnable {
 			_theGame = _client.getRoom().getGame();
 		}
 	}
+	
+	public List<String> getTempLeaders(){
+		return _temporaryLeaders;
+	}
+	
+	private List<String> _temporaryLeaders = new ArrayList<>();
 	
 	public abstract void onConnect() throws RemoteException;
 	

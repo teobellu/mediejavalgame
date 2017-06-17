@@ -63,8 +63,8 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	 * @see client.network.ConnectionServerHandler#activateLeaderCard()
 	 */
 	@Override
-	public void activateLeaderCard() throws RemoteException {
-		_connectionHandler.activateLeaderCard();
+	public List<String> activateLeaderCard() throws RemoteException {
+		return _connectionHandler.activateLeaderCard();
 	}
 	
 	/* (non-Javadoc)

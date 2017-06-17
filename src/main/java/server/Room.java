@@ -2,6 +2,7 @@ package server;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,6 +17,8 @@ import exceptions.GameException;
 import game.Game;
 import game.GameBoard;
 import game.GameInformation;
+import game.LeaderCard;
+import util.CommandStrings;
 import util.Constants;
 
 public class Room extends Thread {
@@ -36,9 +39,17 @@ public class Room extends Thread {
 		
 		/*https://stackoverflow.com/questions/19661047/java-convert-string-to-xml-and-parse-node*/
 		try {
-			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(configFile)));
-			//TODO usare questo xml
+			Document doc;
+			if(!configFile.isEmpty()){
+				doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(configFile)));
+				
+			} else {
+				//TODO usare il file di default
+				doc =  DocumentBuilderFactory.newInstance().newDocumentBuilder().parse("default_settings.xml");
+			}
 			fileHandler.validate(doc);
+			//TODO usare questo xml
+			
 		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -84,11 +95,15 @@ public class Room extends Thread {
 	}
 
 	public boolean isFull() {
-		return clients.size() == Constants.MAX_PLAYER;//TODO
+		return clients.size() == Constants.MAX_PLAYER;
+	}
+	
+	private boolean hasEnoughPlayers(){
+		return clients.size()>=Constants.MIN_PLAYER;
 	}
 	
 	public boolean isReady(){
-		if(isFull()){
+		if(hasEnoughPlayers()){
 			for(Client player : clients){
 				if(!player.isReady()){
 					return false;

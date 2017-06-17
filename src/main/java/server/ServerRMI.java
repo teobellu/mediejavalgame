@@ -36,7 +36,7 @@ public class ServerRMI extends Thread implements ServerRemote {
 				_registry.list();
 			}
 			catch(Exception e){
-				_log.log(Level.SEVERE, e.getMessage(), e);
+				_log.log(Level.INFO, e.getMessage(), e);
 				_registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
 			}
 			ServerRemote stub = (ServerRemote) UnicastRemoteObject.exportObject(this, 0);
