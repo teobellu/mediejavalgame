@@ -1,9 +1,13 @@
 package client.cli;
 
+import java.util.List;
+
 import client.ClientText;
 import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
+import client.network.SocketConnectionServerHandler;
+import game.GameBoard;
 import util.Constants;
 import util.IOHandler;
 
@@ -15,7 +19,6 @@ public class CommandLineUI implements UI {
 		_ioHandler = new IOHandler();
 	}
 	
-	@Override
 	public ConnectionServerHandler getConnection() {
 		
 				
@@ -34,6 +37,12 @@ public class CommandLineUI implements UI {
 		_ioHandler.writeList(Constants.CONNECTION_TYPES);
 		int selected = _ioHandler.readNumberWithinInterval(Constants.CONNECTION_TYPES.size() - 1);
 		ConnectionServerHandler connection = ConnectionServerHandlerFactory.getConnectionServerHandler(Constants.CONNECTION_TYPES.get(selected), host, port);
+		
+		SocketConnectionServerHandler c = (SocketConnectionServerHandler) connection;
+		
+		GameBoard b = c.getBoard();
+		
+		_ioHandler.write(b.getExCard()[2].getAge() + " -> devo stamparare 3");
 		
 		return connection;
 	}
@@ -74,5 +83,17 @@ public class CommandLineUI implements UI {
 	@Override
 	public void setConnection(String connectionType, String host, int port) {
 		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void run() {
+		getConnection();
+		
+	}
+
+	@Override
+	public List<String> dropLeaderCard() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

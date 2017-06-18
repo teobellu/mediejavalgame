@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
+import game.GameBoard;
 import util.CommandStrings;
 
 public class SocketConnectionHandler extends ConnectionHandler implements Runnable {
@@ -85,6 +86,18 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 				_log.log(Level.SEVERE, e.getMessage(), e);
 			}
 			sendToClient(leaders);
+		} else if(str.equals("send me board")){
+			GameBoard gameboard = new GameBoard(null);
+			int[] a = new int[3];
+			a[0] = 1;
+			a[1] = 5;
+			a[2] = 4;
+			gameboard.setDices(a);
+			try {
+				writeObject(gameboard);
+			} catch (IOException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+			}
 		}
 	}
 	
@@ -144,6 +157,10 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+	
+	public void sendBoard(GameBoard board){
+		
 	}
 	
 	private Socket _socket;

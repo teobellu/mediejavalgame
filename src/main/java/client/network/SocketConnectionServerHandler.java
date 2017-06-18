@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.GameBoard;
 import util.CommandStrings;
 import util.Constants;
 
@@ -241,6 +242,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public String readResponse() throws RemoteException {
 		return (String) readObject();
+	}
+	
+	
+	public GameBoard getBoard(){
+		writeObject("send me board");
+		return (GameBoard) readObject();
 	}
 	
 	private Socket _socket;
