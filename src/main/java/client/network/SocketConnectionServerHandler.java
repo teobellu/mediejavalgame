@@ -179,6 +179,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				}
 				
 				if (obj!=null) {
+					System.out.println(20000);
 					return obj;
 				} else {
 					Thread.sleep(500);

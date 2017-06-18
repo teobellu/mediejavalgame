@@ -31,9 +31,9 @@ public class GameBoard implements Serializable{
 	
 	public static final int MAX_ROW = 4;
 	public static final int MAX_COLUMN = 4;
-	private static final int MAX_EXCOMUNNICATION_CARD = 3;
-	protected static final int MAX_DICES = 3;
-	private static final int MAX_MARKET_SPACE = 4;
+	public static final int MAX_EXCOMUNNICATION_CARD = 3;
+	public static final int MAX_DICES = 3;
+	public static final int MAX_MARKET_SPACE = 4;
 	
 	//TODO O posso col polimorfismo?
 	private Cell[][] tower = new Cell[MAX_ROW][MAX_COLUMN];
@@ -57,7 +57,7 @@ public class GameBoard implements Serializable{
 	private int dices[] = new int[MAX_DICES];
 	
 	public GameBoard(){
-		
+		/*
 		Resource r1 = new Resource();
 		Effect x = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.HARVEST, -3));
 		x.setSource(GC.ACTION_SPACE);
@@ -68,7 +68,7 @@ public class GameBoard implements Serializable{
 		harvestPos = new Space(1, null, true);
 		productionPos = new Space(1, null, true);
 		harvestLongPos = new Space(1, x, false);
-		productionLongPos = new Space(1, null, false);
+		productionLongPos = new Space(1, null, false);*/
 	}
 	
 	public GameBoard(Map<String, List<Effect>> spaceBonus) {
@@ -78,7 +78,7 @@ public class GameBoard implements Serializable{
 		productionPos = new Space(1, spaceBonus.get(GC.PRODUCTION).get(0), true);
 		productionLongPos = new Space(1, spaceBonus.get(GC.PRODUCTION).get(1), false);
 		for (int index = 0; index < MAX_MARKET_SPACE; index++)
-			market[index] = new Space(1, spaceBonus.get(GC.COUNCIL_PALACE).get(index), true);
+			market[index] = new Space(1, spaceBonus.get(GC.MARKET).get(index), true);
 		int effectIndex = 0;
 		for (int column = 0; column < MAX_COLUMN; column++)
 			for(int row = MAX_ROW - 1; row >= 0; row--){
@@ -132,21 +132,18 @@ public class GameBoard implements Serializable{
 		return true;
 	}
 	
-	public DevelopmentCard getCard(int row, int column) throws GameException{
+	public DevelopmentCard getCard(int row, int column){
 		return getCell(row,column).getCard();
 	}
 	
-	public void obtainCard(Player player, int row, int column) throws GameException{
+	public void obtainCard(Player player, int row, int column){
 		//vari controlli, ottieni bonus, ecc.
 		DevelopmentCard card = getCell(row, column).getCard();
 		player.addDevelopmentCard(card);
 		
 	}
 
-	public Cell getCell(int row, int column) throws GameException {
-		//servono davvero controlli?
-		if (row >= MAX_ROW || column >= MAX_COLUMN) throw new GameException();
-		if (row < 0 || column < 0) throw new GameException();
+	public Cell getCell(int row, int column){
 		return tower[row][column];
 	}
 	
@@ -157,8 +154,7 @@ public class GameBoard implements Serializable{
 	}
 	
 	//ok
-	public Space getMarketSpace(int whichSpace) throws GameException {
-		if (whichSpace < 0 || whichSpace >= MAX_MARKET_SPACE) throw new GameException();
+	public Space getMarketSpace(int whichSpace){
 		return market[whichSpace];
 	}
 	
@@ -204,80 +200,5 @@ public class GameBoard implements Serializable{
 
 }
 
-class Cell extends Space{
-	
-	private DevelopmentCard card;
-	
-	public Cell(int cost, Effect instantEffect){
-		super(cost, instantEffect, true);
-	}
-	
-	/*
-	@Override //del metodo sotto
-	public void setFamiliar(FamilyMember member){
-		//prima di piazzare devo vedere se posso pagare, e pago
-		Resource cost = card.getCost();
-		//ora piazzo il familiare
-		super.setFamiliar(member);
-	}*/
-	
-	@Override
-	public void setCard(DevelopmentCard card) {
-		this.card = card;
-	}
 
-	@Override
-	public DevelopmentCard getCard(){
-		return card;
-	}
 
-}
-
-class Space implements Serializable{
-	
-	private int requiredDiceValue;
-	private Effect instantEffect;
-	private boolean singleObject;
-	private ArrayList<FamilyMember> familiar;
-	
-	public Space(int cost, Effect instantEffect, boolean singleObject) {
-		requiredDiceValue = cost;
-		if (instantEffect != null)
-			instantEffect.setSource(GC.ACTION_SPACE);
-		this.instantEffect = instantEffect;
-		this.singleObject = singleObject;
-		familiar = new ArrayList<>();
-	}
-	
-	public void setFamiliar(FamilyMember member){
-		familiar.add(member);
-	}
-
-	public int getRequiredDiceValue() {
-		return requiredDiceValue;
-	}
-
-	public ArrayList<FamilyMember> getFamiliar() {
-		return familiar;
-	}
-
-	public boolean isSingleObject() {
-		return singleObject;
-	}
-
-	public void setSingleObject(boolean singleObject) {
-		this.singleObject = singleObject;
-	}
-	
-	public void setCard(DevelopmentCard card) {
-		return;
-	}
-
-	public DevelopmentCard getCard() {
-		return null;
-	}
-
-	public Effect getInstantEffect() {
-		return instantEffect;
-	}
-}

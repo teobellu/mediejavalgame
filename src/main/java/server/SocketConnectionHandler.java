@@ -50,7 +50,8 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 		synchronized (_inputStream) {
 			try {
 				if(_isRunning){
-					return _inputStream.readObject();
+					Object object = _inputStream.readObject();
+					return object;
 				} else {
 					return null;//TODO null o stringa vuota?
 				}
@@ -87,11 +88,12 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 			}
 			sendToClient(leaders);
 		} else if(str.equals("send me board")){
-			GameBoard gameboard = new GameBoard(null);
+			GameBoard gameboard = new GameBoard();
 			int[] a = new int[3];
 			a[0] = 1;
 			a[1] = 5;
 			a[2] = 4;
+			System.out.println(gameboard.getdices()[0]);
 			gameboard.setDices(a);
 			try {
 				writeObject(gameboard);

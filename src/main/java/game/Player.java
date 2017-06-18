@@ -100,10 +100,6 @@ public class Player implements Serializable{
 		return resource.get(type);
 	}
 
-	public List<LeaderCard> getLeaderCard() {
-		return leaderCard;
-	}
-
 	public List<Effect> getEffects() {
 		return effects;
 	}
@@ -145,6 +141,10 @@ public class Player implements Serializable{
 
 	public Client getClient(){
 		return _client;
+	}
+
+	public String getName() {
+		return name;
 	}
 	
 }
