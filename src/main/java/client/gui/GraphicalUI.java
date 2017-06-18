@@ -40,12 +40,11 @@ public class GraphicalUI implements UI {
 	@Override
 	public void setConnection(String connectionType, String host, int port) {
 		_connectionHandler = ConnectionServerHandlerFactory.getConnectionServerHandler(connectionType, host, port);
+		_connectionHandler.setClient(getInstance());
 		
 		new Thread(_connectionHandler).start();
 		
 		sendXML();
-		
-		waitForStartingTurn();
 	}
 	
 	public ConnectionServerHandler getConnection(){
@@ -144,10 +143,22 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
-	//TODO private?
-	private void waitForStartingTurn(){
-		//TODO
+	@Override
+	public void showInitialLeaderList(List<String> leadersList) {
+		_tempLeaders = leadersList;
 	}
+	
+	public List<String> getTmpLeaderList(){
+		return _tempLeaders;
+	}
+	
+	public void setGUI(GUI gui){
+		_GUI = gui;
+	}
+	
+	private List<String> _tempLeaders;
+	
+	private GUI _GUI;
 	
 	private File _xmlFile;
 	

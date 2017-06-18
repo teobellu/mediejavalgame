@@ -2,7 +2,6 @@ package server;
 
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,8 +16,6 @@ import exceptions.GameException;
 import game.Game;
 import game.GameBoard;
 import game.GameInformation;
-import game.LeaderCard;
-import util.CommandStrings;
 import util.Constants;
 
 public class Room extends Thread {
@@ -42,10 +39,11 @@ public class Room extends Thread {
 			Document doc;
 			if(!configFile.isEmpty()){
 				doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(configFile)));
-				
+				System.out.println("Usato file custom");
 			} else {
 				//TODO usare il file di default
 				doc =  DocumentBuilderFactory.newInstance().newDocumentBuilder().parse("default_settings.xml");
+				System.out.println("Usato file di default");
 			}
 			fileHandler.validate(doc);
 			//TODO usare questo xml

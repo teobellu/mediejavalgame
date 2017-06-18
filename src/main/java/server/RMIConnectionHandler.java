@@ -5,13 +5,12 @@ import java.rmi.RemoteException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
+import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
 import util.CommandStrings;
 import util.Constants;
@@ -21,6 +20,11 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public void run() {
 		
+	}
+	
+	@Override
+	public void setClient(ClientRemote rmiConnectionServerHandler) throws RemoteException {
+		_clientConnectionHandler = rmiConnectionServerHandler;
 	}
 
 	@Override
@@ -71,15 +75,17 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		_configFile = file;
 	}
 	
-	public String startTurn(){
-		//TODO
-		return null;
+	public void startTurn(){
+		try {
+			_clientConnectionHandler.startTurn();
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 	
 	@Override
-	public boolean hasMyTurnStarted() throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	public void sendInitialLeaderList(List<String> leadersList) throws RemoteException {
+		_clientConnectionHandler.sendInitialLeaderList(leadersList);
 	}
 	
 	public void setGame(){//TODO da chiamare questo metodo alla creazione del gioco(probabilmente nella room)
@@ -97,37 +103,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		synchronized (_theGame.getActionCommandList()) {
 			_theGame.getActionCommandList().add(command);
 		}
-	}
-	
-	@Override
-	public void sendToClient(List<String> messages) {
-		synchronized (_outQueue) {
-			for(String s : messages){
-				_outQueue.add(s);
-			}
-			_outQueue.add(CommandStrings.END_TRANSMISSION);
-		}
-	}
-	
-	@Override
-	public void sendToClient(String message) {
-		List<String> list = new ArrayList<>();
-		list.add(message);
-		sendToClient(list);
-	}
-	
-	private String readResponse() throws RemoteException {
-		String response;
-		synchronized (_outQueue) {
-			try {
-				response = _outQueue.getFirst();
-			} catch (NoSuchElementException e) {
-				_log.log(Level.FINE, e.getMessage(), e);
-				return null;
-			}
-		}
-		
-		return response;
 	}
 	
 	@Override
@@ -177,7 +152,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		
 	}
 	
+	private ClientRemote _clientConnectionHandler;
 	private Date _lastPing;
 	private transient Logger _log = Logger.getLogger(RMIConnectionHandler.class.getName());
-	private LinkedList<String> _outQueue = new LinkedList<>();
 }

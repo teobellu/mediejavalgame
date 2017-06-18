@@ -6,16 +6,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="350.0" maxWidth="750.0" minHeight="350.0" minWidth="750.0" prefHeight="350.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.InitialSelectLeaderController">
+<AnchorPane maxHeight="350.0" maxWidth="600.0" minHeight="350.0" minWidth="600.0" prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.InitialSelectLeaderController">
    <children>
-      <Pane layoutX="-85.0" layoutY="-100.0" maxHeight="300.0" maxWidth="600.0" minHeight="300.0" minWidth="600.0" prefHeight="350.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutX="-85.0" layoutY="-100.0" maxHeight="300.0" maxWidth="600.0" minHeight="300.0" minWidth="600.0" prefHeight="350.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button fx:id="_card1" layoutX="8.5" layoutY="25.0" maxHeight="200.0" maxWidth="133.0" minHeight="200.0" minWidth="133.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="133.0" style="-fx-background-image: url('file:/C:/Users/Jacopo/Documents/ingsw2017/Prova-finale-Ingegneria-del-software/src/main/resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg'); -fx-background-size: cover;" />
             <Button fx:id="_card2" layoutX="158.5" layoutY="25.0" maxHeight="200.0" maxWidth="133.0" minHeight="200.0" minWidth="133.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="133.0" style="-fx-background-image: url('file:/C:/Users/Jacopo/Documents/ingsw2017/Prova-finale-Ingegneria-del-software/src/main/resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg'); -fx-background-size: cover;" />
             <Button fx:id="_card3" layoutX="308.5" layoutY="25.0" maxHeight="200.0" maxWidth="133.0" minHeight="200.0" minWidth="133.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="133.0" style="-fx-background-image: url('file:/C:/Users/Jacopo/Documents/ingsw2017/Prova-finale-Ingegneria-del-software/src/main/resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg'); -fx-background-size: cover;" />
             <Button fx:id="_card4" layoutX="458.5" layoutY="25.0" maxHeight="200.0" maxWidth="133.0" minHeight="200.0" minWidth="133.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="133.0" style="-fx-background-image: url('file:/C:/Users/Jacopo/Documents/ingsw2017/Prova-finale-Ingegneria-del-software/src/main/resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg'); -fx-background-size: cover;" />
-            <Button fx:id="_card5" layoutX="608.5" layoutY="25.0" maxHeight="200.0" maxWidth="133.0" minHeight="200.0" minWidth="133.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="133.0" style="-fx-background-image: url('file:/C:/Users/Jacopo/Documents/ingsw2017/Prova-finale-Ingegneria-del-software/src/main/resources/javafx/images/Lorenzo_Leaders_compressed/leaders_b_c_00.jpg'); -fx-background-size: cover;" />
-            <Text fx:id="_text" layoutX="215.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHOOSE ONE LEADER CARD">
+            <Text fx:id="_text" layoutX="132.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CHOOSE ONE LEADER CARD">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>

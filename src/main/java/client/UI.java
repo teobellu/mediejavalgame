@@ -15,4 +15,6 @@ public interface UI extends Runnable{
 	public void setConnection(String connectionType, String host, int port);
 
 	public List<String> dropLeaderCard();
+
+	public void showInitialLeaderList(List<String> leadersList);
 }

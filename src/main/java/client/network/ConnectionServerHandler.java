@@ -3,7 +3,7 @@ package client.network;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import client.Client;
+import client.UI;
 
 public abstract class ConnectionServerHandler extends Thread {
 
@@ -23,7 +23,7 @@ public abstract class ConnectionServerHandler extends Thread {
 		_isRunning = false;
 	}
 	
-	public void setClient(Client client){
+	public void setClient(UI client){
 		_client = client;
 	}
 	
@@ -129,11 +129,9 @@ public abstract class ConnectionServerHandler extends Thread {
 	 */
 	public abstract void spendCouncilPrivilege(String resource) throws RemoteException;
 	
-	public abstract String readResponse() throws RemoteException;
-	
 	protected boolean _isRunning = false;
 	protected final String _host;
 	protected int _port;
-	protected Client _client;
+	protected UI _client;
 	
 }

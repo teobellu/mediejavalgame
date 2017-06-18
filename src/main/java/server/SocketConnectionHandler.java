@@ -53,11 +53,11 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 					Object object = _inputStream.readObject();
 					return object;
 				} else {
-					return null;//TODO null o stringa vuota?
+					return null;
 				}
 			} catch (Exception e) {
 				_log.log(Level.SEVERE, e.getMessage(), e);
-				return null;//TODO null o stringa vuota?
+				return null;
 			}
 		}
 	}
@@ -72,6 +72,7 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	}
 	
 	private void processString(String str){
+		System.out.println("Letto: " + str);
 		if(str.equals(CommandStrings.ADD_TO_GAME)){
 			if(Server.getInstance().addMeToGame(this)){
 				sendToClient(CommandStrings.ADD_TO_GAME);
@@ -153,12 +154,9 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	
 	@Override
 	public void sendToClient(String message) {
-		try {
-			writeObject(message);
-			//TODO mando anche qui end transmission?
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
+		List<String> messages = new ArrayList<>();
+		messages.add(message);
+		sendToClient(messages);
 	}
 	
 	public void sendBoard(GameBoard board){

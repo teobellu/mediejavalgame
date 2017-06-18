@@ -41,11 +41,9 @@ public abstract class ConnectionHandler implements Runnable {
 	
 	public abstract void onConnect() throws RemoteException;
 	
-	public abstract String startTurn() throws RemoteException;
+	public abstract void startTurn() throws RemoteException;
 	
-	public abstract void sendToClient(String message);
-	
-	public abstract void sendToClient(List<String> messages);
+	public abstract void sendInitialLeaderList(List<String> leadersList) throws RemoteException;
 	
 	protected Client _client;
 	protected volatile boolean _isRunning;

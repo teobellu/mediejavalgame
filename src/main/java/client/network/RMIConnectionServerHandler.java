@@ -3,15 +3,18 @@ package client.network;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.ExportException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
 import misc.ServerRemote;
 import util.Constants;
 
-public class RMIConnectionServerHandler extends ConnectionServerHandler {
+public class RMIConnectionServerHandler extends ConnectionServerHandler implements ClientRemote {
 
 	public RMIConnectionServerHandler(String host, int port) {
 		super(host, port);
@@ -23,9 +26,18 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 		try {
 			Registry _registry = LocateRegistry.getRegistry(_host, _port);
 			
+			try{
+				UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+1);//TODO da rivedere
+			} catch(ExportException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+				UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+2);
+			}
+			
 			ServerRemote _serverRMI = (ServerRemote) _registry.lookup(Constants.RMI);
 			
 			_connectionHandler = (ConnectionHandlerRemote) _serverRMI.onConnect();
+			
+			_connectionHandler.setClient(this);
 			
 			_log.info("RMIConnection is up");
 			
@@ -39,6 +51,11 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public void run() {
 		
+	}
+	
+	@Override
+	public void sendInitialLeaderList(List<String> leadersList) throws RemoteException {
+		_client.showInitialLeaderList(leadersList);
 	}
 	
 	@Override
@@ -127,26 +144,9 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	@Override
-	public String readResponse() throws RemoteException {//TODO vedere se serve realmente
-		String response = null;
+	public void startTurn() throws RemoteException {
+		// TODO Auto-generated method stub
 		
-		do {
-			response = _connectionHandler.readResponse();
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				_log.log(Level.SEVERE, e.getMessage(), e);
-				Thread.currentThread().interrupt();
-			}
-		} while (response==null);
-		
-		return response;
-	}
-	
-	/*�***************metodi che attendono una risposta dal server*********************/
-	
-	public boolean hasMyTurnStarted() throws RemoteException{
-		return _connectionHandler.hasMyTurnStarted();
 	}
 	
 	private ConnectionHandlerRemote _connectionHandler;

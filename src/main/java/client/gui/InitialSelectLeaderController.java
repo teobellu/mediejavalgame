@@ -16,8 +16,6 @@ public class InitialSelectLeaderController {
 	private Button _card3;
 	@FXML
 	private Button _card4;
-	@FXML
-	private Button _card5;
 	
 	@FXML
 	private Text _text;
@@ -50,12 +48,6 @@ public class InitialSelectLeaderController {
 			setBgImages(leaders.get(3), _card4);
 		} else {
 			_card4.setDisable(true);
-		}
-		
-		if(leaders.get(4)!=null){
-			setBgImages(leaders.get(4), _card5);
-		} else {
-			_card5.setDisable(true);
 		}
 	}
 	

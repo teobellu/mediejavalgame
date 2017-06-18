@@ -95,9 +95,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public void activateLeaderCard() throws RemoteException {
+	public List<String> activateLeaderCard() throws RemoteException {
 			String message = CommandStrings.ACTIVATE_LEADER_CARD;
 			writeObject(message);
+			
+			return null;//TODO
 	}
 	
 	@Override

@@ -28,6 +28,54 @@ public class Player implements Serializable{
 	private Resource harvestBonus;	
 	private Resource productionBonus;
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * List in cui salvo la mia lista di carte leader temporanea, quella da cui posso selezionare all'inizio
+	 */
+	private List<LeaderCard> _tempLeaders;
+	
+	public List<LeaderCard> getTempLeaders(){
+		return _tempLeaders;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private DevelopmentCardManager manager = new DevelopmentCardManager();
 
 	protected Player(Client client){

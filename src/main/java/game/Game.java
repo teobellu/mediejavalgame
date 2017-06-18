@@ -5,12 +5,13 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import game.state.State;
 import game.state.StateStartingTurn;
 import server.Client;
 import server.Room;
-import util.CommandStrings;
 import util.Constants;
 
 public class Game implements Runnable {
@@ -35,6 +36,8 @@ public class Game implements Runnable {
 	private Deque<String> _commandActionList = new ConcurrentLinkedDeque<>();
 	
 	private final DynamicAction _dynamicAction;
+	
+	private int cardLeft = 4;
 	
 	private boolean _hasPlacedFamiliar = false;
 	
@@ -72,8 +75,8 @@ public class Game implements Runnable {
 			_turn++;
 		}
 		
-		List<Player> winners = gameInformation.endOfTheGameFindWinners();
-		winners.forEach(player -> player.getClient().getConnectionHandler().sendToClient("GG U WIN"));
+//		List<Player> winners = gameInformation.endOfTheGameFindWinners();
+//		winners.forEach(player -> player.getClient().getConnectionHandler().sendToClient("GG U WIN"));
 	}
 	
 	//x sonar
@@ -109,40 +112,90 @@ public class Game implements Runnable {
 	
 	private void setupGame(){
 		//TODO
-		_leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
-		Collections.shuffle(_leaders);
-		
-		for(int i = 0;i<_players.size();i++){
-			List<String> leadersnames = new ArrayList<>();
-			for(int j = i*Constants.LEADER_CARDS_PER_PLAYER;j<(i+1)*Constants.LEADER_CARDS_PER_PLAYER-1;j++){
-				leadersnames.add(_leaders.get(j).getName());
+		try{
+			_leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
+			Collections.shuffle(_leaders);
+			
+			for(int i = 0;i<_players.size();i++){
+				List<String> leadersnames = new ArrayList<>();
+				for(int j = i*Constants.LEADER_CARDS_PER_PLAYER;j<(i+1)*Constants.LEADER_CARDS_PER_PLAYER;j++){
+					System.out.println(_leaders.get(j).getName());
+					leadersnames.add(_leaders.get(j).getName());
+				}
+				
+				_players.get(i).getClient().getConnectionHandler().sendInitialLeaderList(leadersnames);
+				_tempLeaderCardForEachPlayer.add(i, leadersnames);
 			}
-			_tempLeaderCardForEachPlayer.add(i, leadersnames);
+			
+			do {
+				Thread tr = new Thread(new Runnable() {
+					@Override
+					public void run() {
+						boolean stop = false;
+						do {
+							for(List<String> list : _tempLeaderCardForEachPlayer){
+								if(list.size()!=getLeft()){
+									stop = true;
+									break;
+								}
+							}
+							if(!stop){
+								List<String> tmp = _tempLeaderCardForEachPlayer.get(_tempLeaderCardForEachPlayer.size()-1);
+								_tempLeaderCardForEachPlayer.add(0, tmp);
+								_tempLeaderCardForEachPlayer.remove(_tempLeaderCardForEachPlayer.size()-1);
+								return;
+							} else {
+								try {
+									Thread.sleep(1000);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						} while (true);
+					}
+				});
+				tr.start();
+				
+				while(tr.isAlive()){
+					Thread.sleep(1000);
+				}
+				
+				for(int j = 0; j<_players.size(); j++){
+					_players.get(j).getClient().getConnectionHandler().sendInitialLeaderList(_tempLeaderCardForEachPlayer.get(j));
+				}
+				
+				cardLeft--;
+				
+			} while (cardLeft>0);
+		} catch(Exception e){
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
-		for(Player p : _players){
-			p.getClient().getConnectionHandler().sendToClient(CommandStrings.GAME_STARTED);
-		}
+	}
+	
+	public int getLeft(){
+		return cardLeft;
 	}
 	
 	public boolean hasPlacedFamiliarYet(){
 		return _hasPlacedFamiliar;
 	}
 	
-	public void sendToCurrentPlayer(String message){
-		getCurrentPlayer().getClient().getConnectionHandler().sendToClient(message);
-	}
-	
-	public void sendToAllPlayers(String message){
-		_players.forEach(player -> player.getClient().getConnectionHandler().sendToClient(message));
-		
-	}
-	
-	public void switchLeaderList(Client cli){
-		//TODO
+	/**
+	 * Add the chosen leader card to the right player, and removes it from the temporary list
+	 * @param cli the client of the player who's choosing
+	 * @param leader the name of the card chosen
+	 */
+	public void manipulateInitialLeaderList(Client cli, String leader){
 		for(int i = 0;i<_players.size();i++){
 			if(_players.get(i).getClient().equals(cli)){
-				
+				Player player = _players.get(i);
+				for(LeaderCard lc : _leaders){
+					if(lc.getName().equals(leader)){
+						player.addLeaderCard(lc);
+						_tempLeaderCardForEachPlayer.get(i).remove(lc);
+					}
+				}
 			}
 		}
 	}
@@ -174,4 +227,6 @@ public class Game implements Runnable {
 	public GameBoard getBoard() {
 		return _board;
 	}
+	
+	private Logger _log = Logger.getLogger(Game.class.getName());
 }

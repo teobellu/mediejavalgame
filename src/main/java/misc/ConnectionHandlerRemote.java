@@ -22,8 +22,6 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 
 	public void sendConfigFile(String file) throws RemoteException;
 
-	public boolean hasMyTurnStarted() throws RemoteException;
-
 	public boolean endTurn() throws RemoteException;
 
 	public void doIspendMyFaithPoints(boolean doI) throws RemoteException;
@@ -37,4 +35,6 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	public void sendInitialInformations(String name) throws RemoteException;
 
 	public void putFamiliarWhere(String position) throws RemoteException;
+
+	public void setClient(ClientRemote rmiConnectionServerHandler) throws RemoteException;
 }
