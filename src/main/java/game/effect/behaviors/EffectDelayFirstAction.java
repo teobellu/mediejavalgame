@@ -6,7 +6,7 @@ import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectDelayFirstAction implements IEffectBehavior, Serializable{
+public class EffectDelayFirstAction implements IEffectBehavior{
 
 	private Effect effect;
 	private Player player;

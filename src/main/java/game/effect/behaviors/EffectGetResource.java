@@ -7,7 +7,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectGetResource implements IEffectBehavior, Serializable{
+public class EffectGetResource implements IEffectBehavior{
 
 	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
 	private Resource bonus; 	//ciò che guadagnerei normalmente

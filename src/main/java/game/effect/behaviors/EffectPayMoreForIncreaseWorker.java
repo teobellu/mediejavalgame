@@ -5,7 +5,7 @@ import java.io.Serializable;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectPayMoreForIncreaseWorker implements IEffectBehavior, Serializable{
+public class EffectPayMoreForIncreaseWorker implements IEffectBehavior{
 	
 	private Effect ref;			//mi serve per aggiornare toAnalyze (integer in Effetto)
 	private Integer normalPay; 	//ciò che guadagnerei normalmente

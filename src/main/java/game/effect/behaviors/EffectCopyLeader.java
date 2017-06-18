@@ -15,7 +15,7 @@ import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectCopyLeader implements IEffectBehavior, Serializable{
+public class EffectCopyLeader implements IEffectBehavior{
 	
 	private Player player;
 	private LeaderCard selectedCard;

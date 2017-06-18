@@ -5,7 +5,7 @@ import java.io.Serializable;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectWork implements IEffectBehavior, Serializable{
+public class EffectWork implements IEffectBehavior{
 
 	private Effect effect;		
 	private String action;

@@ -12,9 +12,9 @@ public class Character extends DevelopmentCard{
 		super();
 		this.age = age;
 		this.name = name;
-		this.cost.add(cost);
-		this.immediateEffect.addAll(immediate);
-		this.permanentEffect.addAll(permanent);
+		setCost(cost);
+		addImmediateEffect(immediate);
+		addPermanentEffect(permanent);
 	}
 
 	@Override

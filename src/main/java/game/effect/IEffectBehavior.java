@@ -1,11 +1,13 @@
 package game.effect;
 
+import java.io.Serializable;
+
 /**
  * @Strategy_Design_Pattern 
  * Interface that all different effects behaviors must implement
  */
 @FunctionalInterface
-public interface IEffectBehavior{
+public interface IEffectBehavior extends Serializable{
 	
 	/**
 	 * Method that describes the behavior of the effect

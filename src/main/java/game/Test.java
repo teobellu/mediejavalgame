@@ -77,7 +77,7 @@ public class Test {
 		
 		deserial.showRes();
 		int cc = deserial.getDevelopmentCards(GC.DEV_BUILDING).get(0).getDice();
-		String pp = deserial.getDevelopmentCards(GC.DEV_BUILDING).get(0).getImmediateEffect().get(0).getWhenActivate();
+		String pp = deserial.getDevelopmentCards(GC.DEV_BUILDING).get(0).getImmediateEffect().get(0).getIEffectBehavior().getClass().toString();
 		System.out.print(cc + "  " + pp);
 		
 		DynamicAction dd = new DynamicAction(null);

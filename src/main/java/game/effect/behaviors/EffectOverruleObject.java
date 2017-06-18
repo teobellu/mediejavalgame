@@ -5,7 +5,7 @@ import java.io.Serializable;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectOverruleObject implements IEffectBehavior, Serializable{
+public class EffectOverruleObject implements IEffectBehavior{
 	
 	private String specificAction;		//se string = null, sempre, altrimenti solo quando azione
 	

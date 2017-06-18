@@ -10,9 +10,9 @@ public class Building extends DevelopmentCard{
 		super();
 		this.age = age;
 		this.name = name;
-		this.cost.add(cost);
-		immediateEffect.add(immediate);
-		permanentEffect.add(permanent);
+		setCost(cost);
+		addImmediateEffect(immediate);
+		addPermanentEffect(permanent);
 		this.dice = dice;
 	}
 

@@ -10,7 +10,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectGetACard implements IEffectBehavior, Serializable{
+public class EffectGetACard implements IEffectBehavior{
 
 	private Player player;			
 	private String typeOfCard;

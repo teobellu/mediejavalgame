@@ -7,7 +7,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectSantaRita implements IEffectBehavior, Serializable{
+public class EffectSantaRita implements IEffectBehavior{
 	
 	private Resource resource;		//la tassa
 	

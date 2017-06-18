@@ -13,16 +13,13 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 	protected String name;
 	
 	protected int age;
-	protected List<Effect> immediateEffect;
-	protected List<Effect> permanentEffect;
+	private List<Effect> immediateEffect;
+	private List<Effect> permanentEffect;
 	
-	protected List<Resource> cost;
-	protected List<Resource> requirement;
+	private List<Resource> cost;
+	private List<Resource> requirement;
 	
 	protected int dice;
-
-	public abstract void accept(DevelopmentCardVisitor visitor);
-	public abstract String toString();
 	
 	public DevelopmentCard (){
 		immediateEffect = new ArrayList<>();
@@ -32,6 +29,9 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 		cost.add(new Resource());
 		requirement.add(null);
 	}
+	
+	public abstract void accept(DevelopmentCardVisitor visitor);
+	public abstract String toString();
 	
 	protected void configureEffect(Effect effect){
 		if (effect != null)
@@ -59,11 +59,11 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 		return age;
 	}
 	
-	public void addImmediateEffect(Effect effect) {
+	protected void addImmediateEffect(Effect effect) {
 		immediateEffect.add(effect);
 	}
 	
-	public void addPermanentEffect(Effect effect) {
+	protected void addPermanentEffect(Effect effect) {
 		permanentEffect.add(effect);
 	}
 	
@@ -75,12 +75,11 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 		return cost.get(0);
 	}
 	
-	//for test ONLY
-	public void setCost(Resource res) {
+	protected void setCost(Resource res) {
 		cost.add(res);
 	}
-	//for test only
-	public void setRequirement(Resource res) {
+	
+	protected void setRequirement(Resource res) {
 		requirement.set(0, res);
 	}
 	
@@ -100,6 +99,22 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 	public List<Effect> getPermanentEffect() {
 		configureEffect(permanentEffect);
 		return permanentEffect;
+	}
+	
+	protected void addImmediateEffect(List<Effect> immediate) {
+		immediateEffect.addAll(immediate);
+	}
+	
+	protected void addPermanentEffect(List<Effect> permanent) {
+		permanentEffect.addAll(permanent);
+	}
+	
+	protected void setCost(List<Resource> cost) {
+		this.cost.addAll(cost);
+	}
+	
+	protected void setRequirement(List<Resource> requires) {
+		requirement.addAll(requires);
 	}
 	
 }

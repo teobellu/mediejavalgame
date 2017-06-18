@@ -8,7 +8,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectRecieveRewardForEach implements IEffectBehavior, Serializable{
+public class EffectRecieveRewardForEach implements IEffectBehavior{
 
 	private Effect ref;
 	private Resource reward;

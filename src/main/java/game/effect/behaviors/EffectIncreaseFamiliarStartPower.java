@@ -9,7 +9,7 @@ import game.GC;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectIncreaseFamiliarStartPower implements IEffectBehavior, Serializable{
+public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
 	
 	private String typeOfFamiliar;		//parametri
 	private Integer increase;

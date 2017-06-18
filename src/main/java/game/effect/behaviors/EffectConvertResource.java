@@ -9,7 +9,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectConvertResource implements IEffectBehavior, Serializable{
+public class EffectConvertResource implements IEffectBehavior{
 
 	private Resource resourceToConvert;		//paga 1 victory per ogni forEach
 	private Resource resourceToGain;		//risorse possedute dal giocatore

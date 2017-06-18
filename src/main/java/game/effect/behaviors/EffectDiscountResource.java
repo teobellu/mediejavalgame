@@ -9,7 +9,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectDiscountResource implements IEffectBehavior, Serializable{
+public class EffectDiscountResource implements IEffectBehavior{
 	
 	private Resource discountResource;		//la tassa
 	private String specificAction;		//se string = null, sempre, altrimenti solo quando azione

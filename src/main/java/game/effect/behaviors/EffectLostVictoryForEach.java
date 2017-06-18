@@ -8,7 +8,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectLostVictoryForEach implements IEffectBehavior, Serializable{
+public class EffectLostVictoryForEach implements IEffectBehavior{
 
 	private Resource payForEach;		//paga 1 victory per ogni forEach
 	private int countVictoryTax;	//contatore punti da pagare

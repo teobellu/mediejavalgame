@@ -7,7 +7,7 @@ import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
 //TODO DA RIFARE!		
-public class EffectMultiplyResource implements IEffectBehavior, Serializable{
+public class EffectMultiplyResource implements IEffectBehavior{
 	
 	private String specificAction;		//se string = null, sempre, altrimenti solo quando azione
 	private Integer multiplier;

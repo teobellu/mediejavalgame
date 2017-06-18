@@ -8,7 +8,7 @@ import java.io.Serializable;
 import exceptions.GameException;
 import game.*;
 
-public class EffectLostVictoryDepicted implements IEffectBehavior, Serializable{
+public class EffectLostVictoryDepicted implements IEffectBehavior{
 
 	private Resource payForEach;		//paga 1 victory per ogni forEach
 	private String typeOfCard;

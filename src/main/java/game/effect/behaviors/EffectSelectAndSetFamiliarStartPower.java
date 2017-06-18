@@ -13,7 +13,7 @@ import game.GC;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior, Serializable{
+public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 	
 	private String typeOfFamiliar;		//parametri
 	private Integer valueToSet;

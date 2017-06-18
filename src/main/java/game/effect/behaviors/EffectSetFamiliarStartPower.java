@@ -9,7 +9,7 @@ import game.GC;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectSetFamiliarStartPower implements IEffectBehavior, Serializable{
+public class EffectSetFamiliarStartPower implements IEffectBehavior{
 	
 	private String typeOfFamiliar;		//parametri
 	private Integer valueToSet;

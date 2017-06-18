@@ -26,7 +26,7 @@ public class LeaderCard implements ICard, Serializable{
 	 * @Lambda_Function
 	 * Requirement, return true if the player can activate the card
 	 */
-	private Function<Player, Boolean> requirement;
+	private transient Function<Player, Boolean> requirement;
 	
 	/**
 	 * Leader Card constructor

@@ -14,9 +14,9 @@ public class Venture extends DevelopmentCard{
 		super();
 		this.age = age;
 		this.name = name;
-		this.requirement.addAll(requires);
-		this.cost.addAll(cost);
-		immediateEffect.addAll(immediate);
+		super.setRequirement(requires);
+		setCost(cost);
+		addImmediateEffect(immediate);
 		victoryReward = reward;
 	}
 

@@ -8,7 +8,7 @@ import game.effect.IEffectBehavior;
 /**
  * This effect behavior does not do anything, is used to avoid null IEffectBehavior while parsing
  */
-public class EffectDoNothing implements IEffectBehavior, Serializable{
+public class EffectDoNothing implements IEffectBehavior{
 
 	/**
 	 * Do nothing because is used to avoid null IEffectBehavior

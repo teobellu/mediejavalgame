@@ -5,7 +5,7 @@ import java.io.Serializable;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectIncreaseActionPower implements IEffectBehavior, Serializable{
+public class EffectIncreaseActionPower implements IEffectBehavior{
 	
 	private String action;		//parametri
 	private Integer increase;

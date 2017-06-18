@@ -14,10 +14,10 @@ public class Effect implements Serializable{
 	private IEffectBehavior iEffectBehavior;
 	private String whenActivate;
 	private String source;
-	private Object toAnalyze;
+	private transient Object toAnalyze;
 	private String toScan;
 	private Player player;
-	private DynamicAction bar;
+	private transient DynamicAction bar;
 	
 	public Effect (String whenActivate, IEffectBehavior iEffectBehavior){
 		this.whenActivate = whenActivate;

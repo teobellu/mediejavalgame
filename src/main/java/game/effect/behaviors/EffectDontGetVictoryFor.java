@@ -5,7 +5,7 @@ import java.io.Serializable;
 import game.Player;
 import game.effect.*;
 
-public class EffectDontGetVictoryFor implements IEffectBehavior, Serializable{
+public class EffectDontGetVictoryFor implements IEffectBehavior{
 
 	private String typeOfCard;
 	private Player player;

@@ -13,7 +13,7 @@ import server.Client;
 
 public class Player implements Serializable{
 
-	private final Client _client;
+	private final transient Client _client;
 	
 	private final int id;
 	private final String name;

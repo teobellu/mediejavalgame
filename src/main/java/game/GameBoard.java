@@ -233,7 +233,7 @@ class Cell extends Space{
 
 }
 
-class Space{
+class Space implements Serializable{
 	
 	private int requiredDiceValue;
 	private Effect instantEffect;
