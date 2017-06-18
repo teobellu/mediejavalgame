@@ -65,4 +65,17 @@ public class EffectLostVictoryDepicted implements IEffectBehavior{
 			
 		}
 	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Pay 1 victory point for each ";
+		for (String type : GC.RES_TYPES)
+			if (payForEach.get(type) > 0)
+				text += payForEach.get(type) + " " + type + " ";
+		text += "depicted on your " + typeOfCard + " cards";
+		return text;
+	}
 }

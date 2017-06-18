@@ -42,4 +42,19 @@ public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
 				.filter(fam -> fam.getColor() == GC.FM_TRANSPARENT)
 				.forEach(fam -> fam.setValue(Math.max(0, fam.getValue() + increase)));
 	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "All familiars with type: " + typeOfFamiliar;
+		if (increase == 0)
+			return "Nothing";
+		if (increase > 0)
+			text += ", will have an increment of " + increase;
+		else if (increase < 0)
+			text += ", will have a decrement of " + -increase;
+		return text;
+	}
 }

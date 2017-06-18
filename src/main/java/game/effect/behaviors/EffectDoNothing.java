@@ -18,4 +18,12 @@ public class EffectDoNothing implements IEffectBehavior{
 		// Do nothing because is used to avoid null IEffectBehavior
 	}
 	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		return "Do nothing";
+	}
+	
 }

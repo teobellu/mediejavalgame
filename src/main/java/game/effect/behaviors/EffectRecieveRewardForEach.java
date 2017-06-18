@@ -1,7 +1,5 @@
 package game.effect.behaviors;
 
-import java.io.Serializable;
-
 import game.GC;
 import game.Player;
 import game.Resource;
@@ -59,6 +57,25 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	private void addReward(){
 		for (int i = 0; i < count; i++)
 			ref.getBar().gain(ref, reward); //TODO è giusta la getDynamicBar?
+	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Recieve ";
+		for (String type : GC.RES_TYPES)
+			if (reward.get(type) > 0)
+				text += reward.get(type) + " " + type + " ";
+		text += "for each ";
+		if (card != null)
+			text += card;
+		else
+			for (String type : GC.RES_TYPES)
+				if (loot.get(type) > 0)
+					text += loot.get(type) + " " + type + " ";
+		return text;
 	}
 
 }

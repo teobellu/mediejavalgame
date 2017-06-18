@@ -44,4 +44,17 @@ public class EffectLostVictoryForEach implements IEffectBehavior{
 		countVictoryTax = Math.min(countVictoryTax, playerVictory);
 		player.getResource().add(GC.RES_VICTORYPOINTS, -countVictoryTax);
 	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Pay 1 victory point for each ";
+		for (String type : GC.RES_TYPES)
+			if (payForEach.get(type) > 0)
+				text += payForEach.get(type) + " " + type + " ";
+		text += "you have";
+		return text;
+	}
 }

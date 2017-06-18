@@ -2,6 +2,7 @@ package game.effect.behaviors;
 
 import java.io.Serializable;
 
+import game.GC;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
@@ -35,6 +36,17 @@ public class EffectOverruleObject implements IEffectBehavior{
 	
 	private void overruleResource (){
 		ref.setToAnalyze(null);
+	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Overrule a specific target ";
+		text += ref.getWhenActivate();
+		text += ", see rules for more info";
+		return text;
 	}
 	
 }

@@ -38,4 +38,12 @@ public class EffectCopyLeader implements IEffectBehavior{
 	private void activateLeaderCard() {
 		player.addEffect(selectedCard.getEffect());
 	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		return "Copy a leader card";
+	}
 }

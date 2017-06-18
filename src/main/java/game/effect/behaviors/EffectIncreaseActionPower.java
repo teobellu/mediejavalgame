@@ -2,6 +2,7 @@ package game.effect.behaviors;
 
 import java.io.Serializable;
 
+import game.GC;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
@@ -40,6 +41,21 @@ public class EffectIncreaseActionPower implements IEffectBehavior{
 	
 	private void payTax() {
 		ref.setToAnalyze(newPower);
+	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Action " + action;
+		if (increase == 0)
+			return "Nothing";
+		if (increase > 0)
+			text += " increased by " + increase;
+		else if (increase < 0)
+			text += " decreased by " + -increase;
+		return text;
 	}
 
 }

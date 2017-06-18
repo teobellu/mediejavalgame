@@ -42,4 +42,14 @@ public class EffectSetFamiliarStartPower implements IEffectBehavior{
 				.filter(fam -> fam.getColor() == GC.FM_TRANSPARENT)
 				.forEach(fam -> fam.setValue(Math.max(0, valueToSet)));
 	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Set familiar start power with type: " + typeOfFamiliar;
+		text += ", to power " + valueToSet;
+		return text;
+	}
 }

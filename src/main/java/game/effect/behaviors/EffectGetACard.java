@@ -62,4 +62,23 @@ public class EffectGetACard implements IEffectBehavior{
 		effect.getBar().visitTower(value, 0, 0);
 		player.getEffects().remove(index);
 	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Get a ";
+		if (typeOfCard != null)
+			text += typeOfCard;
+		text += "card from towers with an action of power " + value;
+		if (discount == null)
+			return text;
+		text += " and a get discout equals to ";
+		for (String type : GC.RES_TYPES){
+			if (discount.get(type) > 0)
+				text += discount.get(type) + " " + type + " ";
+		}
+		return text;
+	}
 }

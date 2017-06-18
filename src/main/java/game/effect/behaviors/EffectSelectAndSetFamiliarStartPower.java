@@ -54,4 +54,14 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 	private void setFamiliarsToModify() {
 		familiarToModify.setValue(valueToSet);
 	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Select a familiar with type: " + typeOfFamiliar;
+		text += ", and set his power to " + valueToSet;
+		return text;
+	}
 }

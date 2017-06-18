@@ -29,4 +29,14 @@ public class EffectWork implements IEffectBehavior{
 	private void performWork() {
 		effect.getBar().launchesWork(value, action);
 	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Do action: " + action;
+		text += " with power " + value;
+		return text;
+	}
 }

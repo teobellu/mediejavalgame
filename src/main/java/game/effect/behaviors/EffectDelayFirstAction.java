@@ -25,4 +25,12 @@ public class EffectDelayFirstAction implements IEffectBehavior{
 	private void delayTurn(){
 		effect.getBar().addDelayMalus();
 	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		return "Delay first action";
+	}
 }

@@ -1,7 +1,5 @@
 package game.effect.behaviors;
 
-import java.io.Serializable;
-
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
@@ -37,6 +35,16 @@ public class EffectPayMoreForIncreaseWorker implements IEffectBehavior{
 	
 	private void applyTax (){
 		ref.setToAnalyze(newPay);
+	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Insted of pay 1 servant for increase familiar's power you will pay ";
+		text += malus;
+		return text;
 	}
 	
 }

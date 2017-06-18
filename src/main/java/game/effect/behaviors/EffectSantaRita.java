@@ -49,4 +49,16 @@ public class EffectSantaRita implements IEffectBehavior{
 		ref.getPlayer().gain(newGain);
 	}
 	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		String text = "Each time you recieve ";
+		for (String type : GC.RES_TYPES)
+			if (resource.get(type) > 0)
+				text += resource.get(type) + " " + type + " ";
+		text += "from instant effect of a development card, you recieve the bonus twice";
+		return text;
+	}
 }

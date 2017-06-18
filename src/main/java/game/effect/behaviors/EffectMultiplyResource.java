@@ -8,7 +8,7 @@ import game.effect.IEffectBehavior;
 
 //TODO DA RIFARE!		
 public class EffectMultiplyResource implements IEffectBehavior{
-	
+	/*
 	private String specificAction;		//se string = null, sempre, altrimenti solo quando azione
 	private Integer multiplier;
 	
@@ -50,5 +50,5 @@ public class EffectMultiplyResource implements IEffectBehavior{
 	private void apply (){
 		ref.setToAnalyze(newGain);
 	}
-	
+	*/
 }

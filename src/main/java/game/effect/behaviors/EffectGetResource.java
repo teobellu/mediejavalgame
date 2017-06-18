@@ -31,6 +31,10 @@ public class EffectGetResource implements IEffectBehavior{
 		ref.getBar().gain(ref,bonus);
 	}
 	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
 	public String toString(){
 		String text = "Get resource: ";
 		for (String type : GC.RES_TYPES){

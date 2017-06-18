@@ -1,6 +1,5 @@
 package game.effect.behaviors;
 
-import java.io.Serializable;
 import java.util.List;
 
 import exceptions.GameException;
@@ -47,5 +46,14 @@ public class EffectConvertResource implements IEffectBehavior{
 			// TODO il giocatore non può converire perchè non ha le risorse necessarie
 		}
 		
+	}
+	
+	/**
+	 * Describes the behavior
+	 */
+	@Override
+	public String toString(){
+		//TODO
+		return "Convert resource";
 	}
 }
