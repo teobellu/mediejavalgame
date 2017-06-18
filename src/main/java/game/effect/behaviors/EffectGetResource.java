@@ -2,6 +2,7 @@ package game.effect.behaviors;
 
 import java.io.Serializable;
 
+import game.GC;
 import game.Player;
 import game.Resource;
 import game.effect.Effect;
@@ -28,5 +29,16 @@ public class EffectGetResource implements IEffectBehavior{
 
 	private void addResource() {
 		ref.getBar().gain(ref,bonus);
+	}
+	
+	public String toString(){
+		String text = "Get resource: ";
+		for (String type : GC.RES_TYPES){
+			if (bonus.get(type) > 0)
+				text += bonus.get(type) + " " + type + " ";
+		}
+		if(text == "Get resource: ")
+			return "Nothing";
+		return text;
 	}
 }

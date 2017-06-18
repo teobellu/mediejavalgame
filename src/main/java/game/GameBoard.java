@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import exceptions.GameException;
+import game.development.Building;
 import game.development.DevelopmentCard;
 import game.effect.Effect;
 import game.effect.behaviors.EffectGetResource;
@@ -28,6 +29,7 @@ public class GameBoard implements Serializable{
 	public static final Resource mil3 = new Resource(GC.RES_MILITARYPOINTS, 3);
 	
 	public static final Effect eff = new Effect(GC.IMMEDIATE, new EffectGetResource(mil3));
+	public static final DevelopmentCard bui = new Building(1, "cartagialla", vic1, eff, eff, 4);
 	
 	public static final int MAX_ROW = 4;
 	public static final int MAX_COLUMN = 4;
@@ -54,21 +56,34 @@ public class GameBoard implements Serializable{
 	//private int diceBlack;
 	//private int diceOrange;
 	//private int diceWhite;
-	private int dices[] = new int[MAX_DICES];
+	private Integer dices[] = new Integer[MAX_DICES];
 	
 	public GameBoard(){
-		/*
 		Resource r1 = new Resource();
 		Effect x = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.HARVEST, -3));
 		x.setSource(GC.ACTION_SPACE);
 		
-		councilPalaceSpace = new Space(1, null, false);
+		dices[0] = 3;
+		dices[1] = 5;
+		dices[2] = 2;
 		
-		market[0] = new Space(1, null, true);
-		harvestPos = new Space(1, null, true);
-		productionPos = new Space(1, null, true);
+		exCard[0] = new ExcommunicationTile(1, GC.NIX);
+		exCard[1] = new ExcommunicationTile(2, GC.NIX);
+		exCard[2] = new ExcommunicationTile(3, GC.NIX);
+		
+		for (int column = 0; column < MAX_COLUMN; column++)
+			for(int row = MAX_ROW - 1; row >= 0; row--){
+				tower[row][column] = new Cell(1, eff);
+				tower[row][column].setCard(bui);
+			}
+		councilPalaceSpace = new Space(1, GC.NIX, false);
+		
+		for(int i = 0; i< 4; i++)
+			market[i] = new Space(1, GC.NIX, true);
+		harvestPos = new Space(1, eff, true);
+		productionPos = new Space(1, eff, true);
 		harvestLongPos = new Space(1, x, false);
-		productionLongPos = new Space(1, null, false);*/
+		productionLongPos = new Space(1, GC.NIX, false);
 	}
 	
 	public GameBoard(Map<String, List<Effect>> spaceBonus) {
@@ -114,7 +129,7 @@ public class GameBoard implements Serializable{
 			dice = (int)(Math.random()*6) + 1;
 	}
 	
-	public int[] getdices(){
+	public Integer[] getdices(){
 		return dices;
 	}
 	
@@ -162,11 +177,11 @@ public class GameBoard implements Serializable{
 		return exCard;
 	}
 	
-	public int[] getDices() {
+	public Integer[] getDices() {
 		return dices;
 	}
 
-	public void setDices(int[] dices) {
+	public void setDices(Integer[] dices) {
 		this.dices = dices;
 	}
 

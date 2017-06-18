@@ -45,6 +45,11 @@ public class IOHandler {
 		writer.flush();
 	}
 	
+	public void writeNext(String str){
+		writer.print(str);
+		writer.flush();
+	}
+	
 	/**
 	 * Prints a list and associates to each element a number from 0 to n = size() - 1
 	 * @param list List to print

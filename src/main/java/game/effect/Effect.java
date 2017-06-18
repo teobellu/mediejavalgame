@@ -97,4 +97,9 @@ public class Effect implements Serializable{
 		this.bar = bar;
 	}
 	
+	@Override
+	public String toString(){
+		return iEffectBehavior.toString();
+	}
+	
 }

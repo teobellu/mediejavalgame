@@ -14,4 +14,5 @@ public interface IEffectBehavior extends Serializable{
 	 * @param effect Overall effect with all parameters
 	 */
 	public void effect (Effect effect);
+	
 }
