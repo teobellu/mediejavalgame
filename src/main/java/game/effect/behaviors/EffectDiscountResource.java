@@ -1,5 +1,6 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectDiscountResource implements IEffectBehavior{
+public class EffectDiscountResource implements IEffectBehavior, Serializable{
 	
 	private Resource discountResource;		//la tassa
 	private String specificAction;		//se string = null, sempre, altrimenti solo quando azione

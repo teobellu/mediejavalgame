@@ -1,9 +1,11 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
+
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectIncreaseActionPower implements IEffectBehavior{
+public class EffectIncreaseActionPower implements IEffectBehavior, Serializable{
 	
 	private String action;		//parametri
 	private Integer increase;

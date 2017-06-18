@@ -22,28 +22,25 @@ public class CommandLineUI implements UI {
 		//Get server address
 		_ioHandler.write(ClientText.ASK_SERVER_ADDRESS);
 		String host = _ioHandler.readLine(false);
+		if (host == "0")
+			host = "localhost";
 		
 		//Get server's port
-		_ioHandler.write("Su quale porta vorresti collegarti?");
+		_ioHandler.write("Select port");
 		int port = _ioHandler.readNumber();
 		
 		//Choose connection type
-		_ioHandler.write("Come vorresti connetterti?");
-		int i = 0;
-		for(String ct : Constants.CONNECTION_TYPES){
-			_ioHandler.write(i+") "+ct);
-			i++;
-		}
-		i--;
-		int selected = _ioHandler.readNumberWithinInterval(i);
-		ConnectionServerHandler connection = ConnectionServerHandlerFactory.getConnectionServerHandler(Constants.CONNECTION_TYPES[selected], host, port);
+		_ioHandler.write("Select connection");
+		_ioHandler.writeList(Constants.CONNECTION_TYPES);
+		int selected = _ioHandler.readNumberWithinInterval(Constants.CONNECTION_TYPES.size() - 1);
+		ConnectionServerHandler connection = ConnectionServerHandlerFactory.getConnectionServerHandler(Constants.CONNECTION_TYPES.get(selected), host, port);
 		
 		return connection;
 	}
 	
 	public String getUsername(){
 		//Get username
-		_ioHandler.write("Ciao. Come vorresti chiamarti?");
+		_ioHandler.write("Welcome! Select your nickname");
 		String username = _ioHandler.readLine(false);
 		return username;
 	}
@@ -71,7 +68,7 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public void start() {
-		_ioHandler.write("ok hai scelto CLI, ora qui sono bloccato. Cosa faccio?");
+		_ioHandler.write("You selected CLI");
 	}
 
 	@Override

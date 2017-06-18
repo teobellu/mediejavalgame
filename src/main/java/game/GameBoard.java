@@ -1,5 +1,6 @@
 package game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,7 @@ import game.effect.behaviors.EffectIncreaseActionPower;
 
 
 
-public class GameBoard {
+public class GameBoard implements Serializable{
 
 	
 

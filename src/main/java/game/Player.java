@@ -1,5 +1,6 @@
 package game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,7 +11,7 @@ import game.development.DevelopmentCardManager;
 import game.effect.Effect;
 import server.Client;
 
-public class Player {
+public class Player implements Serializable{
 
 	private final Client _client;
 	

@@ -1,10 +1,11 @@
 package game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CardDeck<T extends ICard> {
+public class CardDeck<T extends ICard> implements Serializable{
 	
 	private List<T> deck;
 	

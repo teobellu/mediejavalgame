@@ -1,9 +1,11 @@
 package game;
 
+import java.io.Serializable;
+
 /**
  * This class is designed for the family members, aka workers
  */
-public class FamilyMember {
+public class FamilyMember implements Serializable{
 	
 	/**
 	 * Owner of the familiar

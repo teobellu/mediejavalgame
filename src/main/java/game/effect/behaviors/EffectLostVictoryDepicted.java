@@ -2,10 +2,13 @@ package game.effect.behaviors;
 
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
+
+import java.io.Serializable;
+
 import exceptions.GameException;
 import game.*;
 
-public class EffectLostVictoryDepicted implements IEffectBehavior{
+public class EffectLostVictoryDepicted implements IEffectBehavior, Serializable{
 
 	private Resource payForEach;		//paga 1 victory per ogni forEach
 	private String typeOfCard;

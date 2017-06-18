@@ -1,5 +1,7 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
+
 import exceptions.GameException;
 
 import game.GC;
@@ -8,7 +10,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectGetACard implements IEffectBehavior{
+public class EffectGetACard implements IEffectBehavior, Serializable{
 
 	private Player player;			
 	private String typeOfCard;

@@ -5,7 +5,7 @@ package game.effect;
  * Interface that all different effects behaviors must implement
  */
 @FunctionalInterface
-public interface IEffectBehavior {
+public interface IEffectBehavior{
 	
 	/**
 	 * Method that describes the behavior of the effect

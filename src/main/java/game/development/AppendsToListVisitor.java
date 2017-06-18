@@ -1,11 +1,26 @@
 package game.development;
 
+import java.io.Serializable;
+
 import game.GC;
 
-public class AppendsToListVisitor implements DevelopmentCardVisitor{
+/**
+ * The class deals with adding an element to a list, depending on its dynamic type
+ * 
+ * @author Matteo
+ *
+ */
+public class AppendsToListVisitor implements DevelopmentCardVisitor, Serializable{
 
+	/**
+	 * Manager that contains all lists
+	 */
 	private DevelopmentCardManager manager;
 	
+	/**
+	 * Constructor
+	 * @param manager Manager that contains all lists
+	 */
 	public AppendsToListVisitor(DevelopmentCardManager manager) {
         this.manager = manager;
     }

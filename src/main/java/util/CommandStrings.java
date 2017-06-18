@@ -31,4 +31,11 @@ public final class CommandStrings {
 	public static final String END_TRANSMISSION = "end_transmission";
 	
 	public static final String HANDLE_COUNCIL = "handle_council";
+	
+	/**
+	 * Hide constructor
+	 */
+	private CommandStrings(){
+		
+	}
 }

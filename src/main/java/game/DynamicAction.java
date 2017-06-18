@@ -1,10 +1,15 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import exceptions.GameException;
 import game.development.DevelopmentCard;
+import game.development.Venture;
 import game.effect.Effect;
 import util.CommandStrings;
 
@@ -103,13 +108,31 @@ public class DynamicAction {
 	}
 	
 	private void handleCouncil(Resource res){
+		List<String> taken = new ArrayList<>();
+		int councils = res.get(GC.RES_COUNCIL);
 		player.getClient().getConnectionHandler().sendToClient(CommandStrings.HANDLE_COUNCIL);
 		String action = game.getNextGameAction();
 		if(action==CommandStrings.HANDLE_COUNCIL){
-			action = game.getNextGameAction();
-			if(GC.RES_TYPES.contains(action)&&action!=GC.RES_COUNCIL){
-				//TODO converti nella quantità di risorse corrispondenti e aggiungile a res
+			while (councils!=0){
+				action = game.getNextGameAction();
+				if(GC.RES_REWARD_COUNCIL.contains(action)&&action!=GC.RES_COUNCIL){
+					if (taken.contains(action))
+						player.getClient().getConnectionHandler().sendToClient("You can't!");
+					else{
+						taken.add(action);
+						councils--;
+						//res.add
+					}
+				}
+				else
+					player.getClient().getConnectionHandler().sendToClient("You can't!");
 			}
+		}
+	}
+	
+	private Resource fromStringToCouncilReward(String reward){
+		switch (reward){
+		case GC.RES_COINS
 		}
 	}
 	
@@ -500,7 +523,19 @@ public class DynamicAction {
 		int character = player.getDevelopmentCards(GC.DEV_CHARACTER).size();
 		addFinalReward(GC.REW_TERRITORY, territory);
 		addFinalReward(GC.REW_CHARACTER, character);
+		addVentureReward();
 		exchangeResourceToVictory();
+	}
+	
+	/**
+	 * Add victory points depicted on venture cards using functional programming
+	 */
+	private void addVentureReward(){
+		List<DevelopmentCard> venture = player.getDevelopmentCards(GC.DEV_VENTURE);
+		Integer ventureReward = venture.stream()
+			.map(card -> ((Venture)card).getVictoryReward())
+			.reduce(0, (sum, card) -> sum + card);
+		player.gain(new Resource(GC.RES_VICTORYPOINTS, ventureReward));
 	}
 	
 	/**
@@ -510,6 +545,9 @@ public class DynamicAction {
 	 * @param index Amount of cards, of a certain type, that the player has
 	 */
 	public void addFinalReward (List<Integer> rewardList, int index){
+		index--;
+		if (index < 0) 
+			return;
 		Resource finalReward = new Resource(GC.RES_VICTORYPOINTS, rewardList.get(index));
 		player.gain(finalReward);
 	}

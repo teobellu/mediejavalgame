@@ -1,11 +1,13 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
+
 import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
 //TODO DA RIFARE!		
-public class EffectMultiplyResource implements IEffectBehavior{
+public class EffectMultiplyResource implements IEffectBehavior, Serializable{
 	
 	private String specificAction;		//se string = null, sempre, altrimenti solo quando azione
 	private Integer multiplier;

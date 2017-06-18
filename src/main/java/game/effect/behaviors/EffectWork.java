@@ -1,9 +1,11 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
+
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectWork implements IEffectBehavior{
+public class EffectWork implements IEffectBehavior, Serializable{
 
 	private Effect effect;		
 	private String action;

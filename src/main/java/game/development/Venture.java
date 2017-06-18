@@ -9,7 +9,7 @@ import game.effect.Effect;
 public class Venture extends DevelopmentCard{
 	
 	int victoryReward;
-	
+
 	public Venture(int age, String name, List<Resource> requires, List<Resource> cost, List<Effect> immediate, int reward) {
 		super();
 		this.age = age;
@@ -28,6 +28,10 @@ public class Venture extends DevelopmentCard{
 	@Override
 	public String toString() {
 		return GC.DEV_VENTURE;
+	}
+	
+	public int getVictoryReward() {
+		return victoryReward;
 	}
 	
 }

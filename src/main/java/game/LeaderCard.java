@@ -1,5 +1,6 @@
 package game;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 import game.effect.Effect;
@@ -9,7 +10,7 @@ import game.effect.Effect;
  * @author M
  *
  */
-public class LeaderCard implements ICard{
+public class LeaderCard implements ICard, Serializable{
 	
 	/**
 	 * Name of the Leader

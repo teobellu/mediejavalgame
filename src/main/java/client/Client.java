@@ -18,11 +18,10 @@ public class Client extends Thread {
 		//Get UI
 		_ioHandler.write("Select your User Interface");
 		
-		Constants.UI_TYPES
-		.forEach(ui -> _ioHandler.write(Constants.UI_TYPES.indexOf(ui) + ") " + ui));
+		_ioHandler.writeList(Constants.UI_TYPES);
 	
-		_ui = UIFactory.getUserInterface(_ioHandler
-				.readNumberWithinInterval(Constants.UI_TYPES.size() - 1));
+		int selection = _ioHandler.readNumberWithinInterval(Constants.UI_TYPES.size() - 1);
+		_ui = UIFactory.getUserInterface(selection);
 		
 		if (_ui == null) {
 			_log.log(Level.SEVERE, "Can't get a UserInterface. What's goign on?");

@@ -1,9 +1,11 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
+
 import game.Player;
 import game.effect.*;
 
-public class EffectDontGetVictoryFor implements IEffectBehavior{
+public class EffectDontGetVictoryFor implements IEffectBehavior, Serializable{
 
 	private String typeOfCard;
 	private Player player;

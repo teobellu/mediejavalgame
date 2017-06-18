@@ -1,5 +1,6 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,7 +15,7 @@ import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectCopyLeader implements IEffectBehavior{
+public class EffectCopyLeader implements IEffectBehavior, Serializable{
 	
 	private Player player;
 	private LeaderCard selectedCard;

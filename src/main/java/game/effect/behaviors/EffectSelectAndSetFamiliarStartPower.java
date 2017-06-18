@@ -1,5 +1,6 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import game.GC;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
+public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior, Serializable{
 	
 	private String typeOfFamiliar;		//parametri
 	private Integer valueToSet;

@@ -1,5 +1,6 @@
 package game.development;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import game.ICard;
 import game.Resource;
 import game.effect.Effect;
 
-public abstract class DevelopmentCard implements ICard{
+public abstract class DevelopmentCard implements ICard, Serializable{
 
 	protected String name;
 	

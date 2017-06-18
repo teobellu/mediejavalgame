@@ -1,5 +1,11 @@
 package game;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +46,48 @@ public class Test {
 	
 	
 	public static void main(String[] args) throws GameException {
+		
+		Player serial = new Player(null);
+		
+		serial.gain(coi1);
+		
+		serial.addDevelopmentCard(new Building(1, "x", null, GC.NIX, GC.NIX, 2));
+		
+		serial.addDevelopmentCard(new Venture(3, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 9));
+		
+		
+		FileOutputStream out;
+		ObjectOutputStream oos;
+		FileInputStream in;
+		ObjectInputStream ois;
+		Player deserial = null;
+		try {
+			out = new FileOutputStream("save.ser");
+			oos = new ObjectOutputStream( out );
+			oos.writeObject(serial);
+			oos.close();
+			in = new FileInputStream("save.ser");
+			ois = new ObjectInputStream( in );
+			deserial = (Player) ois.readObject();
+			ois.close();
+		} catch (IOException | ClassNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		deserial.showRes();
+		int cc = deserial.getDevelopmentCards(GC.DEV_BUILDING).get(0).getDice();
+		String pp = deserial.getDevelopmentCards(GC.DEV_BUILDING).get(0).getImmediateEffect().get(0).getWhenActivate();
+		System.out.print(cc + "  " + pp);
+		
+		DynamicAction dd = new DynamicAction(null);
+		dd.setPlayer(deserial);
+
+		dd.endGame();
+		deserial.showRes();
+		
+		
+		
 		Resource santa = new Resource(GC.RES_COINS, 1);
 		Resource rita = new Resource(GC.RES_COINS, 2);
 		santa.add(GC.RES_WOOD, 1);
@@ -173,7 +221,7 @@ public class Test {
 		p.addEffect(new Effect(GC.WHEN_GET_TOWER_BONUS, new EffectOverruleObject()));
 		
 		joy.placeInTower(f4, 3, 0);
-		joy.showVaticanSupport();
+		joy.showVaticanSupport(1);
 		joy.visitTower(1, 1, 0);
 		joy.placeInTower(f4, 2, 0);
 		

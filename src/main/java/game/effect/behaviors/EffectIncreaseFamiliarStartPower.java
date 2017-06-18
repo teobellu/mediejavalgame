@@ -1,5 +1,6 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import game.GC;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
+public class EffectIncreaseFamiliarStartPower implements IEffectBehavior, Serializable{
 	
 	private String typeOfFamiliar;		//parametri
 	private Integer increase;

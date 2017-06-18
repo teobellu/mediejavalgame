@@ -1,11 +1,13 @@
 package game;
 
+import java.io.Serializable;
+
 import game.effect.Effect;
 
 /**
  * This model class represents the excommunication tiles
  */
-public class ExcommunicationTile implements ICard{
+public class ExcommunicationTile implements ICard, Serializable{
 
 	/**
 	 * ID of the single card, for view;

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,43 +13,51 @@ import java.util.logging.Logger;
  *
  */
 public class IOHandler {
+	
+	private final BufferedReader reader;
+	private final PrintWriter writer;
+	private Logger log = Logger.getLogger(IOHandler.class.getName());
 
 	public IOHandler() {
-		_reader = new BufferedReader(new InputStreamReader(System.in));
-		_writer = new PrintWriter(System.out);
+		reader = new BufferedReader(new InputStreamReader(System.in));
+		writer = new PrintWriter(System.out);
 	}
 	
 	
 	public String readLine(boolean isEmptyAllowed){
 		do {
 			try {
-				String str = _reader.readLine();
-				if(!str.isEmpty()){
+				String str = reader.readLine();
+				if(!str.isEmpty())
 					return str;
-				} else {
-					if(isEmptyAllowed){
-						return "";
-					} else {
-						write("You must write something. An empty line will be rejected");
-					}
-				}
+				else if(isEmptyAllowed)
+					return "";
+				else
+					write("You must write something. An empty line will be rejected");
 			} catch (Exception e) {
-				_log.log(Level.SEVERE, "Something's wrong with readLine(). What's happening?\n", e);
+				log.log(Level.SEVERE, "Something's wrong with readLine(). What's happening?\n", e);
 			}
 		} while (true);
 	}
 	
 	public void write(String str){
-		_writer.println(str);
-		_writer.flush();
+		writer.println(str);
+		writer.flush();
+	}
+	
+	/**
+	 * Prints a list and associates to each element a number from 0 to n = size() - 1
+	 * @param list List to print
+	 */
+	public void writeList(List<String> list){
+		list.forEach(item -> write(list.indexOf(item) + ") " + item));
 	}
 	
 	public int readNumber(){
 		do {
 			try {
 				String str = readLine(false);
-				Integer i = Integer.decode(str);
-				return i;
+				return Integer.decode(str);
 			} catch (NumberFormatException e) {
 				write("You have to insert a number");
 			}
@@ -76,15 +85,11 @@ public class IOHandler {
 	
 	public void shutdown(){
 		try {
-			_reader.close();
-			_writer.close();
+			reader.close();
+			writer.close();
 		} catch (IOException e) {
-			_log.log(Level.WARNING, "Cannot close reader or writer. What's going on?\n", e);
+			log.log(Level.WARNING, "Cannot close reader or writer. What's going on?\n", e);
 		}
 		
 	}
-	
-	private final BufferedReader _reader;
-	private final PrintWriter _writer;
-	private Logger _log = Logger.getLogger(IOHandler.class.getName());
 }

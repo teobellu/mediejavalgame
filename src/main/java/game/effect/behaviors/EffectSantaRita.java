@@ -1,11 +1,13 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
+
 import game.GC;
 import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectSantaRita implements IEffectBehavior{
+public class EffectSantaRita implements IEffectBehavior, Serializable{
 	
 	private Resource resource;		//la tassa
 	

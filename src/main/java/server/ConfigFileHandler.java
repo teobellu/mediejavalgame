@@ -16,7 +16,6 @@ import org.w3c.dom.NodeList;
 
 import game.ExcommunicationTile;
 import game.GC;
-import game.ICard;
 import game.Resource;
 import game.development.Building;
 import game.development.Character;
@@ -41,18 +40,57 @@ import game.effect.behaviors.EffectPayMoreForIncreaseWorker;
 import game.effect.behaviors.EffectRecieveRewardForEach;
 import game.effect.behaviors.EffectWork;
 
+/**
+ * This class reads and manages the xml file and creates 
+ * @author Matteo
+ *
+ */
 public class ConfigFileHandler {
 	
+	/**
+	 * Map with all information about spaces bonus
+	 */
 	protected static final Map<String, List<Effect>> SPACE_BONUS = new HashMap<>();
+	
+	/**
+	 * Map with all information about bonuses associated with player dashboard
+	 */
 	protected static final Map<String, List<Resource>> BONUS_PLAYER_DASHBOARD = new HashMap<>();
+	
+	/**
+	 * Faith bonus track information
+	 */
 	protected static final List<Integer> BONUS_FAITH = new ArrayList<>();
+	
+	/**
+	 * Deck of development cards
+	 */
 	protected static final List<DevelopmentCard> DEVELOPMENT_DECK = new ArrayList<>();
+	
+	/**
+	 * Deck of excommunication tiles
+	 */
 	protected static final List<ExcommunicationTile> EXCOMMUNICATION_DECK = new ArrayList<>();
+	
+	/**
+	 * Start timeout
+	 */
 	protected long TIMEOUT_START;
+	
+	/**
+	 * Turn timeout
+	 */
 	protected long TIMEOUT_TURN;
 	
+	/**
+	 * Map with effect and this function, used for create lambda expression
+	 */
 	private static final Map<String, Function<Node , Effect>> EFFECTS = new HashMap<>();
 	
+	/**
+	 * Reads a xml file
+	 * @param xml Input xml file
+	 */
 	public void read(File xml){
 		try{
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -70,19 +108,26 @@ public class ConfigFileHandler {
 		}
 	}
 	
+	/**
+	 * Creates all objects from document
+	 * @param doc document, from DocumentBuilder.parse(xml file)
+	 * @throws Exception File is not valid
+	 */
 	public void validate(Document doc) throws Exception{
 		Node root = doc.getDocumentElement();
 			
+		//an advice from stackoverflow
 		root.normalize();
 			
 		List<Node> listNode = getChildNodesFromNode(root);
 		
-		
+		//Initialize objects used for reading
 		buildMap();
 		GC.SPACE_TYPE.forEach(type -> SPACE_BONUS.putIfAbsent(type, new ArrayList<>()));
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.HARVEST, new ArrayList<>());
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.PRODUCTION, new ArrayList<>());
 		
+		//load from file
 		uploadSpaceBonus(listNode.get(0));
 		uploadPlayerDashboardBonus(listNode.get(1));
 		uploadFaithTracing(listNode.get(2));
@@ -360,7 +405,7 @@ public class ConfigFileHandler {
 	 */
 	private static Effect delayFirstAction(Node node){
 		IEffectBehavior behavior = new EffectDelayFirstAction();
-		return new Effect(GC.IMMEDIATE, behavior); //è un gc. immediate? TODO
+		return new Effect(GC.IMMEDIATE, behavior);
 	}
 	
 	/**

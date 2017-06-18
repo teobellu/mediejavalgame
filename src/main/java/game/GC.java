@@ -7,7 +7,7 @@ import java.util.List;
 import game.effect.Effect;
 import game.effect.behaviors.EffectDoNothing;
 
-public class GC {
+public class GC{
 	
 	public static final String DEFAULT = "default";
 	public static final String LEADER_CARD = "leader card";

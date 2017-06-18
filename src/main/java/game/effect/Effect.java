@@ -1,10 +1,12 @@
 package game.effect;
 
+import java.io.Serializable;
+
 import game.DynamicAction;
 import game.GC;
 import game.Player;
 
-public class Effect {
+public class Effect implements Serializable{
 	
 	/**
 	 * @Strategy_Design_Pattern Behavior of the Effect

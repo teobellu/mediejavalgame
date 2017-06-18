@@ -1,9 +1,11 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
+
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectOverruleObject implements IEffectBehavior{
+public class EffectOverruleObject implements IEffectBehavior, Serializable{
 	
 	private String specificAction;		//se string = null, sempre, altrimenti solo quando azione
 	

@@ -1,11 +1,13 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
+
 import game.Player;
 import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectGetResource implements IEffectBehavior{
+public class EffectGetResource implements IEffectBehavior, Serializable{
 
 	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
 	private Resource bonus; 	//ciò che guadagnerei normalmente

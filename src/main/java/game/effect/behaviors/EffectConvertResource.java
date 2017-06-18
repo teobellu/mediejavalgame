@@ -1,5 +1,6 @@
 package game.effect.behaviors;
 
+import java.io.Serializable;
 import java.util.List;
 
 import exceptions.GameException;
@@ -8,7 +9,7 @@ import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
-public class EffectConvertResource implements IEffectBehavior{
+public class EffectConvertResource implements IEffectBehavior, Serializable{
 
 	private Resource resourceToConvert;		//paga 1 victory per ogni forEach
 	private Resource resourceToGain;		//risorse possedute dal giocatore
