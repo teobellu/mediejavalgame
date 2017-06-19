@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -76,6 +78,56 @@ public class GUI extends Application{
 			
 			MainViewController controller = loader.getController();
 			controller.setGUI(this);
+			
+		    Task<Integer> task = new Task<Integer>() {
+		         @Override protected Integer call() throws Exception {
+		             int iterations;
+		             for (iterations = 0; iterations < 100000; iterations++) {
+		                 if (isCancelled()) {
+		                     break;
+		                 }
+		                 System.out.println("Iteration " + iterations);
+		                 try {
+		                     Thread.sleep(100);
+		                 } catch (InterruptedException interrupted) {
+		                     if (isCancelled()) {
+		                         updateMessage("Cancelled");
+		                         break;
+		                     }
+		                 }
+		             }
+		             return iterations;
+		         }
+		     };
+		     
+		     Thread th = new Thread(task);
+		     th.setDaemon(true);
+		     th.start();
+		     
+//			Thread th = new Thread(new Task<Void>() {
+//				
+//				@Override
+//				protected Void call() throws Exception {
+//					Platform.runLater(new Runnable() {
+//						
+//						@Override
+//						public void run() {
+//							while(GraphicalUI.getInstance().getTmpLeaderList()==null || GraphicalUI.getInstance().getTmpLeaderList().isEmpty()){
+//								try {
+//									System.out.println("Pause");
+//									Thread.sleep(1000);
+//								} catch (Exception e) {
+//								}
+//							}
+//							showInitialSelectLeaderDialog(GraphicalUI.getInstance().getTmpLeaderList());
+//						}
+//					});
+//					return null;
+//				}
+//			});
+//	        th.setDaemon(true);
+//	        th.start();
+
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}

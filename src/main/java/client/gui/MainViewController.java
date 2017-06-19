@@ -55,31 +55,6 @@ public class MainViewController {
 	
 	public void setGUI(GUI gui){
 		_GUI = gui;
-		
-		Thread tr = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				while(GraphicalUI.getInstance().getTmpLeaderList()==null){
-					try {
-						Thread.sleep(1000);
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-				}
-			}
-		});
-		
-		tr.start();
-		
-		while(tr.isAlive()){
-			try {
-				Thread.sleep(1000);
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}
-		_GUI.showInitialSelectLeaderDialog(GraphicalUI.getInstance().getTmpLeaderList());
 	}
 	
 	@FXML

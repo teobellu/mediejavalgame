@@ -156,7 +156,7 @@ public class GraphicalUI implements UI {
 		_GUI = gui;
 	}
 	
-	private List<String> _tempLeaders;
+	private List<String> _tempLeaders=new ArrayList<>();
 	
 	private GUI _GUI;
 	
