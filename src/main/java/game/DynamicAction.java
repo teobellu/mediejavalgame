@@ -1,17 +1,13 @@
 package game;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import exceptions.GameException;
 import game.development.DevelopmentCard;
 import game.development.Venture;
 import game.effect.Effect;
-import util.CommandStrings;
 
 /**
  * An integral part of the game controller, acts as a player joystick.
@@ -96,44 +92,36 @@ public class DynamicAction {
 	 * Allows the player to earn resources
 	 * @Overload
 	 * @param res Resource to gain
+	 * @throws RemoteException 
 	 */
-	public void gain (Resource res){
+	public void gain (Resource res) throws RemoteException{
 		if (res == null) 
 			return;
 		res = (Resource) activateEffect(res, GC.WHEN_GAIN);
 		if(res.get(GC.RES_COUNCIL) > 0) {
-			handleCouncil(res);
+			res = handleCouncil(res);
 		}
 		player.gain(res);
 	}
 	
-	private void handleCouncil(Resource res){
-		List<String> taken = new ArrayList<>();
+	/**
+	 * Let player to get rewards from his cuncils
+	 * @param res Resource with councils
+	 * @return Resource without councils
+	 * @throws RemoteException
+	 */
+	private Resource handleCouncil(Resource res) throws RemoteException{
+		List<Resource> options = GC.COUNCIL_REWARDS;
 		int councils = res.get(GC.RES_COUNCIL);
-		player.getClient().getConnectionHandler().sendToClient(CommandStrings.HANDLE_COUNCIL);
-		String action = game.getNextGameAction();
-		if(action==CommandStrings.HANDLE_COUNCIL){
-			while (councils!=0){
-				action = game.getNextGameAction();
-				if(GC.RES_REWARD_COUNCIL.contains(action)&&action!=GC.RES_COUNCIL){
-					if (taken.contains(action))
-						player.getClient().getConnectionHandler().sendToClient("You can't!");
-					else{
-						taken.add(action);
-						councils--;
-						//res.add
-					}
-				}
-				else
-					player.getClient().getConnectionHandler().sendToClient("You can't!");
-			}
-		}
-	}
-	
-	private Resource fromStringToCouncilReward(String reward){
-		switch (reward){
-		case GC.RES_COINS
-		}
+		res.add(GC.RES_COUNCIL, -councils);
+		int index;
+		do{
+			index = player.getClient().getConnectionHandler().spendCouncil(options);
+			player.gain(options.get(index));
+			options.remove(index);
+			councils--;
+		}while(councils > 0);
+		return res;
 	}
 	
 	/**
@@ -141,8 +129,9 @@ public class DynamicAction {
 	 * @Overload
 	 * @param source Source of earnings
 	 * @param res Resource to gain
+	 * @throws RemoteException 
 	 */
-	public void gain (Effect source, Resource res){
+	public void gain (Effect source, Resource res) throws RemoteException{
 		if (res == null) 
 			return;
 		gain(res);
@@ -500,8 +489,9 @@ public class DynamicAction {
 	/**
 	 * The method allows the player to discard a leader card to gain a council privilege
 	 * @param card Leader card to discard
+	 * @throws RemoteException 
 	 */
-	public void discardLeaderCard(LeaderCard card){
+	public void discardLeaderCard(LeaderCard card) throws RemoteException{
 		player.removeLeaderCard(card);
 		gain(new Resource(GC.RES_COUNCIL, 1));
 	}

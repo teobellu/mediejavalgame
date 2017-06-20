@@ -36,6 +36,18 @@ public class Resource implements Serializable{
 	}
 
 	/**
+	 * Creates a resource pack and fills it with a single type of resource and his amount
+	 * and another pack of resource
+	 * @param resource The another pack of resource to add
+	 * @param type Type of single resource to add
+	 * @param amount Quantity of single resource type to add
+	 */
+	public Resource(Resource resource, String type, int amount) {
+		this(type, amount);
+		add(resource);
+	}
+
+	/**
 	 * Receives a single resource type and returns its current quantity;
 	 * The method returns 0 if the resource type does not exist in the hashmap, 
 	 * as it is logical that both

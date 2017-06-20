@@ -88,11 +88,21 @@ public class GC{
 	public static final Integer END_REWARD_RESOURCE = 5;
 
 	public static final Effect NIX = new Effect(NEVER, new EffectDoNothing());
+	
+	public static final Resource COUNCIL_REW0 = new Resource(RES_WOOD, 1);
+	public static final Resource COUNCIL_REW1 = new Resource(COUNCIL_REW0, RES_STONES, 1);
+	public static final Resource COUNCIL_REW2 = new Resource(RES_SERVANTS, 2);
+	public static final Resource COUNCIL_REW3 = new Resource(RES_COINS, 2);
+	public static final Resource COUNCIL_REW4 = new Resource(RES_MILITARYPOINTS, 2);
+	public static final Resource COUNCIL_REW5 = new Resource(RES_FAITHPOINTS, 1);
+	
+	public static final List<Resource> COUNCIL_REWARDS = Collections.unmodifiableList(
+		Arrays.asList(COUNCIL_REW1, COUNCIL_REW2, COUNCIL_REW3, COUNCIL_REW4, COUNCIL_REW5));
+	
 	/**
 	 * Private constructor to hide the implicit public one
 	 */
 	private GC(){
 		
 	}
-	
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game.Game;
+import game.Resource;
 
 public abstract class ConnectionHandler implements Runnable {
 	public void setClient(Client client){
@@ -51,4 +52,9 @@ public abstract class ConnectionHandler implements Runnable {
 	protected String _configFile = null;
 	
 	protected transient Game _theGame = null;
+
+	//TODO
+	public abstract int spendCouncil(List<Resource> councilRewards) throws RemoteException;
+
+	
 }

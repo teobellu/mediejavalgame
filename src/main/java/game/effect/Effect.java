@@ -12,6 +12,10 @@ public class Effect implements Serializable{
 	 * @Strategy_Design_Pattern Behavior of the Effect
 	 */
 	private IEffectBehavior iEffectBehavior;
+	
+	/**
+	 * Determines when the effect must be activated
+	 */
 	private String whenActivate;
 	private String source;
 	private transient Object toAnalyze;
