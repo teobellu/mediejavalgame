@@ -156,6 +156,15 @@ public class GraphicalUI implements UI {
 		_GUI = gui;
 	}
 	
+	public void sendChosenInitialCardLeader(String leader){
+		try {
+			_connectionHandler.sendChosenInitialCardLeader(leader);
+			_tempLeaders=null;
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
 	private List<String> _tempLeaders=new ArrayList<>();
 	
 	private GUI _GUI;

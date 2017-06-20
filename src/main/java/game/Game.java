@@ -2,9 +2,7 @@ package game;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,11 +27,6 @@ public class Game implements Runnable {
 	private final Room _theRoom;
 	
 	private List<LeaderCard> _leaders = new ArrayList<>();
-	
-	/**
-	 * Queue with FIFO logic in which the game commands will be put
-	 */
-	private Deque<String> _commandActionList = new ConcurrentLinkedDeque<>();
 	
 	private final DynamicAction _dynamicAction;
 	
@@ -105,11 +98,6 @@ public class Game implements Runnable {
 		return _board;
 	}
 	
-	public String getNextGameAction(){
-		//TODO forse...?
-		return "";
-	}
-	
 	private void setupGame(){
 		//TODO
 		try{
@@ -134,12 +122,18 @@ public class Game implements Runnable {
 						boolean stop = false;
 						do {
 							for(List<String> list : _tempLeaderCardForEachPlayer){
+								for(String s : list){
+									System.out.println("Questa lista contiene "+s);
+								}
+								System.out.println("\n");
 								if(list.size()!=getLeft()){
+									System.out.println("Lista non valida");
 									stop = true;
 									break;
 								}
 							}
 							if(!stop){
+								System.out.println("Lista valida");
 								List<String> tmp = _tempLeaderCardForEachPlayer.get(_tempLeaderCardForEachPlayer.size()-1);
 								_tempLeaderCardForEachPlayer.add(0, tmp);
 								_tempLeaderCardForEachPlayer.remove(_tempLeaderCardForEachPlayer.size()-1);
@@ -148,8 +142,6 @@ public class Game implements Runnable {
 								try {
 									Thread.sleep(1000);
 								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
 								}
 							}
 						} while (true);
@@ -162,6 +154,7 @@ public class Game implements Runnable {
 				}
 				
 				for(int j = 0; j<_players.size(); j++){
+					System.out.println("Mando carte al client");
 					_players.get(j).getClient().getConnectionHandler().sendInitialLeaderList(_tempLeaderCardForEachPlayer.get(j));
 				}
 				
@@ -187,16 +180,25 @@ public class Game implements Runnable {
 	 * @param leader the name of the card chosen
 	 */
 	public void manipulateInitialLeaderList(Client cli, String leader){
-		for(int i = 0;i<_players.size();i++){
-			if(_players.get(i).getClient().equals(cli)){
-				Player player = _players.get(i);
-				for(LeaderCard lc : _leaders){
-					if(lc.getName().equals(leader)){
-						player.addLeaderCard(lc);
-						_tempLeaderCardForEachPlayer.get(i).remove(lc);
+		try {
+			for(int i = 0;i<_players.size();i++){
+				if(_players.get(i).getClient().equals(cli)){
+					Player player = _players.get(i);
+					for(LeaderCard lc : _leaders){
+						if(lc.getName().equals(leader)){
+							player.addLeaderCard(lc);
+							System.out.println("Added leader card "+lc.getName()+" to player "+ player.getName());
+							if(_tempLeaderCardForEachPlayer.get(i).remove(lc)){
+								System.out.println("Rimossa carta con successo");
+							} else {
+								System.out.println("Errore nel rimuovere carta");
+							}
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -210,14 +212,6 @@ public class Game implements Runnable {
 	
 	public DynamicAction getDynamicBar(){
 		return _dynamicAction;
-	}
-	
-	/**
-	 * Return the command list, usually to add or pop a command
-	 * @return the command list
-	 */
-	public Deque<String> getActionCommandList(){
-		return _commandActionList;
 	}
 	
 	public List<Player> getPlayers() {

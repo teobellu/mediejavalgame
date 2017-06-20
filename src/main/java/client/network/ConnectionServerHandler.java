@@ -129,9 +129,12 @@ public abstract class ConnectionServerHandler extends Thread {
 	 */
 	public abstract void spendCouncilPrivilege(String resource) throws RemoteException;
 	
+	public abstract void sendChosenInitialCardLeader(String leader) throws RemoteException;
+	
 	protected boolean _isRunning = false;
 	protected final String _host;
 	protected int _port;
 	protected UI _ui;
+	
 	
 }

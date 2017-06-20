@@ -28,7 +28,7 @@ public abstract class ConnectionHandler implements Runnable {
 		}
 	}
 	
-	public void setGame(){//TODO da chiamare questo metodo alla creazione del gioco(probabilmente nella room)
+	public void setGame(){
 		if(_client!=null){
 			_theGame = _client.getRoom().getGame();
 		}

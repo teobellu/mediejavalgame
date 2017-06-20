@@ -62,6 +62,10 @@ public class Room extends Thread {
 	public void run(){
 		theGame = new Game(this);
 		
+		for(Client c : clients){
+			c.getConnectionHandler().setGame();
+		}
+		
 		setupGame(theGame, fileHandler);
 		//TODO passare config a game
 		

@@ -35,4 +35,6 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	public void putFamiliarWhere(String position) throws RemoteException;
 
 	public void setClient(ClientRemote rmiConnectionServerHandler) throws RemoteException;
+
+	public void sendChosenInitialCardLeader(String leader) throws RemoteException;
 }

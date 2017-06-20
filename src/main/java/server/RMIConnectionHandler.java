@@ -154,8 +154,13 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 	
 	@Override
+<<<<<<< Updated upstream
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
 		return _clientConnectionHandler.spendCouncil(councilRewards);
+=======
+	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
+		_theGame.manipulateInitialLeaderList(_client, leader);
+>>>>>>> Stashed changes
 	}
 	
 	private ClientRemote _clientConnectionHandler;
