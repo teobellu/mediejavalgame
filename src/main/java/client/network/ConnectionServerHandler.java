@@ -24,7 +24,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	}
 	
 	public void setClient(UI client){
-		_client = client;
+		_ui = client;
 	}
 	
 	/**
@@ -132,6 +132,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	protected boolean _isRunning = false;
 	protected final String _host;
 	protected int _port;
-	protected UI _client;
+	protected UI _ui;
 	
 }

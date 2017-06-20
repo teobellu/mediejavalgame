@@ -30,8 +30,6 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 
 	public void dropWhichLeaderCard(String leaderCard) throws RemoteException;
 
-	public void spendCouncilPrivilege(String resource) throws RemoteException;
-
 	public void sendInitialInformations(String name) throws RemoteException;
 
 	public void putFamiliarWhere(String position) throws RemoteException;

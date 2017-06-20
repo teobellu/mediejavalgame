@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.Resource;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
 import misc.ServerRemote;
@@ -149,6 +150,12 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		
 	}
 	
+	@Override
+	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
+		return _ui.spendCouncil(councilRewards);
+	}
+	
 	private ConnectionHandlerRemote _connectionHandler;
 	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
+	
 }

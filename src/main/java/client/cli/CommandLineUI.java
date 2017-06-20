@@ -1,5 +1,6 @@
 package client.cli;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import game.GC;
 import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
+import game.Resource;
 import game.Space;
 import game.development.DevelopmentCard;
 import util.Constants;
@@ -241,5 +243,38 @@ public class CommandLineUI implements UI {
 		else
 			familiars.forEach(fam -> _ioHandler
 				.write("A " + fam.getColor() + " " + fam.getOwner().getName() + "'s familiar is here "));
+	}
+	
+	/**
+	 * Let player to spend his council privilege
+	 * @param resources List of options, as rewards
+	 * @return Index, selection of the player
+	 */
+	public int spendCouncil(List<Resource> resources){
+		_ioHandler.write("Select a reward");
+		int index = 0;
+		for(Resource reward : resources){
+			_ioHandler.write(index + ") ");
+			GC.RES_TYPES.stream()
+				.filter(type -> reward.get(type) > 0)
+				.forEach(type -> _ioHandler.writeNext(reward.get(type) + " " + type + " "));
+		}
+		return _ioHandler.readNumberWithinInterval(resources.size() - 1);
+	}
+	
+	/**
+	 * Let player to select a leader card
+	 * @param leaders List of options
+	 * @return index of list, selection
+	 */
+	public int dropLeaderCard(List<LeaderCard> leaders){
+		_ioHandler.write("Select a Leader card");
+		int index = 0;
+		for(LeaderCard card : leaders){
+			_ioHandler.write(index + ") ");
+			_ioHandler.writeNext("Name :" + card.getName());
+			_ioHandler.writeNext("Effect :" + card.getEffect().toString());
+		}
+		return _ioHandler.readNumberWithinInterval(leaders.size() - 1);
 	}
 }

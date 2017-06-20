@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
+import game.Resource;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
 import util.CommandStrings;
@@ -150,6 +151,11 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	public void putFamiliarWhere(String position) throws RemoteException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
+		return _clientConnectionHandler.spendCouncil(councilRewards);
 	}
 	
 	private ClientRemote _clientConnectionHandler;

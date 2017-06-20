@@ -1,5 +1,7 @@
 package game.effect.behaviors;
 
+import java.rmi.RemoteException;
+
 import game.GC;
 import game.Player;
 import game.Resource;
@@ -37,7 +39,11 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	public void effect(Effect ref) {
 		initializes(ref);
 		establishReward();
-		addReward();
+		try {
+			addReward();
+		} catch (RemoteException e) {
+			//TODO
+		}
 	}
 	
 	private void initializes(Effect ref){
@@ -54,7 +60,7 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 			.forEach(type -> count += player.getResource(type) / loot.get(type));
 	}
 	
-	private void addReward(){
+	private void addReward() throws RemoteException{
 		for (int i = 0; i < count; i++)
 			ref.getBar().gain(ref, reward); //TODO  giusta la dynamic bar?
 	}
