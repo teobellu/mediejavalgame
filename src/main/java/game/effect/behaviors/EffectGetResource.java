@@ -11,7 +11,7 @@ import game.effect.IEffectBehavior;
 public class EffectGetResource implements IEffectBehavior{
 
 	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
-	private Resource bonus; 	//ciò che guadagnerei normalmente
+	private Resource bonus; 	//cio' che guadagnerei normalmente
 
 	public EffectGetResource(Resource bonus) {
 		this.bonus = bonus;

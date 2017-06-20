@@ -131,7 +131,7 @@ public class Server extends Thread {
 		handler.setClient(client);
 		try{
 			if(!_games.isEmpty()){
-				System.out.println("Ci sono già dei game");
+				System.out.println("Ci sono gia' dei game");
 				for(Room r : _games){
 					if(!r.isFull()){
 						r.addPlayer(client);

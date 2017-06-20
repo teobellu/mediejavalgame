@@ -36,6 +36,6 @@ public class EffectDontGetVictoryFor implements IEffectBehavior{
 	public String toString(){
 		if (!GC.DEV_TYPES.contains(typeOfCard))
 			return "Nothing";
-		return "Donìt get victory points from " + typeOfCard;
+		return "Don't get victory points from " + typeOfCard;
 	}
 }

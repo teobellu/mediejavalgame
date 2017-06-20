@@ -100,7 +100,7 @@ public class ConfigFileHandler {
 		} catch (Exception e) {
 			System.err.println("file is not good"); //TODO e se scelgo GUI?
 			/**TODO le carte caricate prima dell'errore rimangono!
-			 * così su 2 piedi mi vengono in mente 2 opzioni, ce ne saranno di migliori:
+			 * cosi' su 2 piedi mi vengono in mente 2 opzioni, ce ne saranno di migliori:
 			 * 1- svuotare tutto, space_bonus ecc. ma perderebbo "final"
 			 * 2- chiudere il gioco
 			 * 3- fare un metodo clean() //possibile?

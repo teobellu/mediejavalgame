@@ -43,7 +43,7 @@ public class EffectConvertResource implements IEffectBehavior{
 			player.pay(resourceToConvert);
 			player.gain(resourceToGain);
 		} catch (GameException e) {
-			// TODO il giocatore non può converire perchè non ha le risorse necessarie
+			// TODO il giocatore non puo' converire perche' non ha le risorse necessarie
 		}
 		
 	}

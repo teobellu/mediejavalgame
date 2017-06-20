@@ -6,7 +6,7 @@ import game.effect.IEffectBehavior;
 public class EffectPayMoreForIncreaseWorker implements IEffectBehavior{
 	
 	private Effect ref;			//mi serve per aggiornare toAnalyze (integer in Effetto)
-	private Integer normalPay; 	//ciò che guadagnerei normalmente
+	private Integer normalPay; 	//cio' che guadagnerei normalmente
 	private Integer malus;		//la tassa
 	private Integer newPay;
 	

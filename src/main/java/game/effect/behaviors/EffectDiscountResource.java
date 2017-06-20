@@ -14,7 +14,7 @@ public class EffectDiscountResource implements IEffectBehavior{
 	private List<String> actions;
 	
 	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
-	private Resource normalGain; 	//ciò che guadagnerei normalmente
+	private Resource normalGain; 	//cio' che guadagnerei normalmente
 	private Resource newGain;
 	private String thisAction;
 	

@@ -12,7 +12,7 @@ public class EffectSantaRita implements IEffectBehavior{
 	private Resource resource;		//la tassa
 	
 	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
-	private Resource normalGain; 	//ciò che guadagnerei normalmente
+	private Resource normalGain; 	//cio' che guadagnerei normalmente
 	private Resource newGain;
 	private String source;
 	

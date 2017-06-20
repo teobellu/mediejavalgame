@@ -68,7 +68,7 @@ public class GameInformation{
 		//TODO TEST, non passando una copia, dovrebbe togliere le carte dal mazzo
 		System.out.println(developmentDeck.size());
 		board.generateDevelopmentCards(developmentDeck, age);
-		System.out.println(developmentDeck.size() + "-> deve essere più piccolo del numero sopra");
+		System.out.println(developmentDeck.size() + "-> deve essere pi' piccolo del numero sopra");
 	}
 
 	
@@ -348,13 +348,13 @@ public class GameInformation{
 		leaderDeck.add(new LeaderCard("Federico da Montefeltro", effect, requirement));
 		
 		/**
-		 * Lorenzo de’ Medici
+		 * Lorenzo de' Medici
 		 */
 		
 		requirement = player -> player.getResource().get(GC.RES_VICTORYPOINTS) >= 35;
 		behavior = new EffectCopyLeader();
 		effect = new Effect(GC.IMMEDIATE, behavior);
-		leaderDeck.add(new LeaderCard("Lorenzo de’ Medici", effect, requirement));
+		leaderDeck.add(new LeaderCard("Lorenzo de' Medici", effect, requirement));
 		
 		/**
 		 * Sisto IV
@@ -397,7 +397,7 @@ public class GameInformation{
 		leaderDeck.add(new LeaderCard("Santa Rita", effect, requirement));
 		
 		/**
-		 * Cosimo de’ Medici
+		 * Cosimo de' Medici
 		 */
 		
 		requirement = player -> 
@@ -408,7 +408,7 @@ public class GameInformation{
 		resource.add(GC.RES_VICTORYPOINTS, 1);
 		behavior = new EffectGetResource(resource);
 		effect = new Effect(GC.ONCE_PER_TURN, behavior);
-		leaderDeck.add(new LeaderCard("Cosimo de’ Medici", effect, requirement));	
+		leaderDeck.add(new LeaderCard("Cosimo de' Medici", effect, requirement));	
 		
 		/**
 		 * Bartolomeo Colleoni
