@@ -1,5 +1,6 @@
 package client.cli;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -133,7 +134,11 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public void run() {
-		getConnection();
+		try {
+			getConnection().addMeToGame(getUsername());
+		} catch (RemoteException e) {
+			
+		}
 		
 	}
 
@@ -262,12 +267,14 @@ public class CommandLineUI implements UI {
 		return _ioHandler.readNumberWithinInterval(resources.size() - 1);
 	}
 	
+	
+	//public int chooseLeader(List<LeaderCard> tempList);
 	/**
 	 * Let player to select a leader card
 	 * @param leaders List of options
 	 * @return index of list, selection
 	 */
-	public int dropLeaderCard(List<LeaderCard> leaders){
+	public int chooseLeader(List<LeaderCard> leaders){
 		_ioHandler.write("Select a Leader card");
 		int index = 0;
 		for(LeaderCard card : leaders){
@@ -332,9 +339,8 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void showInitialLeaderList(List<String> leadersList) {
-		// TODO Auto-generated method stub
-		
+	public int showInitialLeaderList(List<String> leadersList) {
+		return 0;
 	}
 
 	@Override
@@ -370,6 +376,11 @@ public class CommandLineUI implements UI {
 	@Override
 	public boolean activateLeaderCard(LeaderCard card) {
 		// TODO Auto-generated method stub
+		
+		List<LeaderCard> cards = new ArrayList<>();
+		List<String> names = new ArrayList<>();
+		cards.forEach(carta -> names.add(carta.getName()));
+		
 		return false;
 	}
 }

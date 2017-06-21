@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import game.FamilyMember;
+import game.LeaderCard;
 import game.Resource;
 import javafx.beans.binding.MapExpression;
 import misc.ClientRemote;
@@ -178,6 +179,11 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	@Override
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException {
 		return _ui.chooseConvert(realPayOptions, realGainOptions);
+	}
+
+	@Override
+	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException {
+		return _ui.chooseLeader(tempList);
 	}
 	
 }

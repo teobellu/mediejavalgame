@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.FamilyMember;
+import game.LeaderCard;
 import game.Resource;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
@@ -182,5 +183,10 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException {
 		return _clientConnectionHandler.chooseConvert(realPayOptions, realGainOptions);
+	}
+	
+	@Override
+	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException{
+		return _clientConnectionHandler.chooseLeader(tempList);
 	}
 }

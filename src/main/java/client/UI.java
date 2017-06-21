@@ -67,6 +67,8 @@ public interface UI extends Runnable{
 	 * @return selection, index of the lists
 	 */
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions);
+
+	public int chooseLeader(List<LeaderCard> tempList);
 	
 	
 }

@@ -1,5 +1,6 @@
 package game;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -102,8 +103,9 @@ public class Game implements Runnable {
 		//TODO
 		
 		List<LeaderCard> tempList = new ArrayList<>();
-        _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
-        Collections.shuffle(_leaders);
+       // _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER + 1);
+        _leaders = gameInformation.getLeaderDeck();
+		Collections.shuffle(_leaders);
         //ciclo n volte dove n = numero dei giocatori
         for (int k = 0; k < _players.size(); k++){
             //estraggo 4 carte
@@ -113,14 +115,22 @@ public class Game implements Runnable {
             }
             //chiedo al giocatore quale carta vuole
             for (Player p : _players){
-                int selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
-                p.addLeaderCard(tempList.get(selection));
-                tempList.remove(selection);
+                int selection = 0;
+				try {
+					selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				p.addLeaderCard(tempList.get(selection));
+				tempList.remove(selection);
             }
             tempList.clear();
         }//fine
 		
-		
+        for (Player p : _players){
+            p.getLeaderCards().forEach(card -> System.out.println(card.getName() + " is of " + p.getName()));
+        }
 		
 		
 		

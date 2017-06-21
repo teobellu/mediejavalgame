@@ -6,6 +6,7 @@ import java.util.List;
 
 import game.FamilyMember;
 import game.Game;
+import game.LeaderCard;
 import game.Resource;
 
 public abstract class ConnectionHandler implements Runnable {
@@ -66,6 +67,8 @@ public abstract class ConnectionHandler implements Runnable {
 	//TODO GAME METHOD chiedi al giocatore un indice tra 0 e realPayOption.size() - 1
 	//Ho già chiesto al giocatore se vuole convertire o no, bisogna solo chiedergli un indice
 	public abstract int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException;
+
+	public abstract int chooseLeader(List<LeaderCard> tempList)  throws RemoteException;
 
 	
 }
