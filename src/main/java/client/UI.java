@@ -44,6 +44,29 @@ public interface UI extends Runnable{
 
 	//scegli se attivare una carta
 	public boolean activateLeaderCard(LeaderCard card);
+
+	/**
+	 * Show a message and allows the player to choose a familiar from a list
+	 * @param familiars List of family members
+	 * @param message Message to show
+	 * @return Selection, index of the list
+	 */
+	public int chooseFamiliar(List<FamilyMember> familiars, String message);
+
+	/**
+	 * Allows the player to answer true or false to a message
+	 * @param message Question
+	 * @return Answer of the player: yes or no (true or false)
+	 */
+	public boolean answerToAQuestion(String message);
+
+	/**
+	 * Allows the player to choose what exchange he prefer, for example for building cards
+	 * @param realPayOptions Options to pay
+	 * @param realGainOptions Options to gain
+	 * @return selection, index of the lists
+	 */
+	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions);
 	
 	
 }

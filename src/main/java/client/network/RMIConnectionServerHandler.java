@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.FamilyMember;
 import game.Resource;
+import javafx.beans.binding.MapExpression;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
 import misc.ServerRemote;
@@ -164,5 +166,20 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	
 	private ConnectionHandlerRemote _connectionHandler;
 	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
+	
+	@Override
+	public int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException {
+		return _ui.chooseFamiliar(familiars, message);
+	}
+
+	@Override
+	public boolean ask(String message) throws RemoteException {
+		return _ui.answerToAQuestion(message);
+	}
+
+	@Override
+	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException {
+		return _ui.chooseConvert(realPayOptions, realGainOptions);
+	}
 	
 }

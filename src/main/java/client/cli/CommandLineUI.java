@@ -245,19 +245,14 @@ public class CommandLineUI implements UI {
 				.write("A " + fam.getColor() + " " + fam.getOwner().getName() + "'s familiar is here "));
 	}
 	
-	/**
-	 * Let player to spend his council privilege
-	 * @param resources List of options, as rewards
-	 * @return Index, selection of the player
-	 */
+	@Override
 	public int spendCouncil(List<Resource> resources){
 		_ioHandler.write("Select a reward");
 		int index = 0;
 		for(Resource reward : resources){
 			_ioHandler.write(index + ") ");
-			GC.RES_TYPES.stream()
-				.filter(type -> reward.get(type) > 0)
-				.forEach(type -> _ioHandler.writeNext(reward.get(type) + " " + type + " "));
+			printResource(reward);
+			index++;
 		}
 		return _ioHandler.readNumberWithinInterval(resources.size() - 1);
 	}
@@ -272,22 +267,56 @@ public class CommandLineUI implements UI {
 		int index = 0;
 		for(LeaderCard card : leaders){
 			_ioHandler.write(index + ") ");
-			_ioHandler.writeNext("Name :" + card.getName());
-			_ioHandler.writeNext("Effect :" + card.getEffect().toString());
+			_ioHandler.writeNext("Name: " + card.getName());
+			_ioHandler.writeNext("Effect: " + card.getEffect().toString());
+			index++;
 		}
 		return _ioHandler.readNumberWithinInterval(leaders.size() - 1);
 	}
 	
-	/**
-	 * Answer true or false to a message
-	 * @param message Question
-	 * @return Answer
-	 */
+	@Override
 	public boolean answerToAQuestion(String message){
 		_ioHandler.write("Attention! Reply to this message: ");
 		_ioHandler.writeNext(message);
 		_ioHandler.write("0) ok, 1) no");
 		int answer = _ioHandler.readNumberWithinInterval(1);
 		return answer == 0;
+	}
+
+	@Override
+	public int chooseFamiliar(List<FamilyMember> familiars, String message) {
+		_ioHandler.write("Attention! Reply to this message: ");
+		_ioHandler.writeNext(message);
+		int index = 0;
+		for(FamilyMember familiar : familiars){
+			_ioHandler.write(index + ") ");
+			_ioHandler.writeNext("Color: " + familiar.getColor());
+			_ioHandler.writeNext("Value: " + familiar.getValue());
+			index++;
+		}
+		return _ioHandler.readNumberWithinInterval(familiars.size() - 1);
+	}
+	
+	@Override
+	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions){
+		_ioHandler.write("Choose the resource to convert");
+		for (int i = 0; i < realPayOptions.size() - 1; i++){
+			_ioHandler.write(i + ") ");
+			_ioHandler.writeNext("Pay: ");
+			printResource(realPayOptions.get(i));
+			_ioHandler.writeNext("Gain: ");
+			printResource(realGainOptions.get(i));
+		}
+		return _ioHandler.readNumberWithinInterval(realPayOptions.size() - 1);
+	}
+	
+	/**
+	 * Print a resource, like a print toString()
+	 * @param resource Resource to print
+	 */
+	private void printResource(Resource resource){
+		GC.RES_TYPES.stream()
+			.filter(type -> resource.get(type) > 0)
+			.forEach(type -> _ioHandler.writeNext(resource.get(type) + " " + type + " "));
 	}
 }

@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
+import game.FamilyMember;
 import game.Resource;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
@@ -18,6 +19,10 @@ import util.Constants;
 
 public class RMIConnectionHandler extends ConnectionHandler implements ConnectionHandlerRemote, Serializable {
 
+	private ClientRemote _clientConnectionHandler;
+	private Date _lastPing;
+	private transient Logger _log = Logger.getLogger(RMIConnectionHandler.class.getName());
+	
 	@Override
 	public void run() {
 		
@@ -163,7 +168,20 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 //>>>>>>> Stashed changes
 	}
 	
-	private ClientRemote _clientConnectionHandler;
-	private Date _lastPing;
-	private transient Logger _log = Logger.getLogger(RMIConnectionHandler.class.getName());
+	
+	
+	@Override
+	public int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException {
+		return _clientConnectionHandler.chooseFamiliar(familiars, message);
+	}
+
+	@Override
+	public boolean ask(String message) throws RemoteException {
+		return _clientConnectionHandler.ask(message);
+	}
+
+	@Override
+	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException {
+		return _clientConnectionHandler.chooseConvert(realPayOptions, realGainOptions);
+	}
 }
