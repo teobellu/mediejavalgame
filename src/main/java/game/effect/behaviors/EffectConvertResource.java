@@ -3,12 +3,15 @@ package game.effect.behaviors;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.Player;
 import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
+import server.RMIConnectionHandler;
 
 public class EffectConvertResource implements IEffectBehavior{
 	
@@ -44,7 +47,11 @@ public class EffectConvertResource implements IEffectBehavior{
 	public void effect(Effect ref) {
 		initializes(ref);
 		tryConvert();
-		convert();
+		try {
+			convert();
+		} catch (RemoteException e) {
+			Logger.getLogger(EffectConvertResource.class.getName()).log(Level.WARNING, e.getMessage(), e);
+		}
 	}
 	
 	private void initializes(Effect ref){

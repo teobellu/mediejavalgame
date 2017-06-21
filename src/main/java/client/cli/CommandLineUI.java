@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import client.ClientText;
 import client.UI;
+import client.gui.GraphicalUI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
 import client.network.SocketConnectionServerHandler;
@@ -24,6 +25,21 @@ import util.IOHandler;
 public class CommandLineUI implements UI {
 
 	private final IOHandler _ioHandler;
+	
+	private List<String> commands = new ArrayList<>();
+	
+	private static CommandLineUI _instance = null;
+	
+	public static CommandLineUI getInstance(){
+		if(_instance==null){
+			synchronized (CommandLineUI.class) {
+				if(_instance==null){
+					_instance = new CommandLineUI();
+				}
+			}
+		}
+		return _instance;
+	}
 	
 	public CommandLineUI() {
 		_ioHandler = new IOHandler();
@@ -49,6 +65,15 @@ public class CommandLineUI implements UI {
 		
 		
 		ConnectionServerHandler connection = ConnectionServerHandlerFactory.getConnectionServerHandler(Constants.CONNECTION_TYPES.get(selected), host, port);
+	
+		connection.setClient(getInstance());
+		
+		new Thread(connection).start();
+		
+		
+		
+		
+		
 		/*
 		SocketConnectionServerHandler c = (SocketConnectionServerHandler) connection;
 		
@@ -96,29 +121,9 @@ public class CommandLineUI implements UI {
 	}
 	
 	@Override
-	public String getStringValue(boolean isEmptyAllowed) {
-		return _ioHandler.readLine(isEmptyAllowed);
-	}
-
-	@Override
-	public void printString(String string) {
-		_ioHandler.write(string);
-	}
-	
-	@Override
 	public String askForConfigFile() {
 		_ioHandler.write(ClientText.ASK_IF_CONFIG_FILE);
 		return _ioHandler.readLine(true);
-	}
-	
-	@Override
-	public void write(String str) {
-		_ioHandler.write(str);
-	}
-
-	@Override
-	public void start() {
-		_ioHandler.write("You selected CLI");
 	}
 
 	@Override
@@ -318,5 +323,53 @@ public class CommandLineUI implements UI {
 		GC.RES_TYPES.stream()
 			.filter(type -> resource.get(type) > 0)
 			.forEach(type -> _ioHandler.writeNext(resource.get(type) + " " + type + " "));
+	}
+
+	@Override
+	public void showInfo(String str) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showInitialLeaderList(List<String> leadersList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showBoard(GameBoard board) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyPutFamiliar(FamilyMember familiar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyDiscardLeaderCard(String playerName, String card) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int selectInitialLeaders(List<LeaderCard> leaders) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int chooseCardCost(DevelopmentCard card) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean activateLeaderCard(LeaderCard card) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

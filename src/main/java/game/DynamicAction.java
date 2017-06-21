@@ -428,6 +428,7 @@ public class DynamicAction {
 		player.getDevelopmentCards(cards).stream()
 			.filter(card -> realActionPower >= card.getDice())
 			.forEach(card -> player.addEffect(card.getPermanentEffect()));
+		player.gain(player.getBonus(action));
 	}
 	
 	/**

@@ -1,9 +1,10 @@
 package game.effect.behaviors;
 
-import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import game.GC;
-import game.Player;
 import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
@@ -20,14 +21,18 @@ public class EffectGetResource implements IEffectBehavior{
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
-		addResource();
+		try {
+			addResource();
+		} catch (RemoteException e) {
+			Logger.getLogger(EffectGetResource.class.getName()).log(Level.WARNING, e.getMessage(), e);
+		}
 	}
 
 	private void initializes(Effect ref){
 		this.ref = ref;
 	}
 
-	private void addResource() {
+	private void addResource() throws RemoteException {
 		ref.getBar().gain(ref,bonus);
 	}
 	

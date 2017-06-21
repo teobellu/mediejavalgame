@@ -1,6 +1,8 @@
 package game.effect.behaviors;
 
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import exceptions.GameException;
 
@@ -41,24 +43,30 @@ public class EffectGetACard implements IEffectBehavior{
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
-		do{
-			 //TODO REMOTE EXCEPTION
-			if (!wantToPickCard())
-				return;
-			try {
-				selectCard();
-				getCard();
-			} catch (GameException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			}
-		}while(true);
+		try {
+			useEffect();
+		} catch (RemoteException e) {
+			Logger.getLogger(EffectGetACard.class.getName()).log(Level.WARNING, e.getMessage(), e);
+		}
 		
 	}
 
 	private void initializes(Effect ref){
 		player = ref.getPlayer();
 		effect = ref;
+	}
+	
+	private void useEffect() throws RemoteException{
+		do{
+			if (!wantToPickCard())
+				return;
+			try {
+				selectCard();
+				getCard();
+			} catch (GameException e) {
+				//TODO non puoi
+			}
+		}while(true);
 	}
 	
 	private boolean wantToPickCard() throws RemoteException{

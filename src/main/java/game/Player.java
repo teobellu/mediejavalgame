@@ -194,5 +194,13 @@ public class Player implements Serializable{
 	public String getName() {
 		return name;
 	}
+
+	public Resource getBonus(String action) {
+		switch(action){
+			case GC.HARVEST : return harvestBonus;
+			case GC.PRODUCTION : return productionBonus;
+			default : return new Resource();
+		}
+	}
 	
 }

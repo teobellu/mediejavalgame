@@ -14,6 +14,12 @@ import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
 import exceptions.GameException;
+import game.FamilyMember;
+import game.GameBoard;
+import game.LeaderCard;
+import game.Player;
+import game.Resource;
+import game.development.DevelopmentCard;
 import javafx.application.Application;
 
 public class GraphicalUI implements UI {
@@ -50,28 +56,11 @@ public class GraphicalUI implements UI {
 	public ConnectionServerHandler getConnection(){
 		return _connectionHandler;
 	}
-	
-	@Override
-	public String getStringValue(boolean isEmptyAllowed) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void printString(String string) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public String askForConfigFile() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void write(String str) {
-		// TODO Auto-generated method stub
 	}
 	
 	public void setName(String name){
@@ -178,4 +167,76 @@ public class GraphicalUI implements UI {
     private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
     
     private ConnectionServerHandler _connectionHandler = null;
+
+	@Override
+	public void showInfo(String str) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showBoard(GameBoard board) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showWhatIHave(Player me) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyPutFamiliar(FamilyMember familiar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyDiscardLeaderCard(String playerName, String card) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int selectInitialLeaders(List<LeaderCard> leaders) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int spendCouncil(List<Resource> options) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int chooseCardCost(DevelopmentCard card) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean activateLeaderCard(LeaderCard card) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int chooseFamiliar(List<FamilyMember> familiars, String message) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean answerToAQuestion(String message) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
