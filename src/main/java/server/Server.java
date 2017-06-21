@@ -124,16 +124,22 @@ public class Server extends Thread {
 		System.exit(0);
 	}
 	
-	public synchronized boolean addMeToGame(ConnectionHandler handler){//TODO controllarlo
+	public synchronized boolean addMeToGame(ConnectionHandler handler, String name){//TODO controllarlo
 		System.out.println("Client asked to join a game");
 		String id = UUID.randomUUID().toString();
-		Client client = new Client(handler, id);
+		Client client = new Client(handler, id, name);
 		handler.setClient(client);
 		try{
 			if(!_games.isEmpty()){
 				System.out.println("Ci sono gia' dei game");
 				for(Room r : _games){
 					if(!r.isFull()){
+						for(Client c : r.getPlayers()){
+							if(c.getName().equalsIgnoreCase(name)){
+								System.out.println("Nome uguale");
+								return false;
+							}
+						}
 						r.addPlayer(client);
 						System.out.println("Aggiunto ad un game");
 						return true;

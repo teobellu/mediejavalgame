@@ -28,13 +28,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	}
 	
 	/**
-	 * Setup me
-	 * @param name the name of the player
-	 * @throws RemoteException
-	 */
-	public abstract void sendInitialInformations(String name) throws RemoteException;
-	
-	/**
 	 * Tell the server that I want to put a familiar somewhere
 	 * @return the list of available familiars
 	 * @throws RemoteException
@@ -89,10 +82,11 @@ public abstract class ConnectionServerHandler extends Thread {
 	
 	/**
 	 * Add client to a game
+	 * @param username 
 	 * @return true if first player of a room, false otherwise
 	 * @throws RemoteException
 	 */
-	public abstract boolean addMeToGame() throws RemoteException;
+	public abstract boolean addMeToGame(String username) throws RemoteException;
 	
 	/**
 	 * Tell the server if I want to spend my faith points

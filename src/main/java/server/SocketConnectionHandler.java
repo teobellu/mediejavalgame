@@ -170,11 +170,14 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 	}
 	
 	@Override
-	public void sendInitialLeaderList(List<String> leadersList) throws RemoteException {
-		// TODO Auto-generated method stub
+	public int sendInitialLeaderList(List<String> leadersList) throws RemoteException {
 		
+		
+		
+		return 0;
 	}
 	
+	private Object _returnObject;
 	private Socket _socket;
 	private ObjectInputStream _inputStream;
 	private ObjectOutputStream _outputStream;

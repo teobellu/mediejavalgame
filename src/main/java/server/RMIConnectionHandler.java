@@ -29,7 +29,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 	
 	@Override
-	public void setClient(ClientRemote rmiConnectionServerHandler) throws RemoteException {
+	public void setClientRemote(ClientRemote rmiConnectionServerHandler) throws RemoteException {
 		_clientConnectionHandler = rmiConnectionServerHandler;
 	}
 
@@ -72,8 +72,8 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 	
 	@Override
-	public boolean addMeToGame() throws RemoteException {
-		return Server.getInstance().addMeToGame(this);
+	public boolean addMeToGame(String name) throws RemoteException {
+		return Server.getInstance().addMeToGame(this, name);
 	}
 	
 	@Override
@@ -90,8 +90,8 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 	
 	@Override
-	public void sendInitialLeaderList(List<String> leadersList) throws RemoteException {
-		_clientConnectionHandler.sendInitialLeaderList(leadersList);
+	public int sendInitialLeaderList(List<String> leadersList) throws RemoteException {
+		return _clientConnectionHandler.sendInitialLeaderList(leadersList);
 	}
 	
 	public void setGame(){//TODO da chiamare questo metodo alla creazione del gioco(probabilmente nella room)
@@ -157,15 +157,14 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		// TODO Auto-generated method stub
 		
 	}
-	//<<<<<<< Updated upstream
+
 	@Override
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
 		return _clientConnectionHandler.spendCouncil(councilRewards);
 	}
-//=======
+
 	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
 		_theGame.manipulateInitialLeaderList(_client, leader);
-//>>>>>>> Stashed changes
 	}
 	
 	

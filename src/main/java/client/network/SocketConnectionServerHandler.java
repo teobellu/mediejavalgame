@@ -194,7 +194,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	@Override
-	public void sendInitialInformations(String name) throws RemoteException {
+	public void sendName(String name) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -242,15 +242,15 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		writeObject(resource);
 	}
 	
-	@Override
-	public String readResponse() throws RemoteException {
-		return (String) readObject();
-	}
-	
-	
 	public GameBoard getBoard(){
 		writeObject("send me board");
 		return (GameBoard) readObject();
+	}
+	
+	@Override
+	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	private Socket _socket;

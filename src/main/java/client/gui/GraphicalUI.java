@@ -122,10 +122,10 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
-	public void addMeToGame() throws GameException {// TODO override?
+	public void addMeToGame(String username) throws GameException {// TODO override?
 		try {
-			if(!_connectionHandler.addMeToGame()){
-				throw new GameException("Cannot add this client to a game");
+			if(!_connectionHandler.addMeToGame(username)){
+				throw new GameException("Name already taken");
 			}
 		} catch (RemoteException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -133,8 +133,25 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public void showInitialLeaderList(List<String> leadersList) {
+	public int showInitialLeaderList(List<String> leadersList) throws Exception {
 		_tempLeaders = leadersList;
+		do{
+			try {
+				System.out.println("pausona");
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+			}
+		} while(_tempLeaders==leadersList);
+		
+		for(String s : leadersList){
+			if(_tempLeaders.contains(s)){
+				continue;
+			} else {
+				return leadersList.indexOf(s);
+			}
+		}
+		
+		throw new Exception("Cannot find element in list. What's going on");
 	}
 	
 	public List<String> getTmpLeaderList(){

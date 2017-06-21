@@ -100,14 +100,14 @@ public class StartingViewController {
 		GraphicalUI.getInstance().setConnection(connectionType, address,port);
 		GraphicalUI.getInstance().setName(username);
 		try {
-			GraphicalUI.getInstance().addMeToGame();
+			GraphicalUI.getInstance().addMeToGame(username);
 		} catch (GameException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			Alert alert = new Alert(AlertType.ERROR);
         	alert.initOwner(_GUI.getPrimaryStage());
-        	alert.setTitle("Error on connection");
+        	alert.setTitle("Name already taken");
         	alert.setHeaderText("Cannot join game");
-        	alert.setContentText("Something went wrong while trying to join a game");
+        	alert.setContentText("This name is already taken. Try something different");
         	alert.showAndWait();
 			return;
 		}

@@ -11,7 +11,7 @@ public interface ClientRemote extends Remote {
 	
 	public void startTurn() throws RemoteException;
 
-	public void sendInitialLeaderList(List<String> leadersList) throws RemoteException;
+	public int sendInitialLeaderList(List<String> leadersList) throws RemoteException;
 
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException;
 

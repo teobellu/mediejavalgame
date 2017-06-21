@@ -40,7 +40,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 			
 			_connectionHandler = (ConnectionHandlerRemote) _serverRMI.onConnect();
 			
-			_connectionHandler.setClient(this);
+			_connectionHandler.setClientRemote(this);
 			
 			_log.info("RMIConnection is up");
 			
@@ -57,8 +57,14 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 	
 	@Override
-	public void sendInitialLeaderList(List<String> leadersList) throws RemoteException {
-		_ui.showInitialLeaderList(leadersList);
+	public int sendInitialLeaderList(List<String> leadersList) throws RemoteException {
+		try {
+			return _ui.showInitialLeaderList(leadersList);
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return 0;
+			//TODO
+		}
 	}
 	
 	@Override
@@ -107,18 +113,13 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 	
 	@Override
-	public boolean addMeToGame() throws RemoteException {
-		return _connectionHandler.addMeToGame();
+	public boolean addMeToGame(String name) throws RemoteException {
+		return _connectionHandler.addMeToGame(name);
 	}
 	
 	@Override
 	public void sendConfigFile(String file) throws RemoteException {
 		_connectionHandler.sendConfigFile(file);
-	}
-	
-	@Override
-	public void sendInitialInformations(String name) throws RemoteException {
-		_connectionHandler.sendInitialInformations(name);
 	}
 
 	@Override
@@ -152,16 +153,13 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		
 	}
 	
-	
-//<<<<<<< Updated upstream
 	@Override
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
 		return _ui.spendCouncil(councilRewards);
 	}
-//=======
+
 	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
 		_connectionHandler.sendChosenInitialCardLeader(leader);
-//>>>>>>> Stashed changes
 	}
 	
 	private ConnectionHandlerRemote _connectionHandler;

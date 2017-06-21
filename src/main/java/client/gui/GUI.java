@@ -72,9 +72,9 @@ public class GUI extends Application {
 
 			System.out.println(width + " e " + height);
 
-			_rootLayout.setMinSize(width, height);
-			_rootLayout.setMaxSize(width, height);
-			_rootLayout.setPrefSize(width, height);
+			_rootLayout.setMinSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
+			_rootLayout.setMaxSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
+			_rootLayout.setPrefSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
 
 			_rootLayout.setCenter(pane);
 

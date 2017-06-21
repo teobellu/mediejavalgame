@@ -15,7 +15,7 @@ public interface UI extends Runnable{
 
 	public List<String> dropLeaderCard();
 
-	public void showInitialLeaderList(List<String> leadersList);
+	public int showInitialLeaderList(List<String> leadersList) throws Exception;
 	
 	public void showBoard(GameBoard board);
 	

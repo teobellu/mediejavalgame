@@ -18,7 +18,7 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	
 	public void onConnect() throws RemoteException;
 
-	public boolean addMeToGame() throws RemoteException;
+	public boolean addMeToGame(String name) throws RemoteException;
 
 	public void sendConfigFile(String file) throws RemoteException;
 
@@ -34,7 +34,7 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 
 	public void putFamiliarWhere(String position) throws RemoteException;
 
-	public void setClient(ClientRemote rmiConnectionServerHandler) throws RemoteException;
+	public void setClientRemote(ClientRemote rmiConnectionServerHandler) throws RemoteException;
 
 	public void sendChosenInitialCardLeader(String leader) throws RemoteException;
 }
