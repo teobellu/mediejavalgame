@@ -81,7 +81,7 @@ public class Player implements Serializable{
 	protected Player(Client client){
 		_client = client;
 		id = 5555555;
-		name = new String();
+		name = client.getName();
 		resource = new Resource();
 		developmentCard = new ArrayList<>();
 		leaderCard = new ArrayList<>();

@@ -40,9 +40,7 @@ public class EffectOverruleObject implements IEffectBehavior{
 	 */
 	@Override
 	public String toString(){
-		String text = "Overrule a specific target ";
-		text += ref.getWhenActivate();
-		text += ", see rules for more info";
+		String text = "Overrule a specific target, see rules for this effect for more info";
 		return text;
 	}
 	

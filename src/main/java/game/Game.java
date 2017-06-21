@@ -56,7 +56,12 @@ public class Game implements Runnable {
 	public void run() {
 		//TODO
 		
-		setupGame();
+		try {
+			setupGame();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		_state = new StateStartingTurn(this);
 		
@@ -99,7 +104,7 @@ public class Game implements Runnable {
 		return _board;
 	}
 	
-	private void setupGame(){
+	private void setupGame() throws RemoteException{
 		//TODO
 		
 		List<LeaderCard> tempList = new ArrayList<>();
@@ -116,16 +121,14 @@ public class Game implements Runnable {
             //chiedo al giocatore quale carta vuole
             for (Player p : _players){
                 int selection = 0;
-				try {
-					selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
 				p.addLeaderCard(tempList.get(selection));
 				tempList.remove(selection);
             }
             tempList.clear();
+            Player queuedPlayer = _players.get(0);
+            _players.remove(0);
+            _players.add(queuedPlayer);
         }//fine
 		
         for (Player p : _players){

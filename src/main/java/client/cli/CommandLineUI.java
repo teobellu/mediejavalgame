@@ -278,9 +278,9 @@ public class CommandLineUI implements UI {
 		_ioHandler.write("Select a Leader card");
 		int index = 0;
 		for(LeaderCard card : leaders){
-			_ioHandler.write(index + ") ");
-			_ioHandler.writeNext("Name: " + card.getName());
-			_ioHandler.writeNext("Effect: " + card.getEffect().toString());
+			_ioHandler.writeNext(index + ") ");
+			_ioHandler.writeNext("Name: " + card.getName() + " ");
+			_ioHandler.write("Effect: " + card.getEffect().toString());
 			index++;
 		}
 		return _ioHandler.readNumberWithinInterval(leaders.size() - 1);
