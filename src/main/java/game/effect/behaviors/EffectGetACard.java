@@ -1,6 +1,6 @@
 package game.effect.behaviors;
 
-import java.io.Serializable;
+import java.rmi.RemoteException;
 
 import exceptions.GameException;
 
@@ -12,12 +12,18 @@ import game.effect.IEffectBehavior;
 
 public class EffectGetACard implements IEffectBehavior{
 
+	private static final String MESSAGE = "Do you want to get a card? Maybe you have to pay the tax tower!";
+	
 	private Player player;			
 	private String typeOfCard;
 	private Resource discount;
 	private Integer value;
 	private Effect effect;
-
+	
+	private int row;
+	private int column;
+	private boolean activate = true;
+	
 	public EffectGetACard(Integer value) {
 		this.value = value;
 	}
@@ -35,23 +41,38 @@ public class EffectGetACard implements IEffectBehavior{
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
-		try {
-			selectCard();
-			getCard();
-		} catch (GameException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
+		do{
+			 //TODO REMOTE EXCEPTION
+			if (!wantToPickCard())
+				return;
+			try {
+				selectCard();
+				getCard();
+			} catch (GameException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+			}
+		}while(true);
+		
 	}
 
 	private void initializes(Effect ref){
 		player = ref.getPlayer();
 		effect = ref;
 	}
-
+	
+	private boolean wantToPickCard() throws RemoteException{
+		return player.getClient().getConnectionHandler().ask(MESSAGE);
+	}
+	
 	private void selectCard() {
-		int row = 0, column = 0;
-		//player.getClient().getConnectionHandler().sendToClient("gimme a numbah");
+		if (GC.DEV_TYPES.contains(typeOfCard))
+			column = GC.DEV_TYPES.indexOf(typeOfCard);
+		else{
+			//TODO ottieni colonna
+			//column = player.getClient().getConnectionHandler()
+		}
+		//TODO ottieni riga
 		
 	}
 	
@@ -59,7 +80,7 @@ public class EffectGetACard implements IEffectBehavior{
 		Effect eff = new Effect(GC.WHEN_FIND_COST_CARD, new EffectDiscountResource(typeOfCard, discount));
 		int index = player.getEffects().size();
 		player.addEffect(eff);
-		effect.getBar().visitTower(value, 0, 0);
+		effect.getBar().visitTower(value, row, column);
 		player.getEffects().remove(index);
 	}
 	
@@ -70,7 +91,7 @@ public class EffectGetACard implements IEffectBehavior{
 	public String toString(){
 		String text = "Get a ";
 		if (typeOfCard != null)
-			text += typeOfCard;
+			text += typeOfCard + " ";
 		text += "card from towers with an action of power " + value;
 		if (discount == null)
 			return text;

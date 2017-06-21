@@ -152,15 +152,15 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		// TODO Auto-generated method stub
 		
 	}
-	
+	//<<<<<<< Updated upstream
 	@Override
-<<<<<<< Updated upstream
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
 		return _clientConnectionHandler.spendCouncil(councilRewards);
-=======
+	}
+//=======
 	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
 		_theGame.manipulateInitialLeaderList(_client, leader);
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
 	}
 	
 	private ClientRemote _clientConnectionHandler;

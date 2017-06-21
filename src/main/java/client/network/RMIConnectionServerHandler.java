@@ -56,7 +56,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	
 	@Override
 	public void sendInitialLeaderList(List<String> leadersList) throws RemoteException {
-		_client.showInitialLeaderList(leadersList);
+		_ui.showInitialLeaderList(leadersList);
 	}
 	
 	@Override
@@ -150,14 +150,16 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		
 	}
 	
+	
+//<<<<<<< Updated upstream
 	@Override
-<<<<<<< Updated upstream
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
 		return _ui.spendCouncil(councilRewards);
-=======
+	}
+//=======
 	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
 		_connectionHandler.sendChosenInitialCardLeader(leader);
->>>>>>> Stashed changes
+//>>>>>>> Stashed changes
 	}
 	
 	private ConnectionHandlerRemote _connectionHandler;

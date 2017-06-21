@@ -277,4 +277,17 @@ public class CommandLineUI implements UI {
 		}
 		return _ioHandler.readNumberWithinInterval(leaders.size() - 1);
 	}
+	
+	/**
+	 * Answer true or false to a message
+	 * @param message Question
+	 * @return Answer
+	 */
+	public boolean answerToAQuestion(String message){
+		_ioHandler.write("Attention! Reply to this message: ");
+		_ioHandler.writeNext(message);
+		_ioHandler.write("0) ok, 1) no");
+		int answer = _ioHandler.readNumberWithinInterval(1);
+		return answer == 0;
+	}
 }

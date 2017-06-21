@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ import game.effect.IEffectBehavior;
 
 public class EffectCopyLeader implements IEffectBehavior{
 	
+	private Effect effect;
 	private Player player;
 	private LeaderCard selectedCard;
 	
@@ -28,11 +30,18 @@ public class EffectCopyLeader implements IEffectBehavior{
 	}
 	
 	private void initializes(Effect ref) {
+		effect = ref;
 		player = ref.getPlayer();
 	}
 	
 	private void selectLeaderCard() {
 		//TODO selectedCard = ...
+		Map<LeaderCard, Player> options = effect.getBar().getDiscardedLeaderCards();
+		
+		
+		LeaderCard selection = null;
+		//TODO o meglio una copia dell'effetto?
+		player.addEffect(selection.getEffect());
 	}
 	
 	private void activateLeaderCard() {

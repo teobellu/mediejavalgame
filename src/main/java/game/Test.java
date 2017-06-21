@@ -239,7 +239,6 @@ public class Test {
 		p.gain(coi3);
 		
 		DevelopmentCard b1 = new Building(1, "A", null, null, null, 3);
-		b1.setCost(null);
 		
 		p.addDevelopmentCard(b1);
 		p.addDevelopmentCard(b1);
@@ -288,11 +287,11 @@ public class Test {
 		p.showRes();
 		System.out.println("AA2");
 		
-		joy.gain(ser3);
-		joy.gain(ser3);
-		joy.gain(vic3);
-		joy.gain(vic3);
-		joy.gain(vic3);
+		//joy.gain(ser3);
+		//joy.gain(ser3);
+		//joy.gain(vic3);
+		//joy.gain(vic3);
+		//joy.gain(vic3);
 		
 		List<Integer> list1 = new ArrayList<>();
 		List<Integer> list2 = new ArrayList<>();
@@ -319,8 +318,6 @@ public class Test {
 		
 		DevelopmentCard c1 = new Venture(2, "a", null, null, null, 3);
 		DevelopmentCard c2 = new Building(3, "b", null, null, null, 1);
-		c1.setCost(ser1);
-		c2.setCost(ser2);
 		p.addDevelopmentCard(c1);
 		p.addDevelopmentCard(c2);
 		
@@ -349,14 +346,13 @@ public class Test {
 		
 		p.addEffect(eff3);
 		
-		joy.gain(vic3);
 		p.showRes();
 		
 		
 		Effect eff5 = new Effect(GC.WHEN_INCREASE_WORKER, new EffectPayMoreForIncreaseWorker(2));
 		
 		p.addEffect(eff5);
-		joy.gain(ser3);
+		
 		
 		p.showRes();
 		

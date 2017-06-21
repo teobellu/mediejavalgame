@@ -1,8 +1,5 @@
 package game.effect.behaviors;
 
-import java.io.Serializable;
-
-import game.GC;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
@@ -24,7 +21,8 @@ public class EffectIncreaseActionPower implements IEffectBehavior{
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
-		if(action != ref.getToScan()) return;
+		if(action != ref.getToScan()) 
+			return;
 		establishTax();
 		payTax();
 	}

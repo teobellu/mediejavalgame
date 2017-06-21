@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.GameBoard;
+import game.Resource;
 import util.CommandStrings;
 
 public class SocketConnectionHandler extends ConnectionHandler implements Runnable {
@@ -88,19 +90,6 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 				_log.log(Level.SEVERE, e.getMessage(), e);
 			}
 			sendToClient(leaders);
-		} else if(str.equals("send me board")){
-			GameBoard gameboard = new GameBoard();
-			int[] a = new int[3];
-			a[0] = 1;
-			a[1] = 5;
-			a[2] = 4;
-			System.out.println(gameboard.getdices()[0]);
-			gameboard.setDices(a);
-			try {
-				writeObject(gameboard);
-			} catch (IOException e) {
-				_log.log(Level.SEVERE, e.getMessage(), e);
-			}
 		}
 	}
 	
@@ -163,8 +152,32 @@ public class SocketConnectionHandler extends ConnectionHandler implements Runnab
 		
 	}
 	
+	@Override
+	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
+		int selection = 0;
+		try {
+			writeObject(CommandStrings.HANDLE_COUNCIL);
+			writeObject(councilRewards);
+			_socket.setSoTimeout(9000);
+			selection = (int) _inputStream.readObject();
+		} catch (SocketTimeoutException e){
+			// è scaduto il tuo tempo
+		} catch (IOException | ClassNotFoundException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			//return spendCouncil(councilRewards);
+		}
+		return selection;
+	}
+	
+	@Override
+	public void sendInitialLeaderList(List<String> leadersList) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	private Socket _socket;
 	private ObjectInputStream _inputStream;
 	private ObjectOutputStream _outputStream;
 	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
+	
 }

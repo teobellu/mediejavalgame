@@ -3,6 +3,7 @@ package game;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import exceptions.GameException;
 import game.development.DevelopmentCard;
@@ -558,6 +559,11 @@ public class DynamicAction {
 			amount = amount / GC.END_REWARD_RESOURCE;
 			player.gain(new Resource(GC.RES_VICTORYPOINTS, amount));
 		}
+	}
+	
+	//TODO description
+	public Map<LeaderCard, Player> getDiscardedLeaderCards() {
+		return gameInformation.getDiscardedLeader();
 	}
 
 	
