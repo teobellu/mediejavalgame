@@ -85,8 +85,8 @@ public class GUI extends Application {
 			Task<Void> task = new Task<Void>() {
 				@Override
 				protected Void call() throws Exception {
-					while (GraphicalUI.getInstance().getTmpLeaderList() == null
-							|| GraphicalUI.getInstance().getTmpLeaderList().isEmpty()) {
+					while (GraphicalUI.getInstance().getReturnObject() == null
+							|| ((String) GraphicalUI.getInstance().getReturnObject()).isEmpty()) {
 						try {
 							System.out.println("Pause");
 							Thread.sleep(1000);
@@ -100,7 +100,7 @@ public class GUI extends Application {
 			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 				@Override
 				public void handle(WorkerStateEvent event) {
-					showInitialSelectLeaderDialog(GraphicalUI.getInstance().getTmpLeaderList());
+					showInitialSelectLeaderDialog((List<String>) GraphicalUI.getInstance().getReturnObject());
 				}
 			});
 

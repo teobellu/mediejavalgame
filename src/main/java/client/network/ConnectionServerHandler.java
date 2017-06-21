@@ -77,9 +77,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws RemoteException
 	 */
 	public abstract void ping() throws RemoteException;
-	
-	public abstract void onConnect() throws RemoteException;
-	
+		
 	/**
 	 * Add client to a game
 	 * @param username 

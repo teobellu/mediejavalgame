@@ -133,18 +133,14 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public int showInitialLeaderList(List<String> leadersList) throws Exception {
-		_tempLeaders = leadersList;
-		do{
-			try {
-				System.out.println("pausona");
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-			}
-		} while(_tempLeaders==leadersList);
+	public synchronized int showInitialLeaderList(List<String> leadersList) throws Exception {
+		_returnObject = leadersList;
+		
+		System.out.println("Waiting for leader card...");
+		_returnObject.wait();
 		
 		for(String s : leadersList){
-			if(_tempLeaders.contains(s)){
+			if(((List<String>) _returnObject).contains(s)){
 				continue;
 			} else {
 				return leadersList.indexOf(s);
@@ -154,37 +150,19 @@ public class GraphicalUI implements UI {
 		throw new Exception("Cannot find element in list. What's going on");
 	}
 	
-	public List<String> getTmpLeaderList(){
-		return _tempLeaders;
+	public Object getReturnObject(){
+		return _returnObject;
+	}
+	
+	public void setReturnObject(Object obj){
+		_returnObject = obj;
+		_returnObject.notify();
 	}
 	
 	public void setGUI(GUI gui){
 		_GUI = gui;
 	}
 	
-	public void sendChosenInitialCardLeader(String leader){
-		try {
-			_connectionHandler.sendChosenInitialCardLeader(leader);
-			_tempLeaders=null;
-		} catch (RemoteException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-	
-	private List<String> _tempLeaders=new ArrayList<>();
-	
-	private GUI _GUI;
-	
-	private File _xmlFile;
-	
-	private String _name;
-	
-	private static GraphicalUI _instance = null;
-	
-    private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
-    
-    private ConnectionServerHandler _connectionHandler = null;
-
 	@Override
 	public void showInfo(String str) {
 		// TODO Auto-generated method stub
@@ -256,4 +234,18 @@ public class GraphicalUI implements UI {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	private Object _returnObject = new Object();
+	
+	private GUI _GUI;
+	
+	private File _xmlFile;
+	
+	private String _name;
+	
+	private static GraphicalUI _instance = null;
+	
+    private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
+    
+    private ConnectionServerHandler _connectionHandler = null;
 }

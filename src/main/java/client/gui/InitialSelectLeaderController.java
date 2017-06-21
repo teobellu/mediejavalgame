@@ -79,7 +79,9 @@ public class InitialSelectLeaderController {
 	}
 	
 	private void handleButton(Button button){
-		GraphicalUI.getInstance().sendChosenInitialCardLeader(button.getText());
+		List<String> str = (List<String>) GraphicalUI.getInstance().getReturnObject();
+		str.remove(button.getText());
+		GraphicalUI.getInstance().setReturnObject(str);
 		_dialog.close();
 	}
 	
