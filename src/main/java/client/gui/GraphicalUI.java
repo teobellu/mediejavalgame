@@ -24,6 +24,20 @@ import javafx.application.Application;
 
 public class GraphicalUI implements UI {
 	
+	private List<String> _tempLeaders=new ArrayList<>();
+	
+	private GUI _GUI;
+	
+	private File _xmlFile;
+	
+	private String _name;
+	
+	private static GraphicalUI _instance = null;
+	
+    private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
+    
+    private ConnectionServerHandler _connectionHandler = null	;
+	
 	private GraphicalUI() {
 	}
 	
@@ -170,20 +184,6 @@ public class GraphicalUI implements UI {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
-	
-	private List<String> _tempLeaders=new ArrayList<>();
-	
-	private GUI _GUI;
-	
-	private File _xmlFile;
-	
-	private String _name;
-	
-	private static GraphicalUI _instance = null;
-	
-    private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
-    
-    private ConnectionServerHandler _connectionHandler = null;
 
 	@Override
 	public void showInfo(String str) {
@@ -255,5 +255,29 @@ public class GraphicalUI implements UI {
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	/*@@
+	 * TODO
+	 * (non-Javadoc)
+	 * @ensures (* visualizza le carte e ritorna quale carta è stata selezionata *)
+	 */
+	@Override
+	public int chooseLeader(List<LeaderCard> tempList) {
+		List<String> names = new ArrayList<>();
+		tempList.forEach(leader -> names.add(leader.getName()));
+		_GUI.showInitialSelectLeaderDialog(names);
+		Thread t1 = new Thread();
+		try {
+			t1.sleep(15000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//mostra le carte leader
+		//ritorna l'indice selezionato
+		//String name = .... ???;
+		//return names.indexOf(name);
+		return 0;//TODO togliere lo zero
 	}
 }

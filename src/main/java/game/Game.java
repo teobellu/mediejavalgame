@@ -108,17 +108,17 @@ public class Game implements Runnable {
 		//TODO
 		
 		List<LeaderCard> tempList = new ArrayList<>();
-       // _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER + 1);
-        _leaders = gameInformation.getLeaderDeck();
+        _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
+        
 		Collections.shuffle(_leaders);
-        //ciclo n volte dove n = numero dei giocatori
+        //cycle n times, n = number of players
         for (int k = 0; k < _players.size(); k++){
-            //estraggo 4 carte
+            //draw 4 cards
             for (int i = 0; i < Constants.LEADER_CARDS_PER_PLAYER; i++){
-                tempList.add(_leaders.get(i));
-                _leaders.remove(i);
+                tempList.add(_leaders.get(0));
+                _leaders.remove(0);
             }
-            //chiedo al giocatore quale carta vuole
+            //ask players what card they want
             for (Player p : _players){
                 int selection = 0;
 				selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
@@ -129,10 +129,6 @@ public class Game implements Runnable {
             Player queuedPlayer = _players.get(0);
             _players.remove(0);
             _players.add(queuedPlayer);
-        }//fine
-		
-        for (Player p : _players){
-            p.getLeaderCards().forEach(card -> System.out.println(card.getName() + " is of " + p.getName()));
         }
 		
 		
