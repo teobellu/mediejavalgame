@@ -1,6 +1,7 @@
 package client.gui;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import util.Constants;
 
 public class InitialSelectLeaderController {
 
@@ -29,6 +31,7 @@ public class InitialSelectLeaderController {
 	private Text _text;
 	
 	private Stage _dialog;
+	private GUI _GUI;
 	
 	@FXML
 	private void initialize(){
@@ -41,36 +44,20 @@ public class InitialSelectLeaderController {
 	
 	public void setLeaderList(List<String> leaders){
 		
+		ArrayList<Button> buttons = new ArrayList<>();
+		buttons.add(_card1);
+		buttons.add(_card2);
+		buttons.add(_card3);
+		buttons.add(_card4);
 		
+		int i = 0;
 		
-		if(leaders.get(0)!=null){
-			setBgImages(leaders.get(0), _card1);
-		} else {
-			_card1.setDisable(true);
+		for(;i<leaders.size();i++){
+			setBgImages(leaders.get(i), buttons.get(i));
 		}
 		
-		if(leaders.get(1)!=null){
-			setBgImages(leaders.get(1), _card2);
-		} else {
-			_card2.setDisable(true);
-		}
-		
-		if(leaders.get(2)!=null){
-			setBgImages(leaders.get(2), _card3);
-		} else {
-			_card3.setDisable(true);
-		}
-		
-		if(leaders.size() == 3)//TODO, idea, array di bottoni e non _card1, _card2...
-		{
-			_card4.setDisable(true);
-			return;
-		}
-		
-		if(leaders.get(3)!=null){
-			setBgImages(leaders.get(3), _card4);
-		} else {
-			_card4.setDisable(true);
+		for(;i<Constants.LEADER_CARDS_PER_PLAYER;i++){
+			buttons.get(i).setDisable(true);
 		}
 	}
 	
@@ -98,6 +85,7 @@ public class InitialSelectLeaderController {
 		List<String> str = (List<String>) GraphicalUI.getInstance().getReturnObject();
 		str.remove(button.getText());
 		GraphicalUI.getInstance().setReturnObject(str);
+		_GUI.createInitialLeaderObserver();
 		_dialog.close();
 	}
 	
@@ -105,8 +93,11 @@ public class InitialSelectLeaderController {
 		File file = new File("src/main/resources/javafx/images/leaders/" + leader + ".jpg");
 		Image image = new Image(file.toURI().toString());
 		button.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITAL_LEADER_HEIGHT, false, false, false, true))));
-		//button.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(arg0, arg1, arg2, arg3, arg4, arg5))));
 		button.setDisable(false);
 		button.setText(leader);
+	}
+
+	public void setGUI(GUI gui) {
+		_GUI = gui;
 	}
 }

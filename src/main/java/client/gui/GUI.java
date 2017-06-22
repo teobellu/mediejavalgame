@@ -18,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import util.Constants;
 
 public class GUI extends Application {
 
@@ -81,34 +82,84 @@ public class GUI extends Application {
 			MainViewController controller = loader.getController();
 			controller.setGUI(this);
 
-			//TODO da testare, ma dovrebbe funzionare (per ora lo fa)
-			Task<Void> task = new Task<Void>() {
-				@Override
-				protected Void call() throws Exception {
-					while (GraphicalUI.getInstance().getReturnObject() == null) {
-						try {
-							System.out.println("Pause");
-							Thread.sleep(1000);
-						} catch (Exception e) {
-						}
-					}
-					return null;
-				}
-			};
-
+			createInitialLeaderObserver();
+			
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	public void createInitialLeaderObserver(){
+		if(_counter<Constants.LEADER_CARDS_PER_PLAYER){
+			Task<Void> task = createReturnObjectObserver();
+	
 			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 				@Override
 				public void handle(WorkerStateEvent event) {
 					showInitialSelectLeaderDialog((List<String>) GraphicalUI.getInstance().getReturnObject());
 				}
 			});
-
+	
 			Thread th = new Thread(task);
 			th.setDaemon(true);
 			th.start();
+			_counter++;
+		} else {
+			_counter = 0;
+			Task<Void> task = createReturnObjectObserver();
+			
+			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+
+				@Override
+				public void handle(WorkerStateEvent event) {
+					showPersonalBonusDialog();
+				}
+				
+			});
+		}
+	}
+	
+	public void showPersonalBonusDialog() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/PersonalBonusDialog.fxml"));
+			AnchorPane pane = loader.load();
+
+			Stage dialog = new Stage();
+
+			dialog.initStyle(StageStyle.UNDECORATED);
+			dialog.setTitle("Choose your personal bonus card");
+			dialog.initModality(Modality.WINDOW_MODAL);
+			dialog.initOwner(_primaryStage);
+			Scene scene = new Scene(pane);
+			dialog.setScene(scene);
+
+			PersonalBonusController controller = loader.getController();
+			controller.setDialog(dialog);
+
+			dialog.showAndWait();
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+
+	private Task<Void> createReturnObjectObserver(){
+		Task<Void> task = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				Thread.sleep(5000);
+				
+				while (GraphicalUI.getInstance().getReturnObject() == null) {
+					try {
+						System.out.println("Waiting for return object...");
+						Thread.sleep(1000);
+					} catch (Exception e) {
+					}
+				}
+				return null;
+			}
+		};
+		return task;
 	}
 
 	public boolean showConfigDialog() {
@@ -189,6 +240,7 @@ public class GUI extends Application {
 				InitialSelectLeaderController controller = loader.getController();
 				controller.setLeaderList(leaders);
 				controller.setDialog(dialog);
+				controller.setGUI(this);
 
 				dialog.showAndWait();
 
@@ -226,6 +278,8 @@ public class GUI extends Application {
 
 	private Stage _primaryStage;
 	private BorderPane _rootLayout;
+	
+	private int _counter = 0;
 
 	private Logger _log = Logger.getLogger(GUI.class.getName());
 }

@@ -39,8 +39,6 @@ public class GraphicalUI implements UI {
     
     private ConnectionServerHandler _connectionHandler = null;
 	
-	//private List<String> _tempLeaders=new ArrayList<>();
-	
 	private GraphicalUI() {
 	}
 	
@@ -153,14 +151,13 @@ public class GraphicalUI implements UI {
 	public int showInitialLeaderList(List<String> leadersList) throws Exception {
 		_returnObject = leadersList;
 		
-		
 		List<String> tempList = new ArrayList<>();
 		
 		for(String s : leadersList){
 			tempList.add(s);
 		}
 		
-		System.out.println("Waiting for leader card...");
+		System.out.println("Waiting for player choice...");
 		synchronized (_returnObject) {
 			_returnObject.wait();
 		}
@@ -171,6 +168,7 @@ public class GraphicalUI implements UI {
 			if(((List<String>) _returnObject).contains(s)){
 				continue;
 			} else {
+				_returnObject = null;
 				return tempList.indexOf(s);
 			}
 		}
