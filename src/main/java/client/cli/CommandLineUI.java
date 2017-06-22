@@ -23,6 +23,7 @@ import game.Player;
 import game.Resource;
 import game.Space;
 import game.development.DevelopmentCard;
+import game.development.Territory;
 import util.Constants;
 import util.IOHandler;
 
@@ -112,7 +113,7 @@ public class CommandLineUI implements UI {
 		GameBoard b = new GameBoard();
 		b.setDices(dadi);
 		
-		showGameBoard(b);
+		ModelPrinter.printBoard(b);
 		
 		return connection;
 	}
@@ -137,6 +138,8 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public void run() {
+		DevelopmentCard card = new Territory("hi", 2, GC.NIX, GC.NIX, 6);
+		ModelPrinter.printCard(card);
 		try {
 			getConnection().addMeToGame(getUsername());
 		} catch (RemoteException e) {
@@ -151,64 +154,7 @@ public class CommandLineUI implements UI {
 		return null;
 	}
 	
-	public void showGameBoard(GameBoard board){
-		_ioHandler.write("(^_^) Here is the game board:");
-		
-		_ioHandler.write("*****Tower");
-		for (int column = 0; column < GameBoard.MAX_COLUMN; column++){
-			_ioHandler.write("\nColumn " + column + ":");
-			for (int row = GameBoard.MAX_ROW - 1; row >= 0; row--){
-				_ioHandler.writeNext("Row " + row + ": ");
-				DevelopmentCard card = board.getCard(row, column);
-				if (card == null)
-					_ioHandler.writeNext("No card here! ");
-				else{
-					_ioHandler.writeNext("Card name: " + card.getName() + " ");
-				}
-				printSpace(board.getCell(row, column));
-			}
-		}
-		
-		//council palace
-		_ioHandler.write("\n*****Council Palace: ");
-		printSpace(board.getCouncilPalaceSpace());
-		
-		//harvest
-		_ioHandler.write("\n*****Harvest Space: ");
-		_ioHandler.writeNext("Normal Space: ");
-		printSpace(board.getWorkSpace(GC.HARVEST));
-		_ioHandler.writeNext("Long Space: ");
-		printSpace(board.getWorkLongSpace(GC.HARVEST));
-		
-		//production
-		_ioHandler.write("\n*****Producion Space: ");
-		_ioHandler.writeNext("Normal Space: ");
-		printSpace(board.getWorkSpace(GC.PRODUCTION));
-		_ioHandler.writeNext("Long Space: ");
-		printSpace(board.getWorkLongSpace(GC.PRODUCTION));
-		
-		//market
-		_ioHandler.write("\n*****Market: ");
-		for (int index=0; index < GameBoard.MAX_MARKET_SPACE; index ++){
-			_ioHandler.writeNext("Space " + index + ": ");
-			printSpace(board.getMarketSpace(index));
-		}
-		
-		//excommunication tiles
-		_ioHandler.write("\n*****Excommunication tiles: ");
-		for (int index=0; index < GameBoard.MAX_EXCOMUNNICATION_CARD; index++){
-			String effectDescription = board.getExCard()[index].getEffect().toString();
-			_ioHandler.write("Malus " + index + ": " + effectDescription);
-		}
-		
-		//dices
-		_ioHandler.write("\n*****Dices: ");
-		List<Integer> dices = Arrays.asList(board.getDices());
-		
-		for (int index=0; index < GameBoard.MAX_DICES; index++)
-			_ioHandler.write("Dice " + GC.FM_TYPE.get(index) + ": "+ dices.get(index));
-		
-	}
+	
 	
 	public void showWhatIHave(Player me){
 		//resources
@@ -244,19 +190,7 @@ public class CommandLineUI implements UI {
 		
 	}
 	
-	private void printSpace(Space space){
-		_ioHandler.writeNext("Dice Required: " + space.getRequiredDiceValue() + " ");
-		_ioHandler.writeNext("Effect: " + space.getInstantEffect() + " ");
-		printListFamiliar(space.getFamiliar());
-	}
 	
-	private void printListFamiliar(List<FamilyMember> familiars){
-		if (familiars.isEmpty())
-			_ioHandler.write("No familiars here");
-		else
-			familiars.forEach(fam -> _ioHandler
-				.write("A " + fam.getColor() + " " + fam.getOwner().getName() + "'s familiar is here "));
-	}
 	
 	@Override
 	public int spendCouncil(List<Resource> resources){
@@ -264,7 +198,7 @@ public class CommandLineUI implements UI {
 		int index = 0;
 		for(Resource reward : resources){
 			_ioHandler.write(index + ") ");
-			printResource(reward);
+			ModelPrinter.printResource(reward);
 			index++;
 		}
 		return _ioHandler.readNumberWithinInterval(resources.size() - 1);
@@ -318,22 +252,14 @@ public class CommandLineUI implements UI {
 		for (int i = 0; i < realPayOptions.size() - 1; i++){
 			_ioHandler.write(i + ") ");
 			_ioHandler.writeNext("Pay: ");
-			printResource(realPayOptions.get(i));
+			ModelPrinter.printResource(realPayOptions.get(i));
 			_ioHandler.writeNext("Gain: ");
-			printResource(realGainOptions.get(i));
+			ModelPrinter.printResource(realGainOptions.get(i));
 		}
 		return _ioHandler.readNumberWithinInterval(realPayOptions.size() - 1);
 	}
 	
-	/**
-	 * Print a resource, like a print toString()
-	 * @param resource Resource to print
-	 */
-	private void printResource(Resource resource){
-		GC.RES_TYPES.stream()
-			.filter(type -> resource.get(type) > 0)
-			.forEach(type -> _ioHandler.writeNext(resource.get(type) + " " + type + " "));
-	}
+	
 
 	@Override
 	public void showInfo(String str) {
@@ -372,9 +298,11 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public int chooseCardCost(DevelopmentCard card) {
-		// TODO Auto-generated method stub
+		_ioHandler.write("This card has different costs");
+		//TODO
 		return 0;
 	}
+	
 
 	@Override
 	public boolean activateLeaderCard(LeaderCard card) {
@@ -394,9 +322,9 @@ public class CommandLineUI implements UI {
 		for (index = 0; index < bonus.get(GC.HARVEST).size(); index++){
 			_ioHandler.writeNext(index + ") ");
 			_ioHandler.writeNext("Harvest bonus: ");
-			printResource(bonus.get(GC.HARVEST).get(index));
+			ModelPrinter.printResource(bonus.get(GC.HARVEST).get(index));
 			_ioHandler.writeNext("Production bonus: ");
-			printResource(bonus.get(GC.PRODUCTION).get(index));
+			ModelPrinter.printResource(bonus.get(GC.PRODUCTION).get(index));
 			_ioHandler.write("");
 		}
 		return _ioHandler.readNumberWithinInterval(index - 1);

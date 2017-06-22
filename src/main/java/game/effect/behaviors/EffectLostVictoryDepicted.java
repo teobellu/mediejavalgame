@@ -41,7 +41,7 @@ public class EffectLostVictoryDepicted implements IEffectBehavior{
 	
 	private void findCostOfAllFilteredCards() {
 		player.getDevelopmentCards(typeOfCard).stream()
-		.forEach(card -> costOfFilteredCards.add(card.getCost()));
+		.forEach(card -> costOfFilteredCards.add(card.getCost(0))); //TODO 0 is ok?
 	}
 	
 	private void establishTax() {

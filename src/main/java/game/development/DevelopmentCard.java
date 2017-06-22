@@ -71,8 +71,8 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 		return cost.get(index);
 	}
 
-	public Resource getCost() {
-		return cost.get(0);
+	public List<Resource> getCost() {
+		return cost;
 	}
 	
 	protected void setCost(Resource res) {
@@ -87,8 +87,8 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 		return requirement.get(index);
 	}
 
-	public Resource getRequirement() {
-		return requirement.get(0);
+	public List<Resource> getRequirement() {
+		return requirement;
 	}
 	
 	public List<Effect> getImmediateEffect() {
