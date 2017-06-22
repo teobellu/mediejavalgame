@@ -108,9 +108,10 @@ public class Game implements Runnable {
 	
 	private void setupGame() throws RemoteException{
 		
-		//setupLeaderCards();
+		setupDashboardBonus();
+		setupLeaderCards();
 		
-		
+		/*
 		List<LeaderCard> tempList = new ArrayList<>();
         _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
         
@@ -118,6 +119,9 @@ public class Game implements Runnable {
 		
 		for(int j = 0;j<Constants.LEADER_CARDS_PER_PLAYER;j++){
 			  for (int k = 0; k < _players.size(); k++){
+				  //estraggo 4 - j carte dalla cima, rimuovendole
+				  //le aggiungo a tempList
+				  //le aggiungo a _leaders
 				  for(int i = 0;i<Constants.LEADER_CARDS_PER_PLAYER - j;i++){
 					  LeaderCard lc = _leaders.remove(0);
 					  System.out.println("Aggiunto "+lc.getName());
@@ -128,14 +132,14 @@ public class Game implements Runnable {
 				  System.out.println("Mando la lista al player "+k+"-esimo, ovvero "+_players.get(k).getName());
 				  int selection = _players.get(k).getClient().getConnectionHandler().chooseLeader(tempList);
 				  _players.get(k).addLeaderCard(tempList.get(selection));
+				  
 				  tempList.clear();
 			  }
 			  _players.add(_players.remove(0));
 		}
+		*/
 		
 		
-		setupDashboardBonus();
-		//setupLeaderCards();
 	}
 	
 	public int getLeft(){
@@ -199,20 +203,26 @@ public class Game implements Runnable {
         _leaders = gameInformation.getLeaderDeck();
 		Collections.shuffle(_leaders);
         //cycle n times, n = 4
-        for (int k = 0; k < Constants.LEADER_CARDS_PER_PLAYER; k++){
+        for (int manche = 0; manche < _players.size(); manche++){
             //draw 4 cards
-            for (int i = 0; i < Constants.LEADER_CARDS_PER_PLAYER; i++){
+            for (int draw = 0; draw < Constants.LEADER_CARDS_PER_PLAYER; draw++){
                 tempList.add(_leaders.get(0));
                 _leaders.remove(0);
             }
             //ask players what card they want
-            for (Player p : _players){
-                int selection = 0;
-				selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
-				p.addLeaderCard(tempList.get(selection));
-				tempList.remove(selection);
-            }
-            tempList.clear();
+            boolean exit = false;
+            do{
+            	for (Player p : _players){
+            		int selection = 0;
+            		selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
+            		p.addLeaderCard(tempList.get(selection));
+            		tempList.remove(selection);
+            		if (tempList.isEmpty()){
+            			exit = true;
+            			break;
+            		}
+            	}
+            }while(!exit);
             Player queuedPlayer = _players.get(0);
             _players.remove(0);
             _players.add(queuedPlayer);
