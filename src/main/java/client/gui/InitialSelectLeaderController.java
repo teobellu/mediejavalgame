@@ -1,9 +1,16 @@
 package client.gui;
 
+import java.io.File;
 import java.util.List;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -33,6 +40,9 @@ public class InitialSelectLeaderController {
 	}
 	
 	public void setLeaderList(List<String> leaders){
+		
+		
+		
 		if(leaders.get(0)!=null){
 			setBgImages(leaders.get(0), _card1);
 		} else {
@@ -49,6 +59,12 @@ public class InitialSelectLeaderController {
 			setBgImages(leaders.get(2), _card3);
 		} else {
 			_card3.setDisable(true);
+		}
+		
+		if(leaders.size() == 3)//TODO, idea, array di bottoni e non _card1, _card2...
+		{
+			_card4.setDisable(true);
+			return;
 		}
 		
 		if(leaders.get(3)!=null){
@@ -86,10 +102,10 @@ public class InitialSelectLeaderController {
 	}
 	
 	private void setBgImages(String leader, Button button){
-//		File file = new File("src/main/resources/javafx/images/leaders/" + leader + ".jpg");
-//		Image image = new Image(file.toURI().toString());
-//		
-//		button.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITAL_LEADER_HEIGHT, false, false, false, true))));
+		File file = new File("src/main/resources/javafx/images/leaders/" + leader + ".jpg");
+		Image image = new Image(file.toURI().toString());
+		button.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITAL_LEADER_HEIGHT, false, false, false, true))));
+		//button.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(arg0, arg1, arg2, arg3, arg4, arg5))));
 		button.setDisable(false);
 		button.setText(leader);
 	}

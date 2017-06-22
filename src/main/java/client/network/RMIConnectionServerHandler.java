@@ -180,7 +180,10 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 
 	@Override
 	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException {
-		 List<String> names = new ArrayList<>(); 
+		return _ui.chooseLeader(tempList);
+		
+		/*
+		List<String> names = new ArrayList<>(); 
 		 for(LeaderCard lc : tempList){
 			 System.out.println(lc.getName());
 			 names.add(lc.getName());
@@ -191,7 +194,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			return 0;
-		}
+		}*/
 	}
 
 	@Override

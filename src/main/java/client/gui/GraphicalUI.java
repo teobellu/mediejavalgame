@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -152,6 +153,7 @@ public class GraphicalUI implements UI {
 	public int showInitialLeaderList(List<String> leadersList) throws Exception {
 		_returnObject = leadersList;
 		
+		
 		List<String> tempList = new ArrayList<>();
 		
 		for(String s : leadersList){
@@ -265,6 +267,17 @@ public class GraphicalUI implements UI {
 
 	@Override
 	public int chooseLeader(List<LeaderCard> tempList) {
+		List<String> names = new ArrayList<>();
+		tempList.forEach(leader -> names.add(leader.getName()));
+		try {
+			return showInitialLeaderList(names);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	@Override
+	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

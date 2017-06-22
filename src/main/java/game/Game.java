@@ -63,6 +63,7 @@ public class Game implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("\n\n\n\n\n\n\nFINE SETUP");
 		
 		_state = new StateStartingTurn(this);
 		
@@ -106,8 +107,11 @@ public class Game implements Runnable {
 	}
 	
 	private void setupGame() throws RemoteException{
-		//TODO
 		
+		setupLeaderCards();
+		
+		//TODO
+		/*
 		List<LeaderCard> tempList = new ArrayList<>();
         _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
         
@@ -129,9 +133,10 @@ public class Game implements Runnable {
 			  }
 			  _players.add(_players.remove(0));
 		}
+		*/
 		
 		setupDashboardBonus();
-		setupLeaderCards();
+		//setupLeaderCards();
 	}
 	
 	public int getLeft(){
