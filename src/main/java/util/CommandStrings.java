@@ -4,11 +4,15 @@ public final class CommandStrings {
 	
 	public static final String UUID = "uuid";
 	
+	public static final String GAME_BOARD = "gameboard";
+	
 	public static final String GAME_STARTED = "game_started";
 		
 	public static final String ADD_TO_GAME = "add_to_game";
 	public static final String ASK_FOR_CONFIG = "ask_config";
 	public static final String PING = "ping";
+	
+	public static final String INITIAL_LEADER = "initial_leader";
 	
 	public static final String START_TURN = "start_turn";
 	
@@ -31,6 +35,8 @@ public final class CommandStrings {
 	public static final String END_TRANSMISSION = "end_transmission";
 	
 	public static final String HANDLE_COUNCIL = "handle_council";
+	
+	public static final String ERROR = "error";
 	
 	/**
 	 * Hide constructor

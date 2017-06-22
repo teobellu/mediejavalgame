@@ -139,15 +139,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	@Override
-	public void onConnect() throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public boolean addMeToGame() throws RemoteException {
+	public boolean addMeToGame(String name) throws RemoteException {
 		try {
 			writeObject(CommandStrings.ADD_TO_GAME);
+			writeObject(name);
+			
 			if (readObject().equals(CommandStrings.ADD_TO_GAME)) {
 				return true;
 			}
@@ -191,12 +187,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		return CommandStrings.END_TRANSMISSION;
-	}
-	
-	@Override
-	public void sendName(String name) throws RemoteException {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
