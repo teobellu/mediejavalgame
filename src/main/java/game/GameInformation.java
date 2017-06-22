@@ -495,5 +495,16 @@ public class GameInformation{
 		this.bonusFaith = bonusFaith;
 	}
 
+	public void setBonusPlayerDashBoard(Map<String, List<Resource>> bonusPlayerDashBoard) {
+		this.bonusPlayerDashBoard = bonusPlayerDashBoard;
+		
+	}
+
+	public Map<String, List<Resource>> getBonusPlayerDashBoard() {
+		return bonusPlayerDashBoard;
+	}
+
+
+
 	
 }

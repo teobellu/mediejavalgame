@@ -4,7 +4,10 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.omg.stub.java.rmi._Remote_Stub;
 
 import client.ClientText;
 import client.UI;
@@ -382,5 +385,20 @@ public class CommandLineUI implements UI {
 		cards.forEach(carta -> names.add(carta.getName()));
 		
 		return false;
+	}
+
+	@Override
+	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
+		_ioHandler.write("Choose your dashboard bonus");
+		int index;
+		for (index = 0; index < bonus.get(GC.HARVEST).size(); index++){
+			_ioHandler.writeNext(index + ") ");
+			_ioHandler.writeNext("Harvest bonus: ");
+			printResource(bonus.get(GC.HARVEST).get(index));
+			_ioHandler.writeNext("Production bonus: ");
+			printResource(bonus.get(GC.PRODUCTION).get(index));
+			_ioHandler.write("");
+		}
+		return _ioHandler.readNumberWithinInterval(index - 1);
 	}
 }

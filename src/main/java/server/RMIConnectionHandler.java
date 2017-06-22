@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -188,5 +189,10 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException{
 		return _clientConnectionHandler.chooseLeader(tempList);
+	}
+
+	@Override
+	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
+		return _clientConnectionHandler.chooseDashboardBonus(bonus);
 	}
 }

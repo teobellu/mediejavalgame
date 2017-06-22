@@ -1,6 +1,7 @@
 package client;
 
 import java.util.List;
+import java.util.Map;
 
 import game.*;
 import game.development.*;
@@ -69,6 +70,8 @@ public interface UI extends Runnable{
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions);
 
 	public int chooseLeader(List<LeaderCard> tempList);
+
+	public int chooseDashboardBonus(Map<String, List<Resource>> bonus);
 	
 	
 }

@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -107,31 +108,8 @@ public class Game implements Runnable {
 	private void setupGame() throws RemoteException{
 		//TODO
 		
-		List<LeaderCard> tempList = new ArrayList<>();
-        _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
-        
-		Collections.shuffle(_leaders);
-        //cycle n times, n = number of players
-        for (int k = 0; k < _players.size(); k++){
-            //draw 4 cards
-            for (int i = 0; i < Constants.LEADER_CARDS_PER_PLAYER; i++){
-                tempList.add(_leaders.get(0));
-                _leaders.remove(0);
-            }
-            //ask players what card they want
-            for (Player p : _players){
-                int selection = 0;
-				selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
-				p.addLeaderCard(tempList.get(selection));
-				tempList.remove(selection);
-            }
-            tempList.clear();
-            Player queuedPlayer = _players.get(0);
-            _players.remove(0);
-            _players.add(queuedPlayer);
-        }
-		
-		
+		setupDashboardBonus();
+		setupLeaderCards();
 		
 		try{
 			_leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
@@ -235,6 +213,51 @@ public class Game implements Runnable {
 		}
 	}
 	
+	private void setupDashboardBonus() throws RemoteException{
+		//ottengo i bonus della plancia giocatore
+        Map<String, List<Resource>> bonus = gameInformation.getBonusPlayerDashBoard();
+		
+        //creo una lista di player invertita (vedi regolamento)
+		List<Player> reversePlayers = _players;
+		Collections.reverse(reversePlayers);
+        
+		//chiedo ai giocatori di scegliere il loro bonus
+		for (Player p : reversePlayers){
+			int selection = 0;
+			selection = p.getClient().getConnectionHandler().chooseDashboardBonus(bonus);
+			p.setHarvestBonus(bonus.get(GC.HARVEST).get(selection));
+			p.setProductionBonus(bonus.get(GC.PRODUCTION).get(selection));
+			bonus.get(GC.HARVEST).remove(selection);
+			bonus.get(GC.PRODUCTION).remove(selection);
+		}
+	}
+	
+	private void setupLeaderCards() throws RemoteException{
+		List<LeaderCard> tempList = new ArrayList<>();
+        _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
+        
+		Collections.shuffle(_leaders);
+        //cycle n times, n = number of players
+        for (int k = 0; k < _players.size(); k++){
+            //draw 4 cards
+            for (int i = 0; i < Constants.LEADER_CARDS_PER_PLAYER; i++){
+                tempList.add(_leaders.get(0));
+                _leaders.remove(0);
+            }
+            //ask players what card they want
+            for (Player p : _players){
+                int selection = 0;
+				selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
+				p.addLeaderCard(tempList.get(selection));
+				tempList.remove(selection);
+            }
+            tempList.clear();
+            Player queuedPlayer = _players.get(0);
+            _players.remove(0);
+            _players.add(queuedPlayer);
+        }
+	}
+	
 	public State getState(){
 		return _state;
 	}
@@ -246,6 +269,7 @@ public class Game implements Runnable {
 	public DynamicAction getDynamicBar(){
 		return _dynamicAction;
 	}
+	
 	
 	public List<Player> getPlayers() {
 		return _players;

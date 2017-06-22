@@ -6,6 +6,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -184,6 +185,11 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	@Override
 	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException {
 		return _ui.chooseLeader(tempList);
+	}
+
+	@Override
+	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
+		return _ui.chooseDashboardBonus(bonus);
 	}
 	
 }

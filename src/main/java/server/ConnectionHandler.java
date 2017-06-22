@@ -3,6 +3,7 @@ package server;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import game.FamilyMember;
 import game.Game;
@@ -69,6 +70,9 @@ public abstract class ConnectionHandler implements Runnable {
 	public abstract int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException;
 
 	public abstract int chooseLeader(List<LeaderCard> tempList)  throws RemoteException;
+
+	//TODO GAME METHOD, SELEZIONE TESSERA BONUS
+	public abstract int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
 
 	
 }

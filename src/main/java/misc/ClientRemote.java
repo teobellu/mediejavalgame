@@ -3,6 +3,7 @@ package misc;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Map;
 
 import game.FamilyMember;
 import game.LeaderCard;
@@ -23,5 +24,7 @@ public interface ClientRemote extends Remote {
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException;
 
 	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException;
+
+	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
 	
 }
