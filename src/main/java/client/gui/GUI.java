@@ -1,10 +1,12 @@
 package client.gui;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.Resource;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -91,6 +93,7 @@ public class GUI extends Application {
 	
 	public void createInitialLeaderObserver(){
 		if(_counter<Constants.LEADER_CARDS_PER_PLAYER){
+			System.out.println("Creo listener per leader card");
 			Task<Void> task = createReturnObjectObserver();
 	
 			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
@@ -105,6 +108,7 @@ public class GUI extends Application {
 			th.start();
 			_counter++;
 		} else {
+			System.out.println("Creo listener per personal bonus");
 			_counter = 0;
 			Task<Void> task = createReturnObjectObserver();
 			
@@ -112,14 +116,49 @@ public class GUI extends Application {
 
 				@Override
 				public void handle(WorkerStateEvent event) {
-					showPersonalBonusDialog();
+					showPersonalBonusDialog((HashMap<String, List<Resource>>)GraphicalUI.getInstance().getReturnObject());
 				}
 				
 			});
+			
+			Thread th = new Thread(task);
+			th.setDaemon(true);
+			th.start();
 		}
 	}
 	
-	public void showPersonalBonusDialog() {
+	public void showInitialSelectLeaderDialog(List<String> leaders) {
+		if (!leaders.isEmpty()) {
+			try {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(GUI.class.getResource("/client/gui/InitialSelectLeaderDialog.fxml"));
+				AnchorPane pane = loader.load();
+
+				Stage dialog = new Stage();
+
+				dialog.initStyle(StageStyle.UNDECORATED);
+				dialog.setTitle("Choose Leader Card");
+				dialog.initModality(Modality.WINDOW_MODAL);
+				dialog.initOwner(_primaryStage);
+				Scene scene = new Scene(pane);
+				dialog.setScene(scene);
+
+				InitialSelectLeaderController controller = loader.getController();
+				controller.setLeaderList(leaders);
+				controller.setDialog(dialog);
+				controller.setGUI(this);
+
+				dialog.showAndWait();
+
+			} catch (IOException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+			}
+		} else {
+			_log.log(Level.SEVERE, "List vuota in showInitialSelectLeaderDialog");
+		}
+	}
+	
+	public void showPersonalBonusDialog(HashMap<String, List<Resource>> hashMap) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/PersonalBonusDialog.fxml"));
@@ -136,6 +175,7 @@ public class GUI extends Application {
 
 			PersonalBonusController controller = loader.getController();
 			controller.setDialog(dialog);
+			controller.setMap(hashMap);
 
 			dialog.showAndWait();
 		} catch (IOException e) {
@@ -218,37 +258,6 @@ public class GUI extends Application {
 			}
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-
-	public void showInitialSelectLeaderDialog(List<String> leaders) {
-		if (!leaders.isEmpty()) {
-			try {
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(GUI.class.getResource("/client/gui/InitialSelectLeaderDialog.fxml"));
-				AnchorPane pane = loader.load();
-
-				Stage dialog = new Stage();
-
-				dialog.initStyle(StageStyle.UNDECORATED);
-				dialog.setTitle("Choose Leader Card");
-				dialog.initModality(Modality.WINDOW_MODAL);
-				dialog.initOwner(_primaryStage);
-				Scene scene = new Scene(pane);
-				dialog.setScene(scene);
-
-				InitialSelectLeaderController controller = loader.getController();
-				controller.setLeaderList(leaders);
-				controller.setDialog(dialog);
-				controller.setGUI(this);
-
-				dialog.showAndWait();
-
-			} catch (IOException e) {
-				_log.log(Level.SEVERE, e.getMessage(), e);
-			}
-		} else {
-			_log.log(Level.SEVERE, "List vuota in showInitialSelectLeaderDialog");
 		}
 	}
 

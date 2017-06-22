@@ -12,4 +12,8 @@ public class GuiSizeConstants {
 	public final static double INITAL_LEADER_HEIGHT = 200;
 	
 	public final static double INITIAL_LEADER_WIDTH = 133;
+	
+	public final static double INITIAL_PERSONAL_BONUS_HEIGHT = 609.46;
+	
+	public final static double INITIAL_PERSONAL_BONUS_WIDTH = 100;
 }

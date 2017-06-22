@@ -177,7 +177,39 @@ public class Game implements Runnable {
 		}
 	}
 	
+	private void setupLeaderCards() throws RemoteException{
+		System.out.println("Setup Leader cards");
+		
+        List<LeaderCard> tempList = new ArrayList<>();
+        _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
+        
+		Collections.shuffle(_leaders);
+		
+		for(int j = 0;j<Constants.LEADER_CARDS_PER_PLAYER;j++){
+			  for (int k = 0; k < _players.size(); k++){
+				  for(int i = 0;i<Constants.LEADER_CARDS_PER_PLAYER - j;i++){
+					  LeaderCard lc = _leaders.remove(0);
+					  System.out.println("\nAggiunto "+lc.getName());
+					  tempList.add(lc);
+					  _leaders.add(lc);
+				  }
+				  
+				  System.out.println("\nMando la lista al player "+k+"-esimo, ovvero "+_players.get(k).getName());
+				  int selection = _players.get(k).getClient().getConnectionHandler().chooseLeader(tempList);
+				  _players.get(k).addLeaderCard(tempList.get(selection));
+				  if(_leaders.remove(tempList.get(selection))){
+					  System.out.println("Rimossa la carta numero "+selection+" ovvero "+ tempList.get(selection));
+				  }
+				  
+				  tempList.clear();
+			  }
+			  _players.add(_players.remove(0));
+		}
+	}
+	
 	private void setupDashboardBonus() throws RemoteException{
+		System.out.println("Setup Personal Bonus");
+		
 		//ottengo i bonus della plancia giocatore
         Map<String, List<Resource>> bonus = gameInformation.getBonusPlayerDashBoard();
 		
@@ -194,39 +226,6 @@ public class Game implements Runnable {
 			bonus.get(GC.HARVEST).remove(selection);
 			bonus.get(GC.PRODUCTION).remove(selection);
 		}
-	}
-	
-	private void setupLeaderCards() throws RemoteException{
-		List<LeaderCard> tempList = new ArrayList<>();
-        //_leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
-        _leaders = gameInformation.getLeaderDeck();
-		Collections.shuffle(_leaders);
-
-        //cycle n times, n = 4
-        for (int manche = 0; manche < _players.size(); manche++){
-            //draw 4 cards
-            for (int draw = 0; draw < Constants.LEADER_CARDS_PER_PLAYER; draw++){
-                tempList.add(_leaders.get(0));
-                _leaders.remove(0);
-            }
-            //ask players what card they want
-            boolean exit = false;
-            do{
-            	for (Player p : _players){
-            		int selection = 0;
-            		selection = p.getClient().getConnectionHandler().chooseLeader(tempList);
-            		p.addLeaderCard(tempList.get(selection));
-            		tempList.remove(selection);
-            		if (tempList.isEmpty()){
-            			exit = true;
-            			break;
-            		}
-            	}
-            }while(!exit);
-            Player queuedPlayer = _players.get(0);
-            _players.remove(0);
-            _players.add(queuedPlayer);
-        }
 	}
 	
 	public State getState(){
