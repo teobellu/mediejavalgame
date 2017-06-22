@@ -111,34 +111,6 @@ public class Game implements Runnable {
 		setupLeaderCards();
 		setupDashboardBonus();
 		
-		/*
-		List<LeaderCard> tempList = new ArrayList<>();
-        _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
-        
-		Collections.shuffle(_leaders);
-		
-		for(int j = 0;j<Constants.LEADER_CARDS_PER_PLAYER;j++){
-			  for (int k = 0; k < _players.size(); k++){
-				  //estraggo 4 - j carte dalla cima, rimuovendole
-				  //le aggiungo a tempList
-				  //le aggiungo a _leaders
-				  for(int i = 0;i<Constants.LEADER_CARDS_PER_PLAYER - j;i++){
-					  LeaderCard lc = _leaders.remove(0);
-					  System.out.println("Aggiunto "+lc.getName());
-					  tempList.add(lc);
-					  _leaders.add(lc);
-				  }
-				  
-				  System.out.println("Mando la lista al player "+k+"-esimo, ovvero "+_players.get(k).getName());
-				  int selection = _players.get(k).getClient().getConnectionHandler().chooseLeader(tempList);
-				  _players.get(k).addLeaderCard(tempList.get(selection));
-				  
-				  tempList.clear();
-			  }
-			  _players.add(_players.remove(0));
-		}
-		*/
-		
 	}
 	
 	public int getLeft(){
@@ -163,7 +135,7 @@ public class Game implements Runnable {
 						if(lc.getName().equals(leader)){
 							player.addLeaderCard(lc);
 							System.out.println("Added leader card "+lc.getName()+" to player "+ player.getName());
-							if(_tempLeaderCardForEachPlayer.get(i).remove(lc)){
+							if(_tempLeaderCardForEachPlayer.get(i).remove(lc.getName())){
 								System.out.println("Rimossa carta con successo");
 							} else {
 								System.out.println("Errore nel rimuovere carta");
@@ -177,7 +149,12 @@ public class Game implements Runnable {
 		}
 	}
 	
-	private void setupLeaderCards() throws RemoteException{
+	/**
+	 * Non memorizza le liste...!
+	 * @throws RemoteException
+	 */
+	@Deprecated
+	private void setupLeaderCards_SENZA_MEMORIA() throws RemoteException{
 		System.out.println("Setup Leader cards");
 		
         List<LeaderCard> tempList = new ArrayList<>();
@@ -205,6 +182,37 @@ public class Game implements Runnable {
 			  }
 			  _players.add(_players.remove(0));
 		}
+	}
+	
+	private void setupLeaderCards() throws RemoteException{
+		
+        _leaders = gameInformation.getLeaderDeck();
+        
+		Collections.shuffle(_leaders);
+		
+		List<List<LeaderCard>> playerLists = new ArrayList<>();
+		
+		//estrae n mazzi da 4 carte, dove n = numero dei giocatori, e li salva
+		for (@SuppressWarnings("unused") Player player : _players){
+			List<LeaderCard> miniDeck = new ArrayList<>();
+			for (int i = 0; i < Constants.LEADER_CARDS_PER_PLAYER; i++)
+				miniDeck.add(_leaders.remove(0));
+			playerLists.add(miniDeck);
+		}
+		
+		//riceve gli input
+		for (int i = 0; i < Constants.LEADER_CARDS_PER_PLAYER; i++){
+			int x = 0;
+			for (Player player : _players){
+				List<LeaderCard> miniDeck = playerLists.get(x);
+				int selection = player.getClient().getConnectionHandler().chooseLeader(miniDeck);
+				player.addLeaderCard(miniDeck.get(selection));
+				miniDeck.remove(selection);
+				x++;
+			}
+			playerLists.add(playerLists.remove(0));
+		}
+		
 	}
 	
 	private void setupDashboardBonus() throws RemoteException{
