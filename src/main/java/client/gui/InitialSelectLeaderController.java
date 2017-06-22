@@ -1,6 +1,7 @@
 package client.gui;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -41,6 +42,21 @@ public class InitialSelectLeaderController {
 	
 	public void setLeaderList(List<String> leaders){
 		
+		//codice più estendibile di prima
+		List<Button> buttons = new ArrayList<>();
+		buttons.add(_card1);
+		buttons.add(_card2);
+		buttons.add(_card3);
+		buttons.add(_card4);
+		
+		int index = 0;
+		for (; index < leaders.size(); index++){
+			setBgImages(leaders.get(index), buttons.get(index));
+		}
+		for(; index < buttons.size();index++){
+			buttons.get(index).setDisable(true);
+		}
+		/*
 		
 		
 		if(leaders.get(0)!=null){
@@ -71,8 +87,9 @@ public class InitialSelectLeaderController {
 			setBgImages(leaders.get(3), _card4);
 		} else {
 			_card4.setDisable(true);
-		}
+		}*/
 	}
+	
 	
 	@FXML
 	private void onFirstButtonClicked(){
@@ -104,8 +121,9 @@ public class InitialSelectLeaderController {
 	private void setBgImages(String leader, Button button){
 		File file = new File("src/main/resources/javafx/images/leaders/" + leader + ".jpg");
 		Image image = new Image(file.toURI().toString());
-		button.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITAL_LEADER_HEIGHT, false, false, false, true))));
-		//button.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(arg0, arg1, arg2, arg3, arg4, arg5))));
+		BackgroundSize backSize = new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITAL_LEADER_HEIGHT, false, false, false, true);
+		BackgroundImage backImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backSize);
+		button.setBackground(new Background(backImage));
 		button.setDisable(false);
 		button.setText(leader);
 	}

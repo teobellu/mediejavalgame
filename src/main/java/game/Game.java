@@ -108,10 +108,9 @@ public class Game implements Runnable {
 	
 	private void setupGame() throws RemoteException{
 		
-		setupLeaderCards();
+		//setupLeaderCards();
 		
-		//TODO
-		/*
+		
 		List<LeaderCard> tempList = new ArrayList<>();
         _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
         
@@ -133,7 +132,7 @@ public class Game implements Runnable {
 			  }
 			  _players.add(_players.remove(0));
 		}
-		*/
+		
 		
 		setupDashboardBonus();
 		//setupLeaderCards();
@@ -196,11 +195,11 @@ public class Game implements Runnable {
 	
 	private void setupLeaderCards() throws RemoteException{
 		List<LeaderCard> tempList = new ArrayList<>();
-        _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
-        
+        //_leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
+        _leaders = gameInformation.getLeaderDeck();
 		Collections.shuffle(_leaders);
-        //cycle n times, n = number of players
-        for (int k = 0; k < _players.size(); k++){
+        //cycle n times, n = 4
+        for (int k = 0; k < Constants.LEADER_CARDS_PER_PLAYER; k++){
             //draw 4 cards
             for (int i = 0; i < Constants.LEADER_CARDS_PER_PLAYER; i++){
                 tempList.add(_leaders.get(0));
