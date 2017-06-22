@@ -128,10 +128,10 @@ public class Game implements Runnable {
 				  tempList.clear();
 			  }
 			  _players.add(_players.remove(0));
-
-			  setupDashboardBonus();
-			  setupLeaderCards();
 		}
+		
+		setupDashboardBonus();
+		setupLeaderCards();
 	}
 	
 	public int getLeft(){
