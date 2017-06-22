@@ -15,7 +15,6 @@ import game.LeaderCard;
 import game.Resource;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
-import util.CommandStrings;
 import util.Constants;
 
 public class RMIConnectionHandler extends ConnectionHandler implements ConnectionHandlerRemote, Serializable {
@@ -55,11 +54,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		} catch (GameException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-	}
-
-	@Override
-	public void putFamiliar() throws RemoteException {
-		addToGameCommandList(CommandStrings.PUT_FAMILIAR);
 	}
 	
 	private boolean isTimeoutOver(){
@@ -101,17 +95,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		}
 	}
 	
-	public void doIspendMyFaithPoints(boolean doI) throws RemoteException{
-		addToGameCommandList(CommandStrings.SPEND_FAITH_POINTS);
-		addToGameCommandList(Boolean.toString(doI));
-	}
-	
-	private void addToGameCommandList(String command){
-		synchronized (_theGame.getActionCommandList()) {
-			_theGame.getActionCommandList().add(command);
-		}
-	}
-	
 	@Override
 	public boolean endTurn() throws RemoteException {
 		try {
@@ -139,12 +122,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		} catch (GameException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-	}
-
-	@Override
-	public void spendCouncilPrivilege(String resource) throws RemoteException {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -187,6 +164,21 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	
 	@Override
 	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException{
+		for(LeaderCard lc : tempList){
+			System.out.println(lc.getName());
+		}
 		return _clientConnectionHandler.chooseLeader(tempList);
+	}
+
+	@Override
+	public void doIspendMyFaithPoints(boolean doI) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void putFamiliar() throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 }

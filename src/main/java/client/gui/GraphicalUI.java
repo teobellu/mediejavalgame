@@ -24,7 +24,7 @@ import javafx.application.Application;
 
 public class GraphicalUI implements UI {
 	
-	private Object _returnObject = new Object();
+	private Object _returnObject = null;
 	
 	private GUI _GUI;
 	
@@ -149,17 +149,27 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public synchronized int showInitialLeaderList(List<String> leadersList) throws Exception {
+	public int showInitialLeaderList(List<String> leadersList) throws Exception {
 		_returnObject = leadersList;
 		
-		System.out.println("Waiting for leader card...");
-		_returnObject.wait();
+		List<String> tempList = new ArrayList<>();
 		
 		for(String s : leadersList){
+			tempList.add(s);
+		}
+		
+		System.out.println("Waiting for leader card...");
+		synchronized (_returnObject) {
+			_returnObject.wait();
+		}
+		
+		System.out.println("Checking leader card names...");
+		
+		for(String s : tempList){
 			if(((List<String>) _returnObject).contains(s)){
 				continue;
 			} else {
-				return leadersList.indexOf(s);
+				return tempList.indexOf(s);
 			}
 		}
 		
@@ -171,8 +181,10 @@ public class GraphicalUI implements UI {
 	}
 	
 	public void setReturnObject(Object obj){
-		_returnObject = obj;
-		_returnObject.notify();
+		synchronized (_returnObject) {
+			_returnObject = obj;
+			_returnObject.notify();
+		}
 	}
 	
 	public void setGUI(GUI gui){
@@ -251,20 +263,26 @@ public class GraphicalUI implements UI {
 		return 0;
 	}
 
-
-	/*@@
-	 * TODO
-	 * (non-Javadoc)
-	 * @ensures (* visualizza le carte e ritorna 
-	 * quale carta è stata selezionata *)
-	 */
 	@Override
 	public int chooseLeader(List<LeaderCard> tempList) {
-		List<String> names = new ArrayList<>();
-		tempList.forEach(leader -> names.add(leader.getName()));
-		//mostra le carte leader
-		//ritorna l'indice selezionato
-		String name = .... ???;
-		return names.indexOf(name);
+		// TODO Auto-generated method stub
+		return 0;
 	}
+
+
+//	/*@@
+//	 * TODO
+//	 * (non-Javadoc)
+//	 * @ensures (* visualizza le carte e ritorna 
+//	 * quale carta è stata selezionata *)
+//	 */
+//	@Override
+//	public int chooseLeader(List<LeaderCard> tempList) {
+//		List<String> names = new ArrayList<>();
+//		tempList.forEach(leader -> names.add(leader.getName()));
+//		//mostra le carte leader
+//		//ritorna l'indice selezionato
+//		String name = .... ???;
+//		return names.indexOf(name);
+//	}
 }

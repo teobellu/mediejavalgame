@@ -5,6 +5,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,6 +61,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	@Override
 	public int sendInitialLeaderList(List<String> leadersList) throws RemoteException {
 		try {
+			System.out.println("METODO SBAGLIATO CHIAMATO");//TODO
 			return _ui.showInitialLeaderList(leadersList);
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -105,12 +107,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	@Override
 	public void ping() throws RemoteException {
 		_connectionHandler.ping();		
-	}
-	
-	@Override
-	public void onConnect() throws RemoteException {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -183,7 +179,18 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 
 	@Override
 	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException {
-		return _ui.chooseLeader(tempList);
+		 List<String> names = new ArrayList<>(); 
+		 for(LeaderCard lc : tempList){
+			 System.out.println(lc.getName());
+			 names.add(lc.getName());
+		 }
+		 
+		try {
+			return _ui.showInitialLeaderList(names);
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return 0;
+		}
 	}
 	
 }

@@ -85,8 +85,7 @@ public class GUI extends Application {
 			Task<Void> task = new Task<Void>() {
 				@Override
 				protected Void call() throws Exception {
-					while (GraphicalUI.getInstance().getReturnObject() == null
-							|| ((String) GraphicalUI.getInstance().getReturnObject()).isEmpty()) {
+					while (GraphicalUI.getInstance().getReturnObject() == null) {
 						try {
 							System.out.println("Pause");
 							Thread.sleep(1000);
