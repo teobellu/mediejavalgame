@@ -162,18 +162,36 @@ public class GraphicalUI implements UI {
 			_returnObject.wait();
 		}
 		
-		System.out.println("Checking leader card names...");
-		
 		for(String s : tempList){
 			if(((List<String>) _returnObject).contains(s)){
 				continue;
 			} else {
 				_returnObject = null;
+				System.out.println("_returnObject pulito, mando risposta.");
 				return tempList.indexOf(s);
 			}
 		}
 		
 		throw new Exception("Cannot find element in list. What's going on");
+	}
+	
+	@Override
+	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
+		try {
+			System.out.println("Chiamato chooseDashboardBonus");
+			_returnObject = bonus;
+			
+			System.out.println("Waiting for player choice...");
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return (int) _returnObject;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		return 0;
 	}
 	
 	public Object getReturnObject(){
@@ -185,7 +203,6 @@ public class GraphicalUI implements UI {
 			_returnObject = obj;
 			_returnObject.notify();
 		}
-		_returnObject.notify();
 	}
 	
 	public void setGUI(GUI gui){
@@ -274,13 +291,6 @@ public class GraphicalUI implements UI {
 			return 0;
 		}
 	}
-
-	@Override
-	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 
 //	/*@@
 //	 * TODO

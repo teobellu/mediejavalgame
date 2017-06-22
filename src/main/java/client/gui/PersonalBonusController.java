@@ -1,20 +1,25 @@
 package client.gui;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
+import game.GC;
+import game.Resource;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
 
 public class PersonalBonusController {
 
 	private Stage _dialog;
-	
-	public void setDialog(Stage dialog){
-		_dialog = dialog;
-	}
 	
 	@FXML
 	private Button _bonus1;
@@ -27,62 +32,71 @@ public class PersonalBonusController {
 	@FXML
 	private Button _bonus5;
 	
-	@FXML
-	private ImageView _im00;
-	@FXML
-	private ImageView _im01;
-	@FXML
-	private ImageView _im02;
-	@FXML
-	private ImageView _im03;
-	@FXML
-	private ImageView _im04;
-	@FXML
-	private ImageView _im10;
-	@FXML
-	private ImageView _im11;
-	@FXML
-	private ImageView _im12;
-	@FXML
-	private ImageView _im13;
-	@FXML
-	private ImageView _im14;
-	@FXML
-	private ImageView _im20;
-	@FXML
-	private ImageView _im21;
-	@FXML
-	private ImageView _im22;
-	@FXML
-	private ImageView _im23;
-	@FXML
-	private ImageView _im24;
-	@FXML
-	private ImageView _im30;
-	@FXML
-	private ImageView _im31;
-	@FXML
-	private ImageView _im32;
-	@FXML
-	private ImageView _im33;
-	@FXML
-	private ImageView _im34;
-	@FXML
-	private ImageView _im40;
-	@FXML
-	private ImageView _im41;
-	@FXML
-	private ImageView _im42;
-	@FXML
-	private ImageView _im43;
-	@FXML
-	private ImageView _im44;
-
+	private List<Button> _buttons;
 	
-	private ArrayList<ImageView> _bonus1ImageViews = new ArrayList<>(Arrays.asList(_im00, _im01, _im02, _im03, _im04));
-	private ArrayList<ImageView> _bonus2ImageViews = new ArrayList<>(Arrays.asList(_im10, _im11, _im12, _im13, _im14));
-	private ArrayList<ImageView> _bonus3ImageViews = new ArrayList<>(Arrays.asList(_im20, _im21, _im22, _im23, _im24));
-	private ArrayList<ImageView> _bonus4ImageViews = new ArrayList<>(Arrays.asList(_im30, _im31, _im32, _im33, _im34));
-	private ArrayList<ImageView> _bonus5ImageViews = new ArrayList<>(Arrays.asList(_im40, _im41, _im42, _im43, _im44));
+	@FXML
+	private void initialize(){
+	}
+	
+	@FXML
+	private void onFirstButtonClicked(){
+		handleButton(1);
+	}
+	
+	@FXML
+	private void onSecondButtonClicked(){
+		handleButton(2);
+	}
+	
+	@FXML
+	private void onThirdButtonClicked(){
+		handleButton(3);
+	}
+	
+	@FXML
+	private void onFourthButtonClicked(){
+		handleButton(4);
+	}
+	
+	@FXML
+	private void onFifthButtonClicked(){
+		handleButton(5);
+	}
+	
+	private void handleButton(int i){
+		GraphicalUI.getInstance().setReturnObject(i);
+		_dialog.close();
+	}
+	
+	
+	public void setDialog(Stage dialog){
+		_dialog = dialog;
+	}
+	
+	public void setMap(HashMap<String, List<Resource>> map){
+		_buttons = new ArrayList<>();
+		
+		_buttons.add(_bonus1);
+		_buttons.add(_bonus2);
+		_buttons.add(_bonus3);
+		_buttons.add(_bonus4);
+		_buttons.add(_bonus5);
+		
+		for(int i = 0;i<_buttons.size();i++){
+			setButton(_buttons.get(i), map.get(GC.HARVEST).get(i), map.get(GC.PRODUCTION).get(i));
+		}
+	}
+	
+	private void setButton(Button button, Resource resource, Resource resource2){
+		button.setText("Produzione: "+resource.toString()+"\nRaccolto: "+resource2.toString());
+		
+		File file = new File("src/main/resources/javafx/images/personal_bonus_standard.jpg/" );
+		Image image = new Image(file.toURI().toString());
+
+		BackgroundSize backSize = new BackgroundSize(GuiSizeConstants.INITIAL_PERSONAL_BONUS_WIDTH, GuiSizeConstants.INITIAL_PERSONAL_BONUS_HEIGHT, false, false, false, true);
+		BackgroundImage backImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backSize);
+		button.setBackground(new Background(backImage));
+		button.setDisable(false);
+	}
 	
 }
