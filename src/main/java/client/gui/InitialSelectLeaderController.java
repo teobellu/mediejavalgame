@@ -14,7 +14,6 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import util.Constants;
 
 public class InitialSelectLeaderController {
 
@@ -44,22 +43,21 @@ public class InitialSelectLeaderController {
 	
 	public void setLeaderList(List<String> leaders){
 		
-		ArrayList<Button> buttons = new ArrayList<>();
+		List<Button> buttons = new ArrayList<>();
 		buttons.add(_card1);
 		buttons.add(_card2);
 		buttons.add(_card3);
 		buttons.add(_card4);
 		
-		int i = 0;
-		
-		for(;i<leaders.size();i++){
-			setBgImages(leaders.get(i), buttons.get(i));
+		int index = 0;
+		for (; index < leaders.size(); index++){
+			setBgImages(leaders.get(index), buttons.get(index));
 		}
-		
-		for(;i<Constants.LEADER_CARDS_PER_PLAYER;i++){
-			buttons.get(i).setDisable(true);
+		for(; index < buttons.size();index++){
+			buttons.get(index).setDisable(true);
 		}
 	}
+	
 	
 	@FXML
 	private void onFirstButtonClicked(){
@@ -92,7 +90,10 @@ public class InitialSelectLeaderController {
 	private void setBgImages(String leader, Button button){
 		File file = new File("src/main/resources/javafx/images/leaders/" + leader + ".jpg");
 		Image image = new Image(file.toURI().toString());
-		button.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITAL_LEADER_HEIGHT, false, false, false, true))));
+
+		BackgroundSize backSize = new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITAL_LEADER_HEIGHT, false, false, false, true);
+		BackgroundImage backImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backSize);
+		button.setBackground(new Background(backImage));
 		button.setDisable(false);
 		button.setText(leader);
 	}

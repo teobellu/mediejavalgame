@@ -185,6 +185,7 @@ public class GraphicalUI implements UI {
 			_returnObject = obj;
 			_returnObject.notify();
 		}
+		_returnObject.notify();
 	}
 	
 	public void setGUI(GUI gui){
