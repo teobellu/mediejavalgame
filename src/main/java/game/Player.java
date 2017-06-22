@@ -26,6 +26,7 @@ public class Player implements Serializable{
 	
 	/* da file: */
 	private Resource harvestBonus;	
+	
 	private Resource productionBonus;
 	
 	
@@ -203,4 +204,19 @@ public class Player implements Serializable{
 		}
 	}
 	
+	public Resource getHarvestBonus() {
+		return harvestBonus;
+	}
+
+	public void setHarvestBonus(Resource harvestBonus) {
+		this.harvestBonus = harvestBonus;
+	}
+
+	public Resource getProductionBonus() {
+		return productionBonus;
+	}
+
+	public void setProductionBonus(Resource productionBonus) {
+		this.productionBonus = productionBonus;
+	}
 }

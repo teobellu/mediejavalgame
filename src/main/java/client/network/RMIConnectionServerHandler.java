@@ -7,6 +7,7 @@ import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -191,6 +192,11 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			return 0;
 		}
+	}
+
+	@Override
+	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
+		return _ui.chooseDashboardBonus(bonus);
 	}
 	
 }

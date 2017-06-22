@@ -81,6 +81,7 @@ public class Room extends Thread {
 		GameInformation info = game.getGameInformation();
 		info.setDevelopmentDeck(fileHandler.DEVELOPMENT_DECK);
 		info.setExcommunicationDeck(fileHandler.EXCOMMUNICATION_DECK);
+		info.setBonusPlayerDashBoard(fileHandler.BONUS_PLAYER_DASHBOARD);
 		info.createBoard(fileHandler.SPACE_BONUS);//TODO
 		info.setBonusFaith(fileHandler.BONUS_FAITH);
 		
