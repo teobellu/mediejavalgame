@@ -6,14 +6,29 @@ import java.util.List;
 import game.FamilyMember;
 import game.GC;
 import game.GameBoard;
+import game.Player;
 import game.Resource;
 import game.Space;
 import game.development.DevelopmentCard;
 import util.IOHandler;
 
+/**
+ * This class is used to print information about model serialized objects
+ *
+ */
 public abstract class ModelPrinter {
 	
-	private final static IOHandler _ioHandler = new IOHandler();
+	/**
+	 * I/O handler used for write operations and read operations
+	 */
+	private static final IOHandler _ioHandler = new IOHandler();
+	
+	/**
+	 * Hide constructor
+	 */
+	private ModelPrinter(){
+		//Created to please sonarLint
+	}
 	
 	/**
 	 * Print a resource, like a print toString()
@@ -27,12 +42,20 @@ public abstract class ModelPrinter {
 			.forEach(type -> _ioHandler.writeNext(resource.get(type) + " " + type + " "));
 	}
 	
+	/**
+	 * Print all information about a space
+	 * @param space Space to print
+	 */
 	public static void printSpace(Space space){
 		_ioHandler.writeNext("Dice Required: " + space.getRequiredDiceValue() + " ");
 		_ioHandler.writeNext("Effect: " + space.getInstantEffect() + " ");
 		printListFamiliar(space.getFamiliar());
 	}
 	
+	/**
+	 * Print all information about a list of familiars
+	 * @param familiars List to print
+	 */
 	public static void printListFamiliar(List<FamilyMember> familiars){
 		if (familiars.isEmpty())
 			_ioHandler.write("No familiars here");
@@ -80,6 +103,10 @@ public abstract class ModelPrinter {
 		_ioHandler.write("");
 	}
 	
+	/**
+	 * Print all information about the game board
+	 * @param board Game board to print
+	 */
 	public static void printBoard(GameBoard board){
 		_ioHandler.write("(^_^) Here is the game board:");
 		
@@ -136,6 +163,42 @@ public abstract class ModelPrinter {
 		
 		for (int index=0; index < GameBoard.MAX_DICES; index++)
 			_ioHandler.write("Dice " + GC.FM_TYPE.get(index) + ": "+ dices.get(index));
+		
+	}
+	
+	/**
+	 * Print all information about player's loot, like cards and resources
+	 * @param me Player
+	 */
+	public static void printMyLoot(Player me){
+		//resources
+		_ioHandler.write("\n*****Resources: ");
+		printResource(me.getResource());
+		
+		//dev cards
+		_ioHandler.write("\n*****Development cards: ");
+		for(String type : GC.DEV_TYPES)
+			if (!me.getDevelopmentCards(type).isEmpty()){
+				_ioHandler.write("\n" + type);
+				for(DevelopmentCard card : me.getDevelopmentCards(type)){
+					_ioHandler.writeNext(card.getName() + " ");
+				}
+			}
+		
+		//leader cards
+		_ioHandler.write("\n*****Leader cards: ");
+		me.getLeaderCards()	
+			.forEach(leader -> _ioHandler.writeNext(leader.getName() + " "));
+		
+		//leader cards that you can activate
+		_ioHandler.write("\n*****Leader cards that you can activate: ");
+		me.getActivableLeaderCards()
+			.forEach(leader -> _ioHandler.writeNext(leader.getName() + " "));
+		
+		//free familiars
+		_ioHandler.write("\n*****Familiars: ");
+		me.getFreeMember()
+			.forEach(fam -> _ioHandler.writeNext(fam.getColor() + " with power " + fam.getValue()));
 		
 	}
 }

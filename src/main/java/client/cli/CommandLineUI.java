@@ -2,34 +2,42 @@ package client.cli;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.omg.stub.java.rmi._Remote_Stub;
 
 import client.ClientText;
 import client.UI;
-import client.gui.GraphicalUI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
-import client.network.SocketConnectionServerHandler;
 import game.FamilyMember;
 import game.GC;
 import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
 import game.Resource;
-import game.Space;
 import game.development.DevelopmentCard;
 import game.development.Territory;
 import util.Constants;
 import util.IOHandler;
 
 public class CommandLineUI implements UI {
+	
+	private Thread t = new MyThread();
+	
+	class MyThread extends Thread {
+	 
+	    @Override
+	    public void run() {
+	    	while(true){
+				String omega = _ioHandler.readLine(false);
+				_ioHandler.write(omega.toUpperCase());
+			}
+	    }
+	}
 
 	private final IOHandler _ioHandler;
+	
+	private Object locker = null;
 	
 	private List<String> commands = new ArrayList<>();
 	
@@ -146,6 +154,10 @@ public class CommandLineUI implements UI {
 			
 		}
 		
+		
+		
+		t.start();
+		
 	}
 
 	@Override
@@ -153,44 +165,6 @@ public class CommandLineUI implements UI {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
-	public void showWhatIHave(Player me){
-		//resources
-		_ioHandler.write("\n*****Resources: ");
-		GC.RES_TYPES.stream()
-			.filter(type -> me.getResource(type)>0)
-			.forEach(type -> _ioHandler.write(type + ": " + me.getResource(type)));
-		
-		//dev cards
-		_ioHandler.write("\n*****Development cards: ");
-		for(String type : GC.DEV_TYPES)
-			if (!me.getDevelopmentCards(type).isEmpty()){
-				_ioHandler.write("\n" + type);
-				for(DevelopmentCard card : me.getDevelopmentCards(type)){
-					_ioHandler.writeNext(card.getName() + " ");
-				}
-			}
-		
-		//leader cards
-		_ioHandler.write("\n*****Leader cards: ");
-		me.getLeaderCards()	
-			.forEach(leader -> _ioHandler.writeNext(leader.getName() + " "));
-		
-		//leader cards that you can activate
-		_ioHandler.write("\n*****Leader cards that you can activate: ");
-		me.getActivableLeaderCards()
-			.forEach(leader -> _ioHandler.writeNext(leader.getName() + " "));
-		
-		//free familiars
-		_ioHandler.write("\n*****Familiars: ");
-		me.getFreeMember()
-			.forEach(fam -> _ioHandler.writeNext(fam.getColor() + " with power " + fam.getValue()));
-		
-	}
-	
-	
 	
 	@Override
 	public int spendCouncil(List<Resource> resources){
@@ -212,6 +186,7 @@ public class CommandLineUI implements UI {
 	 * @return index of list, selection
 	 */
 	public int chooseLeader(List<LeaderCard> leaders){
+		t.interrupt();
 		_ioHandler.write("Select a Leader card");
 		int index = 0;
 		for(LeaderCard card : leaders){
@@ -220,6 +195,7 @@ public class CommandLineUI implements UI {
 			_ioHandler.write("Effect: " + card.getEffect().toString());
 			index++;
 		}
+		t.start();
 		return _ioHandler.readNumberWithinInterval(leaders.size() - 1);
 	}
 	
@@ -298,9 +274,9 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public int chooseCardCost(DevelopmentCard card) {
-		_ioHandler.write("This card has different costs");
-		//TODO
-		return 0;
+		_ioHandler.write("This card has different costs, choose one");
+		ModelPrinter.printCard(card);
+		return _ioHandler.readNumberWithinInterval(card.getCost().size() - 1);
 	}
 	
 
@@ -328,5 +304,11 @@ public class CommandLineUI implements UI {
 			_ioHandler.write("");
 		}
 		return _ioHandler.readNumberWithinInterval(index - 1);
+	}
+
+	@Override
+	public void showWhatIHave(Player me) {
+		// TODO Auto-generated method stub
+		ModelPrinter.printMyLoot(me);
 	}
 }

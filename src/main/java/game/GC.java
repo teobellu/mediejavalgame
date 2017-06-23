@@ -77,7 +77,7 @@ public class GC{
 	public static final String DEV_VENTURE = "venture";
 	
 	public static final List<String> DEV_TYPES = Collections.unmodifiableList(
-			Arrays.asList(DEV_TERRITORY, DEV_BUILDING, DEV_CHARACTER, DEV_VENTURE));
+			Arrays.asList(DEV_TERRITORY, DEV_CHARACTER, DEV_BUILDING, DEV_VENTURE));
 	
 	public static final Resource TAX_TOWER = new Resource(RES_COINS, 3);
 	public static final Resource FIRST_PRIZE_MILITARY = new Resource(RES_VICTORYPOINTS, 5);

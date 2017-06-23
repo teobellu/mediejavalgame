@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.development.DevelopmentCard;
 import game.state.State;
 import game.state.StateStartingTurn;
 import server.Client;
@@ -109,7 +110,21 @@ public class Game implements Runnable {
 	private void setupGame() throws RemoteException{
 		
 		setupLeaderCards();
+		List<DevelopmentCard> devDeck = gameInformation.getDevelopmentDeck();
+		
+		Collections.shuffle(devDeck);
+		
+		
+		_board.generateDevelopmentCards(devDeck, 1);
+		
+		System.out.println(_board.getCard(1, 1).getName());
+		
 		setupDashboardBonus();
+		
+		
+		
+		//_players.forEach(player -> player.getClient().getConnectionHandler().sendBoard(_board));
+		
 		
 	}
 	
@@ -256,6 +271,11 @@ public class Game implements Runnable {
 	public GameBoard getBoard() {
 		return _board;
 	}
+	
+	public void setBoard(GameBoard board) {
+		this._board = board;
+	}
+
 	
 	private Logger _log = Logger.getLogger(Game.class.getName());
 }
