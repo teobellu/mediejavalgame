@@ -82,8 +82,18 @@ public class PersonalBonusController {
 		_buttons.add(_bonus4);
 		_buttons.add(_bonus5);
 		
-		for(int i = 0;i<_buttons.size();i++){
+		int i = 0;
+		
+		System.out.println("\n\n\nsize: "+map.get(GC.HARVEST).size());
+		
+		for(; i<map.get(GC.HARVEST).size();i++){
+			System.out.println("\nSettato bottone "+i);
 			setButton(_buttons.get(i), map.get(GC.HARVEST).get(i), map.get(GC.PRODUCTION).get(i));
+		}
+		
+		for(;i<_buttons.size();i++){
+			System.out.println("\nDisattivato bottone "+i);
+			_buttons.get(i).setDisable(true);
 		}
 	}
 	

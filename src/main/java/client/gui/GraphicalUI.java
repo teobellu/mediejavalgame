@@ -200,8 +200,8 @@ public class GraphicalUI implements UI {
 	
 	public void setReturnObject(Object obj){
 		synchronized (_returnObject) {
-			_returnObject = obj;
 			_returnObject.notify();
+			_returnObject = obj;
 		}
 	}
 	
