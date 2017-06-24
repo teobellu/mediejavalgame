@@ -81,7 +81,7 @@ public class EffectGetACard implements IEffectBehavior{
 			//column = player.getClient().getConnectionHandler()
 		}
 		//TODO ottieni riga
-		
+		// row = /*copia da sopra*/
 	}
 	
 	private void getCard() throws GameException {

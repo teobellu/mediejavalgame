@@ -108,7 +108,7 @@ public class Game implements Runnable {
 	}
 	
 	private void setupGame() throws RemoteException{
-		
+		//setupDashboardBonus();
 		setupLeaderCards();
 		List<DevelopmentCard> devDeck = gameInformation.getDevelopmentDeck();
 		

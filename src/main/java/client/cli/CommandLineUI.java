@@ -4,6 +4,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+
+import org.junit.rules.Timeout;
 
 import client.ClientText;
 import client.UI;
@@ -22,16 +25,22 @@ import util.IOHandler;
 
 public class CommandLineUI implements UI {
 	
-	private Thread t = new MyThread();
+	private MyThread t = new MyThread();
 	
 	class MyThread extends Thread {
-	 
+		
+		public String answer;
+		
 	    @Override
 	    public void run() {
 	    	while(true){
-				String omega = _ioHandler.readLine(false);
-				_ioHandler.write(omega.toUpperCase());
-			}
+	    		//try{
+	    			answer = _ioHandler.readLine(false);
+	    			_ioHandler.write(answer.toUpperCase());
+	    		//}catch(InterruptedException e){
+	    			
+	    		//}
+	    	}
 	    }
 	}
 
@@ -154,8 +163,6 @@ public class CommandLineUI implements UI {
 			
 		}
 		
-		
-		
 		t.start();
 		
 	}
@@ -195,8 +202,9 @@ public class CommandLineUI implements UI {
 			_ioHandler.write("Effect: " + card.getEffect().toString());
 			index++;
 		}
+		int x = _ioHandler.readNumberWithinInterval(leaders.size() - 1);
 		t.start();
-		return _ioHandler.readNumberWithinInterval(leaders.size() - 1);
+		return x;
 	}
 	
 	@Override
