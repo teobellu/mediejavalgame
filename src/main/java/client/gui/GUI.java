@@ -69,16 +69,13 @@ public class GUI extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/MainView.fxml"));
 			AnchorPane pane = loader.load();
-
-			double width = 1068;// TODO non hardcoded
-			double height = 900;
-
-			System.out.println(width + " e " + height);
-
+			
 			_rootLayout.setMinSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
 			_rootLayout.setMaxSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
 			_rootLayout.setPrefSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
-
+			
+			_primaryStage.setTitle(_primaryStage.getTitle()+" - "+GraphicalUI.getInstance().getPlayerName());
+			
 			_rootLayout.setCenter(pane);
 
 			MainViewController controller = loader.getController();
@@ -92,9 +89,10 @@ public class GUI extends Application {
 	}
 	
 	public void createInitialLeaderObserver(){
+		Task<Void> task = createReturnObjectObserver();
+		
 		if(_counter<Constants.LEADER_CARDS_PER_PLAYER){
 			System.out.println("Creo listener per leader card");
-			Task<Void> task = createReturnObjectObserver();
 	
 			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 				@Override
@@ -103,28 +101,23 @@ public class GUI extends Application {
 				}
 			});
 	
-			Thread th = new Thread(task);
-			th.setDaemon(true);
-			th.start();
 			_counter++;
 		} else {
 			System.out.println("Creo listener per personal bonus");
 			_counter = 0;
-			Task<Void> task = createReturnObjectObserver();
 			
 			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-
 				@Override
 				public void handle(WorkerStateEvent event) {
 					showPersonalBonusDialog((HashMap<String, List<Resource>>)GraphicalUI.getInstance().getReturnObject());
 				}
 				
 			});
-			
-			Thread th = new Thread(task);
-			th.setDaemon(true);
-			th.start();
 		}
+		
+		Thread th = new Thread(task);
+		th.setDaemon(true);
+		th.start();
 	}
 	
 	public void showInitialSelectLeaderDialog(List<String> leaders) {
@@ -134,15 +127,8 @@ public class GUI extends Application {
 				loader.setLocation(GUI.class.getResource("/client/gui/InitialSelectLeaderDialog.fxml"));
 				AnchorPane pane = loader.load();
 
-				Stage dialog = new Stage();
-
-				dialog.initStyle(StageStyle.UNDECORATED);
-				dialog.setTitle("Choose Leader Card");
-				dialog.initModality(Modality.WINDOW_MODAL);
-				dialog.initOwner(_primaryStage);
-				Scene scene = new Scene(pane);
-				dialog.setScene(scene);
-
+				Stage dialog = setupDialog(pane, "Choose Leader Card");
+				
 				InitialSelectLeaderController controller = loader.getController();
 				controller.setLeaderList(leaders);
 				controller.setDialog(dialog);
@@ -208,15 +194,10 @@ public class GUI extends Application {
 			loader.setLocation(GUI.class.getResource("/client/gui/ConfigDialog.fxml"));
 			AnchorPane pane = loader.load();
 
-			Stage dialog = new Stage();
-			dialog.setTitle("Custom Config File");
-			dialog.initModality(Modality.WINDOW_MODAL);
-			dialog.initOwner(_primaryStage);
-			Scene scene = new Scene(pane);
-			dialog.setScene(scene);
+			Stage dialog = setupDialog(pane, "Custom Config File");
 
 			CustomConfigController controller = loader.getController();
-			controller.setDialogStage(dialog);
+			controller.setDialog(dialog);
 
 			dialog.showAndWait();
 			return controller.isOkClicked();
@@ -244,12 +225,7 @@ public class GUI extends Application {
 				loader.setLocation(GUI.class.getResource("/client/gui/DropLeaderDialog.fxml"));
 				AnchorPane pane = loader.load();
 
-				Stage dialog = new Stage();
-				dialog.setTitle("Drop Leader Card");
-				dialog.initModality(Modality.WINDOW_MODAL);
-				dialog.initOwner(_primaryStage);
-				Scene scene = new Scene(pane);
-				dialog.setScene(scene);
+				Stage dialog = setupDialog(pane, "Drop Leader Card");
 
 				DropLeaderController controller = loader.getController();
 				controller.setLeaderList(leaders);
@@ -267,22 +243,66 @@ public class GUI extends Application {
 			loader.setLocation(GUI.class.getResource("/client/gui/CardsInfoDialog.fxml"));
 			AnchorPane pane = loader.load();
 
-			Stage dialog = new Stage();
-
-			dialog.setTitle("Cards Summary");
-			dialog.initModality(Modality.WINDOW_MODAL);
-			dialog.initOwner(_primaryStage);
-			Scene scene = new Scene(pane);
-			dialog.setScene(scene);
+			Stage dialog = setupDialog(pane, "Cards Summary");
 
 			CardsInfoController controller = loader.getController();
-			controller.setDialogStage(dialog);
+			controller.setDialog(dialog);
 
 			dialog.showAndWait();
 
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+	
+	public void showPlaceFamiliar(List<String> familyMembers){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/PlaceFamiliarDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose Familiar");
+			
+			PlaceFamiliarController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setGUI(this);
+			controller.setFamilyMembers(familyMembers);
+			
+			dialog.showAndWait();
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	public void showPlaceWhichFamiliar(List<String> positions) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/PlaceWhichFamiliarDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose Position");
+			
+			PlaceWhichFamiliarController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setPositions(positions);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	private Stage setupDialog(AnchorPane pane, String title){
+		Stage dialog = new Stage();
+		
+		dialog.setTitle(title);
+		dialog.initStyle(StageStyle.UNDECORATED);
+		dialog.initModality(Modality.WINDOW_MODAL);
+		dialog.initOwner(_primaryStage);
+		Scene scene = new Scene(pane);
+		dialog.setScene(scene);
+		
+		return dialog;
 	}
 
 	private Stage _primaryStage;

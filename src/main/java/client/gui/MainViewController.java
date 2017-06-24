@@ -10,6 +10,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 public class MainViewController {
 
@@ -46,11 +49,22 @@ public class MainViewController {
 	private AnchorPane _buttonPane;
 	
 	@FXML
+	private TextFlow _infoTextFlow;
+	
+	@FXML
 	private void initialize(){		
 		File file = new File("src/main/resources/javafx/images/gameboard_f_c.jpeg");
 		Image bg = new Image(file.toURI().toString());
 		
 		_backgroundImage.setImage(bg);
+		
+		_buttonPane.setDisable(true);
+		
+		Text text = new Text("Waiting game initial setup...");
+		
+		text.setFont(new Font(24));
+		
+		_infoTextFlow.getChildren().add(text);
 	}
 	
 	public void setGUI(GUI gui){
@@ -59,7 +73,7 @@ public class MainViewController {
 	
 	@FXML
 	private void onFirstButtonClicked(){
-		
+		_GUI.showPlaceFamiliar(GraphicalUI.getInstance().placeFamiliar());
 	}
 	
 	@FXML

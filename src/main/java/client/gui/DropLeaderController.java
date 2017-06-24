@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
-public class DropLeaderController {
+public class DropLeaderController extends DialogAbstractController{
 
 	@FXML
 	private ChoiceBox<String> _choiceBox;

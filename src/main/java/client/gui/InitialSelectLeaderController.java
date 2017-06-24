@@ -13,9 +13,8 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-public class InitialSelectLeaderController {
+public class InitialSelectLeaderController extends DialogAbstractController{
 
 	@FXML
 	private Button _card1;
@@ -29,16 +28,11 @@ public class InitialSelectLeaderController {
 	@FXML
 	private Text _text;
 	
-	private Stage _dialog;
 	private GUI _GUI;
 	
 	@FXML
 	private void initialize(){
 		
-	}
-	
-	public void setDialog(Stage stage){
-		_dialog = stage;
 	}
 	
 	public void setLeaderList(List<String> leaders){
@@ -91,7 +85,7 @@ public class InitialSelectLeaderController {
 		File file = new File("src/main/resources/javafx/images/leaders/" + leader + ".jpg");
 		Image image = new Image(file.toURI().toString());
 
-		BackgroundSize backSize = new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITAL_LEADER_HEIGHT, false, false, false, true);
+		BackgroundSize backSize = new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITIAL_LEADER_HEIGHT, false, false, false, true);
 		BackgroundImage backImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backSize);
 		button.setBackground(new Background(backImage));
 		button.setDisable(false);

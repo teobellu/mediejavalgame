@@ -14,7 +14,11 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	
 	public void activateLeaderCard(String card) throws RemoteException;
 
-	public void putFamiliar() throws RemoteException;
+	public List<String> putFamiliar() throws RemoteException;
+	
+	public List<String> putFamiliarWhich(String familiar) throws RemoteException;
+	
+	public void putFamiliarWhere(String position) throws RemoteException;
 	
 	public void onConnect() throws RemoteException;
 
@@ -31,8 +35,6 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	public void dropWhichLeaderCard(String leaderCard) throws RemoteException;
 
 	public void sendInitialInformations(String name) throws RemoteException;
-
-	public void putFamiliarWhere(String position) throws RemoteException;
 
 	public void setClientRemote(ClientRemote rmiConnectionServerHandler) throws RemoteException;
 
