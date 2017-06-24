@@ -19,6 +19,9 @@ import misc.ServerRemote;
 import util.Constants;
 
 public class RMIConnectionServerHandler extends ConnectionServerHandler implements ClientRemote {
+	
+	private ConnectionHandlerRemote _connectionHandler;
+	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
 
 	public RMIConnectionServerHandler(String host, int port) {
 		super(host, port);
@@ -132,7 +135,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 
 	@Override
 	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
-		_connectionHandler.dropWhichLeaderCard( leaderCard);
+		_connectionHandler.dropWhichLeaderCard(leaderCard);
 	}
 	
 	@Override
@@ -150,8 +153,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		_connectionHandler.sendChosenInitialCardLeader(leader);
 	}
 	
-	private ConnectionHandlerRemote _connectionHandler;
-	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
+	
 	
 	@Override
 	public int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException {

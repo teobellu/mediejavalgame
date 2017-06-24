@@ -33,7 +33,7 @@ public class CommandLineUI implements UI {
 	
 	private static CommandLineUI _instance = null;
 	
-	private ConnectionServerHandler _connectionHandler = null;
+	private ConnectionServerHandler _connectionHandler;
 	
 	public static CommandLineUI getInstance(){
 		if(_instance==null){
@@ -70,14 +70,16 @@ public class CommandLineUI implements UI {
 		
 		
 		ConnectionServerHandler connection = ConnectionServerHandlerFactory.getConnectionServerHandler(Constants.CONNECTION_TYPES.get(selected), host, port);
-	
-		connection.setClient(getInstance());
-		
-		new Thread(connection).start();
+		connection.setClient(this);
+		//connection.setClient(getInstance()); boh TODO
 		
 		commands.addAll(CommandConstants.STANDARD_COMMANDS);
 		
 		_connectionHandler = connection;
+		
+		new Thread(connection).start();
+		
+		
 		
 		/*
 		SocketConnectionServerHandler c = (SocketConnectionServerHandler) connection;
@@ -135,7 +137,9 @@ public class CommandLineUI implements UI {
 		_ioHandler.writeList(commands);
 		selection = _ioHandler.readNumberWithinInterval(commands.size() - 1);
 		if (commands.get(selection) == CommandConstants.PLACE_FAMILIAR){
+			//_connectionHandler = null... why? :(
 			List<FamilyMember> myFreeFamiliars = _connectionHandler.putFamiliar();
+			_ioHandler.write(myFreeFamiliars.get(0).getColor() + " is the first familiar");
 			selection = _ioHandler.readNumberWithinInterval(myFreeFamiliars.size() - 1);
 			List<String> position = _connectionHandler.putFamiliarWhich("myFreeFamiliars.get(selection)");
 			selection = _ioHandler.readNumberWithinInterval(position.size() - 1);
