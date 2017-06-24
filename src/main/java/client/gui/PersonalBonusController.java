@@ -15,12 +15,9 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.stage.Stage;
 
-public class PersonalBonusController {
+public class PersonalBonusController extends DialogAbstractController{
 
-	private Stage _dialog;
-	
 	@FXML
 	private Button _bonus1;
 	@FXML
@@ -68,11 +65,6 @@ public class PersonalBonusController {
 		_dialog.close();
 	}
 	
-	
-	public void setDialog(Stage dialog){
-		_dialog = dialog;
-	}
-	
 	public void setMap(HashMap<String, List<Resource>> map){
 		_buttons = new ArrayList<>();
 		
@@ -84,15 +76,11 @@ public class PersonalBonusController {
 		
 		int i = 0;
 		
-		System.out.println("\n\n\nsize: "+map.get(GC.HARVEST).size());
-		
 		for(; i<map.get(GC.HARVEST).size();i++){
-			System.out.println("\nSettato bottone "+i);
 			setButton(_buttons.get(i), map.get(GC.HARVEST).get(i), map.get(GC.PRODUCTION).get(i));
 		}
 		
 		for(;i<_buttons.size();i++){
-			System.out.println("\nDisattivato bottone "+i);
 			_buttons.get(i).setDisable(true);
 		}
 	}
@@ -100,7 +88,7 @@ public class PersonalBonusController {
 	private void setButton(Button button, Resource resource, Resource resource2){
 		button.setText("Produzione: "+resource.toString()+"\nRaccolto: "+resource2.toString());
 		
-		File file = new File("src/main/resources/javafx/images/personal_bonus_standard.jpg/" );
+		File file = new File("src/main/resources/javafx/images/personal_bonus_standard.jpg/");
 		Image image = new Image(file.toURI().toString());
 
 		BackgroundSize backSize = new BackgroundSize(GuiSizeConstants.INITIAL_PERSONAL_BONUS_WIDTH, GuiSizeConstants.INITIAL_PERSONAL_BONUS_HEIGHT, false, false, false, true);

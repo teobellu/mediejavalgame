@@ -98,7 +98,7 @@ public class StartingViewController {
 		String connectionType = _connectionType.getValue();
 		
 		GraphicalUI.getInstance().setConnection(connectionType, address,port);
-		GraphicalUI.getInstance().setName(username);
+		GraphicalUI.getInstance().setPlayerName(username);
 		try {
 			GraphicalUI.getInstance().addMeToGame(username);
 		} catch (GameException e) {

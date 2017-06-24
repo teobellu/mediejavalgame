@@ -5,7 +5,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -14,7 +13,6 @@ import java.util.logging.Logger;
 import game.FamilyMember;
 import game.LeaderCard;
 import game.Resource;
-import javafx.beans.binding.MapExpression;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
 import misc.ServerRemote;
@@ -73,15 +71,12 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	
 	@Override
 	public List<String> putFamiliar() throws RemoteException {
-		_connectionHandler.putFamiliar();
-		//TODO
-		return null;
+		return _connectionHandler.putFamiliar();
 	}
 	
 	@Override
 	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
-		//TODO
-		return null;
+		return _connectionHandler.putFamiliarWhich(familiar);
 	}
 
 	@Override
@@ -138,11 +133,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	@Override
 	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
 		_connectionHandler.dropWhichLeaderCard( leaderCard);
-	}
-
-	@Override
-	public void spendCouncilPrivilege(String resource) throws RemoteException {
-		_connectionHandler.spendCouncilPrivilege(resource);
 	}
 	
 	@Override

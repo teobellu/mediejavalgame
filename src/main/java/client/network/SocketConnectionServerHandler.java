@@ -225,12 +225,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		writeObject(CommandStrings.DROP_WHICH_LEADER_CARD);
 		writeObject(leaderCard);
 	}
-
-	@Override
-	public void spendCouncilPrivilege(String resource) throws RemoteException {
-		writeObject(CommandStrings.HANDLE_COUNCIL);
-		writeObject(resource);
-	}
 	
 	public GameBoard getBoard(){
 		writeObject("send me board");

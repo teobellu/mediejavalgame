@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,6 @@ import game.LeaderCard;
 import game.Resource;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
-import util.Constants;
 
 public class RMIConnectionHandler extends ConnectionHandler implements ConnectionHandlerRemote, Serializable {
 
@@ -36,7 +36,8 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 
 	@Override
 	public void ping() throws RemoteException {
-		_lastPing = Date.from(Instant.now());	}
+		_lastPing = Date.from(Instant.now());	
+	}
 
 	@Override
 	public List<String> activateLeaderCard() throws RemoteException {
@@ -55,10 +56,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		} catch (GameException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-	}
-	
-	private boolean isTimeoutOver(){
-		return Date.from(Instant.now()).getTime() > (_lastPing.getTime() + Constants.TIMEOUT_CONNESSION_MILLIS);
 	}
 	
 	@Override
@@ -146,8 +143,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		_theGame.manipulateInitialLeaderList(_client, leader);
 	}
 	
-	
-	
 	@Override
 	public int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException {
 		return _clientConnectionHandler.chooseFamiliar(familiars, message);
@@ -178,8 +173,23 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public void putFamiliar() throws RemoteException {
-		// TODO Auto-generated method stub
+	public List<String> putFamiliar() throws RemoteException {
+		try {
+			return _theGame.getState().placeFamiliar();
+		} catch (GameException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return Collections.EMPTY_LIST;
+		}
+	}
+	
+	@Override
+	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
+		try {
+			return _theGame.getState().placeWhichFamiliar(familiar);
+		} catch (GameException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return Collections.EMPTY_LIST;
+		}
 	}
 	
 	@Override

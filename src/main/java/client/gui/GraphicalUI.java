@@ -78,12 +78,16 @@ public class GraphicalUI implements UI {
 		return null;
 	}
 	
-	public void setName(String name){
+	public void setPlayerName(String name){
 		_name = name;
 	}
 	
 	public void prepareXmlFile(File file){
 		_xmlFile = file;
+	}
+	
+	public String getPlayerName(){
+		return _name;
 	}
 	
 	private void sendXML(){
@@ -291,20 +295,22 @@ public class GraphicalUI implements UI {
 			return 0;
 		}
 	}
+	
+	public List<String> placeFamiliar(){
+		try {
+			return _connectionHandler.putFamiliar();
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		return null;
+	}
 
-//	/*@@
-//	 * TODO
-//	 * (non-Javadoc)
-//	 * @ensures (* visualizza le carte e ritorna 
-//	 * quale carta è stata selezionata *)
-//	 */
-//	@Override
-//	public int chooseLeader(List<LeaderCard> tempList) {
-//		List<String> names = new ArrayList<>();
-//		tempList.forEach(leader -> names.add(leader.getName()));
-//		//mostra le carte leader
-//		//ritorna l'indice selezionato
-//		String name = .... ???;
-//		return names.indexOf(name);
-//	}
+	public List<String> placeWhichFamiliar(String value) {
+		try {
+			return _connectionHandler.putFamiliarWhich(value);
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		return null;
+	}
 }

@@ -6,9 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
-public class CardsInfoController {
+public class CardsInfoController extends DialogAbstractController{
 
 	@FXML
 	private Button _arrowButton;
@@ -44,8 +43,6 @@ public class CardsInfoController {
 	
 	private boolean _isArrowClicked = false;
 	
-	private Stage _dialogStage;
-	
 	@FXML
 	private void initialize(){
 		_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom1.jpg").toURI().toString()));
@@ -66,12 +63,8 @@ public class CardsInfoController {
 		}
 	}
 	
-	public void setDialogStage(Stage stage){
-		_dialogStage = stage;
-	}
-	
 	@FXML
 	private void onOkClicked(){
-		_dialogStage.close();
+		_dialog.close();
 	}
 }

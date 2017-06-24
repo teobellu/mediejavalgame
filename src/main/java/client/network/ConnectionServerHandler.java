@@ -114,13 +114,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	 */
 	public abstract void dropWhichLeaderCard(String leaderCard) throws RemoteException;
 	
-	/**
-	 * Tell the server how I want to convert the council privilege
-	 * @param resource into i want to convert the privilege
-	 * @throws RemoteException
-	 */
-	public abstract void spendCouncilPrivilege(String resource) throws RemoteException;
-	
 	public abstract void sendChosenInitialCardLeader(String leader) throws RemoteException;
 	
 	protected boolean _isRunning = false;
