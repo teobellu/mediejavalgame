@@ -20,7 +20,7 @@ public interface UIFactory {
 		String uiType = Constants.UI_TYPES.get(choose);
 		
 		switch(uiType){
-			case Constants.CLI : return new CommandLineUI();
+			case Constants.CLI : return CommandLineUI.getInstance();
 			case Constants.GUI : return GraphicalUI.getInstance();
 			default : return null;
 		}

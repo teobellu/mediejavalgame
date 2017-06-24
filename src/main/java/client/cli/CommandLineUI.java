@@ -46,7 +46,7 @@ public class CommandLineUI implements UI {
 		return _instance;
 	}
 	
-	public CommandLineUI() {
+	private CommandLineUI() {
 		_ioHandler = new IOHandler();
 	}
 	

@@ -77,7 +77,7 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 		List<String> str = (List<String>) GraphicalUI.getInstance().getReturnObject();
 		str.remove(button.getText());
 		GraphicalUI.getInstance().setReturnObject(str);
-		_GUI.createInitialLeaderObserver();
+		_GUI.createSetupGameObserver();
 		_dialog.close();
 	}
 	

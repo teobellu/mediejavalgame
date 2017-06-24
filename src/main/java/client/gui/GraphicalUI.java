@@ -22,6 +22,7 @@ import game.Player;
 import game.Resource;
 import game.development.DevelopmentCard;
 import javafx.application.Application;
+import util.CommandStrings;
 
 public class GraphicalUI implements UI {
 	
@@ -61,7 +62,7 @@ public class GraphicalUI implements UI {
 	@Override
 	public void setConnection(String connectionType, String host, int port) {
 		_connectionHandler = ConnectionServerHandlerFactory.getConnectionServerHandler(connectionType, host, port);
-		_connectionHandler.setClient(getInstance());
+		_connectionHandler.setClient(this);
 		
 		new Thread(_connectionHandler).start();
 		
@@ -215,14 +216,12 @@ public class GraphicalUI implements UI {
 
 	@Override
 	public void showInfo(String str) {
-		// TODO Auto-generated method stub
-		
+		_returnObject = str;
 	}
 
 	@Override
 	public void showBoard(GameBoard board) {
-		// TODO Auto-generated method stub
-		
+		_returnObject = board;
 	}
 
 	@Override
@@ -251,8 +250,20 @@ public class GraphicalUI implements UI {
 
 	@Override
 	public int spendCouncil(List<Resource> options) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			_returnObject = options;
+			
+			System.out.println("Waiting user conversion...");
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return (int) _returnObject;
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			return 0;
+		}
 	}
 
 	@Override
@@ -284,6 +295,11 @@ public class GraphicalUI implements UI {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public void notifyTurn() {
+		_returnObject = CommandStrings.START_TURN;
+	}
 
 	@Override
 	public int chooseLeader(List<LeaderCard> tempList) {
@@ -298,7 +314,14 @@ public class GraphicalUI implements UI {
 	
 	public List<String> placeFamiliar(){
 		try {
-			return _connectionHandler.putFamiliar();
+			List<FamilyMember> familiars = _connectionHandler.putFamiliar();
+			List<String> familiarNames = new ArrayList<>();
+			
+			for(FamilyMember fm : familiars){
+				familiarNames.add(fm.getColor() + " - " + fm.getValue());
+			}
+			
+			return familiarNames;
 		} catch (RemoteException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}

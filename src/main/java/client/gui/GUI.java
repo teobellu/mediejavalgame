@@ -20,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import util.CommandStrings;
 import util.Constants;
 
 public class GUI extends Application {
@@ -81,14 +82,15 @@ public class GUI extends Application {
 			MainViewController controller = loader.getController();
 			controller.setGUI(this);
 
-			createInitialLeaderObserver();
+			createSetupGameObserver();
 			
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
-	public void createInitialLeaderObserver(){
+	@SuppressWarnings("unchecked")
+	public void createSetupGameObserver(){
 		Task<Void> task = createReturnObjectObserver();
 		
 		if(_counter<Constants.LEADER_CARDS_PER_PLAYER){
@@ -120,6 +122,57 @@ public class GUI extends Application {
 		th.start();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void createMainObserver(){
+		Task<Void> task = createReturnObjectObserver();
+		
+		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				processObject();
+			}
+			
+			private void processObject(){
+				Object obj = GraphicalUI.getInstance().getReturnObject();
+				if(obj instanceof String){
+					processString((String) obj);
+				} else if(obj instanceof List<?>){
+					if(((List) obj).get(0) instanceof Resource){
+						showCouncilPrivilegeDialog((List<Resource>)obj);
+					}
+				}
+			}
+			
+			private void processString(String str){
+				if(str.equals(CommandStrings.START_TURN)){
+					startTurn();
+				}
+			}
+		});
+	}
+	
+	public void showCouncilPrivilegeDialog(List<Resource> resources) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("client/gui/CouncilPrivilegeDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Handle Council privilege");
+			
+			CouncilPrivilegeController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setResources(resources);
+			
+			dialog.showAndWait();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void startTurn(){
+		//TODO
+	}
+	
 	public void showInitialSelectLeaderDialog(List<String> leaders) {
 		if (!leaders.isEmpty()) {
 			try {
@@ -135,7 +188,6 @@ public class GUI extends Application {
 				controller.setGUI(this);
 
 				dialog.showAndWait();
-
 			} catch (IOException e) {
 				_log.log(Level.SEVERE, e.getMessage(), e);
 			}
@@ -173,7 +225,7 @@ public class GUI extends Application {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				Thread.sleep(5000);
+				Thread.sleep(4000);
 				
 				while (GraphicalUI.getInstance().getReturnObject() == null) {
 					try {
