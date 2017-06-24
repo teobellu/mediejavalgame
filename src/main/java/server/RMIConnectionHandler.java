@@ -140,7 +140,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
-		_theGame.manipulateInitialLeaderList(_client, leader);
+		//_theGame.manipulateInitialLeaderList(_client, leader);TODO
 	}
 	
 	@Override
@@ -173,7 +173,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public List<String> putFamiliar() throws RemoteException {
+	public List<FamilyMember> putFamiliar() throws RemoteException {
 		try {
 			return _theGame.getState().placeFamiliar();
 		} catch (GameException e) {
@@ -195,5 +195,10 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
 		return _clientConnectionHandler.chooseDashboardBonus(bonus);
+	}
+
+	@Override
+	public void notifyTurn() throws RemoteException {
+		_clientConnectionHandler.notifyTurn();
 	}
 }

@@ -16,8 +16,6 @@ import server.Room;
 import util.Constants;
 
 public class Game implements Runnable {
-
-	List<List<String>> _tempLeaderCardForEachPlayer = new ArrayList<>();
 	
 	private List<Player> _players = new ArrayList<>();
 
@@ -83,9 +81,9 @@ public class Game implements Runnable {
 	
 	//x sonar
 	private void cycleState(){
-		for(_phase = 0;_phase<_players.size();_phase++)
-			while(_state!=null)
-				_state = _state.doState();
+		//for(_phase = 0;_phase<_players.size();_phase++)
+			//while(_state!=null)
+				//_state = _state.doState();
 	}
 
 	public boolean isOver() {
@@ -120,7 +118,8 @@ public class Game implements Runnable {
 		System.out.println(_board.getCard(1, 1).getName());
 		
 		setupDashboardBonus();
-		
+		 //facciamo finta che tocca al giocatore 1
+		_players.get(0).getClient().getConnectionHandler().notifyTurn();
 		
 		
 		//_players.forEach(player -> player.getClient().getConnectionHandler().sendBoard(_board));
@@ -140,7 +139,7 @@ public class Game implements Runnable {
 	 * Add the chosen leader card to the right player, and removes it from the temporary list
 	 * @param cli the client of the player who's choosing
 	 * @param leader the name of the card chosen
-	 */
+	 
 	public void manipulateInitialLeaderList(Client cli, String leader){
 		try {
 			for(int i = 0;i<_players.size();i++){
@@ -167,7 +166,7 @@ public class Game implements Runnable {
 	/**
 	 * Non memorizza le liste...!
 	 * @throws RemoteException
-	 */
+	 
 	@Deprecated
 	private void setupLeaderCards_SENZA_MEMORIA() throws RemoteException{
 		System.out.println("Setup Leader cards");
@@ -198,7 +197,7 @@ public class Game implements Runnable {
 			  _players.add(_players.remove(0));
 		}
 	}
-	
+	*/
 	private void setupLeaderCards() throws RemoteException{
 		
         _leaders = gameInformation.getLeaderDeck();

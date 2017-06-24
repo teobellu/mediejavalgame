@@ -1,10 +1,12 @@
 package game.state;
 
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
+import game.FamilyMember;
 import game.Game;
 import game.LeaderCard;
 import util.CommandStrings;
@@ -16,18 +18,6 @@ public class StateDropLeaderCard extends State {
 	}
 
 	@Override
-	public State doState() {
-		try {
-			String action = _theGame.getNextGameAction();
-			
-			return processAction(action);
-		} catch (GameException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return null;
-		}
-	}
-
-	@Override
 	public List<String> dropLeaderCard() throws GameException {
 		throw new GameException("Called method dropLeaderCard in StateDropLeaderCard");
 	}
@@ -36,7 +26,12 @@ public class StateDropLeaderCard extends State {
 	public void dropWhichLeaderCard(String leader) throws GameException {
 		for(LeaderCard lc : _player.getLeaderCards()){
 			if(lc.getName().equals(leader)){
-				_theGame.getDynamicBar().discardLeaderCard(lc);
+				try {
+					_theGame.getDynamicBar().discardLeaderCard(lc);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				//TODO
 				
@@ -61,7 +56,7 @@ public class StateDropLeaderCard extends State {
 	}
 
 	@Override
-	public List<String> placeFamiliar() throws GameException {
+	public List<FamilyMember> placeFamiliar() throws GameException {
 		throw new GameException("Called method placeFamiliar in StateDropLeaderCard");
 	}
 

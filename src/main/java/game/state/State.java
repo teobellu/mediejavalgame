@@ -3,6 +3,7 @@ package game.state;
 import java.util.List;
 
 import exceptions.GameException;
+import game.FamilyMember;
 import game.Game;
 import game.Player;
 import server.Client;
@@ -18,8 +19,6 @@ public abstract class State {
 		_player = _theGame.getCurrentPlayer();
 	}
 	
-	public abstract State doState();
-	
 	public abstract List<String> dropLeaderCard() throws GameException;
 	
 	public abstract void dropWhichLeaderCard(String leader) throws GameException;
@@ -31,7 +30,7 @@ public abstract class State {
 	//TODO alcune carte richiedono interazione
 	public abstract void activateWhichLeaderCard(String leader) throws GameException;
 	
-	public abstract List<String> placeFamiliar() throws GameException;
+	public abstract List<FamilyMember> placeFamiliar() throws GameException;
 	
 	public abstract List<String> placeWhichFamiliar(String familiar) throws GameException;
 	

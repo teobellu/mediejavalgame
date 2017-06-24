@@ -132,9 +132,9 @@ public class Room extends Thread {
 	}
 	
 	public void broadcastMessage(String message){
-		for(Client p : clients){
+		/*for(Client p : clients){
 			p.getConnectionHandler().sendToClient(message);
-		}
+		}*///TODO
 	}
 	
 	public void setStartTimeout(long time){

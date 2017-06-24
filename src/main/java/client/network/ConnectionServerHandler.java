@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import client.UI;
+import game.FamilyMember;
 
 public abstract class ConnectionServerHandler extends Thread {
 
@@ -32,7 +33,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @return the list of available familiars
 	 * @throws RemoteException
 	 */
-	public abstract List<String> putFamiliar() throws RemoteException;
+	public abstract List<FamilyMember> putFamiliar() throws RemoteException;
 	
 	
 	/**

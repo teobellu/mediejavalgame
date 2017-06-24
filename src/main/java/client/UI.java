@@ -72,6 +72,8 @@ public interface UI extends Runnable{
 	public int chooseLeader(List<LeaderCard> tempList);
 
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus);
+
+	public void notifyTurn();
 	
 	
 }

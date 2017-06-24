@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
+import game.FamilyMember;
 import game.Game;
 import game.LeaderCard;
 import util.CommandStrings;
@@ -14,20 +15,6 @@ public class StateStartingTurn extends State{
 
 	public StateStartingTurn(Game game) {
 		super(game);
-	}
-
-	@Override
-	public State doState() {
-		try{
-			_player.getClient().getConnectionHandler().startTurn();
-			
-			String action = _theGame.getNextGameAction();
-			
-			return processAction(action);
-		}catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return null;
-		}
 	}
 	
 	@Override
@@ -78,9 +65,8 @@ public class StateStartingTurn extends State{
 	}
 	
 	@Override
-	public List<String> placeFamiliar() throws GameException {
-		//TODO
-		return null;
+	public List<FamilyMember> placeFamiliar() throws GameException {
+		return _player.getFreeMember();
 	}
 
 	@Override

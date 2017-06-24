@@ -24,25 +24,6 @@ import util.Constants;
 import util.IOHandler;
 
 public class CommandLineUI implements UI {
-	
-	private MyThread t = new MyThread();
-	
-	class MyThread extends Thread {
-		
-		public String answer;
-		
-	    @Override
-	    public void run() {
-	    	while(true){
-	    		//try{
-	    			answer = _ioHandler.readLine(false);
-	    			_ioHandler.write(answer.toUpperCase());
-	    		//}catch(InterruptedException e){
-	    			
-	    		//}
-	    	}
-	    }
-	}
 
 	private final IOHandler _ioHandler;
 	
@@ -51,6 +32,8 @@ public class CommandLineUI implements UI {
 	private List<String> commands = new ArrayList<>();
 	
 	private static CommandLineUI _instance = null;
+	
+	private ConnectionServerHandler _connectionHandler = null;
 	
 	public static CommandLineUI getInstance(){
 		if(_instance==null){
@@ -92,9 +75,9 @@ public class CommandLineUI implements UI {
 		
 		new Thread(connection).start();
 		
+		commands.addAll(CommandConstants.STANDARD_COMMANDS);
 		
-		
-		
+		_connectionHandler = connection;
 		
 		/*
 		SocketConnectionServerHandler c = (SocketConnectionServerHandler) connection;
@@ -135,6 +118,33 @@ public class CommandLineUI implements UI {
 		return connection;
 	}
 	
+	@Override
+	public void notifyTurn() {
+		_ioHandler.write("It's your turn! :D");
+		try {
+			handleTurn();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void handleTurn() throws RemoteException{
+		int selection = 0;
+		_ioHandler.write("What do you want to do?");
+		_ioHandler.writeList(commands);
+		selection = _ioHandler.readNumberWithinInterval(commands.size() - 1);
+		if (commands.get(selection) == CommandConstants.PLACE_FAMILIAR){
+			List<FamilyMember> myFreeFamiliars = _connectionHandler.putFamiliar();
+			selection = _ioHandler.readNumberWithinInterval(myFreeFamiliars.size() - 1);
+			List<String> position = _connectionHandler.putFamiliarWhich("myFreeFamiliars.get(selection)");
+			selection = _ioHandler.readNumberWithinInterval(position.size() - 1);
+			_connectionHandler.putFamiliarWhere(position.get(selection));
+			//fine, esco da questo metodo
+		}
+		
+	}
+	
 	public String getUsername(){
 		//Get username
 		_ioHandler.write("Welcome! Select your nickname");
@@ -162,8 +172,6 @@ public class CommandLineUI implements UI {
 		} catch (RemoteException e) {
 			
 		}
-		
-		t.start();
 		
 	}
 
@@ -193,7 +201,6 @@ public class CommandLineUI implements UI {
 	 * @return index of list, selection
 	 */
 	public int chooseLeader(List<LeaderCard> leaders){
-		t.interrupt();
 		_ioHandler.write("Select a Leader card");
 		int index = 0;
 		for(LeaderCard card : leaders){
@@ -202,9 +209,7 @@ public class CommandLineUI implements UI {
 			_ioHandler.write("Effect: " + card.getEffect().toString());
 			index++;
 		}
-		int x = _ioHandler.readNumberWithinInterval(leaders.size() - 1);
-		t.start();
-		return x;
+		return _ioHandler.readNumberWithinInterval(leaders.size() - 1);
 	}
 	
 	@Override
@@ -319,4 +324,6 @@ public class CommandLineUI implements UI {
 		// TODO Auto-generated method stub
 		ModelPrinter.printMyLoot(me);
 	}
+
+	
 }

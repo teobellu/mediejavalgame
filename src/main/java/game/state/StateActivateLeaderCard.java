@@ -3,6 +3,7 @@ package game.state;
 import java.util.List;
 
 import exceptions.GameException;
+import game.FamilyMember;
 import game.Game;
 import game.LeaderCard;
 
@@ -13,17 +14,12 @@ public class StateActivateLeaderCard extends State {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public State doState() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/*
 	@Override
 	protected State processAction(String action) throws GameException {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 
 	@Override
 	public List<String> dropLeaderCard() throws GameException {
@@ -57,7 +53,23 @@ public class StateActivateLeaderCard extends State {
 				return;
 			}
 		}
-		
+	}
+
+	@Override
+	public List<FamilyMember> placeFamiliar() throws GameException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> placeWhichFamiliar(String familiar) throws GameException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void placeWhereFamiliar(String position) throws GameException {
+		// TODO Auto-generated method stub
 		
 	}
 

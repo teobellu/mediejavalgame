@@ -5,6 +5,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import game.FamilyMember;
+
 public interface ConnectionHandlerRemote extends Remote, Serializable {
 
 
@@ -14,7 +16,7 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	
 	public void activateLeaderCard(String card) throws RemoteException;
 
-	public List<String> putFamiliar() throws RemoteException;
+	public List<FamilyMember> putFamiliar() throws RemoteException;
 	
 	public List<String> putFamiliarWhich(String familiar) throws RemoteException;
 	

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.FamilyMember;
 import game.GameBoard;
 import util.CommandStrings;
 import util.Constants;
@@ -48,7 +49,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	@Override
-	public List<String> putFamiliar() throws RemoteException {
+	public List<FamilyMember> putFamiliar() throws RemoteException {
 			String message = CommandStrings.PUT_FAMILIAR;
 			writeObject(message);
 			
@@ -61,8 +62,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (familiars) {
 				
 			}
-			
-			return familiars;
+			return null;//TODO ovviamente non ritorno null
+			//return familiars;
 			//TODO quale familiare
 			//TODO dove piazzarlo
 			//TODO aumentare il suo valore? Se s�, di quanto?

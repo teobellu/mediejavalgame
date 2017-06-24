@@ -70,7 +70,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 	
 	@Override
-	public List<String> putFamiliar() throws RemoteException {
+	public List<FamilyMember> putFamiliar() throws RemoteException {
 		return _connectionHandler.putFamiliar();
 	}
 	
@@ -190,6 +190,11 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
 		return _ui.chooseDashboardBonus(bonus);
+	}
+
+	@Override
+	public void notifyTurn() throws RemoteException {
+		_ui.notifyTurn();
 	}
 	
 }

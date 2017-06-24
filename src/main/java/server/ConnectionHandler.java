@@ -74,5 +74,8 @@ public abstract class ConnectionHandler implements Runnable {
 	//TODO GAME METHOD, SELEZIONE TESSERA BONUS
 	public abstract int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
 
+	//TODO dice al giocatore che è il suo turno
+	public abstract void notifyTurn() throws RemoteException;
+
 	
 }

@@ -7,16 +7,26 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
+import game.LeaderCard;
 import game.Resource;
 import util.CommandStrings;
 
 public class SocketConnectionHandler extends ConnectionHandler {
+	
+	private Object _returnObject;
+	private Socket _socket;
+	private ObjectInputStream _inputStream;
+	private ObjectOutputStream _outputStream;
+	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
+
+	private Thread _reader;
 
 	public SocketConnectionHandler(Socket socket) {
 		try {
@@ -214,12 +224,22 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	private Object _returnObject;
-	private Socket _socket;
-	private ObjectInputStream _inputStream;
-	private ObjectOutputStream _outputStream;
-	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
 
-	private Thread _reader;
+	@Override
+	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void notifyTurn() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
 }

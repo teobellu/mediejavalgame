@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
+import game.FamilyMember;
 import game.Game;
 import util.CommandStrings;
 
@@ -13,18 +14,6 @@ public class StatePlaceFamiliar extends State {
 
 	public StatePlaceFamiliar(Game game) {
 		super(game);
-	}
-
-	@Override
-	public State doState() {
-		try {
-			String action = _theGame.getNextGameAction();
-			
-			return processAction(action);
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return null;
-		}
 	}
 	
 	@Override
@@ -53,7 +42,7 @@ public class StatePlaceFamiliar extends State {
 	}
 	
 	@Override
-	public List<String> placeFamiliar() throws GameException {
+	public List<FamilyMember> placeFamiliar() throws GameException {
 		throw new GameException("Called method placeFamiliar in StatePlaceFamiliar");
 	}
 
