@@ -46,16 +46,16 @@ public class StatePlaceFamiliar extends State {
 		throw new GameException("Called method placeFamiliar in StatePlaceFamiliar");
 	}
 
-	@Override
 	public List<String> placeWhichFamiliar(int whichFamiliar) throws GameException {
-		if (whichFamiliar < 0 || whichFamiliar >= _player.getFreeMember().size())
+		/*if (whichFamiliar < 0 || whichFamiliar >= _player.getFreeMember().size())
 			throw new GameException("Invalid input, you don't have this familiar!");
 		FamilyMember familiar = _player.getFreeMember().get(whichFamiliar);
 		_whichFamiliar = familiar;
 		List<String> placesAvailable = new ArrayList<>();
 		//TODO calcolare quale posti sono disponibili
 		
-		return placesAvailable;
+		return placesAvailable;*/
+		return null;
 	}
 
 	@Override

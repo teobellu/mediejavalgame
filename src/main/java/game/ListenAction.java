@@ -75,6 +75,7 @@ public class ListenAction{
 	}
 	
 	public void endTurn() throws GameException{
+		_theGame.getState().nextState();
 		//TODO avviso il player che è tutto ok
 		//TODO avviso gli altri player
 		//TODO svuoto la lista delle azioni

@@ -5,8 +5,14 @@ import java.util.List;
 
 import client.UI;
 import game.FamilyMember;
+import game.GameBoard;
 
 public abstract class ConnectionServerHandler extends Thread {
+	
+	protected boolean _isRunning = false;
+	protected final String _host;
+	protected int _port;
+	protected UI _ui;
 
 	@Override
 	public void run() {}
@@ -117,10 +123,8 @@ public abstract class ConnectionServerHandler extends Thread {
 	
 	public abstract void sendChosenInitialCardLeader(String leader) throws RemoteException;
 	
-	protected boolean _isRunning = false;
-	protected final String _host;
-	protected int _port;
-	protected UI _ui;
+	
+	//public abstract GameBoard getBoard() throws RemoteException;
 	
 	
 }

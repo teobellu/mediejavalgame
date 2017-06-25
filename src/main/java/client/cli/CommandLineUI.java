@@ -26,6 +26,8 @@ import util.IOHandler;
 
 public class CommandLineUI implements UI {
 	
+	private GameBoard _board;
+	
 	private Player _me;
 
 	private final IOHandler _ioHandler;
@@ -126,6 +128,7 @@ public class CommandLineUI implements UI {
 	@Override
 	public void notifyTurn() {
 		_ioHandler.write("It's your turn! :D");
+		//_board = _connectionHandler.getBoard();
 		try {
 			handleTurn();
 		} catch (RemoteException e) {
@@ -168,12 +171,12 @@ public class CommandLineUI implements UI {
 					position = new Position(where, selection);
 					break;
 				}
-				default : {
-					position = new Position(where);
-				}
+				default : position = new Position(where);
 			}
 			//_connectionHandler.placeFamiliar(selectedFamiliar, position);
 			//fine, esco da questo metodo
+		}else if (commands.get(selection) == CommandConstants.PLACE_FAMILIAR){
+			
 		}
 		
 	}
