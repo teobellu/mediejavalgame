@@ -10,8 +10,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import exceptions.GameException;
 import game.FamilyMember;
+import game.GameBoard;
 import game.LeaderCard;
+import game.Player;
+import game.Position;
 import game.Resource;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
@@ -124,11 +128,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 
 	@Override
-	public boolean endTurn() throws RemoteException {
-		return _connectionHandler.endTurn();
-	}
-
-	@Override
 	public List<String> dropLeaderCard() throws RemoteException {
 		return _connectionHandler.dropLeaderCard();
 	}
@@ -194,6 +193,36 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	@Override
 	public void notifyTurn() throws RemoteException {
 		
+	}
+
+	@Override
+	public GameBoard getBoard() throws RemoteException {
+		return _connectionHandler.getBoard();
+	}
+
+	@Override
+	public Player getMe() throws RemoteException {
+		return _connectionHandler.getMe();
+	}
+
+	@Override
+	public void dropLeaderCard(LeaderCard card) throws GameException, RemoteException {
+		_connectionHandler.dropLeaderCard(card);
+	}
+
+	@Override
+	public void activateLeaderCard(LeaderCard card) throws GameException, RemoteException {
+		_connectionHandler.activateLeaderCard(card);
+	}
+
+	@Override
+	public void placeFamiliar(FamilyMember familiar, Position position) throws GameException, RemoteException {
+		_connectionHandler.placeFamiliar(familiar, position);
+	}
+
+	@Override
+	public void endTurn() throws GameException, RemoteException {
+		_connectionHandler.endTurn();
 	}
 	
 }

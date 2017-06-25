@@ -13,7 +13,10 @@ import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.FamilyMember;
+import game.GameBoard;
 import game.LeaderCard;
+import game.Player;
+import game.Position;
 import game.Resource;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
@@ -93,6 +96,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		}
 	}
 	
+	/*
 	@Override
 	public boolean endTurn() throws RemoteException {
 		try {
@@ -102,6 +106,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 			return false;
 		}
 	}
+	*/
 
 	@Override
 	public List<String> dropLeaderCard() throws RemoteException {
@@ -195,5 +200,40 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
 		return _clientConnectionHandler.chooseDashboardBonus(bonus);
+	}
+
+	@Override
+	public void notifyTurn() throws RemoteException {
+		_clientConnectionHandler.notifyTurn();
+	}
+
+	@Override
+	public GameBoard getBoard() throws RemoteException {
+		return _theGame.getListener().getGameBoard();
+	}
+
+	@Override
+	public Player getMe() throws RemoteException {
+		return _theGame.getListener().getMe();
+	}
+
+	@Override
+	public void dropLeaderCard(LeaderCard card) throws RemoteException, GameException {
+		_theGame.getListener().dropLeaderCard(card);
+	}
+
+	@Override
+	public void activateLeaderCard(LeaderCard card) throws RemoteException, GameException {
+		_theGame.getListener().activateLeaderCard(card);
+	}
+
+	@Override
+	public void placeFamiliar(FamilyMember familiar, Position position) throws RemoteException, GameException {
+		_theGame.getListener().placeFamiliar(familiar, position);
+	}
+
+	@Override
+	public void endTurn() throws RemoteException, GameException {
+		_theGame.getListener().endTurn();
 	}
 }

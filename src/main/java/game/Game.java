@@ -16,6 +16,8 @@ import util.Constants;
 
 public class Game implements Runnable {
 	
+	private ListenAction _listener;
+	
 	private List<Player> _players = new ArrayList<>();
 
 	private GameBoard _board;
@@ -97,7 +99,8 @@ public class Game implements Runnable {
 	}
 	
 	public Player getCurrentPlayer(){
-		return _players.get(_phase);
+		return _state.getCurrenPlayer();
+		//return _players.get(_phase);
 	}
 	
 	public GameBoard getGameBoard() {
@@ -105,17 +108,45 @@ public class Game implements Runnable {
 	}
 	
 	private void setupGame() throws RemoteException{
+		Collections.shuffle(_players);
+		
 		setupLeaderCards();
+		
+		Collections.shuffle(gameInformation.getDevelopmentDeck());
+		
+		
 		List<DevelopmentCard> devDeck = gameInformation.getDevelopmentDeck();
-		
-		Collections.shuffle(devDeck);
-		
-		
 		_board.generateDevelopmentCards(devDeck, 1);
 		
-		System.out.println(_board.getCard(1, 1).getName());
+		int n = 5;
+		for (Player p : _players){
+			p.gain(new Resource(GC.RES_WOOD, 2));
+			p.gain(new Resource(GC.RES_STONES, 2));
+			p.gain(new Resource(GC.RES_SERVANTS, 3));
+			p.gain(new Resource(GC.RES_COINS, n));
+			n++;
+		}
+		
+		List<FamilyMember> familiars = new ArrayList<>();
+		familiars.add(new FamilyMember(GC.FM_BLACK));
+		familiars.add(new FamilyMember(GC.FM_ORANGE));
+		familiars.add(new FamilyMember(GC.FM_WHITE));
+		familiars.add(new FamilyMember(GC.FM_TRANSPARENT));
+		
+		familiars.forEach(fam -> fam.setValue(2));
+		
+		for (Player p : _players){
+			List<FamilyMember> members = new ArrayList<>(familiars);
+			p.setFreeMember(members);
+		}
 		
 		setupDashboardBonus();
+		
+		_state = new StateStartingTurn(this);
+		_state.setupState();
+		_listener = new ListenAction(this);
+		
+		
 		 //facciamo finta che tocca al giocatore 1
 		List<FamilyMember> testFM = new ArrayList<>();
 		FamilyMember FM1 = new FamilyMember(GC.FM_BLACK);
@@ -129,6 +160,10 @@ public class Game implements Runnable {
 		
 		//_players.forEach(player -> player.getClient().getConnectionHandler().sendBoard(_board));
 		
+		
+	}
+	
+	public void setNewCards(){
 		
 	}
 	
@@ -284,6 +319,14 @@ public class Game implements Runnable {
 	
 	public void setBoard(GameBoard board) {
 		this._board = board;
+	}
+
+	public ListenAction getListener() {
+		return _listener;
+	}
+
+	public void setListener(ListenAction listener) {
+		this._listener = listener;
 	}
 
 	private Logger _log = Logger.getLogger(Game.class.getName());
