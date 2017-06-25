@@ -128,7 +128,14 @@ public class CommandLineUI implements UI {
 	@Override
 	public void notifyTurn() {
 		_ioHandler.write("It's your turn! :D");
-		//_board = _connectionHandler.getBoard();
+		try {
+			_board = _connectionHandler.getBoard();
+			_me = _connectionHandler.getMe();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		try {
 			handleTurn();
 		} catch (RemoteException e) {

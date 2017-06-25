@@ -17,6 +17,8 @@ import util.Constants;
 
 public class Game implements Runnable {
 	
+	private ListenAction _listener;
+	
 	private List<Player> _players = new ArrayList<>();
 
 	private GameBoard _board;
@@ -98,7 +100,8 @@ public class Game implements Runnable {
 	}
 	
 	public Player getCurrentPlayer(){
-		return _players.get(_phase);
+		return _state.getCurrenPlayer();
+		//return _players.get(_phase);
 	}
 	
 	public GameBoard getGameBoard() {
@@ -143,7 +146,7 @@ public class Game implements Runnable {
 		
 		_state = new StateStartingTurn(this);
 		_state.setupState();
-		
+		_listener = new ListenAction(this);
 		
 		
 		 //facciamo finta che tocca al giocatore 1
@@ -315,5 +318,14 @@ public class Game implements Runnable {
 	}
 
 	
+	public ListenAction getListener() {
+		return _listener;
+	}
+
+	public void setListener(ListenAction listener) {
+		this._listener = listener;
+	}
+
+
 	private Logger _log = Logger.getLogger(Game.class.getName());
 }

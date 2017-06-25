@@ -4,8 +4,12 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import client.UI;
+import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
+import game.LeaderCard;
+import game.Player;
+import game.Position;
 
 public abstract class ConnectionServerHandler extends Thread {
 	
@@ -105,7 +109,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @return can I end my turn?
 	 * @throws RemoteException
 	 */
-	public abstract boolean endTurn() throws RemoteException;
+	//public abstract boolean endTurn() throws RemoteException;
 	
 	/**
 	 * Tell the server I want to drop a leader card
@@ -123,8 +127,10 @@ public abstract class ConnectionServerHandler extends Thread {
 	
 	public abstract void sendChosenInitialCardLeader(String leader) throws RemoteException;
 	
-	
-	//public abstract GameBoard getBoard() throws RemoteException;
-	
-	
+	public abstract GameBoard getBoard() throws RemoteException;
+	public abstract Player getMe() throws RemoteException;
+	public abstract void dropLeaderCard(LeaderCard card) throws GameException, RemoteException;
+	public abstract void activateLeaderCard(LeaderCard card) throws GameException, RemoteException;
+	public abstract void placeFamiliar(FamilyMember familiar, Position position) throws GameException, RemoteException;
+	public abstract void endTurn() throws GameException, RemoteException;
 }

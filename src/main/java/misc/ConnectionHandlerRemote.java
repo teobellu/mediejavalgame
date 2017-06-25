@@ -5,7 +5,12 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import exceptions.GameException;
 import game.FamilyMember;
+import game.GameBoard;
+import game.LeaderCard;
+import game.Player;
+import game.Position;
 
 public interface ConnectionHandlerRemote extends Remote, Serializable {
 
@@ -28,7 +33,7 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 
 	public void sendConfigFile(String file) throws RemoteException;
 
-	public boolean endTurn() throws RemoteException;
+	//public boolean endTurn() throws RemoteException;
 
 	public void doIspendMyFaithPoints(boolean doI) throws RemoteException;
 	
@@ -41,4 +46,19 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	public void setClientRemote(ClientRemote rmiConnectionServerHandler) throws RemoteException;
 
 	public void sendChosenInitialCardLeader(String leader) throws RemoteException;
+	
+	//NEW:
+
+	public GameBoard getBoard() throws RemoteException;
+	
+	public Player getMe() throws RemoteException;
+	
+	public void dropLeaderCard(LeaderCard card) throws RemoteException, GameException;
+
+	public void activateLeaderCard(LeaderCard card) throws RemoteException, GameException;
+
+	public void placeFamiliar(FamilyMember familiar, Position position) throws RemoteException, GameException;
+	
+	public void endTurn() throws RemoteException, GameException;
+
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import exceptions.GameException;
 import game.FamilyMember;
 import game.Game;
+import game.ListenAction;
 import game.Player;
 import server.Client;
 
@@ -31,6 +32,7 @@ public abstract class State {
 		phase = 1;
 		vatican = false;
 		_theGame.getDynamicBar().setPlayer(_players.get(0));
+		_theGame.setListener(new ListenAction(_theGame));
 		try {
 			_player.getClient().getConnectionHandler().notifyTurn();
 		} catch (RemoteException e) {
@@ -79,6 +81,10 @@ public abstract class State {
 	
 	//TODO string?
 	public abstract void placeWhereFamiliar(String position) throws GameException;
+
+	public Player getCurrenPlayer() {
+		return _player;
+	}
 
 	
 }
