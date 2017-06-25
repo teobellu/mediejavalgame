@@ -34,6 +34,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			_outputStream = new ObjectOutputStream(_socket.getOutputStream());
 			_inputStream = new ObjectInputStream(_socket.getInputStream());
 			
+			_reader = new Thread(new MyRunnable());
+			
 			_log.info("Socket Connection is up");
 			
 			_isRunning = true;
@@ -45,7 +47,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	
 	@Override
 	public void run() {
-		
+		_reader.start();
 	}
 	
 	@Override
@@ -55,7 +57,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			List<String> familiars = new ArrayList<String>();
 			while(message!=CommandStrings.END_TRANSMISSION){
-				message = (String) readObject();
+				message = (String) getFromClient();
 				familiars.add(message);
 			}
 			
@@ -76,7 +78,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(familiar);
 			List<String> positions = new ArrayList<>();
 			while(message!=CommandStrings.END_TRANSMISSION){
-				message = (String) readObject();
+				message = (String) getFromClient();
 				positions.add(message);
 			}
 			
@@ -145,7 +147,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.ADD_TO_GAME);
 			writeObject(name);
 			
-			if (readObject().equals(CommandStrings.ADD_TO_GAME)) {
+			if (getFromClient().equals(CommandStrings.ADD_TO_GAME)) {
 				return true;
 			}
 		} catch (Exception e) {
@@ -168,8 +170,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	/**
 	 * Read an object from the {@link ObjectInputStream}. Cannot return <code>null</code> value.
 	 * @return the object read
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	private Object readObject() {
+	private Object getFromClient() {
 		try {
 			do {
 				Object obj = null;
@@ -178,16 +182,21 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				}
 				
 				if (obj!=null) {
-					System.out.println(20000);
 					return obj;
 				} else {
 					Thread.sleep(500);
 				}
 			} while (_isRunning);
-		} catch (Exception e) {
+		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
+		} catch(ClassNotFoundException cnf){
+			_log.log(Level.SEVERE, cnf.getMessage(), cnf);
+		} catch (IOException ioe) {
+			_log.log(Level.SEVERE, ioe.getMessage(), ioe);
+			shutdown();
 		}
-		return CommandStrings.END_TRANSMISSION;
+		System.out.println("Errore");
+		return CommandStrings.END_TURN;
 	}
 
 	@Override
@@ -199,7 +208,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public boolean endTurn() throws RemoteException {
 		writeObject(CommandStrings.END_TURN);
-		String response = (String) readObject();
+		String response = (String) getFromClient();
 		if (response==CommandStrings.END_TURN) {
 			return true;
 		} else return false;
@@ -211,7 +220,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		String str = null;
 		List<String> leaders = new ArrayList<>();
 		do {
-			str = (String) readObject();
+			str = (String) getFromClient();
 			leaders.add(str);
 		} while (str!=CommandStrings.END_TRANSMISSION);
 
@@ -229,7 +238,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	
 	public GameBoard getBoard(){
 		writeObject("send me board");
-		return (GameBoard) readObject();
+		return (GameBoard) getFromClient();
 	}
 	
 	@Override
@@ -238,6 +247,31 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		
 	}
 	
+	public void processObject(Object obj) {
+		if(obj instanceof String){
+			processString((String) obj);
+		}
+	}
+	
+	private void processString(String obj) {
+		if(obj.equals(CommandStrings.START_TURN)){
+			_ui.notifyTurn(board);//TODO board
+		}
+	}
+
+	private class MyRunnable implements Runnable{
+		@Override
+		public void run() {
+			while (_isRunning) {
+				Object obj = getFromClient();
+				if (obj != null) {
+					processObject(obj);
+				}
+			}
+		}
+	}
+		
+	private Thread _reader;
 	private Socket _socket;
 	private ObjectInputStream _inputStream;
 	private ObjectOutputStream _outputStream;

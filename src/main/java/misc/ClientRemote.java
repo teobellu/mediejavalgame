@@ -26,7 +26,4 @@ public interface ClientRemote extends Remote {
 	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException;
 
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
-
-	public void notifyTurn() throws RemoteException;
-	
 }
