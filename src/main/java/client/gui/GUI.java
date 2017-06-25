@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.GameBoard;
 import game.Resource;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -27,7 +28,6 @@ public class GUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		GraphicalUI.getInstance().setGUI(this);
 
 		_primaryStage = primaryStage;
 		_primaryStage.setTitle("Lorenzo il Magnifico");
@@ -79,8 +79,8 @@ public class GUI extends Application {
 			
 			_rootLayout.setCenter(pane);
 
-			MainViewController controller = loader.getController();
-			controller.setGUI(this);
+			_mainViewController = loader.getController();
+			_mainViewController.setGUI(this);
 
 			createSetupGameObserver();
 			
@@ -146,6 +146,8 @@ public class GUI extends Application {
 			private void processString(String str){
 				if(str.equals(CommandStrings.START_TURN)){
 					startTurn();
+				} else if(/*TODO*/) {
+					
 				}
 			}
 		});
@@ -170,6 +172,7 @@ public class GUI extends Application {
 	}
 
 	public void startTurn(){
+		GameBoard gb = GraphicalUI.getInstance().getBoard();
 		//TODO
 	}
 	
@@ -361,6 +364,8 @@ public class GUI extends Application {
 	private BorderPane _rootLayout;
 	
 	private int _counter = 0;
+	
+	private MainViewController _mainViewController;
 
 	private Logger _log = Logger.getLogger(GUI.class.getName());
 }

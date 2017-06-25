@@ -140,8 +140,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	
 	@Override
 	public void startTurn() throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		_ui.notifyTurn();
 	}
 	
 	@Override
@@ -152,8 +151,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
 		_connectionHandler.sendChosenInitialCardLeader(leader);
 	}
-	
-	
 	
 	@Override
 	public int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException {
@@ -196,7 +193,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 
 	@Override
 	public void notifyTurn() throws RemoteException {
-		_ui.notifyTurn();
+		
 	}
 	
 }

@@ -28,7 +28,7 @@ public class GraphicalUI implements UI {
 	
 	private Object _returnObject = null;
 	
-	private GUI _GUI;
+	private GameBoard _board;
 	
 	private File _xmlFile;
 	
@@ -209,10 +209,6 @@ public class GraphicalUI implements UI {
 			_returnObject = obj;
 		}
 	}
-	
-	public void setGUI(GUI gui){
-		_GUI = gui;
-	}
 
 	@Override
 	public void showInfo(String str) {
@@ -297,8 +293,13 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public void notifyTurn() {
+	public void notifyTurn(GameBoard board) {
+		_board = board;
 		_returnObject = CommandStrings.START_TURN;
+	}
+	
+	public GameBoard getBoard(){
+		return _board;
 	}
 
 	@Override
@@ -313,27 +314,6 @@ public class GraphicalUI implements UI {
 	}
 	
 	public List<String> placeFamiliar(){
-		try {
-			List<FamilyMember> familiars = _connectionHandler.putFamiliar();
-			List<String> familiarNames = new ArrayList<>();
-			
-			for(FamilyMember fm : familiars){
-				familiarNames.add(fm.getColor() + " - " + fm.getValue());
-			}
-			
-			return familiarNames;
-		} catch (RemoteException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		return null;
-	}
-
-	public List<String> placeWhichFamiliar(String value) {
-		try {
-			return _connectionHandler.putFamiliarWhich(value);
-		} catch (RemoteException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		return null;
+		
 	}
 }

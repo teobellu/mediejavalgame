@@ -73,7 +73,7 @@ public interface UI extends Runnable{
 
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus);
 
-	public void notifyTurn();
+	public void notifyTurn(GameBoard board);
 	
 	
 }

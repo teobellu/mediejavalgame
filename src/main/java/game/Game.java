@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import game.development.DevelopmentCard;
@@ -106,7 +105,6 @@ public class Game implements Runnable {
 	}
 	
 	private void setupGame() throws RemoteException{
-		//setupDashboardBonus();
 		setupLeaderCards();
 		List<DevelopmentCard> devDeck = gameInformation.getDevelopmentDeck();
 		
@@ -126,7 +124,7 @@ public class Game implements Runnable {
 		testFM.add(FM2);
 		_state = new StateStartingTurn(this);
 		_players.get(0).setFreeMember(testFM);
-		_players.get(0).getClient().getConnectionHandler().notifyTurn();
+		_players.get(0).getClient().getConnectionHandler().startTurn();
 		
 		
 		//_players.forEach(player -> player.getClient().getConnectionHandler().sendBoard(_board));
@@ -234,6 +232,12 @@ public class Game implements Runnable {
 			playerLists.add(playerLists.remove(0));
 		}
 		
+		for(Player p : _players){
+			for(LeaderCard lc : p.getLeaderCards()){
+				System.out.println(p.getName() + " - " + lc.getName());
+			}
+		}
+		
 	}
 	
 	private void setupDashboardBonus() throws RemoteException{
@@ -282,6 +286,5 @@ public class Game implements Runnable {
 		this._board = board;
 	}
 
-	
 	private Logger _log = Logger.getLogger(Game.class.getName());
 }

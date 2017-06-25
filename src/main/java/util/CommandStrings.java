@@ -12,6 +12,9 @@ public final class CommandStrings {
 	public static final String ASK_FOR_CONFIG = "ask_config";
 	public static final String PING = "ping";
 	
+	public static final String CHOOSE_CONVERT = "choose_convert";
+	public static final String CHOOSE_LEADER = "choose_leader";
+	
 	public static final String INITIAL_LEADER = "initial_leader";
 	
 	public static final String START_TURN = "start_turn";

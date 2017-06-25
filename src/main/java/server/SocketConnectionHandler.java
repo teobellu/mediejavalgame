@@ -35,25 +35,8 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			_outputStream = new ObjectOutputStream(_socket.getOutputStream());
 			_inputStream = new ObjectInputStream(_socket.getInputStream());
 
-			_reader = new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						while (_isRunning) {
-							Object obj = getFromClient();
-							if (obj != null) {
-								processObject(obj);
-							}
-						}
-					} catch (IOException e) {
-						shutdown();
-						_log.log(Level.SEVERE, e.getMessage(), e);
-					}
-					
-				}
-			});
-
+			_reader = new Thread(new MyRunnable());
+			
 			_isRunning = true;
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -144,15 +127,9 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		}
 	}
 
-	@Override
-	public void onConnect() throws RemoteException {
-		// TODO
-	}
-
 	private synchronized void writeObject(Object obj) throws IOException {
 		_outputStream.writeObject(obj);
 		_outputStream.flush();
-		System.out.println("mandata risposta");
 	}
 
 	/**
@@ -215,20 +192,99 @@ public class SocketConnectionHandler extends ConnectionHandler {
 
 	@Override
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+		_returnObject = null;
+		try {
+			writeObject(CommandStrings.CHOOSE_CONVERT);
+			writeObject(realPayOptions);
+			writeObject(realGainOptions);
+			Thread tr = new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						while (_isRunning) {
+							Object obj = getFromClient();
+							if (obj != null && obj == CommandStrings.CHOOSE_CONVERT) {
+								_returnObject = (int) getFromClient();
+							}
+						}
+					} catch (IOException e) {
+						shutdown();
+						_log.log(Level.SEVERE, e.getMessage(), e);
+					}
+				}
+			});
+			_reader.interrupt();
+			
+			tr.start();
+			
+			while(_returnObject==null){
+				Thread.sleep(500);
+			}
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		_reader = new Thread(new MyRunnable());
+		_reader.start();
+		
+		return (int) _returnObject;
 	}
 
 	@Override
 	public void startTurn() throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		try {
+			writeObject(CommandStrings.START_TURN);
+			//TODO mando gameboard e player
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
 	@Override
 	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException {
-		// TODO Auto-generated method stub
-		return 0;
+		System.out.println("Chiamato il metodo su socket");
+		_returnObject = null;
+		
+		try {
+			writeObject(CommandStrings.CHOOSE_LEADER);
+			writeObject(tempList);
+			
+			System.out.println("mandati");
+			
+			Thread tr = new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						while (_isRunning) {
+							System.out.println("thread iniziato");
+							Object obj = getFromClient();
+							if (obj != null && obj == CommandStrings.CHOOSE_LEADER) {
+								_returnObject = (int) getFromClient();
+							}
+						}
+					} catch (IOException e) {
+						shutdown();
+						_log.log(Level.SEVERE, e.getMessage(), e);
+					}
+				}
+			});
+			
+			_reader.interrupt();
+			
+			tr.start();
+			
+			while(_returnObject==null){
+				Thread.sleep(500);
+			}
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		_reader = new Thread(new MyRunnable());
+		_reader.start();
+		
+		return (int) _returnObject;
 	}
 
 	@Override
@@ -236,10 +292,23 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	private class MyRunnable implements Runnable{
 
-	@Override
-	public void notifyTurn() throws RemoteException {
-		// TODO Auto-generated method stub
+		@Override
+		public void run() {
+			try {
+				while (_isRunning) {
+					Object obj = getFromClient();
+					if (obj != null) {
+						processObject(obj);
+					}
+				}
+			} catch (IOException e) {
+				shutdown();
+				_log.log(Level.SEVERE, e.getMessage(), e);
+			}
+		}
 		
 	}
 }

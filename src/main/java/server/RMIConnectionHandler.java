@@ -196,9 +196,4 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
 		return _clientConnectionHandler.chooseDashboardBonus(bonus);
 	}
-
-	@Override
-	public void notifyTurn() throws RemoteException {
-		_clientConnectionHandler.notifyTurn();
-	}
 }
