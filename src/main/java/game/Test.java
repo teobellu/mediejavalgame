@@ -104,7 +104,7 @@ public class Test {
 		DynamicAction joy = new DynamicAction(null);
 		joy.setPlayer(p);
 		GameBoard b = new GameBoard(null);
-		joy.setBoardForTestOnly(b);
+		//joy.setBoardForTestOnly(b);TODO last change
 		
 		List<FamilyMember> f = new ArrayList<>();
 		FamilyMember f1 = new FamilyMember(GC.FM_BLACK);

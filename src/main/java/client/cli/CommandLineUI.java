@@ -89,7 +89,7 @@ public class CommandLineUI implements UI {
 	}
 	
 	@Override
-	public void notifyTurn() {
+	public void startTurn() {
 		_ioHandler.write("It's your turn! :D");
 		try {
 			_board = _connectionHandler.getBoard();
@@ -114,54 +114,119 @@ public class CommandLineUI implements UI {
 		_ioHandler.write("What do you want to do?");
 		_ioHandler.writeList(commands);
 		selection = _ioHandler.readNumberWithinInterval(commands.size() - 1);
-		if (commands.get(selection) == CommandConstants.PLACE_FAMILIAR){
-			// quale familiare
-			List<FamilyMember> myFreeFamiliars = _me.getFreeMember();
-			ModelPrinter.printListFamiliar(myFreeFamiliars);
-			selection = _ioHandler.readNumberWithinInterval(myFreeFamiliars.size() - 1);
-			FamilyMember selectedFamiliar = myFreeFamiliars.get(selection);
+		switch (commands.get(selection)){
+			case CommandConstants.PLACE_FAMILIAR : placeFamiliar();
+			case CommandConstants.ACTIVATE_LEADER : activateLeader();
+			case CommandConstants.DROP_LEADER : dropLeader();
+			case CommandConstants.END_TURN : endTurn();
+			case CommandConstants.SHOW_MY_CARDS : showMyCards();
+			default : handleTurn();
+		}
+	}
+	
+	private void placeFamiliar() throws RemoteException{
+		int selection = 0;
+		// quale familiare
+		List<FamilyMember> myFreeFamiliars = _me.getFreeMember();
+		ModelPrinter.printListFamiliar(myFreeFamiliars);
+		selection = _ioHandler.readNumberWithinInterval(myFreeFamiliars.size() - 1);
+		FamilyMember selectedFamiliar = myFreeFamiliars.get(selection);
+		
+		//dove vuoi piazzarlo
+		_ioHandler.writeList(GC.SPACE_TYPE);
+		selection = _ioHandler.readNumberWithinInterval(GC.SPACE_TYPE.size() - 1);
+		String where = GC.SPACE_TYPE.get(selection);
 			
-			//dove vuoi piazzarlo
-			_ioHandler.writeList(GC.SPACE_TYPE);
-			selection = _ioHandler.readNumberWithinInterval(GC.SPACE_TYPE.size() - 1);
-			String where = GC.SPACE_TYPE.get(selection);
-			
-			//righe e colonne
-			Position position;
-			switch (where){
-				case GC.TOWER : {
-					_ioHandler.write("Select row");
-					int row = _ioHandler.readNumberWithinInterval(GameBoard.MAX_ROW - 1);
-					_ioHandler.write("Select column");
-					int column = _ioHandler.readNumberWithinInterval(GameBoard.MAX_COLUMN - 1);
-					position = new Position(where, row, column);
-					break;
-				}
-				case GC.MARKET : {
-					_ioHandler.write("Select which space");
-					selection = _ioHandler.readNumberWithinInterval(GameBoard.MAX_MARKET_SPACE - 1);
-					position = new Position(where, selection);
-					break;
-				}
-				default : position = new Position(where);
+		//righe e colonne
+		Position position;
+		switch (where){
+			case GC.TOWER : {
+				_ioHandler.write("Select row");
+				int row = _ioHandler.readNumberWithinInterval(GameBoard.MAX_ROW - 1);
+				_ioHandler.write("Select column");
+				int column = _ioHandler.readNumberWithinInterval(GameBoard.MAX_COLUMN - 1);
+				position = new Position(where, row, column);
+				break;
 			}
-			
-			try {
-				_connectionHandler.placeFamiliar(selectedFamiliar, position);
-			} catch (GameException e) {
-				e.printStackTrace();
+			case GC.MARKET : {
+				_ioHandler.write("Select which space");
+				selection = _ioHandler.readNumberWithinInterval(GameBoard.MAX_MARKET_SPACE - 1);
+				position = new Position(where, selection);
+				break;
 			}
+			default : position = new Position(where);
+		}
 			
+		try {
+			_connectionHandler.placeFamiliar(selectedFamiliar, position);
 			_board = _connectionHandler.getBoard();
 			_me = _connectionHandler.getMe();
 			ModelPrinter.printBoard(_board);
 			ModelPrinter.printMyLoot(_me);
-			handleTurn();
-			//fine, esco da questo metodo
-		}else if (commands.get(selection) == CommandConstants.PLACE_FAMILIAR){
-			
+		} catch (GameException e) {
+			e.printStackTrace();
 		}
-		
+		handleTurn();
+		//fine, esco da questo metodo
+	}
+	
+	private void activateLeader() throws RemoteException{
+		int selection = 0;
+		List<LeaderCard> myLeaders;
+		//seleziona carta
+		_me = _connectionHandler.getMe();
+		myLeaders = _me.getLeaderCards();
+		if (myLeaders.isEmpty()){
+			_ioHandler.write("You don't have leader cards!");
+			handleTurn();
+		}
+		_ioHandler.write("Select card to activate");
+		ModelPrinter.printLeaderCards(myLeaders);
+		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
+		try {
+			_connectionHandler.activateLeaderCard(myLeaders.get(selection));
+		} catch (GameException e) {
+			e.printStackTrace();
+		}
+		handleTurn();
+	}
+	
+	private void dropLeader() throws RemoteException{
+		int selection = 0;
+		List<LeaderCard> myLeaders;
+		//seleziona carta
+		_me = _connectionHandler.getMe();
+		myLeaders = _me.getLeaderCards();
+		if (myLeaders.isEmpty()){
+			_ioHandler.write("You don't have leader cards!");
+			handleTurn();
+		}
+		_ioHandler.write("Select card to drop");
+		ModelPrinter.printLeaderCards(myLeaders);
+		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
+		try {
+			_connectionHandler.dropLeaderCard(myLeaders.get(selection));
+		} catch (GameException e) {
+			e.printStackTrace();
+		}
+		handleTurn();
+	}
+	
+	private void endTurn() throws RemoteException{
+		try {
+			_connectionHandler.endTurn();
+		} catch (GameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			//TODO non puoi passare, quindi rifai il turno ( o no? )
+			handleTurn();
+		}
+	}
+	
+	private void showMyCards() throws RemoteException{
+		_me = _connectionHandler.getMe();
+		ModelPrinter.printMyLoot(_me);
+		handleTurn();
 	}
 	
 	public String getUsername(){
@@ -205,7 +270,7 @@ public class CommandLineUI implements UI {
 		_ioHandler.write("Select a reward");
 		int index = 0;
 		for(Resource reward : resources){
-			_ioHandler.write(index + ") ");
+			_ioHandler.writeNext(index + ") ");
 			ModelPrinter.printResource(reward);
 			index++;
 		}
@@ -235,7 +300,8 @@ public class CommandLineUI implements UI {
 	public boolean answerToAQuestion(String message){
 		_ioHandler.write("Attention! Reply to this message: ");
 		_ioHandler.writeNext(message);
-		_ioHandler.write("0) ok, 1) no");
+		_ioHandler.write("0) ok");
+		_ioHandler.write("1) no");
 		int answer = _ioHandler.readNumberWithinInterval(1);
 		return answer == 0;
 	}
@@ -246,7 +312,7 @@ public class CommandLineUI implements UI {
 		_ioHandler.writeNext(message);
 		int index = 0;
 		for(FamilyMember familiar : familiars){
-			_ioHandler.write(index + ") ");
+			_ioHandler.writeNext(index + ") ");
 			_ioHandler.writeNext("Color: " + familiar.getColor());
 			_ioHandler.writeNext("Value: " + familiar.getValue());
 			index++;
@@ -258,7 +324,7 @@ public class CommandLineUI implements UI {
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions){
 		_ioHandler.write("Choose the resource to convert");
 		for (int i = 0; i < realPayOptions.size() - 1; i++){
-			_ioHandler.write(i + ") ");
+			_ioHandler.writeNext(i + ") ");
 			_ioHandler.writeNext("Pay: ");
 			ModelPrinter.printResource(realPayOptions.get(i));
 			_ioHandler.writeNext("Gain: ");
@@ -342,6 +408,12 @@ public class CommandLineUI implements UI {
 	public void showWhatIHave(Player me) {
 		// TODO Auto-generated method stub
 		ModelPrinter.printMyLoot(me);
+	}
+
+	@Override
+	public void notifyTurn(GameBoard board) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

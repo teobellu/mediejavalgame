@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.omg.CORBA._PolicyStub;
+
 import exceptions.GameException;
 import game.development.DevelopmentCard;
 import game.development.Venture;
@@ -107,7 +109,7 @@ public class DynamicAction {
 	 * @throws RemoteException
 	 */
 	private Resource handleCouncil(Resource res) throws RemoteException{
-		List<Resource> options = GC.COUNCIL_REWARDS;
+		List<Resource> options = new ArrayList<>(GC.COUNCIL_REWARDS);
 		int councils = res.get(GC.RES_COUNCIL);
 		res.add(GC.RES_COUNCIL, -councils);
 		int index;
@@ -242,14 +244,16 @@ public class DynamicAction {
 		/**
 		* RESOURCE
 		 */
-		
-		
 		int index = 0;
+		if(card.getCost().size() > 1){
+			//player.getClient().getConnectionHandler().chooseCost();
+		}
 		//ma potrebbe avere anche 2 tipi di costo
 		//if (card.getCost.size > 1)...		
 		
-		
+		//card requirement
 		tryToPayRequirement(card.toString(), card.getRequirement(index));
+		//dashboard requirement (for example for territory you need military points)
 		tryToPayRequirement(card.toString(), getDashboardRequirement(card));
 		
 		Resource cardCost = card.getCost(index);
@@ -280,6 +284,8 @@ public class DynamicAction {
 		player.addEffect(spaceEffect);
 		
 		player.addDevelopmentCard(card);
+		player.addEffect(card.getImmediateEffect());
+		player.addEffect(card.getPermanentEffect());
 		space.setCard(null);
 	}
 	

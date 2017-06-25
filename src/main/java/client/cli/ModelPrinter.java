@@ -1,11 +1,13 @@
 package client.cli;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import game.FamilyMember;
 import game.GC;
 import game.GameBoard;
+import game.LeaderCard;
 import game.Player;
 import game.Resource;
 import game.Space;
@@ -202,5 +204,13 @@ public abstract class ModelPrinter {
 		me.getFreeMember()
 			.forEach(fam -> _ioHandler.writeNext(fam.getColor() + " with power " + fam.getValue()));
 		
+	}
+	
+	public static void printLeaderCards(List<LeaderCard> leaders){
+		int index = 0;
+		for(LeaderCard leader : leaders){
+			_ioHandler.writeNext(index + ") ");
+			_ioHandler.write(leader.getName() + " : " + leader.getEffect());
+		}
 	}
 }

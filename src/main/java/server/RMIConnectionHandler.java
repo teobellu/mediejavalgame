@@ -202,9 +202,9 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		return _clientConnectionHandler.chooseDashboardBonus(bonus);
 	}
 
-	@Override
+	//@Override TODO
 	public void notifyTurn() throws RemoteException {
-		_clientConnectionHandler.notifyTurn();
+		//_clientConnectionHandler.notifyTurn(); TODO
 	}
 
 	@Override

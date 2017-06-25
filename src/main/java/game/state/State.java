@@ -34,7 +34,7 @@ public abstract class State {
 		_theGame.getDynamicBar().setPlayer(_players.get(0));
 		_theGame.setListener(new ListenAction(_theGame));
 		try {
-			_player.getClient().getConnectionHandler().notifyTurn();
+			_player.getClient().getConnectionHandler().startTurn();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,7 +57,7 @@ public abstract class State {
 		_theGame.getDynamicBar().setPlayer(nextPlayer);
 		_player = nextPlayer;
 		try {
-			_player.getClient().getConnectionHandler().notifyTurn();
+			_player.getClient().getConnectionHandler().startTurn();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

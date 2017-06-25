@@ -139,7 +139,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	
 	@Override
 	public void startTurn() throws RemoteException {
-		_ui.notifyTurn();
+		_ui.startTurn();
 	}
 	
 	@Override

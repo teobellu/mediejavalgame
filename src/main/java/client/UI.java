@@ -75,5 +75,6 @@ public interface UI extends Runnable{
 
 	public void notifyTurn(GameBoard board);
 	
+	public void startTurn();
 	
 }

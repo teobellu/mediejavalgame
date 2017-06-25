@@ -35,7 +35,7 @@ public class GC{
 	public static final String RES_WOOD = "wood";
 	public static final String RES_STONES = "stones";
 	public static final String RES_SERVANTS = "servants";
-	public static final String RES_COUNCIL = "council";
+	public static final String RES_COUNCIL = "councils";
 	public static final String RES_VICTORYPOINTS = "victory_points";
 	public static final String RES_MILITARYPOINTS = "military_points";
 	public static final String RES_FAITHPOINTS = "faith_points";
