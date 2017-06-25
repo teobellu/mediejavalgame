@@ -66,4 +66,10 @@ public class StatePlaceFamiliar extends State {
 	private String _whichFamiliar;
 	
 	private Logger _log = Logger.getLogger(StatePlaceFamiliar.class.getName());
+
+	@Override
+	public List<String> placeWhichFamiliar(String familiar) throws GameException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

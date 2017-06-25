@@ -10,7 +10,9 @@ import server.Client;
 
 public abstract class State {
 	
-	protected final Game _theGame;
+	protected int age;
+	protected int phase;
+	protected final Game _theGame; //TODO
 	protected final Player _player;
 	protected Client _client;
 	

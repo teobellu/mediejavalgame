@@ -17,6 +17,7 @@ import game.GC;
 import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
+import game.Position;
 import game.Resource;
 import game.development.DevelopmentCard;
 import game.development.Territory;
@@ -24,6 +25,8 @@ import util.Constants;
 import util.IOHandler;
 
 public class CommandLineUI implements UI {
+	
+	private Player _me;
 
 	private final IOHandler _ioHandler;
 	
@@ -137,13 +140,39 @@ public class CommandLineUI implements UI {
 		_ioHandler.writeList(commands);
 		selection = _ioHandler.readNumberWithinInterval(commands.size() - 1);
 		if (commands.get(selection) == CommandConstants.PLACE_FAMILIAR){
-			//_connectionHandler = null... why? :(
-			List<FamilyMember> myFreeFamiliars = _connectionHandler.putFamiliar();
-			_ioHandler.write(myFreeFamiliars.get(0).getColor() + " is the first familiar");
+			// quale familiare
+			List<FamilyMember> myFreeFamiliars = _me.getFreeMember();
+			ModelPrinter.printListFamiliar(myFreeFamiliars);
 			selection = _ioHandler.readNumberWithinInterval(myFreeFamiliars.size() - 1);
-			List<String> position = _connectionHandler.putFamiliarWhich("myFreeFamiliars.get(selection)");
-			selection = _ioHandler.readNumberWithinInterval(position.size() - 1);
-			_connectionHandler.putFamiliarWhere(position.get(selection));
+			FamilyMember selectedFamiliar = myFreeFamiliars.get(selection);
+			
+			//dove vuoi piazzarlo
+			_ioHandler.writeList(GC.SPACE_TYPE);
+			selection = _ioHandler.readNumberWithinInterval(GC.SPACE_TYPE.size() - 1);
+			String where = GC.SPACE_TYPE.get(selection);
+			
+			//righe e colonne
+			Position position;
+			switch (where){
+				case GC.TOWER : {
+					_ioHandler.write("Select row");
+					int row = _ioHandler.readNumberWithinInterval(GameBoard.MAX_ROW - 1);
+					_ioHandler.write("Select column");
+					int column = _ioHandler.readNumberWithinInterval(GameBoard.MAX_COLUMN - 1);
+					position = new Position(where, row, column);
+					break;
+				}
+				case GC.MARKET : {
+					_ioHandler.write("Select which space");
+					selection = _ioHandler.readNumberWithinInterval(GameBoard.MAX_MARKET_SPACE - 1);
+					position = new Position(where, selection);
+					break;
+				}
+				default : {
+					position = new Position(where);
+				}
+			}
+			//_connectionHandler.placeFamiliar(selectedFamiliar, position);
 			//fine, esco da questo metodo
 		}
 		
