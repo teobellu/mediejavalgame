@@ -49,8 +49,25 @@ public class ListenAction{
 	
 	public void placeFamiliar(FamilyMember familiar, Position position) throws GameException {
 		List<FamilyMember> freeMembers = _player.getFreeMember();
+		FamilyMember selection = null;
+		for (FamilyMember f : freeMembers){
+			System.out.println("color free = " + f.getColor());
+			if (f.getColor().equals(familiar.getColor())){
+				selection = f;
+			}
+		}
+		System.out.println("size of free = " + freeMembers.size());
+		System.out.println("color of me = " + familiar.getColor());
+		if (selection.getColor() == "aa"){
+			throw new GameException("You can't place this familiar!");
+		}
+		else{
+			familiar = selection;
+		}
+		/*
 		if (!freeMembers.contains(familiar))
 			throw new GameException("You can't place this familiar!");
+			*/
 		switch(position.getWhere()){
 			case GC.TOWER :
 				_theGame.getDynamicBar().placeInTower(familiar, position.getRow(), position.getColumn());
@@ -69,6 +86,7 @@ public class ListenAction{
 				break;
 			default : throw new GameException("Invalid position");
 		}
+		System.out.println("player " + _player.getName() + " has coins = " + _player.getResource(GC.RES_COINS));
 		//TODO avviso il player che è tutto ok
 		//TODO avviso gli altri player
 		//TODO salvo qui dentro che ho già fatto quest'azione

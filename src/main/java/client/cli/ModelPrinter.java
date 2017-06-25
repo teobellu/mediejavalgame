@@ -151,19 +151,20 @@ public abstract class ModelPrinter {
 		}
 		
 		//excommunication tiles
+		/* TODO
 		_ioHandler.write("\n*****Excommunication tiles: ");
 		for (int index=0; index < GameBoard.MAX_EXCOMUNNICATION_CARD; index++){
 			String effectDescription = board.getExCard()[index].getEffect().toString();
 			_ioHandler.write("Malus " + index + ": " + effectDescription);
 		}
 		
-		//dices
+		//dices TODO
 		_ioHandler.write("\n*****Dices: ");
 		List<Integer> dices = Arrays.asList(board.getDices());
 		
 		for (int index=0; index < GameBoard.MAX_DICES; index++)
 			_ioHandler.write("Dice " + GC.FM_TYPE.get(index) + ": "+ dices.get(index));
-		
+		*/
 	}
 	
 	/**
@@ -191,10 +192,11 @@ public abstract class ModelPrinter {
 			.forEach(leader -> _ioHandler.writeNext(leader.getName() + " "));
 		
 		//leader cards that you can activate
+		/*TODO non è serializzabile!!!
 		_ioHandler.write("\n*****Leader cards that you can activate: ");
 		me.getActivableLeaderCards()
 			.forEach(leader -> _ioHandler.writeNext(leader.getName() + " "));
-		
+		*/
 		//free familiars
 		_ioHandler.write("\n*****Familiars: ");
 		me.getFreeMember()

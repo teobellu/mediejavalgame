@@ -12,6 +12,7 @@ import client.ClientText;
 import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
+import exceptions.GameException;
 import game.FamilyMember;
 import game.GC;
 import game.GameBoard;
@@ -84,44 +85,6 @@ public class CommandLineUI implements UI {
 		
 		new Thread(connection).start();
 		
-		
-		
-		/*
-		SocketConnectionServerHandler c = (SocketConnectionServerHandler) connection;
-		
-		GameBoard b = c.getBoard();
-		
-		_ioHandler.write(b.getDices()[2] + " -> devo stamparare 4");
-		
-		
-		int[] h = new int[3];
-		h[0] = 6;
-		h[1] = 6;
-		h[2] = 6;
-		b.setDices(h);
-		
-		try {
-			Thread.sleep(2000);
-		} catch (Exception e) {
-			e.getCause();
-		}
-		
-		b = c.getBoard();
-		_ioHandler.write(b.getDices()[2] + " -> devo stamparare 4");
-		
-		try {
-			Thread.sleep(2000);
-		} catch (Exception e) {
-			e.getCause();
-		}
-		c.shutdown();
-		*/
-		Integer [] dadi = {4, 6, 4};
-		GameBoard b = new GameBoard();
-		b.setDices(dadi);
-		
-		ModelPrinter.printBoard(b);
-		
 		return connection;
 	}
 	
@@ -131,6 +94,8 @@ public class CommandLineUI implements UI {
 		try {
 			_board = _connectionHandler.getBoard();
 			_me = _connectionHandler.getMe();
+			ModelPrinter.printBoard(_board);
+			ModelPrinter.printMyLoot(_me);
 		} catch (RemoteException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -180,7 +145,18 @@ public class CommandLineUI implements UI {
 				}
 				default : position = new Position(where);
 			}
-			//_connectionHandler.placeFamiliar(selectedFamiliar, position);
+			
+			try {
+				_connectionHandler.placeFamiliar(selectedFamiliar, position);
+			} catch (GameException e) {
+				e.printStackTrace();
+			}
+			
+			_board = _connectionHandler.getBoard();
+			_me = _connectionHandler.getMe();
+			ModelPrinter.printBoard(_board);
+			ModelPrinter.printMyLoot(_me);
+			handleTurn();
 			//fine, esco da questo metodo
 		}else if (commands.get(selection) == CommandConstants.PLACE_FAMILIAR){
 			

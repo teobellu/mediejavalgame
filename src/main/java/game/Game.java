@@ -148,21 +148,6 @@ public class Game implements Runnable {
 		_state.setupState();
 		_listener = new ListenAction(this);
 		
-		
-		 //facciamo finta che tocca al giocatore 1
-		List<FamilyMember> testFM = new ArrayList<>();
-		FamilyMember FM1 = new FamilyMember(GC.FM_BLACK);
-		FamilyMember FM2 = new FamilyMember(GC.FM_ORANGE);
-		testFM.add(FM1);
-		testFM.add(FM2);
-		_state = new StateStartingTurn(this);
-		_players.get(0).setFreeMember(testFM);
-		_players.get(0).getClient().getConnectionHandler().notifyTurn();
-		
-		
-		//_players.forEach(player -> player.getClient().getConnectionHandler().sendBoard(_board));
-		
-		
 	}
 	
 	public void setNewCards(){

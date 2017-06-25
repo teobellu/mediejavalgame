@@ -29,54 +29,6 @@ public class Player implements Serializable{
 	
 	private Resource productionBonus;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/**
-	 * List in cui salvo la mia lista di carte leader temporanea, quella da cui posso selezionare all'inizio
-	 */
-	private List<LeaderCard> _tempLeaders;
-	
-	public List<LeaderCard> getTempLeaders(){
-		return _tempLeaders;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	private DevelopmentCardManager manager = new DevelopmentCardManager();
 
 	protected Player(Client client){
@@ -106,6 +58,7 @@ public class Player implements Serializable{
 	public void addEffect (Effect eff){
 		if (eff == null) 
 			return;
+		eff.setBar(_client.getRoom().getGame().getDynamicBar());
 		eff.setPlayer(this);
 		switch(eff.getWhenActivate()){
 			case GC.IMMEDIATE : eff.activateEffect(GC.IMMEDIATE); 

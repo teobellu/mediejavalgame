@@ -23,7 +23,6 @@ public class DynamicAction {
 
 	//TODO
 	private Game game;
-	private GameBoard board;
 	private GameInformation gameInformation = new GameInformation(game);
 	
 	/**
@@ -36,10 +35,6 @@ public class DynamicAction {
 	
 	private void setBarEffect(){
 		player.getEffects().forEach(effect -> effect.setBar(this));
-	}
-	
-	public void setBoardForTestOnly(GameBoard board){
-		this.board = board;
 	}
 	
 	//TODO momentaneo
@@ -174,7 +169,7 @@ public class DynamicAction {
 	 */
 	public Resource findTaxToPay (int column) throws GameException{
 		Resource tax = new Resource();
-		if (!board.getFamiliarInSameColumn(column).isEmpty()){
+		if (!game.getBoard().getFamiliarInSameColumn(column).isEmpty()){
 			tax.add(GC.TAX_TOWER);
 			tax = (Resource) activateEffect(tax, GC.WHEN_PAY_TAX_TOWER);
 		}
@@ -236,7 +231,7 @@ public class DynamicAction {
 	 */
 	public void visitTower(Integer value, int row, int column) throws GameException {
 		Resource cost = new Resource();
-		Space space = board.getCell(row, column);
+		Space space = game.getBoard().getCell(row, column);
 		DevelopmentCard card = space.getCard();
 		if (card == null || player.getDevelopmentCards(card.toString()).size() == GC.MAX_DEVELOPMENT_CARDS)
 			throw new GameException();
@@ -296,9 +291,9 @@ public class DynamicAction {
 	 * @throws GameException The player can not place his familiar in the space selected
 	 */
 	public void placeInTower (FamilyMember familiar, int row, int column) throws GameException{
-		Space space = board.getCell(row, column);
+		Space space = game.getBoard().getCell(row, column);
 		canOccupySpace(familiar, space);
-		canOccupyForColorLogic(familiar, board.getFamiliarInSameColumn(column));
+		canOccupyForColorLogic(familiar, game.getBoard().getFamiliarInSameColumn(column));
 		visitTower(familiar.getValue(), row, column);
 		endAction(familiar, space);
 	}
@@ -339,7 +334,7 @@ public class DynamicAction {
 	public void placeMarket (FamilyMember familiar, int whichSpace) throws GameException{
 		if ((Boolean) activateEffect(true, GC.WHEN_PLACE_FAMILIAR_MARKET) == null) 
 			throw new GameException();
-		Space space = board.getMarketSpace(whichSpace);
+		Space space = game.getBoard().getMarketSpace(whichSpace);
 		canOccupySpace(familiar, space);
 		player.addEffect(space.getInstantEffect());
 		endAction(familiar, space);
@@ -351,7 +346,7 @@ public class DynamicAction {
 	 * @throws GameException TODO
 	 */
 	public void placeCouncilPalace (FamilyMember familiar) throws GameException{
-		Space space = board.getCouncilPalaceSpace();
+		Space space = game.getBoard().getCouncilPalaceSpace();
 		int power = (Integer) activateEffect(familiar.getValue(), GC.WHEN_FIND_VALUE_ACTION);
 		if (power < space.getRequiredDiceValue())
 			throw new GameException();
@@ -370,13 +365,13 @@ public class DynamicAction {
 	 * @throws GameException No space is suitable for perform the action
 	 */
 	private Space findCorrectWorkSpace(FamilyMember familiar, String action) throws GameException{
-		Space space = board.getWorkSpace(action);
+		Space space = game.getBoard().getWorkSpace(action);
 		try{
 			canOccupySpace(familiar, space);
 		}
 		catch (GameException e) {
 			canOccupyForColorLogic(familiar, space.getFamiliar());
-			space = board.getWorkLongSpace(action);
+			space = game.getBoard().getWorkLongSpace(action);
 			canOccupySpace(familiar, space);
 		}
 		return space;
@@ -468,7 +463,7 @@ public class DynamicAction {
 	 * @param age TODO, non dovrebbe ricevere in input niente
 	 */
 	public void dontShowVaticanSupport(int age){
-		ExcommunicationTile tile = board.getExCard()[age];
+		ExcommunicationTile tile = game.getBoard().getExCard()[age];
 		Effect malus = tile.getEffect();
 		player.addEffect(malus);
 		//TODO GUI ?
