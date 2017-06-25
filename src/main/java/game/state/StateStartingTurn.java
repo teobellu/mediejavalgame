@@ -66,19 +66,20 @@ public class StateStartingTurn extends State{
 	
 	@Override
 	public List<FamilyMember> placeFamiliar() throws GameException {
+		if (_player.getFreeMember().isEmpty())
+			throw new GameException("You don't have free familiars!");
+		_theGame.setState(new StatePlaceFamiliar(_theGame));
 		return _player.getFreeMember();
 	}
 
 	@Override
 	public List<String> placeWhichFamiliar(String familiar) throws GameException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new GameException("Called method placeWhichFamiliar in StateStartingTurn");
 	}
 
 	@Override
 	public void placeWhereFamiliar(String position) throws GameException {
-		// TODO Auto-generated method stub
-		
+		throw new GameException("Called method placeWhereFamiliar in StateStartingTurn");
 	}
 	
 	private Logger _log = Logger.getLogger(StateStartingTurn.class.getName());

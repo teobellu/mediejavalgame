@@ -47,7 +47,10 @@ public class StatePlaceFamiliar extends State {
 	}
 
 	@Override
-	public List<String> placeWhichFamiliar(String familiar) throws GameException {
+	public List<String> placeWhichFamiliar(int whichFamiliar) throws GameException {
+		if (whichFamiliar < 0 || whichFamiliar >= _player.getFreeMember().size())
+			throw new GameException("Invalid input, you don't have this familiar!");
+		FamilyMember familiar = _player.getFreeMember().get(whichFamiliar);
 		_whichFamiliar = familiar;
 		List<String> placesAvailable = new ArrayList<>();
 		//TODO calcolare quale posti sono disponibili
