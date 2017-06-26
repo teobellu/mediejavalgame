@@ -153,15 +153,14 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
-	@Override
-	public int showInitialLeaderList(List<String> leadersList) throws Exception {
-		_returnObject = leadersList;
-		
+	private int showInitialLeaderList(List<LeaderCard> leadersList) throws Exception {
 		List<String> tempList = new ArrayList<>();
 		
-		for(String s : leadersList){
-			tempList.add(s);
+		for(LeaderCard s : leadersList){
+			tempList.add(s.getName());
 		}
+		
+		_returnObject = tempList;
 		
 		System.out.println("Waiting for player choice...");
 		synchronized (_returnObject) {
@@ -305,14 +304,18 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public int chooseLeader(List<LeaderCard> tempList) {
-		List<String> names = new ArrayList<>();
-		tempList.forEach(leader -> names.add(leader.getName()));
-		try {
-			return showInitialLeaderList(names);
-		} catch (Exception e) {
-			return 0;
+	public int chooseLeader(String context, List<LeaderCard> tempList) {
+		if(context.equals(CommandStrings.INITIAL_LEADER)){
+			try {
+				return showInitialLeaderList(tempList);
+			} catch (Exception e) {
+				return 0;
+			}
+		}else {
+			//TODO
 		}
+		System.out.println("ERRORE");
+		return 0;
 	}
 	
 	@Override

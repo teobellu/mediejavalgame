@@ -13,8 +13,6 @@ public interface ClientRemote extends Remote {
 	
 	public void startTurn() throws RemoteException;
 
-	public int sendInitialLeaderList(List<String> leadersList) throws RemoteException;
-
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException;
 
 	public int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException;
@@ -23,7 +21,7 @@ public interface ClientRemote extends Remote {
 
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException;
 
-	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException;
+	public int chooseLeader(String context, List<LeaderCard> tempList) throws RemoteException;
 
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
 }

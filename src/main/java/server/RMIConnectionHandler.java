@@ -85,11 +85,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		}
 	}
 	
-	@Override
-	public int sendInitialLeaderList(List<String> leadersList) throws RemoteException {
-		return _clientConnectionHandler.sendInitialLeaderList(leadersList);
-	}
-	
 	public void setGame(){//TODO da chiamare questo metodo alla creazione del gioco(probabilmente nella room)
 		if(_client!=null){
 			_theGame = _client.getRoom().getGame();
@@ -164,11 +159,8 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 	
 	@Override
-	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException{
-		for(LeaderCard lc : tempList){
-			System.out.println(lc.getName());
-		}
-		return _clientConnectionHandler.chooseLeader(tempList);
+	public int chooseLeader(String context, List<LeaderCard> tempList) throws RemoteException{
+		return _clientConnectionHandler.chooseLeader(context, tempList);
 	}
 
 	@Override
@@ -235,5 +227,11 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public void endTurn() throws RemoteException, GameException {
 		_theGame.getListener().endTurn();
+	}
+
+	@Override
+	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException {
+		// TODO Auto-generated method stub
+		
 	}
 }

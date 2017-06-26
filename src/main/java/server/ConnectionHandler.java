@@ -47,15 +47,6 @@ public abstract class ConnectionHandler implements Runnable {
 	
 	public abstract void startTurn(GameBoard board, Player currentPlayer) throws RemoteException;
 	
-	public abstract int sendInitialLeaderList(List<String> leadersList) throws RemoteException;
-	
-	protected Client _client;
-	protected volatile boolean _isRunning;
-	
-	protected String _configFile = null;
-	
-	protected transient Game _theGame = null;
-
 	//TODO GAME METHOD
 	public abstract int spendCouncil(List<Resource> councilRewards) throws RemoteException;
 
@@ -69,8 +60,13 @@ public abstract class ConnectionHandler implements Runnable {
 	//Ho già chiesto al giocatore se vuole convertire o no, bisogna solo chiedergli un indice
 	public abstract int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException;
 
-	public abstract int chooseLeader(List<LeaderCard> tempList)  throws RemoteException;
+	public abstract int chooseLeader(String context, List<LeaderCard> tempList)  throws RemoteException;
 
 	//TODO GAME METHOD, SELEZIONE TESSERA BONUS
 	public abstract int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
+	
+	protected Client _client;
+	protected volatile boolean _isRunning;
+	protected String _configFile = null;
+	protected transient Game _theGame = null;
 }

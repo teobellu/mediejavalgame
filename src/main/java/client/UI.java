@@ -16,8 +16,6 @@ public interface UI extends Runnable{
 
 	public List<String> dropLeaderCard();
 
-	public int showInitialLeaderList(List<String> leadersList) throws Exception;
-	
 	public void showBoard(GameBoard board);
 	
 	public void showWhatIHave(Player me);
@@ -69,7 +67,7 @@ public interface UI extends Runnable{
 	 */
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions);
 
-	public int chooseLeader(List<LeaderCard> tempList);
+	public int chooseLeader(String context, List<LeaderCard> tempList);
 
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus);
 
