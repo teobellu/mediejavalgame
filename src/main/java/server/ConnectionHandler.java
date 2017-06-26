@@ -7,7 +7,9 @@ import java.util.Map;
 
 import game.FamilyMember;
 import game.Game;
+import game.GameBoard;
 import game.LeaderCard;
+import game.Player;
 import game.Resource;
 
 public abstract class ConnectionHandler implements Runnable {
@@ -43,7 +45,7 @@ public abstract class ConnectionHandler implements Runnable {
 	
 	private List<String> _temporaryLeaders = new ArrayList<>();
 	
-	public abstract void startTurn() throws RemoteException;
+	public abstract void startTurn(GameBoard board, Player currentPlayer) throws RemoteException;
 	
 	public abstract int sendInitialLeaderList(List<String> leadersList) throws RemoteException;
 	

@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 import game.FamilyMember;
 import game.GameBoard;
+import game.LeaderCard;
+import game.Player;
 import util.CommandStrings;
 import util.Constants;
 
@@ -57,7 +59,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			List<String> familiars = new ArrayList<String>();
 			while(message!=CommandStrings.END_TRANSMISSION){
-				message = (String) getFromClient();
+				message = (String) getFromServer();
 				familiars.add(message);
 			}
 			
@@ -78,7 +80,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(familiar);
 			List<String> positions = new ArrayList<>();
 			while(message!=CommandStrings.END_TRANSMISSION){
-				message = (String) getFromClient();
+				message = (String) getFromServer();
 				positions.add(message);
 			}
 			
@@ -107,12 +109,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	
 	@Override
 	public void activateLeaderCard(String card){
-			String message = CommandStrings.ACTIVATE_WHICH_LEADER_CARD;
-			writeObject(message);
+			writeObject(CommandStrings.ACTIVATE_WHICH_LEADER_CARD);
 			writeObject(card);
-			
-			//TODO se Federico da Montefeltro, chiedi quale familiare
-			//TODO se Lorenzo de� Medici, chiedi quale altro leader
 	}
 
 	@Override
@@ -147,7 +145,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.ADD_TO_GAME);
 			writeObject(name);
 			
-			if (getFromClient().equals(CommandStrings.ADD_TO_GAME)) {
+			if (getFromServer().equals(CommandStrings.ADD_TO_GAME)) {
 				return true;
 			}
 		} catch (Exception e) {
@@ -173,7 +171,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
-	private Object getFromClient() {
+	private Object getFromServer() {
 		try {
 			do {
 				Object obj = null;
@@ -208,7 +206,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public boolean endTurn() throws RemoteException {
 		writeObject(CommandStrings.END_TURN);
-		String response = (String) getFromClient();
+		String response = (String) getFromServer();
 		if (response==CommandStrings.END_TURN) {
 			return true;
 		} else return false;
@@ -220,7 +218,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		String str = null;
 		List<String> leaders = new ArrayList<>();
 		do {
-			str = (String) getFromClient();
+			str = (String) getFromServer();
 			leaders.add(str);
 		} while (str!=CommandStrings.END_TRANSMISSION);
 
@@ -238,24 +236,36 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	
 	public GameBoard getBoard(){
 		writeObject("send me board");
-		return (GameBoard) getFromClient();
+		return (GameBoard) getFromServer();
 	}
 	
 	@Override
 	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
-		// TODO Auto-generated method stub
+		writeObject(CommandStrings.INITIAL_LEADER);
 		
 	}
 	
-	public void processObject(Object obj) {
+	public void processObject(Object obj) throws Exception {
 		if(obj instanceof String){
 			processString((String) obj);
 		}
 	}
 	
-	private void processString(String obj) {
-		if(obj.equals(CommandStrings.START_TURN)){
-			_ui.notifyTurn(board);//TODO board
+	@SuppressWarnings("unchecked")
+	private void processString(String obj) throws Exception{
+		if(obj.equals(CommandStrings.INITIAL_LEADER)){
+			List<LeaderCard> leadersList = (List<LeaderCard>) getFromServer();
+			List<String> list = new ArrayList<>();
+			for(LeaderCard lc : leadersList){
+				list.add(lc.getName());
+			}
+			
+			_ui.showInitialLeaderList(list);
+		}
+		else if(obj.equals(CommandStrings.START_TURN)){
+			GameBoard board = (GameBoard) getFromServer();
+			Player me = (Player) getFromServer();
+			_ui.startTurn(board, me);
 		}
 	}
 
@@ -263,9 +273,13 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		@Override
 		public void run() {
 			while (_isRunning) {
-				Object obj = getFromClient();
-				if (obj != null) {
-					processObject(obj);
+				try{
+					Object obj = getFromServer();
+					if (obj != null) {
+						processObject(obj);
+					}
+				}catch(Exception e){
+					_log.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}

@@ -15,6 +15,7 @@ import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
 import game.LeaderCard;
+import game.Player;
 import game.Resource;
 import util.CommandStrings;
 
@@ -167,6 +168,8 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			writeObject(CommandStrings.INITIAL_LEADER);
 			writeObject(leadersList);
 			
+			System.out.println("Mandati oggetti. Rimango in wait...");
+			
 			_returnObject.wait();
 			
 			return (int) _returnObject;
@@ -232,10 +235,11 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	}
 
 	@Override
-	public void startTurn() throws RemoteException {
+	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException {
 		try {
 			writeObject(CommandStrings.START_TURN);
-			//TODO mando gameboard e player
+			writeObject(board);
+			writeObject(currentPlayer);
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}

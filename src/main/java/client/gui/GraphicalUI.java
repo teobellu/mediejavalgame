@@ -29,6 +29,7 @@ public class GraphicalUI implements UI {
 	private Object _returnObject = null;
 	
 	private GameBoard _board;
+	private Player _me;
 	
 	private File _xmlFile;
 	
@@ -293,8 +294,9 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public void notifyTurn(GameBoard board) {
+	public void startTurn(GameBoard board, Player me) {
 		_board = board;
+		_me = me;
 		_returnObject = CommandStrings.START_TURN;
 	}
 	
@@ -311,6 +313,12 @@ public class GraphicalUI implements UI {
 		} catch (Exception e) {
 			return 0;
 		}
+	}
+	
+	@Override
+	public boolean endTurn() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	public List<String> placeFamiliar(){
