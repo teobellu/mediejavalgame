@@ -99,6 +99,15 @@ public class GC{
 	public static final List<Resource> COUNCIL_REWARDS = Collections.unmodifiableList(
 		Arrays.asList(COUNCIL_REW1, COUNCIL_REW2, COUNCIL_REW3, COUNCIL_REW4, COUNCIL_REW5));
 	
+	public static final String PLACE_FAMILIAR = "place familiar";
+	public static final String ACTIVATE_LEADER = "activate leader card";
+	public static final String DROP_LEADER = "drop leader card";
+	public static final String SHOW_MY_CARDS = "show my cards";
+	public static final String END_TURN = "end turn";
+	
+	public static final List<String> STANDARD_COMMANDS = Collections.unmodifiableList(
+		Arrays.asList(PLACE_FAMILIAR, ACTIVATE_LEADER, DROP_LEADER, SHOW_MY_CARDS, END_TURN));
+	
 	/**
 	 * Private constructor to hide the implicit public one
 	 */

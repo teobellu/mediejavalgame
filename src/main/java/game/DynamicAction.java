@@ -285,7 +285,8 @@ public class DynamicAction {
 		
 		player.addDevelopmentCard(card);
 		player.addEffect(card.getImmediateEffect());
-		player.addEffect(card.getPermanentEffect());
+		if (card.getDice() == 0)
+			player.addEffect(card.getPermanentEffect());
 		space.setCard(null);
 	}
 	

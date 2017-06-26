@@ -12,7 +12,6 @@ import server.Client;
 
 public abstract class State {
 	
-	protected boolean vatican = false; //TODO, per ora ignorarare
 	protected int age;
 	protected int phase;
 	protected final Game _theGame; //TODO
@@ -30,7 +29,6 @@ public abstract class State {
 		_player = _players.get(0);
 		age = 1;
 		phase = 1;
-		vatican = false;
 		_theGame.getDynamicBar().setPlayer(_players.get(0));
 		_theGame.setListener(new ListenAction(_theGame));
 		try {
@@ -47,14 +45,24 @@ public abstract class State {
 	
 	public void nextState(){
 		Player nextPlayer;
+		//trovo il nuovo giocatore
 		int currentPlayerIndex = _players.indexOf(_player);
-		if (currentPlayerIndex == _players.size()){
+		if (currentPlayerIndex == _players.size() - 1){
 			nextPlayer = _players.get(0);
 		}
 		else {
 			nextPlayer = _players.get(currentPlayerIndex + 1);
+			if (phase % 2 == 0){
+				
+			}
+			else {
+				
+			}
 		}
 		_theGame.getDynamicBar().setPlayer(nextPlayer);
+		//refresho listener list
+		_theGame.getListener().setPlayer(nextPlayer);
+		//avviso che è il suo turno
 		_player = nextPlayer;
 		try {
 			_player.getClient().getConnectionHandler().startTurn();
@@ -63,6 +71,7 @@ public abstract class State {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	public abstract List<String> dropLeaderCard() throws GameException;
 	

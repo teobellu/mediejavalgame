@@ -272,6 +272,7 @@ public class CommandLineUI implements UI {
 		for(Resource reward : resources){
 			_ioHandler.writeNext(index + ") ");
 			ModelPrinter.printResource(reward);
+			_ioHandler.write("");
 			index++;
 		}
 		return _ioHandler.readNumberWithinInterval(resources.size() - 1);

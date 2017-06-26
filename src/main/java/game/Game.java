@@ -92,10 +92,12 @@ public class Game implements Runnable {
 	}
 	
 	private boolean isGameOver(){
+		return !(_turn < Constants.MAX_TURN && _players.size()>1);
+		/*
 		if(_turn < Constants.MAX_TURN && _players.size()>1){
 			return false;
 		}
-		return true;
+		return true;*/
 	}
 	
 	public Player getCurrentPlayer(){
@@ -268,7 +270,7 @@ public class Game implements Runnable {
         Map<String, List<Resource>> bonus = gameInformation.getBonusPlayerDashBoard();
 		
         //creo una lista di player invertita (vedi regolamento)
-		List<Player> reversePlayers = _players;
+		List<Player> reversePlayers = new ArrayList<>(_players);
 		Collections.reverse(reversePlayers);
         
 		//chiedo ai giocatori di scegliere il loro bonus
