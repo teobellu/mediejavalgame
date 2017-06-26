@@ -12,8 +12,9 @@ import server.Client;
 
 public abstract class State {
 	
-	protected int age;
-	protected int phase;
+	protected int age; //1,2,3
+	protected int phase; //
+	protected int countTurn;
 	protected final Game _theGame; //TODO
 	protected Player _player = null;
 	protected Client _client;
@@ -29,6 +30,7 @@ public abstract class State {
 		_player = _players.get(0);
 		age = 1;
 		phase = 1;
+		countTurn = 1;
 		_theGame.getDynamicBar().setPlayer(_players.get(0));
 		_theGame.setListener(new ListenAction(_theGame));
 		try {
@@ -44,21 +46,30 @@ public abstract class State {
 	}
 	
 	public void nextState(){
-		Player nextPlayer;
-		//trovo il nuovo giocatore
-		int currentPlayerIndex = _players.indexOf(_player);
-		if (currentPlayerIndex == _players.size() - 1){
-			nextPlayer = _players.get(0);
-		}
-		else {
-			nextPlayer = _players.get(currentPlayerIndex + 1);
-			if (phase % 2 == 0){
-				
+		Player nextPlayer = getNextPlayer();
+		
+		if (countTurn % (_players.size() * 4) == 0){
+			if (phase == 2){
+				System.out.println("VATICAN PHASE");
+				for (Player p : _players){
+					_theGame.getDynamicBar().setPlayer(p);
+					_theGame.getListener().setPlayer(p);
+					try {
+						_theGame.getDynamicBar().showVaticanSupport(age);
+					} catch (GameException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				age++;
+				phase = 0;
 			}
-			else {
-				
-			}
+			System.out.println("NEXT PHASE");
+			//TODO refresh board
+			
+			phase++;
 		}
+		countTurn++;
 		_theGame.getDynamicBar().setPlayer(nextPlayer);
 		//refresho listener list
 		_theGame.getListener().setPlayer(nextPlayer);
@@ -72,6 +83,16 @@ public abstract class State {
 		}
 	}
 	
+	/**
+	 * TODO OTTIENI IL PROSSIMO GIOCATORE, A RUOTA
+	 * @return 
+	 */
+	private Player getNextPlayer(){
+		int currentPlayerIndex = _players.indexOf(_player);
+		if (currentPlayerIndex == _players.size() - 1)
+			return _players.get(0);
+		return _players.get(currentPlayerIndex + 1);
+	}
 	
 	public abstract List<String> dropLeaderCard() throws GameException;
 	

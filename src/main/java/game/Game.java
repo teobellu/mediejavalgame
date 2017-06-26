@@ -116,9 +116,9 @@ public class Game implements Runnable {
 		
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
 		
-		
 		List<DevelopmentCard> devDeck = gameInformation.getDevelopmentDeck();
 		_board.generateDevelopmentCards(devDeck, 1);
+		gameInformation.setExcommunicationTitlesOnBoard();
 		
 		int n = 5;
 		for (Player p : _players){

@@ -185,9 +185,11 @@ public class GameInformation{
 		Collections.shuffle(excommunicationDeck);
 		for (int age = 1; age <= 3; age++)
 			for (ExcommunicationTile card : excommunicationDeck)
-				if (card.getAge() == age)
-					exCard[age] = card;
-		board.setExCard(exCard);
+				if (card.getAge() == age){
+					exCard[age-1] = card;
+					break;
+				}
+		game.getBoard().setExCard(exCard);
 	}
 	
 	public void setDevelopmentCardOnBoard(int age){

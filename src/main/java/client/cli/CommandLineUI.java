@@ -90,7 +90,7 @@ public class CommandLineUI implements UI {
 	
 	@Override
 	public void startTurn() {
-		_ioHandler.write("It's your turn! :D");
+		_ioHandler.write("\nIt's your turn! :D");
 		try {
 			_board = _connectionHandler.getBoard();
 			_me = _connectionHandler.getMe();
@@ -111,7 +111,7 @@ public class CommandLineUI implements UI {
 	
 	public void handleTurn() throws RemoteException{
 		int selection = 0;
-		_ioHandler.write("What do you want to do?");
+		_ioHandler.write("\nWhat do you want to do?");
 		_ioHandler.writeList(commands);
 		selection = _ioHandler.readNumberWithinInterval(commands.size() - 1);
 		switch (commands.get(selection)){
@@ -188,6 +188,7 @@ public class CommandLineUI implements UI {
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
+		_me = _connectionHandler.getMe();
 		handleTurn();
 	}
 	
@@ -209,6 +210,7 @@ public class CommandLineUI implements UI {
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
+		_me = _connectionHandler.getMe();
 		handleTurn();
 	}
 	

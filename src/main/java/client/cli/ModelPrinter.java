@@ -153,7 +153,7 @@ public abstract class ModelPrinter {
 		}
 		
 		//excommunication tiles
-		/* TODO
+		
 		_ioHandler.write("\n*****Excommunication tiles: ");
 		for (int index=0; index < GameBoard.MAX_EXCOMUNNICATION_CARD; index++){
 			String effectDescription = board.getExCard()[index].getEffect().toString();
@@ -161,6 +161,7 @@ public abstract class ModelPrinter {
 		}
 		
 		//dices TODO
+		/*
 		_ioHandler.write("\n*****Dices: ");
 		List<Integer> dices = Arrays.asList(board.getDices());
 		
