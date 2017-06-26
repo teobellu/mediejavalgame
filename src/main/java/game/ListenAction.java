@@ -36,9 +36,17 @@ public class ListenAction{
 	}
 	
 	public void dropLeaderCard(LeaderCard card) throws GameException{
+		LeaderCard selection = null;
 		List<LeaderCard> playerLeaders = _player.getLeaderCards();
-		if (!playerLeaders.contains(card))
+		List<String> playerLeadersNames = new ArrayList<>();
+		playerLeaders.forEach(leader -> playerLeadersNames.add(leader.getName()));
+		for (LeaderCard leader : playerLeaders){
+			if (leader.getName().equals(card.getName()))
+				selection = card;
+		}
+		if (selection == null)
 			throw new GameException("You can't discard this card!");
+		card = selection;
 		try {
 			_theGame.getDynamicBar().discardLeaderCard(card);
 		} catch (RemoteException e) {
@@ -50,7 +58,17 @@ public class ListenAction{
 	}
 	
 	public void activateLeaderCard(LeaderCard card) throws GameException {
+		LeaderCard selection = null;
 		List<LeaderCard> activableLeaders = _player.getActivableLeaderCards();
+		List<String> playerLeadersNames = new ArrayList<>();
+		activableLeaders.forEach(leader -> playerLeadersNames.add(leader.getName()));
+		for (LeaderCard leader : activableLeaders){
+			if (leader.getName().equals(card.getName()))
+				selection = card;
+		}
+		if (selection == null)
+			throw new GameException("You can't activate this card!");
+		card = selection;
 		if (!activableLeaders.contains(card))
 			throw new GameException("You can't activate this card!");
 		_theGame.getDynamicBar().activateLeaderCard(card);
@@ -112,7 +130,7 @@ public class ListenAction{
 		_theGame.getState().nextState();
 		//TODO avviso il player che è tutto ok
 		//TODO avviso gli altri player
-		//TODO svuoto la lista delle azioni
+		actionsAlreadyDone.clear();
 		//TODO cambio stato
 	}
 

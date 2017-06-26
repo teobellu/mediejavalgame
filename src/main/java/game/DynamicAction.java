@@ -25,7 +25,6 @@ public class DynamicAction {
 
 	//TODO
 	private Game game;
-	private GameInformation gameInformation = new GameInformation(game);
 	
 	/**
 	 * Constructor
@@ -353,12 +352,13 @@ public class DynamicAction {
 	 * @throws GameException TODO
 	 */
 	public void placeCouncilPalace (FamilyMember familiar) throws GameException{
+		GameInformation infoGame = game.getGameInformation();
 		Space space = game.getBoard().getCouncilPalaceSpace();
 		int power = (Integer) activateEffect(familiar.getValue(), GC.WHEN_FIND_VALUE_ACTION);
 		if (power < space.getRequiredDiceValue())
 			throw new GameException();
-		if (!gameInformation.getHeadPlayersTurn().contains(player))
-			gameInformation.getHeadPlayersTurn().add(player);
+		if (!infoGame.getHeadPlayersTurn().contains(player))
+			infoGame.getHeadPlayersTurn().add(player);
 		player.addEffect(space.getInstantEffect());
 		endAction(familiar, space);
 	}
@@ -453,15 +453,27 @@ public class DynamicAction {
 	 * @throws GameException It will generally not be launched unless there are errors in xml
 	 */
 	public void showVaticanSupport(int age) throws GameException{
+		GameInformation infoGame = game.getGameInformation();
 		int faithPoints = player.getResource(GC.RES_FAITHPOINTS);
 		if (faithPoints < 2 + age){
 			dontShowVaticanSupport(age);
 			return;
 		}
+		boolean answer = false;
+		try {
+			answer = player.getClient().getConnectionHandler().ask("Do you what to show vatican support?");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!answer){
+			dontShowVaticanSupport(age);
+			return;
+		}
 		player.pay(new Resource(GC.RES_FAITHPOINTS, faithPoints));
-		int indexFaith = Math.min(faithPoints, gameInformation.getBonusFaith().size() - 1);
-		int victory = gameInformation.getBonusFaith().get(indexFaith);
-		player.pay(new Resource(GC.RES_VICTORYPOINTS, victory));
+		int indexFaith = Math.min(faithPoints, infoGame.getBonusFaith().size() - 1);
+		int victory = infoGame.getBonusFaith().get(indexFaith);
+		player.gain(new Resource(GC.RES_VICTORYPOINTS, victory));
 		activateEffect(GC.WHEN_SHOW_SUPPORT);
 	}
 	
@@ -483,11 +495,12 @@ public class DynamicAction {
 	 * the leader card
 	 */
 	public void activateLeaderCard(LeaderCard card) throws GameException{
+		GameInformation infoGame = game.getGameInformation();
 		if (!card.canPlayThis(player))
 			throw new GameException();
 		player.removeLeaderCard(card);
 		player.addEffect(card.getEffect());
-		gameInformation.addDiscardedLeader(card, player);
+		infoGame.addDiscardedLeader(card, player);
 	}
 	
 	/**
@@ -504,7 +517,8 @@ public class DynamicAction {
 	 * Add player to a list because he has the delay first action malus
 	 */
 	public void addDelayMalus() {
-		gameInformation.getTailPlayersTurn().add(player);
+		GameInformation infoGame = game.getGameInformation();
+		infoGame.getTailPlayersTurn().add(player);
 	}
 	
 	/**
@@ -566,7 +580,8 @@ public class DynamicAction {
 	
 	//TODO description
 	public Map<LeaderCard, Player> getDiscardedLeaderCards() {
-		return gameInformation.getDiscardedLeader();
+		GameInformation infoGame = game.getGameInformation();
+		return infoGame.getDiscardedLeader();
 	}
 
 	

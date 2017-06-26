@@ -85,6 +85,8 @@ public class EffectDiscountResource implements IEffectBehavior{
 			if (discountResource.get(type) > 0)
 				text += discountResource.get(type) + " " + type + " ";
 		}
+		if (actions == null)
+			return text;
 		text += "when you perform action: ";
 		for (String action : actions)
 			text += action + " ";
