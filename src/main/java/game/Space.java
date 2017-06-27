@@ -30,7 +30,7 @@ public class Space implements Serializable{
 		return requiredDiceValue;
 	}
 
-	public ArrayList<FamilyMember> getFamiliar() {
+	public ArrayList<FamilyMember> getFamiliars() {
 		return familiar;
 	}
 
@@ -62,15 +62,6 @@ class Cell extends Space{
 	public Cell(int cost, Effect instantEffect){
 		super(cost, instantEffect, true);
 	}
-	
-	/*
-	@Override //del metodo sotto
-	public void setFamiliar(FamilyMember member){
-		//prima di piazzare devo vedere se posso pagare, e pago
-		Resource cost = card.getCost();
-		//ora piazzo il familiare
-		super.setFamiliar(member);
-	}*/
 	
 	@Override
 	public void setCard(DevelopmentCard card) {

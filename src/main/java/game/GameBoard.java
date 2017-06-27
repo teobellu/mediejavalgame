@@ -18,7 +18,7 @@ public class GameBoard implements Serializable{
 
 	
 
-	/**da cancellare**/
+	/*TODO da cancellare**/
 	public static final Resource ser3 = new Resource(GC.RES_SERVANTS, 3);
 	public static final Resource ser2 = new Resource(GC.RES_SERVANTS, 2);
 	public static final Resource ser1 = new Resource(GC.RES_SERVANTS, 1);
@@ -144,17 +144,17 @@ public class GameBoard implements Serializable{
 	}
 	
 	public DevelopmentCard getCard(int row, int column){
-		return getCell(row,column).getCard();
+		return getFromTowers(row,column).getCard();
 	}
 	
 	public void obtainCard(Player player, int row, int column){
 		//vari controlli, ottieni bonus, ecc.
-		DevelopmentCard card = getCell(row, column).getCard();
+		DevelopmentCard card = getFromTowers(row, column).getCard();
 		player.addDevelopmentCard(card);
 		
 	}
 
-	public Cell getCell(int row, int column){
+	public Cell getFromTowers(int row, int column){
 		return tower[row][column];
 	}
 	
@@ -205,7 +205,7 @@ public class GameBoard implements Serializable{
 	public List<FamilyMember> getFamiliarInSameColumn(int column) throws GameException{
 		List<FamilyMember> familiarInSameColumn = new ArrayList<>();
 		for (int row = 0; row < GameBoard.MAX_ROW; row++)
-			familiarInSameColumn.addAll(getCell(row, column).getFamiliar());
+			familiarInSameColumn.addAll(getFromTowers(row, column).getFamiliars());
 		return familiarInSameColumn;
 	}
 

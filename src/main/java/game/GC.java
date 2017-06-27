@@ -108,6 +108,8 @@ public class GC{
 	public static final List<String> STANDARD_COMMANDS = Collections.unmodifiableList(
 		Arrays.asList(PLACE_FAMILIAR, ACTIVATE_LEADER, DROP_LEADER, SHOW_MY_CARDS, END_TURN));
 	
+	public static final int NUMBER_OF_AGES = 3;
+	
 	/**
 	 * Private constructor to hide the implicit public one
 	 */

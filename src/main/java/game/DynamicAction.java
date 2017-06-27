@@ -185,7 +185,7 @@ public class DynamicAction {
 	 */
 	private void canOccupyForSpaceLogic(Space space) throws GameException{
 		if (space.isSingleObject()){
-			if(space.getFamiliar().isEmpty()) 
+			if(space.getFamiliars().isEmpty()) 
 				return;
 			if ((Boolean) activateEffect(true, GC.WHEN_JOINING_SPACE) != null) 
 				throw new GameException();
@@ -219,7 +219,7 @@ public class DynamicAction {
 	 */
 	private void canOccupySpace (FamilyMember familiar, Space space) throws GameException{
 		canOccupyForSpaceLogic(space);
-		canOccupyForColorLogic(familiar, space.getFamiliar());
+		canOccupyForColorLogic(familiar, space.getFamiliars());
 	}
 	
 	/**
@@ -232,7 +232,7 @@ public class DynamicAction {
 	 */
 	public void visitTower(Integer value, int row, int column) throws GameException {
 		Resource cost = new Resource();
-		Space space = game.getBoard().getCell(row, column);
+		Space space = game.getBoard().getFromTowers(row, column);
 		DevelopmentCard card = space.getCard();
 		if (card == null || player.getDevelopmentCards(card.toString()).size() == GC.MAX_DEVELOPMENT_CARDS)
 			throw new GameException();
@@ -297,7 +297,7 @@ public class DynamicAction {
 	 * @throws GameException The player can not place his familiar in the space selected
 	 */
 	public void placeInTower (FamilyMember familiar, int row, int column) throws GameException{
-		Space space = game.getBoard().getCell(row, column);
+		Space space = game.getBoard().getFromTowers(row, column);
 		canOccupySpace(familiar, space);
 		canOccupyForColorLogic(familiar, game.getBoard().getFamiliarInSameColumn(column));
 		visitTower(familiar.getValue(), row, column);
@@ -377,7 +377,7 @@ public class DynamicAction {
 			canOccupySpace(familiar, space);
 		}
 		catch (GameException e) {
-			canOccupyForColorLogic(familiar, space.getFamiliar());
+			canOccupyForColorLogic(familiar, space.getFamiliars());
 			space = game.getBoard().getWorkLongSpace(action);
 			canOccupySpace(familiar, space);
 		}
