@@ -70,25 +70,41 @@ public class GameInformation{
 		board.generateDevelopmentCards(developmentDeck, age);
 		System.out.println(developmentDeck.size() + "-> deve essere pi' piccolo del numero sopra");
 	}
+	
+	public void newPhase(){
+		rollDices();
+		generateFamiliars();
+	}
 
+	private void generateFamiliars(){
+		List<Player> players = game.getPlayers();
+		List<FamilyMember> familiars;
+		for (Player p : players){
+			familiars = new ArrayList<>();
+			for (String color : GC.FM_TYPE){
+				if (color == GC.FM_TRANSPARENT)
+					break;
+				FamilyMember familiar = new FamilyMember(color);
+				Integer[] dices = game.getBoard().getDices();
+				familiar.setValue(dices[GC.FM_TYPE.indexOf(color)]);
+				familiars.add(familiar);
+			}
+			p.setFreeMember(familiars);
+		}
+	}
 	
 	/**
-	 * This method simply rolls dices and set new family members to all the players;
+	 * This method simply rolls dices;
 	 * Then refresh gameboard's dices
 	 */
-	public void rollDices(){
-		List<FamilyMember> familiars = new ArrayList<>();
+	private void rollDices(){
 		Random random = new Random();
-		GC.FM_TYPE.forEach(color -> familiars.add(new FamilyMember(color)));
-		familiars.stream()
-			.filter(familiar -> familiar.getColor() != GC.FM_TRANSPARENT)
-			.forEach(familiar -> familiar.setValue(random.nextInt(6) + 1));
 		int size = board.getdices().length;
-		int[] dices = new int [size];
-		for (int i = 0; i < size; i++)
-			for (FamilyMember familiar : familiars)
-				dices[i] = familiar.getValue();
-		game.getPlayers().forEach(player -> player.setFreeMember(new ArrayList<>(familiars)));
+		Integer[] dices = new Integer [size];
+		for (int i = 0; i < size; i++){
+			dices[i] = random.nextInt(6) + 1;
+		}
+		board.setDices(dices);
 	}
 	
 	/**

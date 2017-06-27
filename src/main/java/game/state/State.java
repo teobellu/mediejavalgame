@@ -33,6 +33,7 @@ public abstract class State {
 		countTurn = 1;
 		_theGame.getDynamicBar().setPlayer(_players.get(0));
 		_theGame.setListener(new ListenAction(_theGame));
+		_theGame.getListener().setPlayer(_players.get(0));
 		try {
 			_player.getClient().getConnectionHandler().startTurn();
 		} catch (RemoteException e) {

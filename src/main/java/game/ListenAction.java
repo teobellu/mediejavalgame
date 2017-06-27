@@ -42,13 +42,12 @@ public class ListenAction{
 		playerLeaders.forEach(leader -> playerLeadersNames.add(leader.getName()));
 		for (LeaderCard leader : playerLeaders){
 			if (leader.getName().equals(card.getName()))
-				selection = card;
+				selection = leader;
 		}
 		if (selection == null)
 			throw new GameException("You can't discard this card!");
-		card = selection;
 		try {
-			_theGame.getDynamicBar().discardLeaderCard(card);
+			_theGame.getDynamicBar().discardLeaderCard(selection);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 		}
@@ -64,14 +63,11 @@ public class ListenAction{
 		activableLeaders.forEach(leader -> playerLeadersNames.add(leader.getName()));
 		for (LeaderCard leader : activableLeaders){
 			if (leader.getName().equals(card.getName()))
-				selection = card;
+				selection = leader;
 		}
 		if (selection == null)
 			throw new GameException("You can't activate this card!");
-		card = selection;
-		if (!activableLeaders.contains(card))
-			throw new GameException("You can't activate this card!");
-		_theGame.getDynamicBar().activateLeaderCard(card);
+		_theGame.getDynamicBar().activateLeaderCard(selection);
 		//TODO avviso il player che è tutto ok
 		//TODO avviso gli altri player
 		actionsAlreadyDone.add(GC.ACTIVATE_LEADER);
@@ -83,23 +79,15 @@ public class ListenAction{
 		List<FamilyMember> freeMembers = _player.getFreeMember();
 		FamilyMember selection = null;
 		for (FamilyMember f : freeMembers){
-			System.out.println("color free = " + f.getColor());
 			if (f.getColor().equals(familiar.getColor())){
 				selection = f;
 			}
 		}
-		System.out.println("size of free = " + freeMembers.size());
-		System.out.println("color of me = " + familiar.getColor());
-		if (selection.getColor() == "aa"){
+		if (selection == null){
 			throw new GameException("You can't place this familiar!");
 		}
-		else{
-			familiar = selection;
-		}
-		/*
-		if (!freeMembers.contains(familiar))
-			throw new GameException("You can't place this familiar!");
-			*/
+		familiar = selection;
+		
 		switch(position.getWhere()){
 			case GC.TOWER :
 				_theGame.getDynamicBar().placeInTower(familiar, position.getRow(), position.getColumn());
@@ -118,7 +106,6 @@ public class ListenAction{
 				break;
 			default : throw new GameException("Invalid position");
 		}
-		System.out.println("player " + _player.getName() + " has coins = " + _player.getResource(GC.RES_COINS));
 		//TODO avviso il player che è tutto ok
 		//TODO avviso gli altri player
 		actionsAlreadyDone.add(GC.PLACE_FAMILIAR);
