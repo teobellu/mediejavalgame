@@ -42,6 +42,11 @@ public class ExcommunicationTile implements ICard, Serializable{
 	public int getID() {
 		return id;
 	}
+	
+	//TODO description
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	/**
 	 * Getter, get the age of the card
@@ -58,4 +63,5 @@ public class ExcommunicationTile implements ICard, Serializable{
 	public Effect getEffect() {
 		return effect;
 	}
+	
 }

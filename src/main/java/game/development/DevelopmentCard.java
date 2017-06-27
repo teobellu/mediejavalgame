@@ -10,6 +10,8 @@ import game.effect.Effect;
 
 public abstract class DevelopmentCard implements ICard, Serializable{
 
+	private int id;
+	
 	protected String name;
 	
 	protected int age;
@@ -115,6 +117,14 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 	
 	protected void setRequirement(List<Resource> requires) {
 		requirement.addAll(requires);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }
