@@ -5,9 +5,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="900.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.MainViewController">
+<AnchorPane maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="900.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.MainViewController">
    <children>
       <SplitPane dividerPositions="0.7" layoutX="-335.0" layoutY="354.0" maxHeight="900.0" maxWidth="1068.0" minHeight="900.0" minWidth="1068.0" prefHeight="900.0" prefWidth="1068.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -17,32 +19,22 @@
                     <items>
                       <AnchorPane maxHeight="900.0" maxWidth="100.0" minHeight="900.0" minWidth="100.0" prefHeight="900.0" prefWidth="100.0">
                            <children>
-                              <ImageView fx:id="_leaderCard1" fitHeight="140.0" fitWidth="200.0" layoutX="-11.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="5.0">
+                              <ImageView fx:id="_leaderCard0" fitHeight="140.0" fitWidth="200.0" layoutX="-11.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="5.0">
                                  <image>
                                     <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="_leaderCard2" fitHeight="140.0" fitWidth="200.0" layoutX="13.0" layoutY="153.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="153.5">
+                              <ImageView fx:id="_leaderCard1" fitHeight="140.0" fitWidth="200.0" layoutX="13.0" layoutY="153.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="153.5">
                                  <image>
                                     <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="_leaderCard3" fitHeight="140.0" fitWidth="200.0" layoutX="16.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="302.0">
+                              <ImageView fx:id="_leaderCard2" fitHeight="140.0" fitWidth="200.0" layoutX="16.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="302.0">
                                  <image>
                                     <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="_leaderCard4" fitHeight="140.0" fitWidth="200.0" layoutX="6.0" layoutY="450.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="450.5">
-                                 <image>
-                                    <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="_leaderCard5" fitHeight="140.0" fitWidth="200.0" layoutX="14.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="599.0">
-                                 <image>
-                                    <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fx:id="_leaderDeck" fitHeight="140.0" fitWidth="200.0" layoutX="11.0" layoutY="747.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="747.5">
+                              <ImageView fx:id="_leaderCard3" fitHeight="140.0" fitWidth="200.0" layoutX="6.0" layoutY="450.5" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.5" AnchorPane.topAnchor="450.5">
                                  <image>
                                     <Image url="@../../../resources/javafx/images/leaders/leaders_b_c_00.jpg" />
                                  </image>
@@ -50,12 +42,26 @@
                            </children></AnchorPane>
                       <AnchorPane maxHeight="900.0" maxWidth="653.0" minHeight="900.0" minWidth="653.0" prefHeight="900.0" prefWidth="653.0">
                            <children>
-                              <ImageView fx:id="_backgroundImage" fitHeight="900.0" fitWidth="653.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <ImageView fx:id="_backgroundImage" fitHeight="900.0" fitWidth="653.0" layoutX="3.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.00665283203125" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="0.0">
                                  <image>
                                     <Image url="@../../../resources/javafx/images/gameboard_f_c.jpeg" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="53.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true" />
+                              <Text fx:id="_blackDiceValue" fill="WHITE" layoutX="348.0" layoutY="819.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" wrappingWidth="30.7294921875">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="_whiteDiceValue" layoutX="404.0" layoutY="818.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" wrappingWidth="30.7294921875">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="_orangeDiceValue" fill="#55c4fc" layoutX="459.0" layoutY="818.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" wrappingWidth="30.7294921875">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                     </items>
@@ -87,6 +93,22 @@
                                     <Image url="@../../../resources/javafx/images/risorse1.jpg" />
                                  </image>
                               </ImageView>
+                              <Text fx:id="_goldValue" fill="WHITE" layoutX="57.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font></Text>
+                              <Text fx:id="_woodValue" fill="WHITE" layoutX="215.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font></Text>
+                              <Text fx:id="_stoneValue" fill="WHITE" layoutX="68.0" layoutY="534.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font></Text>
+                              <Text fx:id="_servantValue" fill="WHITE" layoutX="212.0" layoutY="533.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font></Text>
                            </children>
                         </AnchorPane>
                     </items>
