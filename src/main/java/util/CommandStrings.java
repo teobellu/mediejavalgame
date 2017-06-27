@@ -41,6 +41,8 @@ public final class CommandStrings {
 	
 	public static final String ERROR = "error";
 	
+	public static final String INITIAL_PERSONAL_BONUS = "initial_personal_bonus";
+	
 	/**
 	 * Hide constructor
 	 */

@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,6 +17,7 @@ import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
 import game.Position;
+import game.Resource;
 import util.CommandStrings;
 import util.Constants;
 
@@ -78,10 +80,22 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 		else if(obj.equals(CommandStrings.INITIAL_LEADER)){
 			List<LeaderCard> tempList = ((List<LeaderCard>) getFromServer());
+			
 			int i = _ui.chooseLeader(CommandStrings.INITIAL_LEADER, tempList);
 			writeObject(CommandStrings.INITIAL_LEADER);
 			writeObject(i);
-			System.out.println("Risposto con "+CommandStrings.INITIAL_LEADER+" e "+i);
+		}
+		else if(obj.equals(CommandStrings.INITIAL_PERSONAL_BONUS)){
+			Map<String, List<Resource>> bonus = (Map<String, List<Resource>>) getFromServer();
+			
+			int i = _ui.chooseDashboardBonus(bonus);
+			writeObject(CommandStrings.INITIAL_PERSONAL_BONUS);
+			writeObject(i);
+		}
+		else if(obj.equals(CommandStrings.START_TURN)){
+			GameBoard board = (GameBoard) getFromServer();
+			Player me = (Player) getFromServer();
+			_ui.startTurn(board, me);
 		}
 	}
 	
@@ -179,7 +193,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.ADD_TO_GAME);
 			writeObject(name);
 			
-			System.out.println("mandato add me to game. Attendo notify...");
 			synchronized (_returnObject) {
 				_returnObject.wait();
 			}
@@ -194,7 +207,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	
 	private synchronized void writeObject(Object message){
 		try {
-			_outputStream.writeObject(message);
+			_outputStream.writeUnshared(message);
 			_outputStream.flush();
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);

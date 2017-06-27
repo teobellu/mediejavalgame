@@ -105,13 +105,12 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			}
 			writeObject(leaders);
 		} 
-		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL)){
+		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL+"|"+CommandStrings.INITIAL_PERSONAL_BONUS)){
 			synchronized (_returnObject) {
 				_returnObject.notify();
-				_returnObject = getFromClient();
+				_returnObject = (int) getFromClient();
 			}
-			System.out.println("NOTIFICA!");
-		} 
+		}
 	}
 
 	@Override
@@ -135,7 +134,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	}
 
 	private synchronized void writeObject(Object obj) throws IOException {
-		_outputStream.writeObject(obj);
+		_outputStream.writeUnshared(obj);
 		_outputStream.flush();
 	}
 
@@ -184,6 +183,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	@Override
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException {
 		//TODO
+		return 0;
 	}
 
 	@Override
@@ -204,13 +204,9 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			writeObject(context);
 			writeObject(leadersList);
 			
-			System.out.println("Mandato contesto e mandata lista di carte leader. Rimango in wait...");
-			
 			synchronized (_returnObject) {
 				_returnObject.wait();
 			}
-			
-			System.out.println("RICEVUTA RISPOSTA");
 			
 			return (int) _returnObject;
 		} catch (Exception e) {
@@ -223,7 +219,20 @@ public class SocketConnectionHandler extends ConnectionHandler {
 
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
-		// TODO Auto-generated method stub
+		try {
+			writeObject(CommandStrings.INITIAL_PERSONAL_BONUS);
+			writeObject(bonus);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return (int) _returnObject;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		System.out.println("ERROR: PERSONAL BONUS NOT FOUND");
 		return 0;
 	}
 	

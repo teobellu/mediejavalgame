@@ -31,38 +31,45 @@ public class PersonalBonusController extends DialogAbstractController{
 	
 	private List<Button> _buttons;
 	
+	private GUI _GUI;
+	
 	@FXML
 	private void initialize(){
 	}
 	
 	@FXML
 	private void onFirstButtonClicked(){
-		handleButton(1);
+		handleButton(0);
 	}
 	
 	@FXML
 	private void onSecondButtonClicked(){
-		handleButton(2);
+		handleButton(1);
 	}
 	
 	@FXML
 	private void onThirdButtonClicked(){
-		handleButton(3);
+		handleButton(2);
 	}
 	
 	@FXML
 	private void onFourthButtonClicked(){
-		handleButton(4);
+		handleButton(3);
 	}
 	
 	@FXML
 	private void onFifthButtonClicked(){
-		handleButton(5);
+		handleButton(4);
 	}
 	
 	private void handleButton(int i){
 		GraphicalUI.getInstance().setReturnObject(i);
+		_GUI.createMainObserver();
 		_dialog.close();
+	}
+	
+	public void setGUI(GUI gui){
+		_GUI = gui;
 	}
 	
 	public void setMap(HashMap<String, List<Resource>> map){

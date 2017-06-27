@@ -153,40 +153,11 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
-	private int showInitialLeaderList(List<LeaderCard> leadersList) throws Exception {
-		List<String> tempList = new ArrayList<>();
-		
-		for(LeaderCard s : leadersList){
-			tempList.add(s.getName());
-		}
-		
-		_returnObject = tempList;
-		
-		System.out.println("Waiting for player choice...");
-		synchronized (_returnObject) {
-			_returnObject.wait();
-		}
-		
-		for(String s : tempList){
-			if(((List<String>) _returnObject).contains(s)){
-				continue;
-			} else {
-				_returnObject = null;
-				System.out.println("_returnObject pulito, mando risposta.");
-				return tempList.indexOf(s);
-			}
-		}
-		
-		throw new Exception("Cannot find element in list. What's going on");
-	}
-	
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
 		try {
-			System.out.println("Chiamato chooseDashboardBonus");
 			_returnObject = bonus;
 			
-			System.out.println("Waiting for player choice...");
 			synchronized (_returnObject) {
 				_returnObject.wait();
 			}
@@ -302,6 +273,10 @@ public class GraphicalUI implements UI {
 	public GameBoard getBoard(){
 		return _board;
 	}
+	
+	public Player getMe(){
+		return _me;
+	}
 
 	@Override
 	public int chooseLeader(String context, List<LeaderCard> tempList) {
@@ -309,13 +284,34 @@ public class GraphicalUI implements UI {
 			try {
 				return showInitialLeaderList(tempList);
 			} catch (Exception e) {
-				return 0;
+				_log.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}else {
 			//TODO
 		}
 		System.out.println("ERRORE");
 		return 0;
+	}
+	
+	private int showInitialLeaderList(List<LeaderCard> leadersList) throws Exception {
+		List<String> tempList = new ArrayList<>();
+		
+		for(LeaderCard s : leadersList){
+			tempList.add(s.getName());
+		}
+		
+		_returnObject = tempList;
+		
+		System.out.println("Waiting for player choice...");
+		synchronized (_returnObject) {
+			_returnObject.wait();
+		}
+		synchronized (_returnObject) {
+			int returned = (int) _returnObject;
+			_returnObject = null;
+			System.out.println("_returnObject pulito, mando risposta.");
+			return returned;
+		}
 	}
 	
 	@Override

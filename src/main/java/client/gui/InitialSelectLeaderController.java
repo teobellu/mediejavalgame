@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import game.LeaderCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -43,6 +44,10 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 		buttons.add(_card3);
 		buttons.add(_card4);
 		
+		for(String lc : leaders){
+			System.out.println("\n"+lc+"\n");
+		}
+		
 		int index = 0;
 		for (; index < leaders.size(); index++){
 			setBgImages(leaders.get(index), buttons.get(index));
@@ -55,28 +60,26 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 	
 	@FXML
 	private void onFirstButtonClicked(){
-		handleButton(_card1);
+		handleButton(0);
 	}
 	
 	@FXML
 	private void onSecondButtonClicked(){
-		handleButton(_card2);
+		handleButton(1);
 	}
 	
 	@FXML
 	private void onThirdButtonClicked(){
-		handleButton(_card3);
+		handleButton(2);
 	}
 	
 	@FXML
 	private void onFifthButtonClicked(){
-		handleButton(_card4);
+		handleButton(3);
 	}
 	
-	private void handleButton(Button button){
-		List<String> str = (List<String>) GraphicalUI.getInstance().getReturnObject();
-		str.remove(button.getText());
-		GraphicalUI.getInstance().setReturnObject(str);
+	private void handleButton(int choice){
+		GraphicalUI.getInstance().setReturnObject(choice);
 		_GUI.createSetupGameObserver();
 		_dialog.close();
 	}

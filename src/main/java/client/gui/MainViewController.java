@@ -5,6 +5,8 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.GameBoard;
+import game.Player;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -102,6 +104,11 @@ public class MainViewController {
 	@FXML
 	private void onFifthButtonClicked(){
 		_GUI.showCardsInfoDialog();
+	}
+	
+	public void startTurn(Player me, GameBoard board){
+		_buttonPane.setDisable(false);
+		//TODO mettere le info a posto
 	}
 	
 	private Logger _log = Logger.getLogger(MainViewController.class.getName());

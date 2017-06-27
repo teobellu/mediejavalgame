@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import game.GameBoard;
+import game.Player;
 import game.Resource;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -132,7 +133,7 @@ public class GUI extends Application {
 				processObject();
 			}
 			
-			private void processObject(){
+			private void processObject(){//TODO
 				Object obj = GraphicalUI.getInstance().getReturnObject();
 				if(obj instanceof String){
 					processString((String) obj);
@@ -146,7 +147,7 @@ public class GUI extends Application {
 			private void processString(String str){
 				if(str.equals(CommandStrings.START_TURN)){
 					startTurn();
-				} else if(/*TODO*/) {
+				} else {//TODO
 					
 				}
 			}
@@ -172,8 +173,10 @@ public class GUI extends Application {
 	}
 
 	public void startTurn(){
-		GameBoard gb = GraphicalUI.getInstance().getBoard();
-		//TODO
+		GameBoard board = GraphicalUI.getInstance().getBoard();
+		Player me = GraphicalUI.getInstance().getMe();
+		
+		_mainViewController.startTurn(me, board);
 	}
 	
 	public void showInitialSelectLeaderDialog(List<String> leaders) {
@@ -217,6 +220,7 @@ public class GUI extends Application {
 			PersonalBonusController controller = loader.getController();
 			controller.setDialog(dialog);
 			controller.setMap(hashMap);
+			controller.setGUI(this);
 
 			dialog.showAndWait();
 		} catch (IOException e) {

@@ -255,13 +255,6 @@ public class Game implements Runnable {
 			}
 			playerLists.add(playerLists.remove(0));
 		}
-		
-		for(Player p : _players){
-			for(LeaderCard lc : p.getLeaderCards()){
-				System.out.println(p.getName() + " - " + lc.getName());
-			}
-		}
-		
 	}
 	
 	private void setupDashboardBonus() throws RemoteException{
