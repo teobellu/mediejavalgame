@@ -21,7 +21,7 @@ import util.CommandStrings;
 
 public class SocketConnectionHandler extends ConnectionHandler {
 	
-	private Object _returnObject;
+	private Object _returnObject = new Object();
 	private Socket _socket;
 	private ObjectInputStream _inputStream;
 	private ObjectOutputStream _outputStream;
@@ -84,13 +84,16 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	}
 
 	private void processString(String str) throws IOException {
-		System.out.println("Letto: " + str);
+		_log.info(str);
+		//TODO togliere il log
+		
 		if (str.equals(CommandStrings.ADD_TO_GAME)) {
 			String name = (String) getFromClient();
+			writeObject(CommandStrings.ADD_TO_GAME);
 			if (Server.getInstance().addMeToGame(this, name)) {
-				writeObject(CommandStrings.ADD_TO_GAME);
+				writeObject(true);
 			} else {
-				writeObject(CommandStrings.ERROR);
+				writeObject(false);
 			}
 		} 
 		else if (str.equals(CommandStrings.DROP_LEADER_CARD)) {
@@ -103,8 +106,11 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			writeObject(leaders);
 		} 
 		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL)){
-			_returnObject = getFromClient();
-			_returnObject.notify();
+			synchronized (_returnObject) {
+				_returnObject.notify();
+				_returnObject = getFromClient();
+			}
+			System.out.println("NOTIFICA!");
 		} 
 	}
 
@@ -148,6 +154,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 
 	@Override
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
+		_returnObject = new Object();
 		int selection = 0;
 		try {
 			writeObject(CommandStrings.HANDLE_COUNCIL);
@@ -160,25 +167,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		return selection;
-	}
-
-	@Override
-	public int sendInitialLeaderList(List<String> leadersList) throws RemoteException {
-		try {
-			writeObject(CommandStrings.INITIAL_LEADER);
-			writeObject(leadersList);
-			
-			System.out.println("Mandati oggetti. Rimango in wait...");
-			
-			_returnObject.wait();
-			
-			return (int) _returnObject;
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		
-		
-		return 0;
 	}
 
 	@Override
@@ -195,43 +183,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 
 	@Override
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException {
-		_returnObject = null;
-		try {
-			writeObject(CommandStrings.CHOOSE_CONVERT);
-			writeObject(realPayOptions);
-			writeObject(realGainOptions);
-			Thread tr = new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-						while (_isRunning) {
-							Object obj = getFromClient();
-							if (obj != null && obj == CommandStrings.CHOOSE_CONVERT) {
-								_returnObject = (int) getFromClient();
-							}
-						}
-					} catch (IOException e) {
-						shutdown();
-						_log.log(Level.SEVERE, e.getMessage(), e);
-					}
-				}
-			});
-			_reader.interrupt();
-			
-			tr.start();
-			
-			while(_returnObject==null){
-				Thread.sleep(500);
-			}
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		
-		_reader = new Thread(new MyRunnable());
-		_reader.start();
-		
-		return (int) _returnObject;
+		//TODO
 	}
 
 	@Override
@@ -246,49 +198,27 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	}
 
 	@Override
-	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException {
-		System.out.println("Chiamato il metodo su socket");
-		_returnObject = null;
-		
+	public int chooseLeader(String context, List<LeaderCard> leadersList) throws RemoteException {
 		try {
-			writeObject(CommandStrings.CHOOSE_LEADER);
-			writeObject(tempList);
+			_returnObject = new Object();
+			writeObject(context);
+			writeObject(leadersList);
 			
-			System.out.println("mandati");
+			System.out.println("Mandato contesto e mandata lista di carte leader. Rimango in wait...");
 			
-			Thread tr = new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-						while (_isRunning) {
-							System.out.println("thread iniziato");
-							Object obj = getFromClient();
-							if (obj != null && obj == CommandStrings.CHOOSE_LEADER) {
-								_returnObject = (int) getFromClient();
-							}
-						}
-					} catch (IOException e) {
-						shutdown();
-						_log.log(Level.SEVERE, e.getMessage(), e);
-					}
-				}
-			});
-			
-			_reader.interrupt();
-			
-			tr.start();
-			
-			while(_returnObject==null){
-				Thread.sleep(500);
+			synchronized (_returnObject) {
+				_returnObject.wait();
 			}
+			
+			System.out.println("RICEVUTA RISPOSTA");
+			
+			return (int) _returnObject;
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-		_reader = new Thread(new MyRunnable());
-		_reader.start();
 		
-		return (int) _returnObject;
+		System.out.println("ERROR: LEADER NOT FOUND");
+		return 0;
 	}
 
 	@Override

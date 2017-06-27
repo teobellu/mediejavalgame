@@ -12,6 +12,7 @@ import game.state.State;
 import game.state.StateStartingTurn;
 import server.Client;
 import server.Room;
+import util.CommandStrings;
 import util.Constants;
 
 public class Game implements Runnable {
@@ -237,7 +238,7 @@ public class Game implements Runnable {
 			int x = 0;
 			for (Player player : _players){
 				List<LeaderCard> miniDeck = playerLists.get(x);
-				int selection = player.getClient().getConnectionHandler().chooseLeader(miniDeck);
+				int selection = player.getClient().getConnectionHandler().chooseLeader(CommandStrings.INITIAL_LEADER, miniDeck);
 				player.addLeaderCard(miniDeck.get(selection));
 				miniDeck.remove(selection);
 				x++;

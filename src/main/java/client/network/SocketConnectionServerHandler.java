@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
+import game.Position;
 import util.CommandStrings;
 import util.Constants;
 
@@ -50,6 +52,37 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public void run() {
 		_reader.start();
+	}
+	
+	public void processObject(Object obj) throws Exception {
+		if(obj instanceof String){
+			processString((String) obj);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void processString(String obj) throws Exception{
+		//TODO da rimuovere
+		_log.info(obj);
+		
+		if(obj.equals(CommandStrings.START_TURN)){
+			GameBoard board = (GameBoard) getFromServer();
+			Player me = (Player) getFromServer();
+			_ui.startTurn(board, me);
+		}
+		else if(obj.equals(CommandStrings.ADD_TO_GAME)){
+			synchronized (_returnObject) {
+				_returnObject.notify();
+				_returnObject = (boolean) getFromServer();
+			}
+		}
+		else if(obj.equals(CommandStrings.INITIAL_LEADER)){
+			List<LeaderCard> tempList = ((List<LeaderCard>) getFromServer());
+			int i = _ui.chooseLeader(CommandStrings.INITIAL_LEADER, tempList);
+			writeObject(CommandStrings.INITIAL_LEADER);
+			writeObject(i);
+			System.out.println("Risposto con "+CommandStrings.INITIAL_LEADER+" e "+i);
+		}
 	}
 	
 	@Override
@@ -142,12 +175,16 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public boolean addMeToGame(String name) throws RemoteException {
 		try {
+			_returnObject = new Object();
 			writeObject(CommandStrings.ADD_TO_GAME);
 			writeObject(name);
 			
-			if (getFromServer().equals(CommandStrings.ADD_TO_GAME)) {
-				return true;
+			System.out.println("mandato add me to game. Attendo notify...");
+			synchronized (_returnObject) {
+				_returnObject.wait();
 			}
+			
+			return (boolean) _returnObject;
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -240,35 +277,36 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	@Override
-	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
-		writeObject(CommandStrings.INITIAL_LEADER);
-		
-	}
-	
-	public void processObject(Object obj) throws Exception {
-		if(obj instanceof String){
-			processString((String) obj);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private void processString(String obj) throws Exception{
-		if(obj.equals(CommandStrings.INITIAL_LEADER)){
-			List<LeaderCard> leadersList = (List<LeaderCard>) getFromServer();
-			List<String> list = new ArrayList<>();
-			for(LeaderCard lc : leadersList){
-				list.add(lc.getName());
-			}
-			
-			_ui.showInitialLeaderList(list);
-		}
-		else if(obj.equals(CommandStrings.START_TURN)){
-			GameBoard board = (GameBoard) getFromServer();
-			Player me = (Player) getFromServer();
-			_ui.startTurn(board, me);
-		}
+	public Player getMe() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public void dropLeaderCard(LeaderCard card) throws GameException, RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void activateLeaderCard(LeaderCard card) throws GameException, RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void placeFamiliar(FamilyMember familiar, Position position) throws GameException, RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private Object _returnObject = new Object();
+	private Thread _reader;
+	private Socket _socket;
+	private ObjectInputStream _inputStream;
+	private ObjectOutputStream _outputStream;
+	private final Logger _log = Logger.getLogger(SocketConnectionServerHandler.class.getName());
+	
 	private class MyRunnable implements Runnable{
 		@Override
 		public void run() {
@@ -284,10 +322,4 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			}
 		}
 	}
-		
-	private Thread _reader;
-	private Socket _socket;
-	private ObjectInputStream _inputStream;
-	private ObjectOutputStream _outputStream;
-	private final Logger _log = Logger.getLogger(SocketConnectionServerHandler.class.getName());
 }

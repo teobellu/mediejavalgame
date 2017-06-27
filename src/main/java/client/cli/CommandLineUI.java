@@ -345,11 +345,6 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public int showInitialLeaderList(List<String> leadersList) {
-		return 0;
-	}
-
-	@Override
 	public void showBoard(GameBoard board) {
 		// TODO Auto-generated method stub
 		

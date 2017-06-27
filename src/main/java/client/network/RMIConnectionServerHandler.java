@@ -65,18 +65,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 	
 	@Override
-	public int sendInitialLeaderList(List<String> leadersList) throws RemoteException {
-		try {
-			System.out.println("METODO SBAGLIATO CHIAMATO");//TODO
-			return _ui.showInitialLeaderList(leadersList);
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return 0;
-			//TODO
-		}
-	}
-	
-	@Override
 	public List<FamilyMember> putFamiliar() throws RemoteException {
 		return _connectionHandler.putFamiliar();
 	}
@@ -139,7 +127,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	
 	@Override
 	public void startTurn() throws RemoteException {
-		_ui.startTurn();
+		//TODO
 	}
 	
 	@Override
@@ -167,32 +155,13 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 
 	@Override
-	public int chooseLeader(List<LeaderCard> tempList) throws RemoteException {
-		return _ui.chooseLeader(tempList);
-		
-		/*
-		List<String> names = new ArrayList<>(); 
-		 for(LeaderCard lc : tempList){
-			 System.out.println(lc.getName());
-			 names.add(lc.getName());
-		 }
-		 
-		try {
-			return _ui.showInitialLeaderList(names);
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return 0;
-		}*/
+	public int chooseLeader(String context, List<LeaderCard> tempList) throws RemoteException {
+		return _ui.chooseLeader(context, tempList);
 	}
 
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
 		return _ui.chooseDashboardBonus(bonus);
-	}
-
-	@Override
-	public void notifyTurn() throws RemoteException {
-		
 	}
 
 	@Override
@@ -224,5 +193,4 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	public void endTurn() throws GameException, RemoteException {
 		_connectionHandler.endTurn();
 	}
-	
 }

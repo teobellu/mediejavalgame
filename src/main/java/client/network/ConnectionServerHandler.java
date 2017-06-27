@@ -125,8 +125,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	 */
 	public abstract void dropWhichLeaderCard(String leaderCard) throws RemoteException;
 	
-	public abstract void sendChosenInitialCardLeader(String leader) throws RemoteException;
-	
 	public abstract GameBoard getBoard() throws RemoteException;
 	public abstract Player getMe() throws RemoteException;
 	public abstract void dropLeaderCard(LeaderCard card) throws GameException, RemoteException;
