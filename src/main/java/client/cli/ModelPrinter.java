@@ -160,14 +160,12 @@ public abstract class ModelPrinter {
 			_ioHandler.write("Malus " + index + ": " + effectDescription);
 		}
 		
-		//dices TODO
-		/*
 		_ioHandler.write("\n*****Dices: ");
 		List<Integer> dices = Arrays.asList(board.getDices());
 		
 		for (int index=0; index < GameBoard.MAX_DICES; index++)
 			_ioHandler.write("Dice " + GC.FM_TYPE.get(index) + ": "+ dices.get(index));
-		*/
+		
 	}
 	
 	/**

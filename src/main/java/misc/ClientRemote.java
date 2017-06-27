@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import game.FamilyMember;
+import game.GameBoard;
 import game.LeaderCard;
+import game.Player;
 import game.Resource;
 
 public interface ClientRemote extends Remote {
@@ -24,4 +26,6 @@ public interface ClientRemote extends Remote {
 	public int chooseLeader(String context, List<LeaderCard> tempList) throws RemoteException;
 
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
+
+	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException;
 }

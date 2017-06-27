@@ -64,6 +64,7 @@ public class Game implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		/*
 		System.out.println("\n\n\n\n\n\n\nFINE SETUP");
 		
 		_state = new StateStartingTurn(this);
@@ -75,7 +76,7 @@ public class Game implements Runnable {
 				_state = new StateStartingTurn(this);
 			}
 			_turn++;
-		}
+		}*/
 		
 //		List<Player> winners = gameInformation.endOfTheGameFindWinners();
 //		winners.forEach(player -> player.getClient().getConnectionHandler().sendToClient("GG U WIN"));
@@ -130,18 +131,7 @@ public class Game implements Runnable {
 			n++;
 		}
 		
-		List<FamilyMember> familiars = new ArrayList<>();
-		familiars.add(new FamilyMember(GC.FM_BLACK));
-		familiars.add(new FamilyMember(GC.FM_ORANGE));
-		familiars.add(new FamilyMember(GC.FM_WHITE));
-		familiars.add(new FamilyMember(GC.FM_TRANSPARENT));
-		
-		familiars.forEach(fam -> fam.setValue(2));
-		
-		for (Player p : _players){
-			List<FamilyMember> members = new ArrayList<>(familiars);
-			p.setFreeMember(members);
-		}
+		gameInformation.newPhase();
 		
 		setupDashboardBonus();
 		

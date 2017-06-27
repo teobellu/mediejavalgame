@@ -33,8 +33,9 @@ public abstract class State {
 		countTurn = 1;
 		_theGame.getDynamicBar().setPlayer(_players.get(0));
 		_theGame.setListener(new ListenAction(_theGame));
+		_theGame.getListener().setPlayer(_players.get(0));
 		try {
-			_player.getClient().getConnectionHandler().startTurn();
+			_player.getClient().getConnectionHandler().startTurn(_theGame.getBoard(), _player);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,7 +77,7 @@ public abstract class State {
 		//avviso che è il suo turno
 		_player = nextPlayer;
 		try {
-			_player.getClient().getConnectionHandler().startTurn();
+			_player.getClient().getConnectionHandler().startTurn(_theGame.getBoard(), _player);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

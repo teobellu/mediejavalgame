@@ -89,17 +89,14 @@ public class CommandLineUI implements UI {
 	}
 	
 	@Override
-	public void startTurn() {
+	public void startTurn(GameBoard board, Player me) {
 		_ioHandler.write("\nIt's your turn! :D");
-		try {
-			_board = _connectionHandler.getBoard();
-			_me = _connectionHandler.getMe();
-			ModelPrinter.printBoard(_board);
-			ModelPrinter.printMyLoot(_me);
-		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		_board = board;
+		_me = me;
+		//_board = _connectionHandler.getBoard();
+		//_me = _connectionHandler.getMe();
+		ModelPrinter.printBoard(_board);
+		ModelPrinter.printMyLoot(_me);
 		
 		try {
 			handleTurn();
@@ -214,6 +211,16 @@ public class CommandLineUI implements UI {
 		handleTurn();
 	}
 	
+	public void endTurn() throws RemoteException{
+		try {
+			_connectionHandler.endTurn();
+		} catch (GameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/*
 	private void endTurn() throws RemoteException{
 		try {
 			_connectionHandler.endTurn();
@@ -223,7 +230,7 @@ public class CommandLineUI implements UI {
 			//TODO non puoi passare, quindi rifai il turno ( o no? )
 			handleTurn();
 		}
-	}
+	}*/
 	
 	private void showMyCards() throws RemoteException{
 		_me = _connectionHandler.getMe();
@@ -284,11 +291,13 @@ public class CommandLineUI implements UI {
 	//public int chooseLeader(List<LeaderCard> tempList);
 	/**
 	 * Let player to select a leader card
+	 * @param context Context, explain why the player has to choose
 	 * @param leaders List of options
 	 * @return index of list, selection
 	 */
-	public int chooseLeader(List<LeaderCard> leaders){
-		_ioHandler.write("Select a Leader card");
+	public int chooseLeader(String context, List<LeaderCard> leaders){
+		_ioHandler.writeNext(context);
+		_ioHandler.write(" : Select a Leader card");
 		int index = 0;
 		for(LeaderCard card : leaders){
 			_ioHandler.writeNext(index + ") ");
@@ -408,11 +417,6 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printMyLoot(me);
 	}
 
-	@Override
-	public void notifyTurn(GameBoard board) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 }
