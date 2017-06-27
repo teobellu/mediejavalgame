@@ -18,6 +18,8 @@ import game.effect.Effect;
  */
 public class DynamicAction {
 	
+	private static final String MESSAGE_INCREASE_WORKER = "You can spend servants to increase this action! How much do you want to increase?";
+	
 	/**
 	 * Current player, ad the joystick holder
 	 */
@@ -38,10 +40,10 @@ public class DynamicAction {
 		player.getEffects().forEach(effect -> effect.setBar(this));
 	}
 	
-	//TODO momentaneo
-		public void setPlayer(Player player) {
-			this.player = player;
-		}
+	//TODO momentaneo ( o anche non momentaneo )
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 	
 	/**
 	 * Activates the effects without modifying objects
@@ -94,11 +96,12 @@ public class DynamicAction {
 	public void gain (Resource res) throws RemoteException{
 		if (res == null) 
 			return;
-		res = (Resource) activateEffect(res, GC.WHEN_GAIN);
-		if(res.get(GC.RES_COUNCIL) > 0) {
-			res = handleCouncil(res);
-		}
-		player.gain(res);
+		Resource toGain = new Resource();
+		toGain.add(res);
+		toGain = (Resource) activateEffect(toGain, GC.WHEN_GAIN);
+		if(toGain.get(GC.RES_COUNCIL) > 0)
+			toGain = handleCouncil(toGain);
+		player.gain(toGain);
 	}
 	
 	/**
@@ -151,15 +154,25 @@ public class DynamicAction {
 	}
 	
 	/**
-	 * 
+	 * TODO DESCRIP
 	 * @param familiar
 	 * @param amount
 	 * @throws GameException
 	 */
-	public void increaseWorker (FamilyMember familiar, int amount) throws GameException{
+	public int increaseWorker () throws GameException{
+		int playerServants = player.getResource(GC.RES_SERVANTS);
+		int amount = 0;
+		if (playerServants == 0)
+			return 0;
+		try {
+			amount = player.getClient().getConnectionHandler().askInt(MESSAGE_INCREASE_WORKER, 0, playerServants);
+		} catch (RemoteException e) {
+			//TODO
+		}
 		int price = (Integer) activateEffect(amount, GC.WHEN_INCREASE_WORKER);
 		player.pay(new Resource(GC.RES_SERVANTS, price));
-		familiar.setValue(familiar.getValue() + amount);
+		//familiar.setValue(familiar.getValue() + amount);TODO
+		return amount;
 	}
 	
 	/**
@@ -236,6 +249,7 @@ public class DynamicAction {
 		DevelopmentCard card = space.getCard();
 		if (card == null || player.getDevelopmentCards(card.toString()).size() == GC.MAX_DEVELOPMENT_CARDS)
 			throw new GameException();
+		value += increaseWorker();
 		cost.add(findTaxToPay(column));
 		
 		// qui dovrei chiedere al giocatore, se cost != null, se proseguire o no.

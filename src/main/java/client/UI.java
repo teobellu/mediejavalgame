@@ -14,8 +14,6 @@ public interface UI extends Runnable{
 		
 	public void setConnection(String connectionType, String host, int port);
 
-	public List<String> dropLeaderCard();
-
 	public void showBoard(GameBoard board);
 	
 	public void showWhatIHave(Player me);

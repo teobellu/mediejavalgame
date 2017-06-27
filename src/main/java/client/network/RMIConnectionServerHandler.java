@@ -37,12 +37,32 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		try {
 			Registry _registry = LocateRegistry.getRegistry(_host, _port);
 			
-			try{
-				UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+1);//TODO da rivedere
-			} catch(ExportException e) {
-				_log.log(Level.SEVERE, e.getMessage(), e);
-				UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+2);
+			for(int i = 1; i <= Math.pow(10, 3); i++){
+				try{
+					UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT + i);//TODO da rivedere
+					break;
+				} catch(ExportException e){
+					if(i == Math.pow(10, 3)){
+						e.printStackTrace();
+					}
+					continue;
+				}
 			}
+			
+//			try{
+//				UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+1);//TODO da rivedere
+//			} catch(ExportException e) {
+//				_log.log(Level.SEVERE, e.getMessage(), e);
+//				try{
+//					UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+2);
+//				}catch (Exception e2) {
+//					try{
+//						UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+3);
+//					}catch (Exception e3) {
+//						UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+4);
+//					}
+//				}
+//			}
 			
 			ServerRemote _serverRMI = (ServerRemote) _registry.lookup(Constants.RMI);
 			

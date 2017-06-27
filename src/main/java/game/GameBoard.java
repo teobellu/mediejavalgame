@@ -130,7 +130,16 @@ public class GameBoard implements Serializable{
 	}
 	
 	public void clearPos(){
-		//TODO
+		councilPalaceSpace.getFamiliar().clear();
+		harvestPos.getFamiliar().clear();
+		harvestLongPos.getFamiliar().clear();
+		productionPos.getFamiliar().clear();
+		productionLongPos.getFamiliar().clear();
+		for (int index = 0; index < MAX_MARKET_SPACE; index++)
+			market[index].getFamiliar().clear();
+		for (int column = 0; column < MAX_COLUMN; column++)
+			for(int row = 0; row < MAX_ROW; row++)
+				tower[row][column].getFamiliar().clear();
 	}
 	
 	public boolean canGetCard(Player player, int row, int column){

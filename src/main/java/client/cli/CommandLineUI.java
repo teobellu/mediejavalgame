@@ -267,12 +267,6 @@ public class CommandLineUI implements UI {
 		}
 		
 	}
-
-	@Override
-	public List<String> dropLeaderCard() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Override
 	public int spendCouncil(List<Resource> resources){
@@ -349,8 +343,7 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public void showInfo(String str) {
-		// TODO Auto-generated method stub
-		
+		_ioHandler.write("New Info: " + str);
 	}
 
 	@Override

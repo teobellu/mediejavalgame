@@ -65,6 +65,14 @@ public abstract class ConnectionServerHandler extends Thread {
 	public abstract Player getMe() throws RemoteException;
 	public abstract void dropLeaderCard(LeaderCard card) throws GameException, RemoteException;
 	public abstract void activateLeaderCard(LeaderCard card) throws GameException, RemoteException;
+	
+	/**
+	 * Tells the server that I want to place a familiar
+	 * @param familiar Which familiar I want to place
+	 * @param position In that position I want to place
+	 * @throws GameException I can't place that familiar in that position
+	 * @throws RemoteException Remote connection error
+	 */
 	public abstract void placeFamiliar(FamilyMember familiar, Position position) throws GameException, RemoteException;
 	
 	/**

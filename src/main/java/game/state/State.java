@@ -9,6 +9,7 @@ import game.Game;
 import game.ListenAction;
 import game.Player;
 import server.Client;
+import server.ConnectionHandler;
 
 public abstract class State {
 	
@@ -55,29 +56,33 @@ public abstract class State {
 				for (Player p : _players){
 					_theGame.getDynamicBar().setPlayer(p);
 					_theGame.getListener().setPlayer(p);
-					try {
-						_theGame.getDynamicBar().showVaticanSupport(age);
-					} catch (GameException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					notifyPlayerTurn(_player);
 				}
 				age++;
 				phase = 0;
 			}
 			System.out.println("NEXT PHASE");
-			//TODO refresh board
-			
+			_theGame.getGameInformation().newPhase(age);
 			phase++;
 		}
 		countTurn++;
+		if (age == 4){
+			age = 3;
+			//_theGame.endGame(); //	TODO AVVISA TUTTI CHE IL GIOCO E' FINITO
+		}
 		_theGame.getDynamicBar().setPlayer(nextPlayer);
 		//refresho listener list
 		_theGame.getListener().setPlayer(nextPlayer);
 		//avviso che è il suo turno
 		_player = nextPlayer;
+		notifyPlayerTurn(_player);
+	}
+	
+	//TODO DICE AL PLAYER CHE E' IL SUO TURNO
+	private void notifyPlayerTurn(Player player){
+		ConnectionHandler handler = _player.getClient().getConnectionHandler();
 		try {
-			_player.getClient().getConnectionHandler().startTurn(_theGame.getBoard(), _player);
+			handler.startTurn(_theGame.getBoard(), player);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -113,6 +118,9 @@ public abstract class State {
 	//TODO string?
 	public abstract void placeWhereFamiliar(String position) throws GameException;
 
+	
+	
+	
 	public Player getCurrenPlayer() {
 		return _player;
 	}

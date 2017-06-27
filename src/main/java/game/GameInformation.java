@@ -68,12 +68,15 @@ public class GameInformation{
 		//TODO TEST, non passando una copia, dovrebbe togliere le carte dal mazzo
 		System.out.println(developmentDeck.size());
 		board.generateDevelopmentCards(developmentDeck, age);
-		System.out.println(developmentDeck.size() + "-> deve essere pi' piccolo del numero sopra");
+		System.out.println(developmentDeck.size() + "-> deve essere piu' piccolo del numero sopra");
 	}
 	
-	public void newPhase(){
+	public void newPhase(int age){
 		rollDices();
 		generateFamiliars();
+		//TODO CAMBIA LE CARTE IN BASE ALL'AGE
+		game.getBoard().clearPos();
+		//TODO CAMBIA L'ORDINE DI TURNO
 	}
 
 	private void generateFamiliars(){
@@ -82,11 +85,10 @@ public class GameInformation{
 		for (Player p : players){
 			familiars = new ArrayList<>();
 			for (String color : GC.FM_TYPE){
-				if (color == GC.FM_TRANSPARENT)
-					break;
 				FamilyMember familiar = new FamilyMember(color);
 				Integer[] dices = game.getBoard().getDices();
-				familiar.setValue(dices[GC.FM_TYPE.indexOf(color)]);
+				if(color != GC.FM_TRANSPARENT)
+					familiar.setValue(dices[GC.FM_TYPE.indexOf(color)]);
 				familiars.add(familiar);
 			}
 			p.setFreeMember(familiars);
