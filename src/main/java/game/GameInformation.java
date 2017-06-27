@@ -99,6 +99,7 @@ public class GameInformation{
 	 */
 	private void rollDices(){
 		Random random = new Random();
+		GameBoard board = game.getBoard();
 		int size = board.getdices().length;
 		Integer[] dices = new Integer [size];
 		for (int i = 0; i < size; i++){

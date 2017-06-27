@@ -73,6 +73,5 @@ public interface UI extends Runnable{
 
 	public void startTurn(GameBoard board, Player me);
 	
-	public boolean endTurn();
 	
 }

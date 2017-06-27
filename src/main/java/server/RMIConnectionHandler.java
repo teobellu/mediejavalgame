@@ -231,7 +231,8 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 
 	@Override
 	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		_clientConnectionHandler.startTurn(board, currentPlayer);
 	}
+	
+	
 }
