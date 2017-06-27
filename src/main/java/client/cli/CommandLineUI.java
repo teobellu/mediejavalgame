@@ -417,6 +417,13 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printMyLoot(me);
 	}
 
+	@Override
+	public int askInt(String message, int min, int max) {
+		_ioHandler.write("Answer to this!");
+		_ioHandler.writeNext(message + ". Answer from " + min + " to " + max);
+		return _ioHandler.readNumberWithinInterval(min, max);
+	}
+
 
 	
 }

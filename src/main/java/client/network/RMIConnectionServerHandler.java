@@ -143,4 +143,9 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException {
 		_ui.startTurn(board, currentPlayer);		
 	}
+
+	@Override
+	public int askInt(String message, int min, int max) throws RemoteException {
+		return _ui.askInt(message, min, max);
+	}
 }

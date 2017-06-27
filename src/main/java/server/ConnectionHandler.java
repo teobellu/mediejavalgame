@@ -65,8 +65,12 @@ public abstract class ConnectionHandler implements Runnable {
 	//TODO GAME METHOD, SELEZIONE TESSERA BONUS
 	public abstract int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
 	
+	public abstract int askInt(String message, int min, int max) throws RemoteException;
+	
 	protected Client _client;
 	protected volatile boolean _isRunning;
 	protected String _configFile = null;
 	protected transient Game _theGame = null;
+
+	
 }

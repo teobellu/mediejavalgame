@@ -133,6 +133,11 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException {
 		_clientConnectionHandler.startTurn(board, currentPlayer);
 	}
+
+	@Override
+	public int askInt(String message, int min, int max) throws RemoteException {
+		return _clientConnectionHandler.askInt(message, min, max);
+	}
 	
 	
 }

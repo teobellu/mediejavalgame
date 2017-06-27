@@ -72,6 +72,8 @@ public interface UI extends Runnable{
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus);
 
 	public void startTurn(GameBoard board, Player me);
+
+	public int askInt(String message, int min, int max);
 	
 	
 }

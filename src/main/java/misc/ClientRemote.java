@@ -26,4 +26,6 @@ public interface ClientRemote extends Remote {
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
 
 	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException;
+
+	public int askInt(String message, int min, int max) throws RemoteException;
 }

@@ -1,6 +1,7 @@
 package game.effect.behaviors;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,6 +19,8 @@ import game.effect.IEffectBehavior;
 
 public class EffectCopyLeader implements IEffectBehavior{
 	
+	private static final String MESSAGE = "Select a leader card to copy";
+	
 	private Effect effect;
 	private Player player;
 	private LeaderCard selectedCard;
@@ -25,7 +28,12 @@ public class EffectCopyLeader implements IEffectBehavior{
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
-		selectLeaderCard();
+		try {
+			selectLeaderCard();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		activateLeaderCard();
 	}
 	
@@ -34,12 +42,20 @@ public class EffectCopyLeader implements IEffectBehavior{
 		player = ref.getPlayer();
 	}
 	
-	private void selectLeaderCard() {
+	private void selectLeaderCard() throws RemoteException {
 		//TODO selectedCard = ...
-		Map<LeaderCard, Player> options = effect.getBar().getDiscardedLeaderCards();
+		Map<LeaderCard, Player> discardedLeader = effect.getBar().getDiscardedLeaderCards();
 		
+		List<LeaderCard> options = new ArrayList<>();
 		
-		LeaderCard selection = null;
+		//TODO se size == 0 ?
+		
+		discardedLeader.forEach((card, owner) -> {if (owner.getName() != player.getName()) options.add(card);});
+		
+		int index = player.getClient().getConnectionHandler().chooseLeader(MESSAGE, options);;
+		
+		LeaderCard selection = options.get(index);
+		
 		//TODO o meglio una copia dell'effetto?
 		player.addEffect(selection.getEffect());
 	}

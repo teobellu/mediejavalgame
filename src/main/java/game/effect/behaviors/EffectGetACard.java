@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import exceptions.GameException;
 
 import game.GC;
+import game.GameBoard;
 import game.Player;
 import game.Resource;
 import game.effect.Effect;
@@ -15,6 +16,8 @@ import game.effect.IEffectBehavior;
 public class EffectGetACard implements IEffectBehavior{
 
 	private static final String MESSAGE = "Do you want to get a card? Maybe you have to pay the tax tower!";
+	private static final String MESS_COLUMN = "Select a column";
+	private static final String MESS_ROW = "Select a row";
 	
 	private Player player;			
 	private String typeOfCard;
@@ -73,15 +76,13 @@ public class EffectGetACard implements IEffectBehavior{
 		return player.getClient().getConnectionHandler().ask(MESSAGE);
 	}
 	
-	private void selectCard() {
+	private void selectCard() throws RemoteException {
 		if (GC.DEV_TYPES.contains(typeOfCard))
 			column = GC.DEV_TYPES.indexOf(typeOfCard);
 		else{
-			//TODO ottieni colonna
-			//column = player.getClient().getConnectionHandler()
+			column = player.getClient().getConnectionHandler().askInt(MESS_COLUMN, 0, GameBoard.MAX_COLUMN - 1);
 		}
-		//TODO ottieni riga
-		// row = /*copia da sopra*/
+		row = player.getClient().getConnectionHandler().askInt(MESS_ROW, 0, GameBoard.MAX_ROW - 1);
 	}
 	
 	private void getCard() throws GameException {
