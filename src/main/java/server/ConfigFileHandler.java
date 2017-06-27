@@ -138,6 +138,23 @@ public class ConfigFileHandler {
 		uploadExcommunicationTiles(listNode.get(4));
 		uploadTimerStart(listNode.get(5));
 		uploadTimerTurn(listNode.get(6));
+		setIdToCards();
+	}
+	
+	//TODO description
+	private void setIdToCards(){
+		int countId = 0;
+		for (DevelopmentCard card : DEVELOPMENT_DECK){
+			countId++;
+			card.setId(countId);
+		}
+		countId = 0;
+		for (ExcommunicationTile tile : EXCOMMUNICATION_DECK){
+			countId ++;
+			tile.setId(countId);
+			if (countId == 7)
+				countId = 0;
+		}
 	}
 	
 	/**

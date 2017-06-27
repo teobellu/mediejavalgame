@@ -41,25 +41,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	public void ping() throws RemoteException {
 		_lastPing = Date.from(Instant.now());	
 	}
-
-	@Override
-	public List<String> activateLeaderCard() throws RemoteException {
-		try {
-			return _theGame.getState().activateLeaderCard();
-		} catch (GameException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return new ArrayList<>();
-		}
-	}
-	
-	@Override
-	public void activateLeaderCard(String card) throws RemoteException {
-		try {
-			_theGame.getState().activateWhichLeaderCard(card);
-		} catch (GameException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
 	
 	@Override
 	public void onConnect() throws RemoteException {
@@ -77,70 +58,15 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		_configFile = file;
 	}
 	
-	public void startTurn(){
-		try {
-			_clientConnectionHandler.startTurn();
-		} catch (RemoteException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-	
 	public void setGame(){//TODO da chiamare questo metodo alla creazione del gioco(probabilmente nella room)
 		if(_client!=null){
 			_theGame = _client.getRoom().getGame();
 		}
 	}
 	
-	/*
-	@Override
-	public boolean endTurn() throws RemoteException {
-		try {
-			return _theGame.getState().endTurn();
-		} catch (GameException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return false;
-		}
-	}
-	*/
-
-	@Override
-	public List<String> dropLeaderCard() throws RemoteException {
-		try {
-			return _theGame.getState().dropLeaderCard();
-		} catch (GameException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return new ArrayList<>();
-		}
-	}
-	
-	@Override
-	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
-		try {
-			_theGame.getState().dropWhichLeaderCard(leaderCard);
-		} catch (GameException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-
-	@Override
-	public void sendInitialInformations(String name) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void putFamiliarWhere(String position) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
 		return _clientConnectionHandler.spendCouncil(councilRewards);
-	}
-
-	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
-		//_theGame.manipulateInitialLeaderList(_client, leader);TODO
 	}
 	
 	@Override
@@ -161,32 +87,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public int chooseLeader(String context, List<LeaderCard> tempList) throws RemoteException{
 		return _clientConnectionHandler.chooseLeader(context, tempList);
-	}
-
-	@Override
-	public void doIspendMyFaithPoints(boolean doI) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<FamilyMember> putFamiliar() throws RemoteException {
-		try {
-			return _theGame.getState().placeFamiliar();
-		} catch (GameException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return Collections.EMPTY_LIST;
-		}
-	}
-	
-	@Override
-	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
-		try {
-			return _theGame.getState().placeWhichFamiliar(familiar);
-		} catch (GameException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-			return Collections.EMPTY_LIST;
-		}
 	}
 	
 	@Override
