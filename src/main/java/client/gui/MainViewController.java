@@ -4,33 +4,38 @@ import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import game.GC;
 import game.GameBoard;
-import game.LeaderCard;
 import game.Player;
+import game.Space;
+import game.development.DevelopmentCard;
+import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 public class MainViewController {
 
-	private GUI _GUI;
-	
 	@FXML
 	private ImageView _backgroundImage;
+	
+	@FXML
+	private ImageView _goldWoodBg;
+	@FXML
+	private ImageView _stoneServantBg;
 	
 	@FXML
 	private ImageView _leaderCard0;
@@ -41,8 +46,26 @@ public class MainViewController {
 	@FXML
 	private ImageView _leaderCard3;
 	
-	private ArrayList<ImageView> _leaderCards = new ArrayList<>(
-			Arrays.asList(_leaderCard0, _leaderCard1, _leaderCard2, _leaderCard3));
+	@FXML
+	private ImageView _excCard1;
+	@FXML
+	private ImageView _excCard2;
+	@FXML
+	private ImageView _excCard3;
+	
+	@FXML
+	private ImageView _CouncilPalaceServant1;
+	@FXML
+	private ImageView _CouncilPalaceServant2;
+	@FXML
+	private ImageView _CouncilPalaceServant3;
+	@FXML
+	private ImageView _CouncilPalaceServant4;
+	
+	@FXML
+	private GridPane _towersCardsGridPane;
+	@FXML
+	private GridPane _towersFamiliarsGridPane;
 	
 	@FXML
 	private Button _firstButton;//place familiar
@@ -58,6 +81,8 @@ public class MainViewController {
 	@FXML
 	private AnchorPane _buttonPane;
 	
+	@FXML
+	private ScrollPane _infoScrollPane;
 	@FXML
 	private TextFlow _infoTextFlow;
 	
@@ -77,26 +102,55 @@ public class MainViewController {
 	@FXML
 	private Text _servantValue;
 	
-	@FXML
-	private void initialize(){
+	private ArrayList<ImageView> _leaderCards = new ArrayList<>(
+			Arrays.asList(_leaderCard0, _leaderCard1, _leaderCard2, _leaderCard3));
+	
+	private GUI _GUI;
+	
+	public MainViewController() {
+		_infoTextFlow.getChildren().addListener((ListChangeListener<Node>) ((change) -> {
+			_infoTextFlow.layout();
+			_infoScrollPane.layout();
+			_infoScrollPane.setVvalue(1.0f);
+        }));
+		_infoScrollPane.setContent(_infoTextFlow);		
+		
 		changeImageView("src/main/resources/javafx/images/gameboard_f_c.jpeg", _backgroundImage);
 		
 		for(ImageView iv : _leaderCards){
-			changeImageView("src/main/resources/javafx/images/leaders_b_c_00.jpg", iv);
+		changeImageView("src/main/resources/javafx/images/leaders/leaders_b_c_00.jpg", iv);
 		}
 		
 		_buttonPane.setDisable(true);
 		
-		Text text = new Text("Waiting game initial setup...");
+		changeImageView("src/main/resources/javafx/images/risorse2.jpg", _goldWoodBg);
+		changeImageView("src/main/resources/javafx/images/risorse1.jpg", _stoneServantBg);
 		
-		text.setFont(new Font(24));
+		appendToInfoText("Waiting game initial setup...");
+	}
+	
+	@FXML
+	private void initialize(){
 		
-		_infoTextFlow.getChildren().add(text);
+		
+	}
+	
+	/*https://stackoverflow.com/q/28243156*/
+	private synchronized void appendToInfoText(String msg){
+		Platform.runLater(() -> {
+			Text t = new Text(msg);
+			t.setFont(new Font(24));
+			_infoTextFlow.getChildren().add(t);
+		});
 	}
 	
 	private void changeImageView(String path, ImageView iv){
 		File file = new File(path);
 		Image bg = new Image(file.toURI().toString());
+		
+		if(iv==null){
+			System.out.println("Imageview nulla. WTF?");
+		}
 		
 		iv.setImage(bg);
 	}
@@ -166,7 +220,46 @@ public class MainViewController {
 			_leaderCards.get(i).setImage(image);
 			_leaderCards.get(i).setDisable(true);
 		}
+		
+		
+		//TODO mostrare i familiari nello spazio "palazzo del consiglio"
+//		List<ImageView> councilPalaceServants = new ArrayList<>(
+//				Arrays.asList(_CouncilPalaceServant1,_CouncilPalaceServant2,_CouncilPalaceServant3,_CouncilPalaceServant4));
+//		
+//		for(ImageView iv : councilPalaceServants){
+//			
+//		}
+		
+		for(int row = 0;row<GameBoard.MAX_ROW;row++){
+			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){
+				ImageView iv = (ImageView) getNodeFromGridPane(_towersCardsGridPane, column, row);
+				DevelopmentCard card = board.getCard(GameBoard.MAX_ROW - row, column);
+				changeImageView("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+ card.getId() +".png", iv);
+				
+				//TODO prendere e piazzare i familiari
+				Space space = board.getFromTowers(GameBoard.MAX_ROW - row, column);
+				space.getFamiliars().get(space.getFamiliars().size()-1);
+			}
+		}
+		
+		List<ImageView> excCards = new ArrayList<>(
+				Arrays.asList(_excCard1, _excCard2, _excCard3));
+		for(i = 0;i<GC.NUMBER_OF_AGES;i++){
+			changeImageView("src/main/resources/javafx/images/exc_tiles/excomm_"+board.getExCard()[0].getAge()+"_"+ board.getExCard()[0].getID() +".png", excCards.get(i));
+		}
+		
+		appendToInfoText("It's YOUR turn now!\nWhat do you want to do?");
+		
 		//TODO mettere le info a posto
+	}
+	
+	private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+	    for (Node node : gridPane.getChildren()) {
+	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+	            return node;
+	        }
+	    }
+	    return null;
 	}
 	
 	private Logger _log = Logger.getLogger(MainViewController.class.getName());

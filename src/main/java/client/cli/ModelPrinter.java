@@ -51,7 +51,7 @@ public abstract class ModelPrinter {
 	public static void printSpace(Space space){
 		_ioHandler.writeNext("Dice Required: " + space.getRequiredDiceValue() + " ");
 		_ioHandler.writeNext("Effect: " + space.getInstantEffect() + " ");
-		printListFamiliar(space.getFamiliar());
+		printListFamiliar(space.getFamiliars());
 	}
 	
 	/**
@@ -123,7 +123,7 @@ public abstract class ModelPrinter {
 				else{
 					_ioHandler.writeNext("Card name: " + card.getName() + " ");
 				}
-				printSpace(board.getCell(row, column));
+				printSpace(board.getFromTowers(row, column));
 			}
 		}
 		
