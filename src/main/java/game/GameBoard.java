@@ -129,10 +129,6 @@ public class GameBoard implements Serializable{
 			dice = (int)(Math.random()*6) + 1;
 	}
 	
-	public Integer[] getdices(){
-		return dices;
-	}
-	
 	public void clearPos(){
 		//TODO
 	}

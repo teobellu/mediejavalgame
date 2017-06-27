@@ -12,8 +12,6 @@ import game.Player;
 import game.Resource;
 
 public interface ClientRemote extends Remote {
-	
-	public void startTurn() throws RemoteException;
 
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException;
 

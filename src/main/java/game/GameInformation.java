@@ -100,7 +100,7 @@ public class GameInformation{
 	private void rollDices(){
 		Random random = new Random();
 		GameBoard board = game.getBoard();
-		int size = board.getdices().length;
+		int size = board.getDices().length;
 		Integer[] dices = new Integer [size];
 		for (int i = 0; i < size; i++){
 			dices[i] = random.nextInt(6) + 1;

@@ -63,37 +63,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	public void run() {
 		
 	}
-	
-	@Override
-	public List<FamilyMember> putFamiliar() throws RemoteException {
-		return _connectionHandler.putFamiliar();
-	}
-	
-	@Override
-	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
-		return _connectionHandler.putFamiliarWhich(familiar);
-	}
-
-	@Override
-	public void putFamiliarWhere(String position) throws RemoteException {
-		_connectionHandler.putFamiliarWhere(position);
-	}
-
-	/* (non-Javadoc)
-	 * @see client.network.ConnectionServerHandler#activateLeaderCard()
-	 */
-	@Override
-	public List<String> activateLeaderCard() throws RemoteException {
-		return _connectionHandler.activateLeaderCard();
-	}
-	
-	/* (non-Javadoc)
-	 * @see client.network.ConnectionServerHandler#activateLeaderCard(java.lang.String)
-	 */
-	@Override
-	public void activateLeaderCard(String card) throws RemoteException{
-		_connectionHandler.activateLeaderCard(card);
-	}
 
 	@Override
 	public void ping() throws RemoteException {
@@ -109,34 +78,10 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	public void sendConfigFile(String file) throws RemoteException {
 		_connectionHandler.sendConfigFile(file);
 	}
-
-	@Override
-	public void doIspendMyFaithPoints(boolean doI) throws RemoteException {
-		_connectionHandler.doIspendMyFaithPoints(doI);
-	}
-
-	@Override
-	public List<String> dropLeaderCard() throws RemoteException {
-		return _connectionHandler.dropLeaderCard();
-	}
-
-	@Override
-	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
-		_connectionHandler.dropWhichLeaderCard(leaderCard);
-	}
-	
-	@Override
-	public void startTurn() throws RemoteException {
-		//TODO
-	}
 	
 	@Override
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
 		return _ui.spendCouncil(councilRewards);
-	}
-
-	public void sendChosenInitialCardLeader(String leader) throws RemoteException {
-		_connectionHandler.sendChosenInitialCardLeader(leader);
 	}
 	
 	@Override
