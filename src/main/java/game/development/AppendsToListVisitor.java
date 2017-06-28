@@ -5,13 +5,20 @@ import java.io.Serializable;
 import game.GC;
 
 /**
- * The class deals with adding an element to a list, depending on its dynamic type
  * 
- * @author Matteo
+ * The class deals with adding an element to a list, depending on its dynamic type
+ * @Visitor_Design_Pattern
+ * 
+ * Matteo
  *
  */
 public class AppendsToListVisitor implements DevelopmentCardVisitor, Serializable{
 
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Manager that contains all lists
 	 */

@@ -9,6 +9,11 @@ import game.Player;
 public class Effect implements Serializable{
 	
 	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * @Strategy_Design_Pattern Behavior of the Effect
 	 */
 	private IEffectBehavior iEffectBehavior;

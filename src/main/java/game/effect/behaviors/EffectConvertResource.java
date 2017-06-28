@@ -15,6 +15,11 @@ import server.RMIConnectionHandler;
 
 public class EffectConvertResource implements IEffectBehavior{
 	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private static final String MESSAGE = "Do you want to convert resources?"; 
 	
 	private Player player;

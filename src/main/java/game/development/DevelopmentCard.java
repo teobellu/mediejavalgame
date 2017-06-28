@@ -8,14 +8,42 @@ import game.ICard;
 import game.Resource;
 import game.effect.Effect;
 
+/**
+ * This class is designed to contain all information about a single development card
+ * 
+ * @author M
+ *
+ */
 public abstract class DevelopmentCard implements ICard, Serializable{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Id of the card, used for example by graphical user interface
+	 */
 	private int id;
 	
+	/**
+	 * Name of the card
+	 */
 	protected String name;
 	
+	/**
+	 * Age of the card
+	 */
 	protected int age;
+	
+	/**
+	 * Immediate effects of the card
+	 */
 	private List<Effect> immediateEffect;
+	
+	/**
+	 * Permanent effects of the card
+	 */
 	private List<Effect> permanentEffect;
 	
 	private List<Resource> cost;
@@ -121,10 +149,18 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 		requirement.addAll(requires);
 	}
 
+	/**
+	 * Getter: Get the id of the card, used for example by GUI
+	 * @return Id of the card
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Setter: Set the id of the card, used for example by GUI
+	 * @param Id of the card
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}

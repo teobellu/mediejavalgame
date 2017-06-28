@@ -13,6 +13,11 @@ import game.effect.Effect;
 public class LeaderCard implements ICard, Serializable{
 	
 	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
 	 * Name of the Leader
 	 */
 	private String name;
