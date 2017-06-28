@@ -105,7 +105,9 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			}
 			writeObject(leaders);
 		} 
-		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL+"|"+CommandStrings.INITIAL_PERSONAL_BONUS)){
+		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL
+				+"|"+CommandStrings.INITIAL_PERSONAL_BONUS+"|"+CommandStrings.CHOOSE_CONVERT
+				+"|"+CommandStrings.CHOOSE_FAMILIAR+"|"+CommandStrings.ASK_INT)){
 			synchronized (_returnObject) {
 				_returnObject.notify();
 				_returnObject = (int) getFromClient();
@@ -159,7 +161,9 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			writeObject(CommandStrings.HANDLE_COUNCIL);
 			writeObject(councilRewards);
 			
-			_returnObject.wait();
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
 			
 			return (int) _returnObject;
 		} catch (Exception e) {
@@ -170,7 +174,23 @@ public class SocketConnectionHandler extends ConnectionHandler {
 
 	@Override
 	public int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException {
-		// TODO Auto-generated method stub
+		try {
+			_returnObject = new Object();
+			writeObject(CommandStrings.CHOOSE_FAMILIAR);
+			writeObject(familiars);
+			writeObject(message);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return (int) _returnObject;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		System.out.println("ERRORE");
+		
 		return 0;
 	}
 
@@ -182,7 +202,44 @@ public class SocketConnectionHandler extends ConnectionHandler {
 
 	@Override
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException {
-		//TODO
+		try {
+			_returnObject = new Object();
+			writeObject(CommandStrings.CHOOSE_CONVERT);
+			writeObject(realPayOptions);
+			writeObject(realGainOptions);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return (int) _returnObject;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		System.out.println("ERRORE");
+		
+		return 0;
+	}
+	
+	@Override
+	public int askInt(String message, int min, int max) throws RemoteException {
+		try {
+			_returnObject = new Object();
+			writeObject(CommandStrings.ASK_INT);
+			writeObject(message);
+			writeObject(min);
+			writeObject(max);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return (int) _returnObject;
+			
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 		return 0;
 	}
 

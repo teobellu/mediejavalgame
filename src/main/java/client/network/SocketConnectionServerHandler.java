@@ -97,6 +97,32 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			Player me = (Player) getFromServer();
 			_ui.startTurn(board, me);
 		}
+		else if(obj.equals(CommandStrings.CHOOSE_CONVERT)){
+			List<Resource> realPayOptions = (List<Resource>) getFromServer();
+			List<Resource> realGainOptions = (List<Resource>) getFromServer();
+			
+			int i = _ui.chooseConvert(realPayOptions, realGainOptions);
+			writeObject(CommandStrings.CHOOSE_CONVERT);
+			writeObject(i);
+		}
+		else if(obj.equals(CommandStrings.CHOOSE_FAMILIAR)){
+			List<FamilyMember> familiars = (List<FamilyMember>) getFromServer();
+			String message = (String) getFromServer();
+			
+			int i = _ui.chooseFamiliar(familiars, message);
+			writeObject(CommandStrings.CHOOSE_FAMILIAR);
+			writeObject(i);
+		}
+		else if(obj.equals(CommandStrings.ASK_INT)){
+			String message = (String) getFromServer();
+			int min = (int) getFromServer();
+			int max = (int) getFromServer();
+			
+			int i = _ui.askInt(message, min, max);
+			
+			writeObject(CommandStrings.ASK_INT);
+			writeObject(i);
+		}
 	}
 	
 	@Override

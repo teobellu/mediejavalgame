@@ -81,6 +81,7 @@ public class GUI extends Application {
 			_rootLayout.setCenter(pane);
 
 			_mainViewController = loader.getController();
+			_mainViewController.initialSetupController();
 			_mainViewController.setGUI(this);
 
 			createSetupGameObserver();

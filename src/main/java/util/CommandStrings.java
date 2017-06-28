@@ -14,6 +14,7 @@ public final class CommandStrings {
 	
 	public static final String CHOOSE_CONVERT = "choose_convert";
 	public static final String CHOOSE_LEADER = "choose_leader";
+	public static final String CHOOSE_FAMILIAR = "choose_familiar";
 	
 	public static final String INITIAL_LEADER = "initial_leader";
 	
@@ -42,6 +43,9 @@ public final class CommandStrings {
 	public static final String ERROR = "error";
 	
 	public static final String INITIAL_PERSONAL_BONUS = "initial_personal_bonus";
+	
+	public static final String ASK_INT = "ask_int";
+	public static final String ASK_BOOLEAN = "ask_boolean";
 	
 	/**
 	 * Hide constructor

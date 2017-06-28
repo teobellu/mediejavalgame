@@ -102,12 +102,11 @@ public class MainViewController {
 	@FXML
 	private Text _servantValue;
 	
-	private ArrayList<ImageView> _leaderCards = new ArrayList<>(
-			Arrays.asList(_leaderCard0, _leaderCard1, _leaderCard2, _leaderCard3));
+	private ArrayList<ImageView> _leaderCards = new ArrayList<>();
 	
 	private GUI _GUI;
 	
-	public MainViewController() {
+	public void initialSetupController(){
 		_infoTextFlow.getChildren().addListener((ListChangeListener<Node>) ((change) -> {
 			_infoTextFlow.layout();
 			_infoScrollPane.layout();
@@ -116,6 +115,11 @@ public class MainViewController {
 		_infoScrollPane.setContent(_infoTextFlow);		
 		
 		changeImageView("src/main/resources/javafx/images/gameboard_f_c.jpeg", _backgroundImage);
+		
+		_leaderCards.add(_leaderCard0);
+		_leaderCards.add(_leaderCard1);
+		_leaderCards.add(_leaderCard2);
+		_leaderCards.add(_leaderCard3);
 		
 		for(ImageView iv : _leaderCards){
 		changeImageView("src/main/resources/javafx/images/leaders/leaders_b_c_00.jpg", iv);
@@ -126,7 +130,8 @@ public class MainViewController {
 		changeImageView("src/main/resources/javafx/images/risorse2.jpg", _goldWoodBg);
 		changeImageView("src/main/resources/javafx/images/risorse1.jpg", _stoneServantBg);
 		
-		appendToInfoText("Waiting game initial setup...");
+		appendToInfoText("\nWaiting game initial setup...", 24);
+
 	}
 	
 	@FXML
@@ -136,10 +141,14 @@ public class MainViewController {
 	}
 	
 	/*https://stackoverflow.com/q/28243156*/
-	private synchronized void appendToInfoText(String msg){
+	private void appendToInfoText(String msg){
+		appendToInfoText(msg, 18);
+	}
+	
+	private synchronized void appendToInfoText(String msg, double fontSize){
 		Platform.runLater(() -> {
-			Text t = new Text(msg);
-			t.setFont(new Font(24));
+			Text t = new Text(msg+"\n");
+			t.setFont(new Font(fontSize));
 			_infoTextFlow.getChildren().add(t);
 		});
 	}
@@ -248,9 +257,10 @@ public class MainViewController {
 			changeImageView("src/main/resources/javafx/images/exc_tiles/excomm_"+board.getExCard()[0].getAge()+"_"+ board.getExCard()[0].getID() +".png", excCards.get(i));
 		}
 		
-		appendToInfoText("It's YOUR turn now!\nWhat do you want to do?");
-		
 		//TODO mettere le info a posto
+		
+		appendToInfoText("It's YOUR turn now!", 24);
+		appendToInfoText("What do you want to do?");
 	}
 	
 	private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
