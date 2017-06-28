@@ -62,7 +62,7 @@ public class EffectConvertResource implements IEffectBehavior{
 		//chiede cose al client: tipo, vuoi convertire?
 		if (realPayOptions.isEmpty())
 			return;
-		boolean wantConvert = player.getClient().getConnectionHandler().ask(MESSAGE);
+		boolean wantConvert = player.getClient().getConnectionHandler().askBoolean(MESSAGE);
 		if (wantConvert){
 			int index = player.getClient().getConnectionHandler().chooseConvert(realPayOptions, realGainOptions);
 			try {

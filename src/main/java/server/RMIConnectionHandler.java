@@ -75,7 +75,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public boolean ask(String message) throws RemoteException {
+	public boolean askBoolean(String message) throws RemoteException {
 		return _clientConnectionHandler.ask(message);
 	}
 

@@ -54,7 +54,7 @@ public abstract class ConnectionHandler implements Runnable {
 	public abstract int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException;
 
 	//TODO GAME METHOD manda un messaggio al quale il giocatore deve rispondere si o no (true or false)
-	public abstract boolean ask(String message) throws RemoteException;
+	public abstract boolean askBoolean(String message) throws RemoteException;
 
 	//TODO GAME METHOD chiedi al giocatore un indice tra 0 e realPayOption.size() - 1
 	//Ho già chiesto al giocatore se vuole convertire o no, bisogna solo chiedergli un indice

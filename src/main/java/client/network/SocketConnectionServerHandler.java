@@ -123,6 +123,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.ASK_INT);
 			writeObject(i);
 		}
+		else if(obj.equals(CommandStrings.ASK_BOOLEAN)){
+			String message = (String) getFromServer();
+			boolean returned = _ui.askBoolean(message);
+			writeObject(CommandStrings.ASK_BOOLEAN);
+			writeObject(returned);
+		}
 	}
 	
 	@Override
