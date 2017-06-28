@@ -485,7 +485,7 @@ public class DynamicAction {
 		}
 		boolean answer = false;
 		try {
-			answer = player.getClient().getConnectionHandler().ask("Do you what to show vatican support?");
+			answer = player.getClient().getConnectionHandler().askBoolean("Do you what to show vatican support?");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

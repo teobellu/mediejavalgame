@@ -303,7 +303,7 @@ public class CommandLineUI implements UI {
 	}
 	
 	@Override
-	public boolean answerToAQuestion(String message){
+	public boolean askBoolean(String message){
 		_ioHandler.write("Attention! Reply to this message: ");
 		_ioHandler.write(message);
 		_ioHandler.write("0) ok");

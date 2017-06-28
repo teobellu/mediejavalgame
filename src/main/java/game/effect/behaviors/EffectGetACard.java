@@ -74,7 +74,7 @@ public class EffectGetACard implements IEffectBehavior{
 	}
 	
 	private boolean wantToPickCard() throws RemoteException{
-		return player.getClient().getConnectionHandler().ask(MESSAGE + value);
+		return player.getClient().getConnectionHandler().askBoolean(MESSAGE + value);
 	}
 	
 	private void selectCard() throws RemoteException {

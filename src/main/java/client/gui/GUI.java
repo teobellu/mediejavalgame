@@ -334,24 +334,6 @@ public class GUI extends Application {
 		}
 	}
 	
-	public void showPlaceWhichFamiliar(List<String> positions) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/PlaceWhichFamiliarDialog.fxml"));
-			AnchorPane pane = loader.load();
-			
-			Stage dialog = setupDialog(pane, "Choose Position");
-			
-			PlaceWhichFamiliarController controller = loader.getController();
-			controller.setDialog(dialog);
-			controller.setPositions(positions);
-			
-			dialog.showAndWait();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-	
 	private Stage setupDialog(AnchorPane pane, String title){
 		Stage dialog = new Stage();
 		

@@ -55,7 +55,7 @@ public interface UI extends Runnable{
 	 * @param message Question
 	 * @return Answer of the player: yes or no (true or false)
 	 */
-	public boolean answerToAQuestion(String message);
+	public boolean askBoolean(String message);
 
 	/**
 	 * Allows the player to choose what exchange he prefer, for example for building cards

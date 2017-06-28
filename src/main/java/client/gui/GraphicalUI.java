@@ -252,7 +252,7 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public boolean answerToAQuestion(String message) {
+	public boolean askBoolean(String message) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -322,5 +322,11 @@ public class GraphicalUI implements UI {
 	
 	public List<String> placeFamiliar(){
 		
+	}
+
+	@Override
+	public int askInt(String message, int min, int max) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
