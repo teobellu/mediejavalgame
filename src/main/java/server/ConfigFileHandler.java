@@ -506,14 +506,13 @@ public class ConfigFileHandler {
 		List<Node> parameters = getChildNodesFromNode(node);
 		IEffectBehavior behavior;
 		switch(parameters.size()){
-		case 1: behavior = new EffectGetACard(Integer.parseInt(parameters.get(0).getTextContent()));
-			break;
-		case 2: behavior = new EffectGetACard(parameters.get(0).getTextContent(), Integer.parseInt(parameters.get(1).getTextContent()));
-			break;
-		default : ;//TODO generate exception
-		return new Effect(GC.IMMEDIATE, new EffectDoNothing());
-	}
-	return new Effect(GC.IMMEDIATE, new EffectDoNothing());
+			case 1: behavior = new EffectGetACard(Integer.parseInt(parameters.get(0).getTextContent()));
+				break;
+			case 2: behavior = new EffectGetACard(parameters.get(0).getTextContent(), Integer.parseInt(parameters.get(1).getTextContent()));
+				break;
+			default: behavior = new EffectDoNothing();
+		}
+		return new Effect(GC.IMMEDIATE, behavior);
 	}
 	
 	/**

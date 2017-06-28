@@ -305,7 +305,7 @@ public class CommandLineUI implements UI {
 	@Override
 	public boolean answerToAQuestion(String message){
 		_ioHandler.write("Attention! Reply to this message: ");
-		_ioHandler.writeNext(message);
+		_ioHandler.write(message);
 		_ioHandler.write("0) ok");
 		_ioHandler.write("1) no");
 		int answer = _ioHandler.readNumberWithinInterval(1);
@@ -413,10 +413,8 @@ public class CommandLineUI implements UI {
 	@Override
 	public int askInt(String message, int min, int max) {
 		_ioHandler.write("Answer to this!");
-		_ioHandler.writeNext(message + ". Answer from " + min + " to " + max);
+		_ioHandler.write(message + ". Answer from " + min + " to " + max);
 		return _ioHandler.readNumberWithinInterval(min, max);
 	}
-
-
 	
 }

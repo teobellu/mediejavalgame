@@ -2,15 +2,32 @@ package game;
 
 import java.io.Serializable;
 
+/**
+ * This class identifies a specific position within the board, using a sort of coordinates for the purpose, like row or column
+ * @author M
+ *
+ */
 public class Position implements Serializable{
+
+	/**
+	 * A default serial version ID to the selected type
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * A word that identifies the position in the game board
 	 */
 	private String where;
 	
+	/**
+	 * A index that identifies the row of the position in the game board
+	 * It could be a generic index (e.g.) for market.
+	 */
 	private int row;
 	
+	/**
+	 * A index that identifies the column of the position in the game board
+	 */
 	private int column;
 	
 	/**
@@ -23,11 +40,22 @@ public class Position implements Serializable{
 		column = 0;
 	}
 	
+	/**
+	 * Constructor for positions that require an index as information
+	 * @param where A word that identifies the position in the game board
+	 * @param index A index that identifies the position in the game board
+	 */
 	public Position(String where, int index){
 		this(where);
 		row = index;
 	}
 	
+	/**
+	 * Constructor for positions that require two integers as information
+	 * @param where A word that identifies the position in the game board
+	 * @param row A index that identifies the row of the position in the game board
+	 * @param column A index that identifies the column of the position in the game board
+	 */
 	public Position(String where, int row, int column){
 		this(where, row);
 		this.column = column;
@@ -41,15 +69,20 @@ public class Position implements Serializable{
 		return where;
 	}
 
+	/**
+	 * Getter: get the row or the index that identifies the position in the game board
+	 * @return The row or the index of the position
+	 */
 	public int getRow() {
 		return row;
 	}
 
+	/**
+	 * Getter: get the column that identifies the position in the game board
+	 * @return The column of the position
+	 */
 	public int getColumn() {
 		return column;
 	}
 	
 }
-
-
-

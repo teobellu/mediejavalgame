@@ -15,7 +15,7 @@ import game.effect.IEffectBehavior;
 
 public class EffectGetACard implements IEffectBehavior{
 
-	private static final String MESSAGE = "Do you want to get a card? Maybe you have to pay the tax tower!";
+	private static final String MESSAGE = "Do you want to get a card? Maybe you have to pay the tax tower! The start power is: ";
 	private static final String MESS_COLUMN = "Select a column";
 	private static final String MESS_ROW = "Select a row";
 	
@@ -66,6 +66,7 @@ public class EffectGetACard implements IEffectBehavior{
 			try {
 				selectCard();
 				getCard();
+				break;
 			} catch (GameException e) {
 				//TODO non puoi
 			}
@@ -73,7 +74,7 @@ public class EffectGetACard implements IEffectBehavior{
 	}
 	
 	private boolean wantToPickCard() throws RemoteException{
-		return player.getClient().getConnectionHandler().ask(MESSAGE);
+		return player.getClient().getConnectionHandler().ask(MESSAGE + value);
 	}
 	
 	private void selectCard() throws RemoteException {

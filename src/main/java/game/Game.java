@@ -81,7 +81,7 @@ public class Game implements Runnable {
 //		List<Player> winners = gameInformation.endOfTheGameFindWinners();
 //		winners.forEach(player -> player.getClient().getConnectionHandler().sendToClient("GG U WIN"));
 	}
-	
+
 	//x sonar
 	private void cycleState(){
 		//for(_phase = 0;_phase<_players.size();_phase++)
@@ -131,7 +131,7 @@ public class Game implements Runnable {
 			n++;
 		}
 		
-		gameInformation.newPhase();
+		gameInformation.newPhase(1);
 		
 		setupDashboardBonus();
 		

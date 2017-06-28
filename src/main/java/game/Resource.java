@@ -102,4 +102,13 @@ public class Resource implements Serializable{
 			.filter(type -> price.get(type) > 0)
 			.forEach(type -> add(type, -price.get(type)));
 	}
+	
+	@Override
+	public String toString(){
+		String description = new String();
+		for (String type : GC.RES_TYPES)
+			if (get(type) > 0)
+				description += get(type) + " " + type + " ";
+		return description;
+	}
 }

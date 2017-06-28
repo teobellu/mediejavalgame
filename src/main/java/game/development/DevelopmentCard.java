@@ -29,7 +29,7 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 		cost = new ArrayList<>();
 		requirement = new ArrayList<>();
 		cost.add(new Resource());
-		requirement.add(null);
+		requirement.add(new Resource());
 	}
 	
 	public abstract void accept(DevelopmentCardVisitor visitor);
@@ -78,7 +78,7 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 	}
 	
 	protected void setCost(Resource res) {
-		cost.add(res);
+		cost.set(0, res);
 	}
 	
 	protected void setRequirement(Resource res) {
@@ -112,10 +112,12 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 	}
 	
 	protected void setCost(List<Resource> cost) {
+		this.cost.clear();
 		this.cost.addAll(cost);
 	}
 	
 	protected void setRequirement(List<Resource> requires) {
+		requirement.clear();
 		requirement.addAll(requires);
 	}
 

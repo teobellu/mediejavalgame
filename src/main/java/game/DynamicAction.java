@@ -269,8 +269,16 @@ public class DynamicAction {
 		//dashboard requirement (for example for territory you need military points)
 		tryToPayRequirement(card.toString(), getDashboardRequirement(card));
 		
+		
 		Resource cardCost = card.getCost(index);
+		
+		System.out.println("a+ " + cardCost.toString());//TODO
+		
 		cardCost = (Resource) activateEffect(cardCost, card.toString(), GC.WHEN_FIND_COST_CARD);
+		
+		
+		System.out.println("b+ " + cardCost.toString());//TODO
+		
 		cost.add(cardCost);
 		
 		/**
@@ -285,6 +293,8 @@ public class DynamicAction {
 		//canDicePaySpace(familiar, space);
 		//canJoinSpace(familiar, space); //e quindi canJoinArraySpace(familiar, space);
 
+		System.out.println("c+ " + cost.toString());//TODO
+		
 		player.pay(cost);
 		
 		/**
