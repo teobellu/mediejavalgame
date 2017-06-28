@@ -51,20 +51,15 @@ public abstract class ModelPrinter {
 	public static void printSpace(Space space){
 		_ioHandler.writeNext("Dice Required: " + space.getRequiredDiceValue() + " ");
 		_ioHandler.writeNext("Effect: " + space.getInstantEffect() + " ");
-		printListFamiliar(space.getFamiliars());
-	}
-	
-	/**
-	 * Print all information about a list of familiars
-	 * @param familiars List to print
-	 */
-	public static void printListFamiliar(List<FamilyMember> familiars){
+		List<FamilyMember> familiars = space.getFamiliars();
 		if (familiars.isEmpty())
 			_ioHandler.write("No familiars here");
 		else
 			familiars.forEach(fam -> _ioHandler
-				.write("A " + fam.getColor() + " " + fam.getOwner().getName() + "'s familiar is here "));
+				.write(fam.getOwner().getName() + " " + fam.getColor() + "familiar "));
 	}
+	
+	
 	
 	/**
 	 * Print all information about a card
@@ -205,11 +200,29 @@ public abstract class ModelPrinter {
 		
 	}
 	
+	/**
+	 * Print all information about a list of familiars
+	 * @param familiars List to print
+	 */
+	public static void printListFamiliar(List<FamilyMember> familiars){
+		int index = 0;
+		for(FamilyMember familiar : familiars){
+			_ioHandler.writeNext(index + ") ");
+			_ioHandler.write(familiar.getColor() + " familiar");
+			index++;
+		}
+	}
+	
+	/**
+	 * Print all information about a list of leader cards
+	 * @param leaders
+	 */
 	public static void printLeaderCards(List<LeaderCard> leaders){
 		int index = 0;
 		for(LeaderCard leader : leaders){
 			_ioHandler.writeNext(index + ") ");
 			_ioHandler.write(leader.getName() + " : " + leader.getEffect());
+			index++;
 		}
 	}
 }
