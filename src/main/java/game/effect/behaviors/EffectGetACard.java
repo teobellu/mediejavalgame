@@ -110,10 +110,7 @@ public class EffectGetACard implements IEffectBehavior{
 		if (discount == null)
 			return text;
 		text += " and a get discout equals to ";
-		for (String type : GC.RES_TYPES){
-			if (discount.get(type) > 0)
-				text += discount.get(type) + " " + type + " ";
-		}
+		text += discount.toString();
 		return text;
 	}
 }

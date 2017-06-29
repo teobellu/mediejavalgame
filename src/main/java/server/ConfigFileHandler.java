@@ -505,12 +505,27 @@ public class ConfigFileHandler {
 	private static Effect getCard(Node node){
 		List<Node> parameters = getChildNodesFromNode(node);
 		IEffectBehavior behavior;
+		/*TODO
+		<get_card>
+		<type>building</type>
+		<value>6</value>
+		<wood>1</wood>
+		<stones>1</stones>
+	</get_card>*/
 		switch(parameters.size()){
 			case 1: behavior = new EffectGetACard(Integer.parseInt(parameters.get(0).getTextContent()));
 				break;
 			case 2: behavior = new EffectGetACard(parameters.get(0).getTextContent(), Integer.parseInt(parameters.get(1).getTextContent()));
 				break;
 			default: behavior = new EffectDoNothing();
+		}
+		if (parameters.size() > 2){
+			String type = parameters.get(0).getTextContent();
+			int value = Integer.parseInt(parameters.get(1).getTextContent());
+			parameters.remove(0);
+			parameters.remove(0);
+			Resource discount = getResourceFromNodeList(parameters);
+			behavior = new EffectGetACard(type, value, discount);
 		}
 		return new Effect(GC.IMMEDIATE, behavior);
 	}

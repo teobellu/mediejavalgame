@@ -116,8 +116,17 @@ public class Game implements Runnable {
 		
 		setupLeaderCards();
 		
-		Collections.shuffle(gameInformation.getDevelopmentDeck());
 		
+		
+		for (DevelopmentCard c : gameInformation.getDevelopmentDeck()){
+			System.out.print(c.getName() +  " " + c.getAge() + " dice: " + c.getDice() + " ");
+			c.getCost().forEach(e -> System.out.print("cost " + e.toString()));
+			c.getRequirement().forEach(e -> System.out.print("req " + e.toString()));
+			c.getImmediateEffect().forEach(e -> System.out.print("imm " + e.getIEffectBehavior().toString()));
+			c.getPermanentEffect().forEach(e -> System.out.print("perm " + e.getIEffectBehavior().toString()));
+			System.out.println("");
+		}
+		Collections.shuffle(gameInformation.getDevelopmentDeck());
 		gameInformation.setExcommunicationTitlesOnBoard();
 		
 		int n = 5;

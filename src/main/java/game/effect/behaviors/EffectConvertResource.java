@@ -102,7 +102,16 @@ public class EffectConvertResource implements IEffectBehavior{
 	 */
 	@Override
 	public String toString(){
-		//TODO
-		return "Convert resource";
+		String text = "Convert resource: ";
+		int numberOfOptions = payOptions.size();
+		for(int i = 0; i < numberOfOptions; i++){
+			text += payOptions.get(i).toString();
+			text += "into ";
+			text += gainOptions.get(i).toString();
+			if (i + 1 != numberOfOptions){
+				text += "or ";
+			}
+		}
+		return text;
 	}
 }

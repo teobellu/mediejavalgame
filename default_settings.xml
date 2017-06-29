@@ -1550,7 +1550,7 @@
 				</cost>
 				<instant_effect>
 					<get_resources>
-						<military_points>5</military_points>
+						<military_points>3</military_points>
 					</get_resources>
 				</instant_effect>
 				<permanent_effect>

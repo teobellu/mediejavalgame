@@ -313,9 +313,12 @@ public class DynamicAction {
 		player.addEffect(spaceEffect);
 		
 		player.addDevelopmentCard(card);
+		System.out.println(card.getImmediateEffect().get(0).getIEffectBehavior().toString());
 		player.addEffect(card.getImmediateEffect());
-		if (card.getDice() == 0)
+		if (card.getDice() == 0){
+			System.out.println(card.getPermanentEffect().get(0).getIEffectBehavior().toString());
 			player.addEffect(card.getPermanentEffect());
+		}
 		space.setCard(null);
 	}
 	
