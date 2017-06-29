@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -123,47 +122,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.ASK_INT);
 			writeObject(i);
 		}
-	}
-	
-	@Override
-	public List<FamilyMember> putFamiliar() throws RemoteException {
-			String message = CommandStrings.PUT_FAMILIAR;
-			writeObject(message);
-			
-			List<String> familiars = new ArrayList<String>();
-			while(message!=CommandStrings.END_TRANSMISSION){
-				message = (String) getFromServer();
-				familiars.add(message);
+		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER)){
+			synchronized (_returnObject) {
+				_returnObject.notify();
+				_returnObject = getFromServer();
 			}
-			
-			synchronized (familiars) {
-				
-			}
-			return null;//TODO ovviamente non ritorno null
-			//return familiars;
-			//TODO quale familiare
-			//TODO dove piazzarlo
-			//TODO aumentare il suo valore? Se s�, di quanto?
-	}
-	
-	@Override
-	public List<String> putFamiliarWhich(String familiar) throws RemoteException {
-			String message = CommandStrings.PUT_WHICH_FAMILIAR;
-			writeObject(message);
-			writeObject(familiar);
-			List<String> positions = new ArrayList<>();
-			while(message!=CommandStrings.END_TRANSMISSION){
-				message = (String) getFromServer();
-				positions.add(message);
-			}
-			
-			return positions;
-	}
-
-	@Override
-	public void putFamiliarWhere(String position) throws RemoteException {
-			writeObject(CommandStrings.PUT_WHERE_FAMILIAR);
-			writeObject(position);
+		}
 	}
 	
 	@Override
@@ -173,22 +137,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public List<String> activateLeaderCard() throws RemoteException {
-			String message = CommandStrings.ACTIVATE_LEADER_CARD;
-			writeObject(message);
-			
-			return null;//TODO
-	}
-	
-	@Override
-	public void activateLeaderCard(String card){
-			writeObject(CommandStrings.ACTIVATE_WHICH_LEADER_CARD);
-			writeObject(card);
-	}
-
-	@Override
 	public void ping() throws RemoteException {
-			writeObject(CommandStrings.PING);
+			//TODO
 	}
 	
 	@Override
@@ -274,69 +224,64 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public void doIspendMyFaithPoints(boolean doI) throws RemoteException {
-		writeObject(CommandStrings.SPEND_FAITH_POINTS);
-		writeObject(Boolean.toString(doI));
-	}
-
-	@Override
-	public boolean endTurn() throws RemoteException {
+	public void endTurn() throws RemoteException, GameException {
 		writeObject(CommandStrings.END_TURN);
-		String response = (String) getFromServer();
-		if (response==CommandStrings.END_TURN) {
-			return true;
-		} else return false;
-	}
-
-	@Override
-	public List<String> dropLeaderCard() throws RemoteException {
-		writeObject(CommandStrings.DROP_LEADER_CARD);
-		String str = null;
-		List<String> leaders = new ArrayList<>();
-		do {
-			str = (String) getFromServer();
-			leaders.add(str);
-		} while (str!=CommandStrings.END_TRANSMISSION);
-
-		//rimuovo il comando di fine trasmissione
-		leaders.remove(leaders.size()-1);
-		
-		return leaders;
-	}
-
-	@Override
-	public void dropWhichLeaderCard(String leaderCard) throws RemoteException {
-		writeObject(CommandStrings.DROP_WHICH_LEADER_CARD);
-		writeObject(leaderCard);
 	}
 	
 	public GameBoard getBoard(){
-		writeObject("send me board");
-		return (GameBoard) getFromServer();
+		try {
+			writeObject(CommandStrings.GAME_BOARD);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return (GameBoard) _returnObject;
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		System.out.println("ERRORE IN getBoard");
+		
+		return null;
 	}
 	
 	@Override
 	public Player getMe() throws RemoteException {
-		// TODO Auto-generated method stub
+		try{
+			writeObject(CommandStrings.PLAYER);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return (Player) _returnObject;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		System.out.println("ERRORE IN getMe");
+		
 		return null;
 	}
 
 	@Override
 	public void dropLeaderCard(LeaderCard card) throws GameException, RemoteException {
-		// TODO Auto-generated method stub
-		
+		writeObject(CommandStrings.DROP_LEADER_CARD);
+		writeObject(card);
 	}
 
 	@Override
 	public void activateLeaderCard(LeaderCard card) throws GameException, RemoteException {
-		// TODO Auto-generated method stub
-		
+		writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
+		writeObject(card);
 	}
 
 	@Override
 	public void placeFamiliar(FamilyMember familiar, Position position) throws GameException, RemoteException {
-		// TODO Auto-generated method stub
-		
+		writeObject(CommandStrings.PLACE_FAMILIAR);
+		writeObject(familiar);
+		writeObject(position);
 	}
 
 	private Object _returnObject = new Object();

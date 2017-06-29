@@ -5,6 +5,7 @@ public final class CommandStrings {
 	public static final String UUID = "uuid";
 	
 	public static final String GAME_BOARD = "gameboard";
+	public static final String PLAYER = "player";
 	
 	public static final String GAME_STARTED = "game_started";
 		
@@ -21,14 +22,10 @@ public final class CommandStrings {
 	public static final String START_TURN = "start_turn";
 	
 	public static final String ACTIVATE_LEADER_CARD = "activate_leader_card";
-	public static final String ACTIVATE_WHICH_LEADER_CARD = "activate_which_leader_card";
 	
 	public static final String DROP_LEADER_CARD = "drop_leader_card";
-	public static final String DROP_WHICH_LEADER_CARD = "drop_which_leader_card";
 	
-	public static final String PUT_FAMILIAR = "put_familiar";
-	public static final String PUT_WHICH_FAMILIAR = "put_which_familiar";
-	public static final String PUT_WHERE_FAMILIAR = "put_where_familiar";
+	public static final String PLACE_FAMILIAR = "put_familiar";
 	
 	public static final String SPEND_FAITH_POINTS = "spend_faith_points";
 	

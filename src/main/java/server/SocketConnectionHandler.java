@@ -77,9 +77,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	private void processObject(Object obj) throws IOException {
 		if (obj instanceof String) {
 			processString((String) obj);
-		} else {
-			// TODO manderemo mai cose che non sono stringhe?
-			// TODO se sì, le manderemo in entrambe le direzioni?
 		}
 	}
 
@@ -97,14 +94,27 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			}
 		} 
 		else if (str.equals(CommandStrings.DROP_LEADER_CARD)) {
-			List<String> leaders = new ArrayList<>();
-			try {
-				leaders = _theGame.getState().dropLeaderCard();
-			} catch (GameException e) {
-				_log.log(Level.SEVERE, e.getMessage(), e);
-			}
-			writeObject(leaders);
+			//TODO
 		} 
+		else if(str.equals(CommandStrings.ACTIVATE_LEADER_CARD)){
+			//TODO
+		}
+		else if(str.equals(CommandStrings.PLACE_FAMILIAR)){
+			//TODO
+		}
+		else if(str.equals(CommandStrings.END_TURN)){
+			//TODO
+		}
+		else if(str.equals(CommandStrings.GAME_BOARD)){
+			GameBoard board = _theGame.getBoard();
+			writeObject(CommandStrings.GAME_BOARD);
+			writeObject(board);
+		}
+		else if(str.equals(CommandStrings.PLAYER)){
+			Player player = _theGame.getCurrentPlayer();
+			writeObject(CommandStrings.PLAYER);
+			writeObject(player);
+		}
 		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL
 				+"|"+CommandStrings.INITIAL_PERSONAL_BONUS+"|"+CommandStrings.CHOOSE_CONVERT
 				+"|"+CommandStrings.CHOOSE_FAMILIAR+"|"+CommandStrings.ASK_INT)){
@@ -138,19 +148,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	private synchronized void writeObject(Object obj) throws IOException {
 		_outputStream.writeUnshared(obj);
 		_outputStream.flush();
-	}
-
-	/**
-	 * Send the command {@link CommandStrings}.GAME_BOARD, then the {@link GameBoard} itself
-	 * @param board the gameboard
-	 */
-	public void sendBoard(GameBoard board) {
-		try {
-			writeObject(CommandStrings.GAME_BOARD);
-			writeObject(board);
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
 	}
 
 	@Override
