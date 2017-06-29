@@ -37,6 +37,10 @@ public class EffectCopyLeader implements IEffectBehavior{
 		activateLeaderCard();
 	}
 	
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref) {
 		effect = ref;
 		player = ref.getPlayer();

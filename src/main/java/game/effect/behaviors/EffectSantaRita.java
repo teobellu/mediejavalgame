@@ -1,7 +1,5 @@
 package game.effect.behaviors;
 
-import java.io.Serializable;
-
 import game.GC;
 import game.Resource;
 import game.effect.Effect;
@@ -9,13 +7,40 @@ import game.effect.IEffectBehavior;
 
 public class EffectSantaRita implements IEffectBehavior{
 	
-	private Resource resource;		//la tassa
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
-	private Resource normalGain; 	//cio' che guadagnerei normalmente
+	/**
+	 * Resources you need to receive to apply the bonus
+	 */
+	private Resource resource;
+	
+	/**
+	 * Effect with this behavior
+	 */
+	private Effect ref;
+	
+	/**
+	 * What I have to gain without the effect
+	 */
+	private Resource normalGain;
+	
+	/**
+	 * What I have to gain
+	 */
 	private Resource newGain;
+	
+	/**
+	 * Source of the gain
+	 */
 	private String source;
 	
+	/**
+	 * Constructor of EffectSantaRita
+	 * @param resource Resources you need to receive to apply the bonus
+	 */
 	public EffectSantaRita(Resource resource) {
 		this.resource = resource;
 	}
@@ -28,9 +53,13 @@ public class EffectSantaRita implements IEffectBehavior{
 		if(!GC.DEV_TYPES.contains(source)) 
 			return;
 		findNextGain();
-		applyTax();
+		applyBenefit();
 	}
 	
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref){
 		this.ref = ref;
 		newGain = new Resource();
@@ -38,6 +67,9 @@ public class EffectSantaRita implements IEffectBehavior{
 		source = ref.getToScan();
 	}
 	
+	/**
+	 * Find the bonus to apply
+	 */
 	public void findNextGain(){
 		if(GC.DEV_TYPES.contains(source))
 			GC.RES_TYPES.stream()
@@ -45,7 +77,10 @@ public class EffectSantaRita implements IEffectBehavior{
 				.forEach(type -> newGain.add(type, normalGain.get(type)));
 	}
 	
-	private void applyTax (){
+	/**
+	 * Apply bonus to the player
+	 */
+	private void applyBenefit (){
 		ref.getPlayer().gain(newGain);
 	}
 	
@@ -54,10 +89,7 @@ public class EffectSantaRita implements IEffectBehavior{
 	 */
 	@Override
 	public String toString(){
-		String text = "Each time you recieve ";
-		for (String type : GC.RES_TYPES)
-			if (resource.get(type) > 0)
-				text += resource.get(type) + " " + type + " ";
+		String text = "Each time you recieve " + resource.toString();
 		text += "from instant effect of a development card, you recieve the bonus twice";
 		return text;
 	}

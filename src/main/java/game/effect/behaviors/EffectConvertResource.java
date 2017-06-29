@@ -15,6 +15,11 @@ import server.RMIConnectionHandler;
 
 public class EffectConvertResource implements IEffectBehavior{
 	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private static final String MESSAGE = "Do you want to convert resources?"; 
 	
 	private Player player;
@@ -54,6 +59,10 @@ public class EffectConvertResource implements IEffectBehavior{
 		}
 	}
 	
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref){
 		player = ref.getPlayer();
 	}
@@ -62,7 +71,7 @@ public class EffectConvertResource implements IEffectBehavior{
 		//chiede cose al client: tipo, vuoi convertire?
 		if (realPayOptions.isEmpty())
 			return;
-		boolean wantConvert = player.getClient().getConnectionHandler().ask(MESSAGE);
+		boolean wantConvert = player.getClient().getConnectionHandler().askBoolean(MESSAGE);
 		if (wantConvert){
 			int index = player.getClient().getConnectionHandler().chooseConvert(realPayOptions, realGainOptions);
 			try {
@@ -83,6 +92,7 @@ public class EffectConvertResource implements IEffectBehavior{
 				realGainOptions.add(gainOptions.get(i));
 			} catch (GameException e) {
 				// TODO il giocatore non puo' converire perche' non ha le risorse necessarie
+				e.printStackTrace();
 			}
 		}
 	}

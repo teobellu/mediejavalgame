@@ -54,6 +54,10 @@ public class EffectGetACard implements IEffectBehavior{
 		
 	}
 
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref){
 		player = ref.getPlayer();
 		effect = ref;
@@ -74,7 +78,7 @@ public class EffectGetACard implements IEffectBehavior{
 	}
 	
 	private boolean wantToPickCard() throws RemoteException{
-		return player.getClient().getConnectionHandler().ask(MESSAGE + value);
+		return player.getClient().getConnectionHandler().askBoolean(MESSAGE + value);
 	}
 	
 	private void selectCard() throws RemoteException {

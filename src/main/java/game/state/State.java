@@ -49,32 +49,37 @@ public abstract class State {
 	
 	public void nextState(){
 		Player nextPlayer = getNextPlayer();
-		
+		countTurn++;
 		if (countTurn % (_players.size() * 4) == 0){
 			if (phase == 2){
+				age++;
 				System.out.println("VATICAN PHASE");
 				for (Player p : _players){
 					_theGame.getDynamicBar().setPlayer(p);
 					_theGame.getListener().setPlayer(p);
 					notifyPlayerTurn(_player);
 				}
-				age++;
 				phase = 0;
 			}
+			phase++;
 			System.out.println("NEXT PHASE");
 			_theGame.getGameInformation().newPhase(age);
-			phase++;
+			nextPlayer = _theGame.getPlayers().get(0);
 		}
-		countTurn++;
 		if (age == 4){
 			age = 3;
-			//_theGame.endGame(); //	TODO AVVISA TUTTI CHE IL GIOCO E' FINITO
+			List<Player> players = _theGame.getGameInformation().endOfTheGameFindWinners();
+			players.forEach(player -> System.out.println(player.getName() + " win"));//TODO
+			
 		}
 		_theGame.getDynamicBar().setPlayer(nextPlayer);
 		//refresho listener list
 		_theGame.getListener().setPlayer(nextPlayer);
 		//avviso che è il suo turno
 		_player = nextPlayer;
+		//se il player è nella lista tail gli faccio saltare il turno e lo metto nella lista tail 2TODO
+		//alla fine faccio fare il turno ai giocatori nella lista tail 2TODO
+		
 		notifyPlayerTurn(_player);
 	}
 	

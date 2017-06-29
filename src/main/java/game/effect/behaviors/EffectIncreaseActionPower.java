@@ -27,6 +27,10 @@ public class EffectIncreaseActionPower implements IEffectBehavior{
 		payTax();
 	}
 	
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref) {
 		newPower = new Integer(0);
 		this.ref = ref;

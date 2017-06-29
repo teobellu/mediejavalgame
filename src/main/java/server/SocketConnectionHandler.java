@@ -5,13 +5,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
 import game.LeaderCard;
@@ -87,11 +85,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		if (str.equals(CommandStrings.ADD_TO_GAME)) {
 			String name = (String) getFromClient();
 			writeObject(CommandStrings.ADD_TO_GAME);
-			if (Server.getInstance().addMeToGame(this, name)) {
-				writeObject(true);
-			} else {
-				writeObject(false);
-			}
+			writeObject(Server.getInstance().addMeToGame(this, name));
 		} 
 		else if (str.equals(CommandStrings.DROP_LEADER_CARD)) {
 			//TODO
@@ -192,8 +186,23 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	}
 
 	@Override
-	public boolean ask(String message) throws RemoteException {
-		// TODO Auto-generated method stub
+	public boolean askBoolean(String message) throws RemoteException {
+		try {
+			_returnObject = new Object();
+			writeObject(CommandStrings.ASK_BOOLEAN);
+			writeObject(message);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return (boolean) _returnObject;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		System.out.println("ERRORE");
+		
 		return false;
 	}
 

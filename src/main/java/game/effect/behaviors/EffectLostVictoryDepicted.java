@@ -31,6 +31,10 @@ public class EffectLostVictoryDepicted implements IEffectBehavior{
 		payTax();
 	}
 
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref){
 		countVictoryTax = 0;
 		costOfFilteredCards = new Resource();

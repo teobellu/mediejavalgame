@@ -61,9 +61,36 @@ public abstract class ConnectionServerHandler extends Thread {
 	 */
 	public abstract boolean addMeToGame(String username) throws RemoteException;
 	
+	/**
+	 * Ask the game board of my room to the server, generally used immediately after asking it, 
+	 * from the user interface to show general information
+	 * @return
+	 * @throws RemoteException
+	 */
 	public abstract GameBoard getBoard() throws RemoteException;
+	
+	/**
+	 * Ask my class Player to the server, generally used immediately after asking it, 
+	 * from the user interface to show general information
+	 * @return My class Player
+	 * @throws RemoteException Remote connection error
+	 */
 	public abstract Player getMe() throws RemoteException;
+	
+	/**
+	 * Tells the server that I want to drop (discard for gain a council privilege) a Leader Card
+	 * @param card The card I want to drop/discard
+	 * @throws GameException I can't discard this card
+	 * @throws RemoteException Remote connection error
+	 */
 	public abstract void dropLeaderCard(LeaderCard card) throws GameException, RemoteException;
+	
+	/**
+	 * Tells the server that I want to activate a Leader Card
+	 * @param card The card I want to activate
+	 * @throws GameException I can't activate this card
+	 * @throws RemoteException Remote connection error
+	 */
 	public abstract void activateLeaderCard(LeaderCard card) throws GameException, RemoteException;
 	
 	/**

@@ -118,8 +118,6 @@ public class Game implements Runnable {
 		
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
 		
-		List<DevelopmentCard> devDeck = gameInformation.getDevelopmentDeck();
-		_board.generateDevelopmentCards(devDeck, 1);
 		gameInformation.setExcommunicationTitlesOnBoard();
 		
 		int n = 5;
@@ -134,6 +132,7 @@ public class Game implements Runnable {
 		gameInformation.newPhase(1);
 		
 		setupDashboardBonus();
+		
 		
 		_state = new StateStartingTurn(this);
 		_state.setupState();
@@ -302,4 +301,8 @@ public class Game implements Runnable {
 	}
 
 	private Logger _log = Logger.getLogger(Game.class.getName());
+
+	protected void setPlayers(List<Player> nextPlayersTurn) {
+		_players = nextPlayersTurn;
+	}
 }

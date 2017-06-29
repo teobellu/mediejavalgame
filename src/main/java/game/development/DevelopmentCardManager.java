@@ -8,11 +8,17 @@ import game.GC;
 /**
  * Using visitor design pattern, this class allows to add a development card to a specific list,
  * based on his dynamic type
+ * @Visitor_design_patter
  * 
  * @author Matteo
  *
  */
 public class DevelopmentCardManager implements Serializable{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * List of Territories

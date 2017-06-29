@@ -46,6 +46,10 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 		}
 	}
 	
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref){
 		this.ref = ref;
 		player = ref.getPlayer();
@@ -70,17 +74,12 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	 */
 	@Override
 	public String toString(){
-		String text = "Recieve ";
-		for (String type : GC.RES_TYPES)
-			if (reward.get(type) > 0)
-				text += reward.get(type) + " " + type + " ";
+		String text = "Recieve " + reward.toString();
 		text += "for each ";
 		if (card != null)
 			text += card;
 		else
-			for (String type : GC.RES_TYPES)
-				if (loot.get(type) > 0)
-					text += loot.get(type) + " " + type + " ";
+			text += loot.toString();
 		return text;
 	}
 

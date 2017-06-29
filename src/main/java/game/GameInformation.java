@@ -41,7 +41,6 @@ public class GameInformation{
 	private List<DevelopmentCard> developmentDeck;
 	private List<ExcommunicationTile> excommunicationDeck;
 	
-	private List<Player> playersTurn;
 	private List<Player> headPlayersTurn;
 	private List<Player> tailPlayersTurn;
 	
@@ -49,7 +48,6 @@ public class GameInformation{
 		this.game = game;
 		//this.board = game.getBoard();
 		discardedLeader = new HashMap<>();
-		playersTurn = new ArrayList<>();
 		headPlayersTurn = new ArrayList<>();
 		tailPlayersTurn = new ArrayList<>();
 		generateLeaderCard();
@@ -74,8 +72,12 @@ public class GameInformation{
 	public void newPhase(int age){
 		rollDices();
 		generateFamiliars();
-		//TODO CAMBIA LE CARTE IN BASE ALL'AGE
 		game.getBoard().clearPos();
+		System.out.println("xa " + developmentDeck.size());
+		game.getBoard().generateDevelopmentCards(developmentDeck, age);
+		System.out.println("ya " + developmentDeck.size());
+		System.out.println("ON CLOCK age: " + age);
+		game.setPlayers(getNextPlayersTurn());
 		//TODO CAMBIA L'ORDINE DI TURNO
 	}
 
@@ -115,6 +117,7 @@ public class GameInformation{
 	 * @return The new order of the players 
 	 */
 	public List<Player> getNextPlayersTurn(){
+		List<Player> playersTurn = new ArrayList<>(game.getPlayers());
 		List<Player> nextList = new ArrayList<>();
 		Consumer<Player> add = player -> nextList.add(player);
 		headPlayersTurn.forEach(add);
@@ -466,14 +469,6 @@ public class GameInformation{
 		leaderDeck.add(new LeaderCard("Pico della Mirandola", effect, requirement));
 		
 		Collections.shuffle(leaderDeck);
-	}
-
-	public List<Player> getPlayersTurn() {
-		return playersTurn;
-	}
-
-	public void setPlayersTurn(List<Player> playersTurn) {
-		this.playersTurn = playersTurn;
 	}
 
 	public List<Player> getHeadPlayersTurn() {

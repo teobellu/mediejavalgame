@@ -111,7 +111,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 
 	@Override
 	public boolean ask(String message) throws RemoteException {
-		return _ui.answerToAQuestion(message);
+		return _ui.askBoolean(message);
 	}
 
 	@Override
