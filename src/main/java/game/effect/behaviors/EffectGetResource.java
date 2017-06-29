@@ -28,6 +28,10 @@ public class EffectGetResource implements IEffectBehavior{
 		}
 	}
 
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref){
 		this.ref = ref;
 	}

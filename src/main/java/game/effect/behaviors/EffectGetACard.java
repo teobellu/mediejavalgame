@@ -54,6 +54,10 @@ public class EffectGetACard implements IEffectBehavior{
 		
 	}
 
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref){
 		player = ref.getPlayer();
 		effect = ref;

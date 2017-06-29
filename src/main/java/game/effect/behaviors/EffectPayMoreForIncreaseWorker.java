@@ -21,6 +21,10 @@ public class EffectPayMoreForIncreaseWorker implements IEffectBehavior{
 		applyTax();
 	}
 	
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref){
 		this.ref = ref;
 		normalPay = new Integer(0);

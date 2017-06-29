@@ -27,6 +27,10 @@ public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
 		setFamiliarsToModify();
 	}
 	
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref) {
 		familiarsToModify = new ArrayList<>();
 		familiarsToModify.addAll(ref.getPlayer().getFreeMember());

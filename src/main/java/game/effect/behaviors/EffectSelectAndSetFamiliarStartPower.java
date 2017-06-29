@@ -1,33 +1,61 @@
 package game.effect.behaviors;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import game.FamilyMember;
 import game.GC;
+import game.Messages;
 import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
 public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 	
-	private static final String MESSAGE = "Set familiar to value ";
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Message to send to the player
+	 */
 	private String message;
+	
+	/**
+	 * Owner of the effect
+	 */
 	private Player player;
-	private String typeOfFamiliar;		//parametri
+	
+	/**
+	 * Type of familiar to set
+	 */
+	private String typeOfFamiliar;
+	
+	/**
+	 * Power of familiar to set
+	 */
 	private Integer valueToSet;
 	
+	/**
+	 * Set of familiars that can be modify
+	 */
 	private List<FamilyMember> familiars;
+	
+	/**
+	 * Familiar selected by the player
+	 */
 	private FamilyMember familiarToModify;
 	
+	/**
+	 * Base constructor of EffectSelectAndSetFamiliarStartPower effect behavior
+	 * @param typeOfFamiliar Type of familiar to modify
+	 * @param valueToSet Value to set
+	 */
 	public EffectSelectAndSetFamiliarStartPower(String typeOfFamiliar, Integer valueToSet) {
 		this.typeOfFamiliar = typeOfFamiliar;
 		this.valueToSet = valueToSet;
@@ -45,15 +73,20 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 		setFamiliarsToModify();
 	}
 	
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref) {
 		player = ref.getPlayer();
-		//familiars = new ArrayList<>();
-		//familiars.addAll(ref.getPlayer().getFreeMember());
-		
 		familiars = player.getFreeMember();
-		message = MESSAGE + valueToSet;
+		message = Messages.MESS_SELECT_AND_SET_FAMILIAR + valueToSet;
 	}
 	
+	/**
+	 * Select a familiar from a set of familiars
+	 * @throws RemoteException Connection error problem
+	 */
 	private void selectFamiliarsToModify() throws RemoteException {
 		List<FamilyMember> filteredFamiliars = new ArrayList<>();
 		if (typeOfFamiliar == GC.FM_COLOR)
@@ -64,13 +97,15 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 			filteredFamiliars.addAll(familiars.stream()
 				.filter(fam -> fam.getColor() == GC.FM_TRANSPARENT)
 				.collect(Collectors.toList()));
-		//TODO select familiarToModify dentro la lista filteredFamiliars
 		if (filteredFamiliars.isEmpty())
 			return;
 		int index = player.getClient().getConnectionHandler().chooseFamiliar(filteredFamiliars, message);
 		familiarToModify = filteredFamiliars.get(index);
 	}
 	
+	/**
+	 * Modify the value of the familiar
+	 */
 	private void setFamiliarsToModify() {
 		if (familiarToModify == null)
 			return;

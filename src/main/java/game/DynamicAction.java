@@ -159,7 +159,7 @@ public class DynamicAction {
 	 * @param amount
 	 * @throws GameException
 	 */
-	public int increaseWorker () throws GameException{
+	public int increaseWorker (Resource actualCost) throws GameException{
 		int playerServants = player.getResource(GC.RES_SERVANTS);
 		int amount = 0;
 		if (playerServants == 0)
@@ -170,7 +170,7 @@ public class DynamicAction {
 			//TODO
 		}
 		int price = (Integer) activateEffect(amount, GC.WHEN_INCREASE_WORKER);
-		player.pay(new Resource(GC.RES_SERVANTS, price));
+		actualCost.add(new Resource(GC.RES_SERVANTS, price));
 		//familiar.setValue(familiar.getValue() + amount);TODO
 		return amount;
 	}
@@ -249,7 +249,7 @@ public class DynamicAction {
 		DevelopmentCard card = space.getCard();
 		if (card == null || player.getDevelopmentCards(card.toString()).size() == GC.MAX_DEVELOPMENT_CARDS)
 			throw new GameException();
-		value += increaseWorker();
+		int newValue = value + increaseWorker(cost);
 		cost.add(findTaxToPay(column));
 		
 		// qui dovrei chiedere al giocatore, se cost != null, se proseguire o no.
@@ -259,7 +259,12 @@ public class DynamicAction {
 		 */
 		int index = 0;
 		if(card.getCost().size() > 1){
-			//player.getClient().getConnectionHandler().chooseCost();
+			try {
+				index = player.getClient().getConnectionHandler().askInt("La carta selezionata ha più costi, quale vuoi?", 0, card.getCost().size()-1);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		//ma potrebbe avere anche 2 tipi di costo
 		//if (card.getCost.size > 1)...		
@@ -270,7 +275,8 @@ public class DynamicAction {
 		tryToPayRequirement(card.toString(), getDashboardRequirement(card));
 		
 		
-		Resource cardCost = card.getCost(index);
+		Resource cardCost = new Resource();
+		cardCost.add(card.getCost(index));
 		
 		System.out.println("a+ " + cardCost.toString());//TODO
 		
@@ -284,9 +290,9 @@ public class DynamicAction {
 		/**
 		 * DICE
 		 */
-		value = (Integer) activateEffect(value, card.toString(), GC.WHEN_FIND_VALUE_ACTION);
+		newValue = (Integer) activateEffect(newValue, card.toString(), GC.WHEN_FIND_VALUE_ACTION);
 		
-		if (value < space.getRequiredDiceValue()) 
+		if (newValue < space.getRequiredDiceValue()) 
 			throw new GameException();
 		
 		
@@ -451,6 +457,7 @@ public class DynamicAction {
 	 */
 	private void work (int power, String action, String cards){
 		int realActionPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
+		System.out.println("work powe = " + realActionPower + " whit start of " + power);
 		player.getDevelopmentCards(cards).stream()
 			.filter(card -> realActionPower >= card.getDice())
 			.forEach(card -> player.addEffect(card.getPermanentEffect()));

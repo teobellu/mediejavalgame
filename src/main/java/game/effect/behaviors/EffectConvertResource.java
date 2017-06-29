@@ -59,6 +59,10 @@ public class EffectConvertResource implements IEffectBehavior{
 		}
 	}
 	
+	/**
+	 * Initializes the behavior of the effect
+	 * @param ref Effect that possesses this behavior
+	 */
 	private void initializes(Effect ref){
 		player = ref.getPlayer();
 	}
@@ -88,6 +92,7 @@ public class EffectConvertResource implements IEffectBehavior{
 				realGainOptions.add(gainOptions.get(i));
 			} catch (GameException e) {
 				// TODO il giocatore non puo' converire perche' non ha le risorse necessarie
+				e.printStackTrace();
 			}
 		}
 	}
