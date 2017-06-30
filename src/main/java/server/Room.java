@@ -37,11 +37,10 @@ public class Room extends Thread {
 		/*https://stackoverflow.com/questions/19661047/java-convert-string-to-xml-and-parse-node*/
 		try {
 			Document doc;
-			if(!configFile.isEmpty()){
+			if(configFile!=null && !configFile.isEmpty()){
 				doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(configFile)));
 				System.out.println("Usato file custom");
 			} else {
-				//TODO usare il file di default
 				doc =  DocumentBuilderFactory.newInstance().newDocumentBuilder().parse("default_settings.xml");
 				System.out.println("Usato file di default");
 			}
@@ -49,6 +48,7 @@ public class Room extends Thread {
 			//TODO usare questo xml
 			
 		} catch (Exception e) {
+			
 			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		

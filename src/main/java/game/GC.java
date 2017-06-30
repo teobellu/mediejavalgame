@@ -68,6 +68,7 @@ public class GC{
 	public static final String COUNCIL_PALACE = "Council Palace";
 	public static final String TOWER = "Tower";
 	
+	//se cambi l'ordine di queste cose, da cambiare anche in PlaceFamiliarController.java
 	public static final List<String> SPACE_TYPE = Collections.unmodifiableList(
 			Arrays.asList(MARKET, HARVEST, PRODUCTION, COUNCIL_PALACE, TOWER));
 	
@@ -98,6 +99,9 @@ public class GC{
 	
 	public static final List<Resource> COUNCIL_REWARDS = Collections.unmodifiableList(
 		Arrays.asList(COUNCIL_REW1, COUNCIL_REW2, COUNCIL_REW3, COUNCIL_REW4, COUNCIL_REW5));
+	
+	public static final int NUMBER_OF_MARKET_DISTRICTS = 4;
+	public static final int TOWER_HEIGHT = 4;
 	
 	public static final String PLACE_FAMILIAR = "place familiar";
 	public static final String ACTIVATE_LEADER = "activate leader card";

@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 
 import client.UI;
 import exceptions.GameException;
-import game.FamilyMember;
 import game.GameBoard;
 import game.Player;
 import game.Position;
@@ -98,7 +97,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws GameException I can't place that familiar in that position
 	 * @throws RemoteException Remote connection error
 	 */
-	public abstract void placeFamiliar(FamilyMember familiar, Position position) throws GameException, RemoteException;
+	public abstract void placeFamiliar(String familiarColour, Position position) throws GameException, RemoteException;
 	
 	/**
 	 * Tells the server that I want to end my turn

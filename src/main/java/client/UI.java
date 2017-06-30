@@ -81,4 +81,6 @@ public interface UI extends Runnable{
 
 	public abstract void endTurn() throws RemoteException, GameException;
 	
+	public abstract void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException;
+	
 }

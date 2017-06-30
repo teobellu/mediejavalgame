@@ -137,6 +137,9 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			writeObject(CommandStrings.GAME_BOARD);
 			writeObject(board);
 		}
+		else if(str.equals(CommandStrings.ASK_FOR_CONFIG)){
+			_configFile = (String) getFromClient();
+		}
 		else if(str.equals(CommandStrings.PLAYER)){
 			Player player = _theGame.getCurrentPlayer();
 			writeObject(CommandStrings.PLAYER);

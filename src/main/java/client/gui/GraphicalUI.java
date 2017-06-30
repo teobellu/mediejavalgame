@@ -19,6 +19,7 @@ import game.FamilyMember;
 import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
+import game.Position;
 import game.Resource;
 import game.development.DevelopmentCard;
 import javafx.application.Application;
@@ -303,6 +304,11 @@ public class GraphicalUI implements UI {
 	public int askInt(String message, int min, int max) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	@Override
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException{
+		_connectionHandler.placeFamiliar(familiarColour, position);
 	}
 	
 	@Override

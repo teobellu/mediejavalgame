@@ -150,8 +150,8 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 
 	@Override
-	public void placeFamiliar(FamilyMember familiar, Position position) throws GameException, RemoteException {
-		_connectionHandler.placeFamiliar(familiar, position);
+	public void placeFamiliar(String familiarColour, Position position) throws GameException, RemoteException {
+		_connectionHandler.placeFamiliar(familiarColour, position);
 	}
 
 	@Override

@@ -117,8 +117,8 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public void placeFamiliar(FamilyMember familiar, Position position) throws RemoteException, GameException {
-		_theGame.getListener().placeFamiliar(familiar, position);
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException {
+		_theGame.getListener().placeFamiliar(familiarColour, position);
 	}
 
 	@Override

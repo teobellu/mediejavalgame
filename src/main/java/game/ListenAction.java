@@ -72,36 +72,35 @@ public class ListenAction{
 		actionsAlreadyDone.add(GC.ACTIVATE_LEADER);
 	}
 	
-	public void placeFamiliar(FamilyMember familiar, Position position) throws GameException {
+	public void placeFamiliar(String familiarColour, Position position) throws GameException {
 		if (actionsAlreadyDone.contains(GC.PLACE_FAMILIAR))
 			throw new GameException("You have already placed a familiar");
 		List<FamilyMember> freeMembers = _player.getFreeMember();
 		FamilyMember selection = null;
 		for (FamilyMember f : freeMembers){
-			if (f.getColor().equals(familiar.getColor())){
+			if (f.getColor().equals(familiarColour)){
 				selection = f;
 			}
 		}
 		if (selection == null){
 			throw new GameException("You can't place this familiar!");
 		}
-		familiar = selection;
 		
 		switch(position.getWhere()){
 			case GC.TOWER :
-				_theGame.getDynamicBar().placeInTower(familiar, position.getRow(), position.getColumn());
+				_theGame.getDynamicBar().placeInTower(selection, position.getRow(), position.getColumn());
 				break;
 			case GC.COUNCIL_PALACE :
-				_theGame.getDynamicBar().placeCouncilPalace(familiar);
+				_theGame.getDynamicBar().placeCouncilPalace(selection);
 				break;
 			case GC.HARVEST :
-				_theGame.getDynamicBar().placeWork(familiar, GC.HARVEST);
+				_theGame.getDynamicBar().placeWork(selection, GC.HARVEST);
 				break;
 			case GC.PRODUCTION :
-				_theGame.getDynamicBar().placeWork(familiar, GC.PRODUCTION);
+				_theGame.getDynamicBar().placeWork(selection, GC.PRODUCTION);
 				break;
 			case GC.MARKET :
-				_theGame.getDynamicBar().placeMarket(familiar, position.getRow());
+				_theGame.getDynamicBar().placeMarket(selection, position.getRow());
 				break;
 			default : throw new GameException("Invalid position");
 		}
