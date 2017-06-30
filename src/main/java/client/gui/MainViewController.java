@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import exceptions.GameException;
 import game.GC;
 import game.GameBoard;
+import game.LeaderCard;
 import game.Player;
 import game.Space;
 import game.development.DevelopmentCard;
@@ -17,8 +19,10 @@ import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -170,35 +174,47 @@ public class MainViewController {
 	
 	@FXML
 	private void onFirstButtonClicked(){
-		_GUI.showPlaceFamiliar(GraphicalUI.getInstance().placeFamiliar());
+		//TODO
 	}
 	
 	@FXML
 	private void onSecondButtonClicked(){
-		
+		//TODO
 	}
 	
 	@FXML
 	private void onThirdButtonClicked(){
-		_GUI.showDropLeaderDialog(
-				GraphicalUI.getInstance().dropLeaderCard());
+		List<String> leaders = new ArrayList<>();
+		List<LeaderCard> lead = GraphicalUI.getInstance().getMe().getLeaderCards();
+		
+		for(LeaderCard lc : lead){
+			leaders.add(lc.getName());
+		}
+		
+		_GUI.showDropLeaderDialog(leaders);
 	}
 	
 	@FXML
 	private void onFourthButtonClicked(){
 		try {
-			if(GraphicalUI.getInstance().getConnection().endTurn()){
-				//TODO finisci il turno?
-			}
+			GraphicalUI.getInstance().endTurn();
 		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
+		} catch (GameException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(_GUI.getPrimaryStage());
+			alert.setTitle("Cannot pass turn");
+			alert.setHeaderText("You cannot pass your turn yet");
+			alert.setContentText("You cannot do this. You must place a familiar first");
+			alert.showAndWait();
 		}
-		
 	}
 	
 	@FXML
 	private void onFifthButtonClicked(){
-		_GUI.showCardsInfoDialog();
+		Player me = GraphicalUI.getInstance().getMe();
+		_GUI.showCardsInfoDialog(me);
 	}
 	
 	public void startTurn(Player me, GameBoard board){

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
-import game.state.StatePlaceFamiliar;
 
 public class ListenAction{
 	
@@ -35,13 +34,13 @@ public class ListenAction{
 		return _player;
 	}
 	
-	public void dropLeaderCard(LeaderCard card) throws GameException{
+	public void dropLeaderCard(String leaderName) throws GameException{
 		LeaderCard selection = null;
 		List<LeaderCard> playerLeaders = _player.getLeaderCards();
 		List<String> playerLeadersNames = new ArrayList<>();
 		playerLeaders.forEach(leader -> playerLeadersNames.add(leader.getName()));
 		for (LeaderCard leader : playerLeaders){
-			if (leader.getName().equals(card.getName()))
+			if (leader.getName().equals(leaderName))
 				selection = leader;
 		}
 		if (selection == null)

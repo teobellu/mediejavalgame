@@ -405,7 +405,7 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void showWhatIHave(Player me) {
+	public void showWhatIHave(String myName) {
 		// TODO Auto-generated method stub
 		ModelPrinter.printMyLoot(me);
 	}

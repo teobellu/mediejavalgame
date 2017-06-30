@@ -122,7 +122,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.ASK_INT);
 			writeObject(i);
 		}
-		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER)){
+		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER+
+				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD)){
 			synchronized (_returnObject) {
 				_returnObject.notify();
 				_returnObject = getFromServer();
@@ -225,7 +226,19 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
 	@Override
 	public void endTurn() throws RemoteException, GameException {
-		writeObject(CommandStrings.END_TURN);
+		try {
+			writeObject(CommandStrings.END_TURN);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			if(_returnObject.equals(CommandStrings.ERROR)){
+				throw new GameException();
+			}
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 	
 	public GameBoard getBoard(){
@@ -266,9 +279,21 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public void dropLeaderCard(LeaderCard card) throws GameException, RemoteException {
-		writeObject(CommandStrings.DROP_LEADER_CARD);
-		writeObject(card);
+	public void dropLeaderCard(String leaderName) throws GameException, RemoteException {
+		try {
+			writeObject(CommandStrings.DROP_LEADER_CARD);
+			writeObject(leaderName);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			if(_returnObject.equals(CommandStrings.ERROR)){
+				throw new GameException();
+			}
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
 	@Override

@@ -1,8 +1,10 @@
 package client;
 
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
+import exceptions.GameException;
 import game.*;
 import game.development.*;
 
@@ -16,7 +18,7 @@ public interface UI extends Runnable{
 
 	public void showBoard(GameBoard board);
 	
-	public void showWhatIHave(Player me);
+	public void showWhatIHave(String myName);
 	
 	public void notifyPutFamiliar(FamilyMember familiar);
 	
@@ -72,6 +74,11 @@ public interface UI extends Runnable{
 	public void startTurn(GameBoard board, Player me);
 
 	public int askInt(String message, int min, int max);
+
+	void addMeToGame(String username) throws GameException;
 	
+	public abstract void dropLeaderCard(String leaderName) throws RemoteException, GameException;
+
+	public abstract void endTurn() throws RemoteException, GameException;
 	
 }

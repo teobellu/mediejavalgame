@@ -140,8 +140,8 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 
 	@Override
-	public void dropLeaderCard(LeaderCard card) throws GameException, RemoteException {
-		_connectionHandler.dropLeaderCard(card);
+	public void dropLeaderCard(String leaderName) throws GameException, RemoteException {
+		_connectionHandler.dropLeaderCard(leaderName);
 	}
 
 	@Override

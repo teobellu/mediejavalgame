@@ -284,12 +284,12 @@ public class GUI extends Application {
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(GUI.class.getResource("/client/gui/DropLeaderDialog.fxml"));
 				AnchorPane pane = loader.load();
-
+					
 				Stage dialog = setupDialog(pane, "Drop Leader Card");
-
+				
 				DropLeaderController controller = loader.getController();
 				controller.setLeaderList(leaders);
-
+				
 				dialog.showAndWait();
 			}
 		} catch (Exception e) {
@@ -297,7 +297,7 @@ public class GUI extends Application {
 		}
 	}
 
-	public void showCardsInfoDialog() {
+	public void showCardsInfoDialog(Player me) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/CardsInfoDialog.fxml"));
@@ -307,9 +307,9 @@ public class GUI extends Application {
 
 			CardsInfoController controller = loader.getController();
 			controller.setDialog(dialog);
-
+			controller.setPlayer(me);
+			
 			dialog.showAndWait();
-
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}

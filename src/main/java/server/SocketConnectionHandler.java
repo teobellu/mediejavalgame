@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
 import game.LeaderCard;
@@ -88,7 +89,18 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			writeObject(Server.getInstance().addMeToGame(this, name));
 		} 
 		else if (str.equals(CommandStrings.DROP_LEADER_CARD)) {
-			//TODO
+			String leaderName = (String) getFromClient();
+			try {
+				synchronized (this) {
+					_theGame.getListener().dropLeaderCard(leaderName);
+				}
+				
+				writeObject(CommandStrings.DROP_LEADER_CARD);
+				writeObject(CommandStrings.SUCCESS);
+			} catch (GameException e) {
+				writeObject(CommandStrings.DROP_LEADER_CARD);
+				writeObject(CommandStrings.ERROR);
+			}
 		} 
 		else if(str.equals(CommandStrings.ACTIVATE_LEADER_CARD)){
 			//TODO
@@ -97,7 +109,17 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			//TODO
 		}
 		else if(str.equals(CommandStrings.END_TURN)){
-			//TODO
+			try {
+				synchronized (this) {
+					_theGame.getListener().endTurn();
+				}
+				
+				writeObject(CommandStrings.END_TURN);
+				writeObject(CommandStrings.SUCCESS);
+			} catch (GameException e) {
+				writeObject(CommandStrings.END_TURN);
+				writeObject(CommandStrings.ERROR);
+			}
 		}
 		else if(str.equals(CommandStrings.GAME_BOARD)){
 			GameBoard board = _theGame.getBoard();

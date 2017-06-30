@@ -3,12 +3,9 @@ package server;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
@@ -110,8 +107,8 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public void dropLeaderCard(LeaderCard card) throws RemoteException, GameException {
-		_theGame.getListener().dropLeaderCard(card);
+	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
+		_theGame.getListener().dropLeaderCard(leaderName);
 	}
 
 	@Override

@@ -37,6 +37,7 @@ public final class CommandStrings {
 	
 	public static final String HANDLE_COUNCIL = "handle_council";
 	
+	public static final String SUCCESS = "success";
 	public static final String ERROR = "error";
 	
 	public static final String INITIAL_PERSONAL_BONUS = "initial_personal_bonus";
