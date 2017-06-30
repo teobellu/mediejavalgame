@@ -525,7 +525,7 @@ public class DynamicAction {
 	 * @param age TODO, non dovrebbe ricevere in input niente
 	 */
 	public void dontShowVaticanSupport(int age){
-		ExcommunicationTile tile = game.getBoard().getExCard()[age];
+		ExcommunicationTile tile = game.getBoard().getExCard()[age - 1];
 		Effect malus = tile.getEffect();
 		player.addEffect(malus);
 		//TODO GUI ?

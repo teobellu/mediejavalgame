@@ -62,11 +62,11 @@ public class GC{
 	public static final List<String> FM_TYPE = Collections.unmodifiableList(
 			Arrays.asList(FM_BLACK, FM_WHITE, FM_ORANGE, FM_TRANSPARENT));
 	
-	public static final String MARKET = "Market";
-	public static final String HARVEST = "Harvest";
-	public static final String PRODUCTION = "Production";
-	public static final String COUNCIL_PALACE = "Council Palace";
-	public static final String TOWER = "Tower";
+	public static final String MARKET = "market";
+	public static final String HARVEST = "harvest";
+	public static final String PRODUCTION = "production";
+	public static final String COUNCIL_PALACE = "council_palace";
+	public static final String TOWER = "tower";
 	
 	//se cambi l'ordine di queste cose, da cambiare anche in PlaceFamiliarController.java
 	public static final List<String> SPACE_TYPE = Collections.unmodifiableList(

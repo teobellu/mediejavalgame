@@ -15,10 +15,6 @@ public interface UI extends Runnable{
 	public void showInfo(String str);
 		
 	public void setConnection(String connectionType, String host, int port);
-
-	public void showBoard(GameBoard board);
-	
-	public void showWhatIHave(String myName);
 	
 	public void notifyPutFamiliar(FamilyMember familiar);
 	

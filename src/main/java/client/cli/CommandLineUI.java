@@ -181,7 +181,7 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
 		try {
-			_connectionHandler.activateLeaderCard(myLeaders.get(selection));
+			_connectionHandler.activateLeaderCard(myLeaders.get(selection).getName());
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
@@ -203,7 +203,7 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
 		try {
-			_connectionHandler.dropLeaderCard(myLeaders.get(selection));
+			_connectionHandler.dropLeaderCard(myLeaders.get(selection).getName());
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
@@ -347,12 +347,6 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void showBoard(GameBoard board) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void notifyPutFamiliar(FamilyMember familiar) {
 		// TODO Auto-generated method stub
 		
@@ -376,18 +370,7 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printCard(card);
 		return _ioHandler.readNumberWithinInterval(card.getCost().size() - 1);
 	}
-	
 
-	@Override
-	public boolean activateLeaderCard(LeaderCard card) {
-		// TODO Auto-generated method stub
-		
-		List<LeaderCard> cards = new ArrayList<>();
-		List<String> names = new ArrayList<>();
-		cards.forEach(carta -> names.add(carta.getName()));
-		
-		return false;
-	}
 
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
@@ -405,16 +388,32 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void showWhatIHave(String myName) {
-		// TODO Auto-generated method stub
-		ModelPrinter.printMyLoot(me);
-	}
-
-	@Override
 	public int askInt(String message, int min, int max) {
 		_ioHandler.write("Answer to this!");
 		_ioHandler.write(message + ". Answer from " + min + " to " + max);
 		return _ioHandler.readNumberWithinInterval(min, max);
+	}
+
+	@Override
+	public void addMeToGame(String username) throws GameException {
+		try {
+			getConnection().addMeToGame(username);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

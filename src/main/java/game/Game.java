@@ -127,7 +127,18 @@ public class Game implements Runnable {
 			System.out.println("");
 		}
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
-		gameInformation.setExcommunicationTitlesOnBoard();
+		
+		gameInformation.getExcommunicationDeck().get(12);
+		
+		ExcommunicationTile[] delay = new ExcommunicationTile[3];
+		delay[0] = gameInformation.getExcommunicationDeck().get(12);
+		delay[1] = gameInformation.getExcommunicationDeck().get(12);
+		delay[2] = gameInformation.getExcommunicationDeck().get(12);
+		
+		//gameInformation.setExcommunicationTitlesOnBoard();
+		
+		
+		_board.setExCard(delay);
 		
 		int n = 5;
 		for (Player p : _players){
