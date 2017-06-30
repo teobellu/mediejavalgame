@@ -42,7 +42,7 @@ public interface UI extends Runnable{
 	public int chooseCardCost(DevelopmentCard card);
 
 	//scegli se attivare una carta
-	public boolean activateLeaderCard(LeaderCard card);
+	public void activateLeaderCard(String leaderName) throws RemoteException, GameException;
 
 	/**
 	 * Show a message and allows the player to choose a familiar from a list

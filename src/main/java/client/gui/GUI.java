@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.FamilyMember;
 import game.GameBoard;
+import game.LeaderCard;
 import game.Player;
 import game.Resource;
 import javafx.application.Application;
@@ -30,6 +32,11 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
+		//TODO settare dimensioni massime per stare dentro schermo 1440 * 900
+		//TODO settare dimensioni massime per stare dentro schermo 1440 * 900
+		//TODO settare dimensioni massime per stare dentro schermo 1440 * 900
+		//TODO settare dimensioni massime per stare dentro schermo 1440 * 900
+		
 		_primaryStage = primaryStage;
 		_primaryStage.setTitle("Lorenzo il Magnifico");
 		_primaryStage.setResizable(false);
@@ -315,7 +322,7 @@ public class GUI extends Application {
 		}
 	}
 	
-	public void showPlaceFamiliar(List<String> familyMembers){
+	public void showPlaceFamiliar(GameBoard board, List<FamilyMember> familiars){
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/PlaceFamiliarDialog.fxml"));
@@ -326,11 +333,29 @@ public class GUI extends Application {
 			PlaceFamiliarController controller = loader.getController();
 			controller.setDialog(dialog);
 			controller.setGUI(this);
-			controller.setFamilyMembers(familyMembers);
+			controller.setBoardAndFamiliars(board, familiars);
 			
 			dialog.showAndWait();
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	public void showActivateLeaderDialog(List<LeaderCard> leaderCards){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/ActivateLeaderDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose Leader");
+			
+			ActivateLeaderController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setLeaders(leaderCards);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			// TODO: handle exception
 		}
 	}
 	

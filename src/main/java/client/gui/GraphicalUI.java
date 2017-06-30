@@ -226,9 +226,8 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public boolean activateLeaderCard(LeaderCard card) {
-		// TODO Auto-generated method stub
-		return false;
+	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
+		_connectionHandler.activateLeaderCard(leaderName);
 	}
 
 	@Override

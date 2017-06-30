@@ -55,13 +55,13 @@ public class ListenAction{
 		actionsAlreadyDone.add(GC.DROP_LEADER);
 	}
 	
-	public void activateLeaderCard(LeaderCard card) throws GameException {
+	public void activateLeaderCard(String leaderName) throws GameException {
 		LeaderCard selection = null;
 		List<LeaderCard> activableLeaders = _player.getActivableLeaderCards();
 		List<String> playerLeadersNames = new ArrayList<>();
 		activableLeaders.forEach(leader -> playerLeadersNames.add(leader.getName()));
 		for (LeaderCard leader : activableLeaders){
-			if (leader.getName().equals(card.getName()))
+			if (leader.getName().equals(leaderName))
 				selection = leader;
 		}
 		if (selection == null)
