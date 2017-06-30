@@ -1,5 +1,6 @@
 package game.effect.behaviors;
 
+import exceptions.GameException;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
@@ -59,7 +60,12 @@ public class EffectWork implements IEffectBehavior{
 	 * Performs a dynamic work action
 	 */
 	private void performWork() {
-		effect.getBar().launchesWork(value, action);
+		try {
+			effect.getBar().launchesWork(value, action);
+		} catch (GameException e) {
+			// TODO Auto-generated catch block Stai facendo lavoro a potere 0
+			e.printStackTrace();
+		}
 	}
 	
 	/**

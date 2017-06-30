@@ -21,7 +21,7 @@ public class EffectIncreaseActionPower implements IEffectBehavior{
 	@Override
 	public void effect(Effect ref) {
 		initializes(ref);
-		if(action != ref.getToScan()) 
+		if(!action.equals(ref.getToScan())) 
 			return;
 		establishTax();
 		payTax();

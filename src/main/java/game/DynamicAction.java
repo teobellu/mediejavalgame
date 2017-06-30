@@ -429,8 +429,10 @@ public class DynamicAction {
 		Space space = findCorrectWorkSpace(familiar, action);
 		player.addEffect(space.getInstantEffect());
 		int newPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
-		if (newPower < Math.max(space.getRequiredDiceValue(),1)) 
+		if (newPower < Math.max(space.getRequiredDiceValue(),1)){
+			player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
 			throw new GameException();
+		}
 		launchesWork(power, action);
 		endAction(familiar, space);
 	}
@@ -441,8 +443,9 @@ public class DynamicAction {
 	 * Then, perform the work action; In that example the production action
 	 * @param power Value of the action
 	 * @param action Type of action
+	 * @throws GameException 
 	 */
-	public void launchesWork(Integer power, String action){
+	public void launchesWork(Integer power, String action) throws GameException{
 		switch(action){
 			case GC.HARVEST : work(power, action, GC.DEV_TERRITORY); 
 				break;
@@ -457,14 +460,20 @@ public class DynamicAction {
 	 * @param power Value of the action
 	 * @param action Type of action
 	 * @param cards Type of cards, generally chosen by launchesWork method
+	 * @throws GameException 
 	 */
-	private void work (int power, String action, String cards){
+	private void work (int power, String action, String cards) throws GameException{
 		int realActionPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
 		System.out.println("work powe = " + realActionPower + " whit start of " + power);
+		if (realActionPower < 1){
+			player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
+			throw new GameException();
+		}
 		player.getDevelopmentCards(cards).stream()
 			.filter(card -> realActionPower >= card.getDice())
 			.forEach(card -> player.addEffect(card.getPermanentEffect()));
 		player.gain(player.getBonus(action));
+		player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
 	}
 	
 	/**

@@ -82,7 +82,7 @@ public class EffectGetACard implements IEffectBehavior{
 	}
 	
 	private void selectCard() throws RemoteException {
-		if (GC.DEV_TYPES.contains(typeOfCard))
+		if (GC.DEV_TYPES.contains(typeOfCard))//TODO CONTAINS FUNZIONA COME EQUALs?
 			column = GC.DEV_TYPES.indexOf(typeOfCard);
 		else{
 			column = player.getClient().getConnectionHandler().askInt(MESS_COLUMN, 0, GameBoard.MAX_COLUMN - 1);
