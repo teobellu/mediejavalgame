@@ -181,7 +181,7 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
 		try {
-			_connectionHandler.activateLeaderCard(myLeaders.get(selection));
+			_connectionHandler.activateLeaderCard(myLeaders.get(selection).getName());
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
@@ -370,18 +370,7 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printCard(card);
 		return _ioHandler.readNumberWithinInterval(card.getCost().size() - 1);
 	}
-	
 
-	@Override
-	public boolean activateLeaderCard(LeaderCard card) {
-		// TODO Auto-generated method stub
-		
-		List<LeaderCard> cards = new ArrayList<>();
-		List<String> names = new ArrayList<>();
-		cards.forEach(carta -> names.add(carta.getName()));
-		
-		return false;
-	}
 
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
@@ -407,12 +396,22 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public void addMeToGame(String username) throws GameException {
+		try {
+			getConnection().addMeToGame(username);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
+	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
 		// TODO Auto-generated method stub
 		
 	}
