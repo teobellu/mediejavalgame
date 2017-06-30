@@ -3,7 +3,6 @@ package misc;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 import exceptions.GameException;
 import game.FamilyMember;
@@ -31,7 +30,7 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	
 	public Player getMe() throws RemoteException;
 	
-	public void dropLeaderCard(LeaderCard card) throws RemoteException, GameException;
+	public void dropLeaderCard(String leaderName) throws RemoteException, GameException;
 
 	public void activateLeaderCard(LeaderCard card) throws RemoteException, GameException;
 

@@ -83,7 +83,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws GameException I can't discard this card
 	 * @throws RemoteException Remote connection error
 	 */
-	public abstract void dropLeaderCard(LeaderCard card) throws GameException, RemoteException;
+	public abstract void dropLeaderCard(String leaderName) throws GameException, RemoteException;
 	
 	/**
 	 * Tells the server that I want to activate a Leader Card

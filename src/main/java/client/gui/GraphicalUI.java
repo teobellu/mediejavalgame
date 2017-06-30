@@ -124,26 +124,7 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public List<String> dropLeaderCard(){
-		List<String> leaders = new ArrayList<>();
-		try {
-			leaders = _connectionHandler.dropLeaderCard();
-		} catch (RemoteException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		return leaders;
-	}
-	
-	//TODO override?
-	public void dropWhichLeaderCard(String leader){
-		try {
-			_connectionHandler.dropWhichLeaderCard(leader);
-		} catch (RemoteException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-	
-	public void addMeToGame(String username) throws GameException {// TODO override?
+	public void addMeToGame(String username) throws GameException {
 		try {
 			if(!_connectionHandler.addMeToGame(username)){
 				throw new GameException("Name already taken");
@@ -192,9 +173,14 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public void showWhatIHave(Player me) {
-		// TODO Auto-generated method stub
-		
+	public void showWhatIHave(String myName) {
+		try {
+			Player me = _connectionHandler.getMe();
+			//TODO
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -313,20 +299,20 @@ public class GraphicalUI implements UI {
 			return returned;
 		}
 	}
-	
-	@Override
-	public boolean endTurn() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	public List<String> placeFamiliar(){
-		
-	}
 
 	@Override
 	public int askInt(String message, int min, int max) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	@Override
+	public void dropLeaderCard(String leaderName) throws RemoteException, GameException{
+		_connectionHandler.dropLeaderCard(leaderName);
+	}
+	
+	@Override
+	public void endTurn() throws RemoteException, GameException{
+		_connectionHandler.endTurn();
 	}
 }
