@@ -1,13 +1,11 @@
 package client.network;
 
 import java.rmi.RemoteException;
-import java.util.List;
 
 import client.UI;
 import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
-import game.LeaderCard;
 import game.Player;
 import game.Position;
 
@@ -91,7 +89,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws GameException I can't activate this card
 	 * @throws RemoteException Remote connection error
 	 */
-	public abstract void activateLeaderCard(LeaderCard card) throws GameException, RemoteException;
+	public abstract void activateLeaderCard(String leaderName) throws GameException, RemoteException;
 	
 	/**
 	 * Tells the server that I want to place a familiar

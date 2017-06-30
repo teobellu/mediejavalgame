@@ -7,7 +7,6 @@ import java.rmi.RemoteException;
 import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
-import game.LeaderCard;
 import game.Player;
 import game.Position;
 
@@ -32,7 +31,7 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	
 	public void dropLeaderCard(String leaderName) throws RemoteException, GameException;
 
-	public void activateLeaderCard(LeaderCard card) throws RemoteException, GameException;
+	public void activateLeaderCard(String leaderName) throws RemoteException, GameException;
 
 	public void placeFamiliar(FamilyMember familiar, Position position) throws RemoteException, GameException;
 	

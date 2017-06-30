@@ -123,7 +123,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(i);
 		}
 		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER+
-				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD)){
+				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD+
+				"|"+CommandStrings.ACTIVATE_LEADER_CARD)){
 			synchronized (_returnObject) {
 				_returnObject.notify();
 				_returnObject = getFromServer();
@@ -227,6 +228,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public void endTurn() throws RemoteException, GameException {
 		try {
+			_returnObject = new Object();
+			
 			writeObject(CommandStrings.END_TURN);
 			
 			synchronized (_returnObject) {
@@ -243,6 +246,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	
 	public GameBoard getBoard(){
 		try {
+			_returnObject = new Object();
+			
 			writeObject(CommandStrings.GAME_BOARD);
 			
 			synchronized (_returnObject) {
@@ -262,6 +267,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public Player getMe() throws RemoteException {
 		try{
+			_returnObject = new Object();
+			
 			writeObject(CommandStrings.PLAYER);
 			
 			synchronized (_returnObject) {
@@ -281,6 +288,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public void dropLeaderCard(String leaderName) throws GameException, RemoteException {
 		try {
+			_returnObject = new Object();
 			writeObject(CommandStrings.DROP_LEADER_CARD);
 			writeObject(leaderName);
 			
@@ -297,9 +305,22 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public void activateLeaderCard(LeaderCard card) throws GameException, RemoteException {
-		writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
-		writeObject(card);
+	public void activateLeaderCard(String leaderName) throws GameException, RemoteException {
+		try {
+			_returnObject = new Object();
+			writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
+			writeObject(leaderName);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			if(_returnObject.equals(CommandStrings.ERROR)){
+				throw new GameException();
+			}
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
 	@Override
@@ -307,6 +328,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		writeObject(CommandStrings.PLACE_FAMILIAR);
 		writeObject(familiar);
 		writeObject(position);
+		
+		//TODO
 	}
 
 	private Object _returnObject = new Object();

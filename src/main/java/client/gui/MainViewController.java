@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
+import game.FamilyMember;
 import game.GC;
 import game.GameBoard;
 import game.LeaderCard;
@@ -174,12 +175,16 @@ public class MainViewController {
 	
 	@FXML
 	private void onFirstButtonClicked(){
-		//TODO
+		Player me = GraphicalUI.getInstance().getMe();
+		List<LeaderCard> leaderCards = me.getLeaderCards();
+		_GUI.showActivateLeaderDialog(leaderCards);
 	}
 	
 	@FXML
 	private void onSecondButtonClicked(){
-		//TODO
+		GameBoard board = GraphicalUI.getInstance().getBoard();
+		List<FamilyMember> familiars = GraphicalUI.getInstance().getMe().getFreeMember();
+		_GUI.showPlaceFamiliar(board, familiars);
 	}
 	
 	@FXML

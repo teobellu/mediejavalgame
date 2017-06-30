@@ -64,13 +64,24 @@ public class CardsInfoController extends DialogAbstractController{
 		if(_isArrowClicked){
 			_arrowButton.setText(">");
 			_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom1.jpg").toURI().toString()));
-			//TODO mostrare immagini corrette
+			
+			List<DevelopmentCard> territoryCards = _player.getDevelopmentCards(GC.DEV_TERRITORY);
+			List<DevelopmentCard> buildingCards = _player.getDevelopmentCards(GC.DEV_BUILDING);
+			
+			setCardImages(0, territoryCards);
+			setCardImages(1, buildingCards);
 			
 			_isArrowClicked = false;
 		} else {
 			_arrowButton.setText("<");
 			_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom2.jpg").toURI().toString()));
-			//TODO mostrare immagini corrette
+			
+			List<DevelopmentCard> characterCards = _player.getDevelopmentCards(GC.DEV_CHARACTER);
+			List<DevelopmentCard> achievementCards = _player.getDevelopmentCards(GC.DEV_VENTURE);
+			
+			setCardImages(0, characterCards);
+			setCardImages(1, achievementCards);
+			
 			_isArrowClicked = true;
 		}
 	}

@@ -103,7 +103,18 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			}
 		} 
 		else if(str.equals(CommandStrings.ACTIVATE_LEADER_CARD)){
-			//TODO
+			String leaderName = (String) getFromClient();
+			try {
+				synchronized (this) {
+					_theGame.getListener().activateLeaderCard(leaderName);
+				}
+				
+				writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
+				writeObject(CommandStrings.SUCCESS);
+			} catch (GameException e) {
+				writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
+				writeObject(CommandStrings.ERROR);
+			}
 		}
 		else if(str.equals(CommandStrings.PLACE_FAMILIAR)){
 			//TODO

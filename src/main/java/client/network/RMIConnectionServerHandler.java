@@ -145,8 +145,8 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 
 	@Override
-	public void activateLeaderCard(LeaderCard card) throws GameException, RemoteException {
-		_connectionHandler.activateLeaderCard(card);
+	public void activateLeaderCard(String leaderName) throws GameException, RemoteException {
+		_connectionHandler.activateLeaderCard(leaderName);
 	}
 
 	@Override
