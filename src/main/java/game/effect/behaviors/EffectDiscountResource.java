@@ -85,10 +85,7 @@ public class EffectDiscountResource implements IEffectBehavior{
 		if (discountResource == null)
 			return "Nothing";
 		String text = "Get a discout of ";
-		for (String type : GC.RES_TYPES){
-			if (discountResource.get(type) > 0)
-				text += discountResource.get(type) + " " + type + " ";
-		}
+		text += discountResource.toString();
 		if (actions == null)
 			return text;
 		text += "when you perform action: ";

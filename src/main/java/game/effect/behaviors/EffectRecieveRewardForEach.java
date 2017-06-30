@@ -57,7 +57,7 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	
 	private void establishReward(){
 		GC.DEV_TYPES.stream()
-			.filter(type -> type == card)
+			.filter(type -> type.equals(card))
 			.forEach(type -> count += player.getDevelopmentCards(type).size());
 		GC.RES_TYPES.stream()
 			.filter(type -> player.getResource(type) > 0 && loot.get(type) > 0)

@@ -198,6 +198,11 @@ public abstract class ModelPrinter {
 		me.getFreeMember()
 			.forEach(fam -> _ioHandler.writeNext(fam.getColor() + " with power " + fam.getValue()));
 		
+		//permanent effects
+		_ioHandler.write("\n*****Effects: ");
+		me.getEffects()
+			.forEach(eff -> _ioHandler.write(eff.getIEffectBehavior().toString()));
+		
 	}
 	
 	/**

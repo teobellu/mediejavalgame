@@ -115,6 +115,7 @@ public class ListenAction{
 		if (actionsAlreadyDone.contains(GC.END_TURN))
 			throw new GameException("You have already ended turn");
 		_theGame.getState().nextState();
+		_player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
 		//TODO avviso il player che è tutto ok
 		//TODO avviso gli altri player
 		actionsAlreadyDone.clear();

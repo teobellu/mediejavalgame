@@ -67,11 +67,11 @@ public class EffectSetFamiliarStartPower implements IEffectBehavior{
 	private void setFamiliarsToModify() {
 		if (typeOfFamiliar == GC.FM_COLOR)
 			familiarsToModify.stream()
-				.filter(fam -> fam.getColor() != GC.FM_TRANSPARENT)
+				.filter(fam -> !fam.getColor().equals(GC.FM_TRANSPARENT))
 				.forEach(fam -> fam.setValue(Math.max(0, valueToSet)));
 		if (typeOfFamiliar == GC.FM_TRANSPARENT)
 			familiarsToModify.stream()
-				.filter(fam -> fam.getColor() == GC.FM_TRANSPARENT)
+				.filter(fam -> fam.getColor().equals(GC.FM_TRANSPARENT))
 				.forEach(fam -> fam.setValue(Math.max(0, valueToSet)));
 	}
 	

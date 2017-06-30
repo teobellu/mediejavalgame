@@ -91,11 +91,11 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 		List<FamilyMember> filteredFamiliars = new ArrayList<>();
 		if (typeOfFamiliar == GC.FM_COLOR)
 			filteredFamiliars.addAll(familiars.stream()
-				.filter(fam -> fam.getColor() != GC.FM_TRANSPARENT)
+				.filter(fam -> !fam.getColor().equals(GC.FM_TRANSPARENT))
 				.collect(Collectors.toList()));
 		if (typeOfFamiliar == GC.FM_TRANSPARENT)
 			filteredFamiliars.addAll(familiars.stream()
-				.filter(fam -> fam.getColor() == GC.FM_TRANSPARENT)
+				.filter(fam -> fam.getColor().equals(GC.FM_TRANSPARENT))
 				.collect(Collectors.toList()));
 		if (filteredFamiliars.isEmpty())
 			return;
