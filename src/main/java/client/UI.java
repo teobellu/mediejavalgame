@@ -16,9 +16,9 @@ public interface UI extends Runnable{
 		
 	public void setConnection(String connectionType, String host, int port);
 	
-	public void notifyPutFamiliar(FamilyMember familiar);
+	public void info(String info);
 	
-	public void notifyDiscardLeaderCard(String playerName, String card);
+	public void infoWithBoardUpdate(String info, GameBoard board);
 	
 	/**
 	 * Allows the player to select an initial leader card

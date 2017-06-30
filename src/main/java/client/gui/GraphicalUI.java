@@ -169,18 +169,6 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public void notifyPutFamiliar(FamilyMember familiar) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void notifyDiscardLeaderCard(String playerName, String card) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public int selectInitialLeaders(List<LeaderCard> leaders) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -303,5 +291,17 @@ public class GraphicalUI implements UI {
 	@Override
 	public void endTurn() throws RemoteException, GameException{
 		_connectionHandler.endTurn();
+	}
+
+	@Override
+	public void info(String info) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void infoWithBoardUpdate(String info, GameBoard board) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -82,13 +82,6 @@ public class Game implements Runnable {
 //		winners.forEach(player -> player.getClient().getConnectionHandler().sendToClient("GG U WIN"));
 	}
 
-	//x sonar
-	private void cycleState(){
-		//for(_phase = 0;_phase<_players.size();_phase++)
-			//while(_state!=null)
-				//_state = _state.doState();
-	}
-
 	public boolean isOver() {
 		return _isOver;
 	}
@@ -115,8 +108,6 @@ public class Game implements Runnable {
 		Collections.shuffle(_players);
 		
 		setupLeaderCards();
-		
-		
 		
 		for (DevelopmentCard c : gameInformation.getDevelopmentDeck()){
 			System.out.print(c.getName() +  " " + c.getAge() + " dice: " + c.getDice() + " ");
@@ -153,12 +144,9 @@ public class Game implements Runnable {
 		
 		setupDashboardBonus();
 		
-		
 		_state = new StateStartingTurn(this);
 		_state.setupState();
 		_listener = new ListenAction(this);
-		
-
 	}
 	
 	public void setNewCards(){
