@@ -169,22 +169,6 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public void showBoard(GameBoard board) {
-		_returnObject = board;
-	}
-
-	@Override
-	public void showWhatIHave(String myName) {
-		try {
-			Player me = _connectionHandler.getMe();
-			//TODO
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@Override
 	public void notifyPutFamiliar(FamilyMember familiar) {
 		// TODO Auto-generated method stub
 		

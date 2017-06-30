@@ -15,6 +15,7 @@ import game.FamilyMember;
 import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
+import game.Position;
 import game.Resource;
 import util.CommandStrings;
 
@@ -87,7 +88,21 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			String name = (String) getFromClient();
 			writeObject(CommandStrings.ADD_TO_GAME);
 			writeObject(Server.getInstance().addMeToGame(this, name));
-		} 
+		}
+		else if(str.equals(CommandStrings.PLACE_FAMILIAR)){
+			String familiarName = (String) getFromClient();
+			Position position = (Position) getFromClient();
+			try {
+				synchronized (this) {
+					_theGame.getListener().placeFamiliar(familiarName, position);
+				}
+				writeObject(CommandStrings.PLACE_FAMILIAR);
+				writeObject(CommandStrings.SUCCESS);
+			} catch (GameException e) {
+				writeObject(CommandStrings.PLACE_FAMILIAR);
+				writeObject(CommandStrings.ERROR);
+			}
+		}
 		else if (str.equals(CommandStrings.DROP_LEADER_CARD)) {
 			String leaderName = (String) getFromClient();
 			try {
@@ -152,6 +167,8 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				_returnObject.notify();
 				_returnObject = (int) getFromClient();
 			}
+		} else {
+			_log.log(Level.SEVERE, "\n###RICEVUTO COMANDO SCONOSCIUTO###\n");
 		}
 	}
 

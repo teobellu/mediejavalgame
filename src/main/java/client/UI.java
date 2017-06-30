@@ -39,7 +39,7 @@ public interface UI extends Runnable{
 
 	//scegli se attivare una carta
 	public void activateLeaderCard(String leaderName) throws RemoteException, GameException;
-
+	
 	/**
 	 * Show a message and allows the player to choose a familiar from a list
 	 * @param familiars List of family members

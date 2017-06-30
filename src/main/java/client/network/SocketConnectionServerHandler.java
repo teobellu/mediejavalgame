@@ -124,11 +124,13 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER+
 				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD+
-				"|"+CommandStrings.ACTIVATE_LEADER_CARD)){
+				"|"+CommandStrings.ACTIVATE_LEADER_CARD+"|"+CommandStrings.PLACE_FAMILIAR)){
 			synchronized (_returnObject) {
 				_returnObject.notify();
 				_returnObject = getFromServer();
 			}
+		}else{
+			_log.log(Level.SEVERE, "\n###RICEVUTO COMANDO SCONOSCIUTO###\n");
 		}
 	}
 	
@@ -324,12 +326,22 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public void placeFamiliar(FamilyMember familiar, Position position) throws GameException, RemoteException {
-		writeObject(CommandStrings.PLACE_FAMILIAR);
-		writeObject(familiar);
-		writeObject(position);
-		
-		//TODO
+	public void placeFamiliar(String familiarName, Position position) throws GameException, RemoteException {
+		try {
+			writeObject(CommandStrings.PLACE_FAMILIAR);
+			writeObject(familiarName);
+			writeObject(position);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			if(_returnObject.equals(CommandStrings.ERROR)){
+				throw new GameException();
+			}
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
 	private Object _returnObject = new Object();

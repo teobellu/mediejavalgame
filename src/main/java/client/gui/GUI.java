@@ -355,7 +355,7 @@ public class GUI extends Application {
 			
 			dialog.showAndWait();
 		} catch (IOException e) {
-			// TODO: handle exception
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
