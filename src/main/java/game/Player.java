@@ -58,6 +58,8 @@ public class Player implements Serializable{
 	public void addEffect (Effect eff){
 		if (eff == null) 
 			return;
+		if (eff.getIEffectBehavior().toString().equals("Do nothing"))
+			return;
 		eff.setBar(_client.getRoom().getGame().getDynamicBar());
 		eff.setPlayer(this);
 		switch(eff.getWhenActivate()){
@@ -104,12 +106,6 @@ public class Player implements Serializable{
 
 	public List<Effect> getEffects() {
 		return effects;
-	}
-	
-	public void showRes() {
-		for (String i : GC.RES_TYPES)
-			if (getResource().get(i) > 0)
-				System.out.println(i + " " + getResource().get(i));
 	}
 	
 	public void showFam() {

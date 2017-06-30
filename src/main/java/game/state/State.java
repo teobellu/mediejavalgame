@@ -63,12 +63,7 @@ public abstract class State {
 				for (Player p : _players){
 					_theGame.getDynamicBar().setPlayer(p);
 					_theGame.getListener().setPlayer(p);
-					try {
-						_theGame.getDynamicBar().showVaticanSupport(age);
-					} catch (GameException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					_theGame.getDynamicBar().showVaticanSupport(age);
 				}
 				phase = 0;
 				age++;

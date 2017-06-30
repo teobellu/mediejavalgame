@@ -495,7 +495,7 @@ public class DynamicAction {
 	 * @param age Age //TODO anche senza
 	 * @throws GameException It will generally not be launched unless there are errors in xml
 	 */
-	public void showVaticanSupport(int age) throws GameException{
+	public void showVaticanSupport(int age){
 		GameInformation infoGame = game.getGameInformation();
 		int faithPoints = player.getResource(GC.RES_FAITHPOINTS);
 		if (faithPoints < 2 + age){
@@ -513,7 +513,12 @@ public class DynamicAction {
 			dontShowVaticanSupport(age);
 			return;
 		}
-		player.pay(new Resource(GC.RES_FAITHPOINTS, faithPoints));
+		try {
+			player.pay(new Resource(GC.RES_FAITHPOINTS, faithPoints));
+		} catch (GameException e) {
+			// TODO non entrerò mai qui dentro
+			e.printStackTrace();
+		}
 		int indexFaith = Math.min(faithPoints, infoGame.getBonusFaith().size() - 1);
 		int victory = infoGame.getBonusFaith().get(indexFaith);
 		player.gain(new Resource(GC.RES_VICTORYPOINTS, victory));
@@ -527,7 +532,8 @@ public class DynamicAction {
 	public void dontShowVaticanSupport(int age){
 		ExcommunicationTile tile = game.getBoard().getExCard()[age - 1];
 		Effect malus = tile.getEffect();
-		player.addEffect(malus);
+		player.addEffect(malus);//TODO O MEGLIO UNA COPIA????
+		game.broadcastInfo(player.getName() + " has been excommunicated!");
 		//TODO GUI ?
 	}
 	
