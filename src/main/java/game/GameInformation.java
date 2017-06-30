@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.omg.CORBA._PolicyStub;
+
 import game.development.DevelopmentCard;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
@@ -26,7 +28,6 @@ import server.ConfigFileHandler;
 
 public class GameInformation{
 
-	private GameBoard board;
 	private Game game;
 	
 	/**
@@ -43,6 +44,7 @@ public class GameInformation{
 	
 	private List<Player> headPlayersTurn;
 	private List<Player> tailPlayersTurn;
+	private List<Player> latePlayersTurn;
 	
 	public GameInformation(Game game) {
 		this.game = game;
@@ -50,6 +52,7 @@ public class GameInformation{
 		discardedLeader = new HashMap<>();
 		headPlayersTurn = new ArrayList<>();
 		tailPlayersTurn = new ArrayList<>();
+		latePlayersTurn = new ArrayList<>();
 		generateLeaderCard();
 	}
 	
@@ -65,7 +68,7 @@ public class GameInformation{
 		int age = 0;
 		//TODO TEST, non passando una copia, dovrebbe togliere le carte dal mazzo
 		System.out.println(developmentDeck.size());
-		board.generateDevelopmentCards(developmentDeck, age);
+		game.getBoard().generateDevelopmentCards(developmentDeck, age);
 		System.out.println(developmentDeck.size() + "-> deve essere piu' piccolo del numero sopra");
 	}
 	
@@ -78,6 +81,7 @@ public class GameInformation{
 		System.out.println("ya " + developmentDeck.size());
 		System.out.println("ON CLOCK age: " + age);
 		game.setPlayers(getNextPlayersTurn());
+		System.out.println("DONE: size players = " +  game.getPlayers().size());
 		//TODO CAMBIA L'ORDINE DI TURNO
 	}
 
@@ -117,17 +121,20 @@ public class GameInformation{
 	 * @return The new order of the players 
 	 */
 	public List<Player> getNextPlayersTurn(){
+		//turni attuali
 		List<Player> playersTurn = new ArrayList<>(game.getPlayers());
 		List<Player> nextList = new ArrayList<>();
 		Consumer<Player> add = player -> nextList.add(player);
+		//next contiene tutti gli head
 		headPlayersTurn.forEach(add);
+		//e poi tutti quelli normali
 		playersTurn.forEach(add);
 		playersTurn.clear();
 		nextList.stream()
 			.filter(player -> !playersTurn.contains(player))
 			.forEach(player -> playersTurn.add(player));
 		headPlayersTurn.clear();
-		return nextList;
+		return playersTurn;
 	}
 	
 	/**
@@ -518,6 +525,14 @@ public class GameInformation{
 
 	public Map<String, List<Resource>> getBonusPlayerDashBoard() {
 		return bonusPlayerDashBoard;
+	}
+
+	public List<Player> getLatePlayersTurn() {
+		return latePlayersTurn;
+	}
+
+	public void setLatePlayersTurn(List<Player> latePlayersTurn) {
+		this.latePlayersTurn = latePlayersTurn;
 	}
 
 

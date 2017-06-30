@@ -48,24 +48,37 @@ public abstract class State {
 	}
 	
 	public void nextState(){
+		//count turn è quello appena passato
 		Player nextPlayer = getNextPlayer();
-		countTurn++;
-		if (countTurn % (_players.size() * 4) == 0){
+		
+		if (countTurn % (_players.size() * 4) == 0){//TODO non e' 4.
+			for(Player p : _theGame.getGameInformation().getLatePlayersTurn()){
+				setupNewTurn(p);
+				_theGame.getGameInformation().getLatePlayersTurn().removeIf(item -> item ==p);
+				_theGame.getGameInformation().getTailPlayersTurn().add(p);
+				notifyPlayerTurn(p);
+			}
 			if (phase == 2){
-				age++;
 				System.out.println("VATICAN PHASE");
 				for (Player p : _players){
 					_theGame.getDynamicBar().setPlayer(p);
 					_theGame.getListener().setPlayer(p);
-					notifyPlayerTurn(_player);
+					try {
+						_theGame.getDynamicBar().showVaticanSupport(age);
+					} catch (GameException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				phase = 0;
+				age++;
 			}
-			phase++;
 			System.out.println("NEXT PHASE");
 			_theGame.getGameInformation().newPhase(age);
 			nextPlayer = _theGame.getPlayers().get(0);
+			phase++;
 		}
+		countTurn++;
 		if (age == 4){
 			age = 3;
 			List<Player> players = _theGame.getGameInformation().endOfTheGameFindWinners();
@@ -81,6 +94,11 @@ public abstract class State {
 		//alla fine faccio fare il turno ai giocatori nella lista tail 2TODO
 		
 		notifyPlayerTurn(_player);
+	}
+	
+	public void setupNewTurn(Player nextPlayer){
+		_theGame.getDynamicBar().setPlayer(nextPlayer);
+		_theGame.getListener().setPlayer(nextPlayer);
 	}
 	
 	//TODO DICE AL PLAYER CHE E' IL SUO TURNO
@@ -102,6 +120,14 @@ public abstract class State {
 		int currentPlayerIndex = _players.indexOf(_player);
 		if (currentPlayerIndex == _players.size() - 1)
 			return _players.get(0);
+		Player next = _players.get(currentPlayerIndex + 1);
+		if (_theGame.getGameInformation().getTailPlayersTurn().contains(next)){
+			_theGame.getGameInformation().getTailPlayersTurn().removeIf(player -> player == next);
+			_theGame.getGameInformation().getLatePlayersTurn().add(next);
+			_player = next;
+			countTurn++;
+			return getNextPlayer();
+		}
 		return _players.get(currentPlayerIndex + 1);
 	}
 	

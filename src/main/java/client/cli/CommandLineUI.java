@@ -203,7 +203,7 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
 		try {
-			_connectionHandler.dropLeaderCard(myLeaders.get(selection));
+			_connectionHandler.dropLeaderCard(myLeaders.get(selection).getName());
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
@@ -347,12 +347,6 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void showBoard(GameBoard board) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void notifyPutFamiliar(FamilyMember familiar) {
 		// TODO Auto-generated method stub
 		
@@ -405,16 +399,22 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void showWhatIHave(String myName) {
-		// TODO Auto-generated method stub
-		ModelPrinter.printMyLoot(me);
-	}
-
-	@Override
 	public int askInt(String message, int min, int max) {
 		_ioHandler.write("Answer to this!");
 		_ioHandler.write(message + ". Answer from " + min + " to " + max);
 		return _ioHandler.readNumberWithinInterval(min, max);
+	}
+
+	@Override
+	public void addMeToGame(String username) throws GameException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
