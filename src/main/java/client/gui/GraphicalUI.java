@@ -31,6 +31,7 @@ public class GraphicalUI implements UI {
 	
 	private GameBoard _board;
 	private Player _me;
+	private String _info;
 	
 	private File _xmlFile;
 	
@@ -73,12 +74,6 @@ public class GraphicalUI implements UI {
 	
 	public ConnectionServerHandler getConnection(){
 		return _connectionHandler;
-	}
-
-	@Override
-	public String askForConfigFile() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	public void setPlayerName(String name){
@@ -144,7 +139,11 @@ public class GraphicalUI implements UI {
 				_returnObject.wait();
 			}
 			
-			return (int) _returnObject;
+			synchronized (_returnObject) {
+				int i = (int) _returnObject;
+				_returnObject = null;
+				return i;
+			}
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -164,13 +163,9 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public void showInfo(String str) {
-		_returnObject = str;
-	}
-
-	@Override
 	public int selectInitialLeaders(List<LeaderCard> leaders) {
 		// TODO Auto-generated method stub
+		//TODO da cambiare con showInitialLeaderList (forse?)
 		return 0;
 	}
 
@@ -211,7 +206,24 @@ public class GraphicalUI implements UI {
 
 	@Override
 	public boolean askBoolean(String message) {
-		// TODO Auto-generated method stub
+		try {
+			_info = message;
+			_returnObject = CommandStrings.ASK_BOOLEAN;
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			synchronized (_returnObject) {
+				boolean returned = (boolean) _returnObject;
+				_returnObject = null;
+				System.out.println("_returnObject pulito, mando risposta.");
+				return returned;
+			}
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		System.out.println("\n###ERRORE IN ASK BOOLEAN###\n");
 		return false;
 	}
 
@@ -235,6 +247,10 @@ public class GraphicalUI implements UI {
 	public Player getMe(){
 		return _me;
 	}
+	
+	public String getInfo(){
+		return _info;
+	}
 
 	@Override
 	public int chooseLeader(String context, List<LeaderCard> tempList) {
@@ -244,7 +260,7 @@ public class GraphicalUI implements UI {
 			} catch (Exception e) {
 				_log.log(Level.SEVERE, e.getMessage(), e);
 			}
-		}else {
+		}else if(context.equals(CommandStrings.CHOOSE_LEADER)){
 			//TODO
 		}
 		System.out.println("ERRORE");
@@ -292,16 +308,17 @@ public class GraphicalUI implements UI {
 	public void endTurn() throws RemoteException, GameException{
 		_connectionHandler.endTurn();
 	}
-
+	
 	@Override
-	public void info(String info) {
-		// TODO Auto-generated method stub
-		
+	public void showInfo(String str) {
+		_info = str;
+		_returnObject = CommandStrings.INFO;
 	}
 
 	@Override
-	public void infoWithBoardUpdate(String info, GameBoard board) {
-		// TODO Auto-generated method stub
-		
+	public void showInfoWithBoardUpdate(String info, GameBoard board) {
+		_info = info;
+		_board = board;
+		_returnObject = CommandStrings.INFO_BOARD;
 	}
 }

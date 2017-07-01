@@ -122,6 +122,15 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.ASK_INT);
 			writeObject(i);
 		}
+		else if(obj.equals(CommandStrings.INFO)){
+			_ui.showInfo((String) getFromServer());
+		}
+		else if(obj.equals(CommandStrings.ASK_BOOLEAN)){
+			boolean returned = _ui.askBoolean((String) getFromServer());
+			
+			writeObject(CommandStrings.ASK_BOOLEAN);
+			writeObject(returned);
+		}
 		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER+
 				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD+
 				"|"+CommandStrings.ACTIVATE_LEADER_CARD+"|"+CommandStrings.PLACE_FAMILIAR)){

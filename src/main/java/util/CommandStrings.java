@@ -45,6 +45,8 @@ public final class CommandStrings {
 	public static final String ASK_INT = "ask_int";
 	public static final String ASK_BOOLEAN = "ask_boolean";
 	
+	public static final String INFO = "info";
+	public static final String INFO_BOARD = "info_board";
 	/**
 	 * Hide constructor
 	 */

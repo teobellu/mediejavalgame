@@ -10,15 +10,11 @@ import game.development.*;
 
 public interface UI extends Runnable{
 	
-	public String askForConfigFile();
-	
 	public void showInfo(String str);
 		
 	public void setConnection(String connectionType, String host, int port);
 	
-	public void info(String info);
-	
-	public void infoWithBoardUpdate(String info, GameBoard board);
+	public void showInfoWithBoardUpdate(String info, GameBoard board);
 	
 	/**
 	 * Allows the player to select an initial leader card

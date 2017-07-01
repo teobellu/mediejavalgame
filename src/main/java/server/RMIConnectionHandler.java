@@ -135,6 +135,11 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	public int askInt(String message, int min, int max) throws RemoteException {
 		return _clientConnectionHandler.askInt(message, min, max);
 	}
+
+	@Override
+	public void sendInfo(String infoMessage) throws RemoteException {
+		_clientConnectionHandler.sendInfo(infoMessage);
+	}
 	
 	
 }
