@@ -1,6 +1,5 @@
 package client.cli;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,11 +36,8 @@ public abstract class ModelPrinter {
 	 * @param resource Resource to print
 	 */
 	public static void printResource(Resource resource){
-		if (resource == null)
-			return;
-		GC.RES_TYPES.stream()
-			.filter(type -> resource.get(type) > 0)
-			.forEach(type -> _ioHandler.writeNext(resource.get(type) + " " + type + " "));
+		if (!(resource == null))
+			_ioHandler.writeNext(resource.toString());
 	}
 	
 	/**
@@ -168,6 +164,12 @@ public abstract class ModelPrinter {
 	 * @param me Player
 	 */
 	public static void printMyLoot(Player me){
+		//bonus
+		_ioHandler.write("\n*****Harvest bonus: ");
+		printResource(me.getBonus(GC.HARVEST));
+		_ioHandler.write("\n*****Production bonus: ");
+		printResource(me.getBonus(GC.PRODUCTION));
+		
 		//resources
 		_ioHandler.write("\n*****Resources: ");
 		printResource(me.getResource());
@@ -186,17 +188,11 @@ public abstract class ModelPrinter {
 		_ioHandler.write("\n*****Leader cards: ");
 		me.getLeaderCards()	
 			.forEach(leader -> _ioHandler.writeNext(leader.getName() + " "));
-		
-		//leader cards that you can activate
-		/*TODO non è serializzabile!!!
-		_ioHandler.write("\n*****Leader cards that you can activate: ");
-		me.getActivableLeaderCards()
-			.forEach(leader -> _ioHandler.writeNext(leader.getName() + " "));
-		*/
+	
 		//free familiars
 		_ioHandler.write("\n*****Familiars: ");
 		me.getFreeMember()
-			.forEach(fam -> _ioHandler.writeNext(fam.getColor() + " with power " + fam.getValue()));
+			.forEach(fam -> _ioHandler.write(fam.getColor() + " with power " + fam.getValue()));
 		
 		//permanent effects
 		_ioHandler.write("\n*****Effects: ");
@@ -213,7 +209,8 @@ public abstract class ModelPrinter {
 		int index = 0;
 		for(FamilyMember familiar : familiars){
 			_ioHandler.writeNext(index + ") ");
-			_ioHandler.write(familiar.getColor() + " familiar");
+			_ioHandler.writeNext(familiar.getColor() + " familiar ");
+			_ioHandler.write("with current power of " + familiar.getValue());
 			index++;
 		}
 	}

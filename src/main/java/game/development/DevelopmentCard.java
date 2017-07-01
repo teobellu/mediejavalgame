@@ -132,11 +132,13 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 	}
 	
 	protected void addImmediateEffect(List<Effect> immediate) {
-		immediateEffect.addAll(immediate);
+		if (!(immediate == null))
+			immediateEffect.addAll(immediate);
 	}
 	
 	protected void addPermanentEffect(List<Effect> permanent) {
-		permanentEffect.addAll(permanent);
+		if (!(permanent == null))
+			permanentEffect.addAll(permanent);
 	}
 	
 	protected void setCost(List<Resource> cost) {

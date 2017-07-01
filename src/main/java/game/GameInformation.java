@@ -48,7 +48,6 @@ public class GameInformation{
 	
 	public GameInformation(Game game) {
 		this.game = game;
-		//this.board = game.getBoard();
 		discardedLeader = new HashMap<>();
 		headPlayersTurn = new ArrayList<>();
 		tailPlayersTurn = new ArrayList<>();
@@ -61,7 +60,7 @@ public class GameInformation{
 	}
 	
 	public void createBoard(Map<String, List<Effect>> spaceBonus) {
-		GameBoard b = new GameBoard(spaceBonus);
+		game.setBoard(new GameBoard(spaceBonus));
 	}
 	
 	public void setupANewTurn(){

@@ -77,13 +77,13 @@ public class Room extends Thread {
 	}
 	
 	private void setupGame(Game game, ConfigFileHandler fileHandler) {
-		GameBoard board = new GameBoard(fileHandler.SPACE_BONUS);
+		//GameBoard board = new GameBoard(fileHandler.SPACE_BONUS);
 		GameInformation info = game.getGameInformation();
-		game.setBoard(board);
+		//game.setBoard(board);
+		info.createBoard(fileHandler.SPACE_BONUS);
 		info.setDevelopmentDeck(fileHandler.DEVELOPMENT_DECK);
 		info.setExcommunicationDeck(fileHandler.EXCOMMUNICATION_DECK);
 		info.setBonusPlayerDashBoard(fileHandler.BONUS_PLAYER_DASHBOARD);
-		info.createBoard(fileHandler.SPACE_BONUS);//TODO
 		info.setBonusFaith(fileHandler.BONUS_FAITH);
 		
 	}
