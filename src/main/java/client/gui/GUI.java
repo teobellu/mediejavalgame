@@ -138,6 +138,7 @@ public class GUI extends Application {
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
+				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI###\n");
 				processObject();
 			}
 			
@@ -149,17 +150,53 @@ public class GUI extends Application {
 					if(((List) obj).get(0) instanceof Resource){
 						showCouncilPrivilegeDialog((List<Resource>)obj);
 					}
+				} else {//TODO
+					System.out.println("\n###GUI HA RICEVUTO UN OGGETTO SCONOSCIUTO###\n");
 				}
 			}
 			
 			private void processString(String str){
 				if(str.equals(CommandStrings.START_TURN)){
 					startTurn();
-				} else {//TODO
-					
+				} 
+				else if(str.equals(CommandStrings.INFO)){
+					_mainViewController.appendToInfoText(GraphicalUI.getInstance().getInfo());
+				}
+				else if(str.equals(CommandStrings.INFO_BOARD)){
+					_mainViewController.appendToInfoText(GraphicalUI.getInstance().getInfo());
+					_mainViewController.updateBoard(GraphicalUI.getInstance().getBoard());
+				}
+				else if(str.equals(CommandStrings.ASK_BOOLEAN)){
+					showAskBooleanDialog(GraphicalUI.getInstance().getInfo());
+				}
+				else {//TODO
+					System.out.println("\n###GUI HA RICEVUTO UNA STRINGA SCONOSCIUTA###\n");
 				}
 			}
 		});
+		
+		Thread th = new Thread(task);
+		th.setDaemon(true);
+		th.start();
+	}
+	
+	private Task<Void> createReturnObjectObserver(){
+		Task<Void> task = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				Thread.sleep(4000);
+				
+				while (GraphicalUI.getInstance().getReturnObject() == null) {
+					try {
+						System.out.println("Waiting for return object...");
+						Thread.sleep(1000);
+					} catch (Exception e) {
+					}
+				}
+				return null;
+			}
+		};
+		return task;
 	}
 	
 	public void showCouncilPrivilegeDialog(List<Resource> resources) {
@@ -234,25 +271,6 @@ public class GUI extends Application {
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-	}
-
-	private Task<Void> createReturnObjectObserver(){
-		Task<Void> task = new Task<Void>() {
-			@Override
-			protected Void call() throws Exception {
-				Thread.sleep(4000);
-				
-				while (GraphicalUI.getInstance().getReturnObject() == null) {
-					try {
-						System.out.println("Waiting for return object...");
-						Thread.sleep(1000);
-					} catch (Exception e) {
-					}
-				}
-				return null;
-			}
-		};
-		return task;
 	}
 
 	public boolean showConfigDialog() {
@@ -352,6 +370,24 @@ public class GUI extends Application {
 			ActivateLeaderController controller = loader.getController();
 			controller.setDialog(dialog);
 			controller.setLeaders(leaderCards);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	public void showAskBooleanDialog(String message){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/AskBooleanDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose yes or no");
+			
+			AskBooleanController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setTextAndSetup(message);
 			
 			dialog.showAndWait();
 		} catch (IOException e) {

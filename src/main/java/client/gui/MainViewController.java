@@ -14,16 +14,15 @@ import game.GC;
 import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
-import game.Space;
 import game.development.DevelopmentCard;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -35,7 +34,7 @@ import javafx.scene.text.TextFlow;
 public class MainViewController {
 
 	@FXML
-	private ImageView _backgroundImage;
+	private ImageView _backgroundImage;//mappa
 	
 	@FXML
 	private ImageView _goldWoodBg;
@@ -84,7 +83,7 @@ public class MainViewController {
 	private Button _fifthButton;//show your cards
 
 	@FXML
-	private AnchorPane _buttonPane;
+	private AnchorPane _buttonPane;//pannello con tutti i bottoni
 	
 	@FXML
 	private ScrollPane _infoScrollPane;
@@ -146,11 +145,20 @@ public class MainViewController {
 	}
 	
 	/*https://stackoverflow.com/q/28243156*/
-	private void appendToInfoText(String msg){
+	/**
+	 * Append and show a text to the _buttonPane with font 18
+	 * @param msg
+	 */
+	public void appendToInfoText(String msg){
 		appendToInfoText(msg, 18);
 	}
 	
-	private synchronized void appendToInfoText(String msg, double fontSize){
+	/**
+	 * Append and show a text to the _buttonPane with the specified font
+	 * @param msg the message to display
+	 * @param fontSize the font size
+	 */
+	public synchronized void appendToInfoText(String msg, double fontSize){
 		Platform.runLater(() -> {
 			Text t = new Text(msg+"\n");
 			t.setFont(new Font(fontSize));
@@ -175,16 +183,16 @@ public class MainViewController {
 	
 	@FXML
 	private void onFirstButtonClicked(){
-		Player me = GraphicalUI.getInstance().getMe();
-		List<LeaderCard> leaderCards = me.getLeaderCards();
-		_GUI.showActivateLeaderDialog(leaderCards);
+		GameBoard board = GraphicalUI.getInstance().getBoard();
+		List<FamilyMember> familiars = GraphicalUI.getInstance().getMe().getFreeMember();
+		_GUI.showPlaceFamiliar(board, familiars);
 	}
 	
 	@FXML
 	private void onSecondButtonClicked(){
-		GameBoard board = GraphicalUI.getInstance().getBoard();
-		List<FamilyMember> familiars = GraphicalUI.getInstance().getMe().getFreeMember();
-		_GUI.showPlaceFamiliar(board, familiars);
+		Player me = GraphicalUI.getInstance().getMe();
+		List<LeaderCard> leaderCards = me.getLeaderCards();
+		_GUI.showActivateLeaderDialog(leaderCards);
 	}
 	
 	@FXML
@@ -202,7 +210,10 @@ public class MainViewController {
 	@FXML
 	private void onFourthButtonClicked(){
 		try {
-			GraphicalUI.getInstance().endTurn();
+			synchronized (this) {
+				GraphicalUI.getInstance().endTurn();
+				endTurn();
+			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -220,6 +231,10 @@ public class MainViewController {
 	private void onFifthButtonClicked(){
 		Player me = GraphicalUI.getInstance().getMe();
 		_GUI.showCardsInfoDialog(me);
+	}
+	
+	public void updateBoard(GameBoard board){
+		
 	}
 	
 	public void startTurn(Player me, GameBoard board){
@@ -263,12 +278,12 @@ public class MainViewController {
 		for(int row = 0;row<GameBoard.MAX_ROW;row++){
 			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){
 				ImageView iv = (ImageView) getNodeFromGridPane(_towersCardsGridPane, column, row);
-				DevelopmentCard card = board.getCard(GameBoard.MAX_ROW - row, column);
+				DevelopmentCard card = board.getCard((GameBoard.MAX_ROW -1 - row), column);
 				changeImageView("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+ card.getId() +".png", iv);
 				
 				//TODO prendere e piazzare i familiari
-				Space space = board.getFromTowers(GameBoard.MAX_ROW - row, column);
-				space.getFamiliars().get(space.getFamiliars().size()-1);
+//				Space space = board.getFromTowers((GameBoard.MAX_ROW - 1 - row), column);
+//				space.getFamiliars().get(space.getFamiliars().size()-1);
 			}
 		}
 		
@@ -286,11 +301,27 @@ public class MainViewController {
 	
 	private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
 	    for (Node node : gridPane.getChildren()) {
+	    	if(GridPane.getColumnIndex(node)==null){
+	    		System.out.println("\n###TROVATO UN NODO CON COLONNA A NULL###\n");
+	    		GridPane.setColumnIndex(node, 0);
+	    	}
+	    	
+	    	if(GridPane.getRowIndex(node)==null){
+	    		System.out.println("\n###TROVATO UN NODO CON RIGA A NULL###\n");
+	    		GridPane.setRowIndex(node, 0);
+	    	}
+	    	
+	    	
 	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
 	            return node;
 	        }
 	    }
 	    return null;
+	}
+	
+	private void endTurn(){
+		_buttonPane.setDisable(true);
+		appendToInfoText("Turn ended.", 24);
 	}
 	
 	private Logger _log = Logger.getLogger(MainViewController.class.getName());

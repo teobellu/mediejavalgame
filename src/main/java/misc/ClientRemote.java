@@ -28,4 +28,6 @@ public interface ClientRemote extends Remote {
 	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException;
 
 	public int askInt(String message, int min, int max) throws RemoteException;
+	
+	public void sendInfo(String infoMessage) throws RemoteException;
 }

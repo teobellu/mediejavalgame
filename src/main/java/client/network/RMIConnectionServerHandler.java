@@ -168,4 +168,9 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	public int askInt(String message, int min, int max) throws RemoteException {
 		return _ui.askInt(message, min, max);
 	}
+
+	@Override
+	public void sendInfo(String infoMessage) throws RemoteException {
+		_ui.showInfo(infoMessage);
+	}
 }

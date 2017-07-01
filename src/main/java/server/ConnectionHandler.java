@@ -67,6 +67,8 @@ public abstract class ConnectionHandler implements Runnable {
 	
 	public abstract int askInt(String message, int min, int max) throws RemoteException;
 	
+	public abstract void sendInfo(String infoMessage) throws RemoteException;
+	
 	protected Client _client;
 	protected volatile boolean _isRunning;
 	protected String _configFile = null;

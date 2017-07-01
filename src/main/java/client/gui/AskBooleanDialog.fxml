@@ -5,12 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.TextFlow?>
 
-
-<AnchorPane maxHeight="300.0" maxWidth="600.0" minHeight="300.0" minWidth="600.0" prefHeight="300.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane maxHeight="300.0" maxWidth="600.0" minHeight="300.0" minWidth="600.0" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.AskBooleanController">
    <children>
-      <TextFlow layoutX="177.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="35.0" />
-      <RadioButton layoutX="100.0" layoutY="170.0" mnemonicParsing="false" text="Sì" AnchorPane.topAnchor="150.0" />
-      <RadioButton layoutX="413.0" layoutY="170.0" mnemonicParsing="false" text="No" AnchorPane.topAnchor="150.0" />
-      <Button defaultButton="true" layoutX="500.0" layoutY="242.0" maxHeight="25.0" maxWidth="50.0" minHeight="25.0" minWidth="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="OK" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="35.0" />
+      <TextFlow fx:id="_textFlow" layoutX="177.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="35.0" />
+      <RadioButton fx:id="_yesRadio" layoutX="100.0" layoutY="170.0" mnemonicParsing="false" text="Sì" AnchorPane.topAnchor="150.0" />
+      <RadioButton fx:id="_noRadio" layoutX="413.0" layoutY="170.0" mnemonicParsing="false" text="No" AnchorPane.topAnchor="150.0" />
+      <Button fx:id="_okButton" defaultButton="true" layoutX="500.0" layoutY="242.0" maxHeight="25.0" maxWidth="50.0" minHeight="25.0" minWidth="50.0" mnemonicParsing="false" onAction="#onOkPressed" prefHeight="25.0" prefWidth="50.0" text="OK" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="35.0" />
    </children>
 </AnchorPane>

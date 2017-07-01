@@ -275,15 +275,15 @@ public class Game implements Runnable {
 		}
 	}
 	
-	public void otherPlayersInfo(String message, Player excluded){
-		_players.stream()
-			.filter(player -> player != excluded)
-			.forEach(player -> player.getClient().getConnectionHandler().notifyInfo(message));
-	}
-	
-	public void broadcastInfo(String message){
-		_players.forEach(player -> player.getClient().getConnectionHandler().notifyInfo(message));
-	}
+//	public void otherPlayersInfo(String message, Player excluded){
+//		_players.stream()
+//			.filter(player -> player != excluded)
+//			.forEach(player -> player.getClient().getConnectionHandler().notifyInfo(message));
+//	}
+//	
+//	public void broadcastInfo(String message){
+//		_players.forEach(player -> player.getClient().getConnectionHandler().notifyInfo(message));
+//	}
 	
 	public State getState(){
 		return _state;

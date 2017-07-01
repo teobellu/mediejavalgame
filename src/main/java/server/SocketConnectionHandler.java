@@ -162,10 +162,11 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		}
 		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL
 				+"|"+CommandStrings.INITIAL_PERSONAL_BONUS+"|"+CommandStrings.CHOOSE_CONVERT
-				+"|"+CommandStrings.CHOOSE_FAMILIAR+"|"+CommandStrings.ASK_INT)){
+				+"|"+CommandStrings.CHOOSE_FAMILIAR+"|"+CommandStrings.ASK_INT
+				+"|"+CommandStrings.ASK_BOOLEAN)){
 			synchronized (_returnObject) {
 				_returnObject.notify();
-				_returnObject = (int) getFromClient();
+				_returnObject = getFromClient();
 			}
 		} else {
 			_log.log(Level.SEVERE, "\n###RICEVUTO COMANDO SCONOSCIUTO###\n");
@@ -350,6 +351,17 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		
 		System.out.println("ERROR: PERSONAL BONUS NOT FOUND");
 		return 0;
+	}
+	
+	@Override
+	public void sendInfo(String infoMessage) throws RemoteException {
+		try {
+			writeObject(CommandStrings.INFO);
+			writeObject(infoMessage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 	
 	private class MyRunnable implements Runnable{
