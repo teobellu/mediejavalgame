@@ -41,10 +41,6 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 		buttons.add(_card3);
 		buttons.add(_card4);
 		
-		for(String lc : leaders){
-			System.out.println("\n"+lc+"\n");
-		}
-		
 		int index = 0;
 		for (; index < leaders.size(); index++){
 			setBgImages(leaders.get(index), buttons.get(index));

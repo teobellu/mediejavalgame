@@ -26,11 +26,8 @@ public class DropLeaderController extends DialogAbstractController{
 	
 	public void setLeaderList(List<String> leaders){
 		_leaderList = leaders;
-	}
-	
-	@FXML
-	private void initialize(){
 		_choiceBox.getItems().addAll(_leaderList);
+		_choiceBox.getSelectionModel().selectFirst();
 	}
 	
 	@FXML

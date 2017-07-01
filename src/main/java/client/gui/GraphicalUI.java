@@ -288,7 +288,7 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public void dropLeaderCard(String leaderName) throws RemoteException, GameException{
+	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
 		_connectionHandler.dropLeaderCard(leaderName);
 	}
 	

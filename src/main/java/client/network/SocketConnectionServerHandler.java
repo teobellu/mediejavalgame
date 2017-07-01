@@ -131,6 +131,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.ASK_BOOLEAN);
 			writeObject(returned);
 		}
+		else if(obj.matches(CommandStrings.HANDLE_COUNCIL)){
+			int i = _ui.spendCouncil((List<Resource>) getFromServer());
+			
+			writeObject(CommandStrings.HANDLE_COUNCIL);
+			writeObject(i);
+		}
 		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER+
 				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD+
 				"|"+CommandStrings.ACTIVATE_LEADER_CARD+"|"+CommandStrings.PLACE_FAMILIAR)){
@@ -139,7 +145,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				_returnObject = getFromServer();
 			}
 		}else{
-			_log.log(Level.SEVERE, "\n###RICEVUTO COMANDO SCONOSCIUTO###\n");
+			_log.log(Level.SEVERE, "\n###RICEVUTO COMANDO SCONOSCIUTO: "+obj+"###\n");
 		}
 	}
 	

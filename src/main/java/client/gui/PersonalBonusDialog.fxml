@@ -15,11 +15,11 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Text>
-            <Button fx:id="_bonus1" layoutX="10.0" layoutY="10.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onFirstButtonClicked" />
-            <Button fx:id="_bonus2" layoutX="130.0" layoutY="10.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onSecondButtonClicked" />
-            <Button fx:id="_bonus3" layoutX="250.0" layoutY="10.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onThirdButtonClicked" />
-            <Button fx:id="_bonus4" layoutX="370.0" layoutY="10.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onFourthButtonClicked" />
-            <Button fx:id="_bonus5" layoutX="490.0" layoutY="10.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onFifthButtonClicked" />
+            <Button fx:id="_bonus1" layoutX="10.0" layoutY="10.0" maxHeight="609.46" maxWidth="100.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onFirstButtonClicked" prefHeight="609.46" prefWidth="100.0" />
+            <Button fx:id="_bonus2" layoutX="130.0" layoutY="10.0" maxHeight="609.46" maxWidth="100.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onSecondButtonClicked" prefHeight="609.46" />
+            <Button fx:id="_bonus3" layoutX="250.0" layoutY="10.0" maxHeight="609.46" maxWidth="100.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onThirdButtonClicked" prefHeight="609.46" />
+            <Button fx:id="_bonus4" layoutX="370.0" layoutY="10.0" maxHeight="609.46" maxWidth="100.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onFourthButtonClicked" prefHeight="609.46" />
+            <Button fx:id="_bonus5" layoutX="490.0" layoutY="10.0" maxHeight="609.46" maxWidth="100.0" minHeight="609.46" minWidth="100.0" mnemonicParsing="false" onAction="#onFifthButtonClicked" prefHeight="609.46" />
          </children>
       </Pane>
    </children>

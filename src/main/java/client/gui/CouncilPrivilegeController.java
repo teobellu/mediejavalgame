@@ -34,6 +34,13 @@ public class CouncilPrivilegeController extends DialogAbstractController{
 			
 			_choices.getItems().add(sb.toString());
 		}
+		_choices.getSelectionModel().selectFirst();
 	}
 
+	@FXML
+	private void onOkClicked(){
+		GraphicalUI.getInstance().addFromGUIToGraphical(_choices.getSelectionModel().getSelectedIndex());
+		GraphicalUI.getInstance().notifyCommandToGui();
+		_dialog.close();
+	}
 }

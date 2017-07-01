@@ -131,9 +131,6 @@ public class GUI extends Application {
 					showAskBooleanDialog((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
 				else if(str.equals(CommandStrings.ASK_INT)){
-//					showAskIntDialog((String) GraphicalUI.getInstance().getFirstOBject(), 
-//									(int) GraphicalUI.getInstance().getSecondObject(), 
-//									(int) GraphicalUI.getInstance().getThirdObject());
 					showAskIntDialog((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI(), 
 							(int) GraphicalUI.getInstance().getFirstFromGraphicalToGUI(),(int) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
@@ -155,7 +152,7 @@ public class GUI extends Application {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				Thread.sleep(4000);
+//				Thread.sleep(4000);
 				
 				while (GraphicalUI.getInstance().getCommandToGui().isEmpty()) {
 					try {
@@ -274,6 +271,7 @@ public class GUI extends Application {
 				Stage dialog = setupDialog(pane, "Drop Leader Card");
 				
 				DropLeaderController controller = loader.getController();
+				controller.setDialog(dialog);
 				controller.setLeaderList(leaders);
 				
 				dialog.showAndWait();

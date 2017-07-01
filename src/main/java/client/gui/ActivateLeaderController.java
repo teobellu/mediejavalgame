@@ -30,7 +30,10 @@ public class ActivateLeaderController extends DialogAbstractController {
 	@FXML
 	private void onOkClicked(){
 		try {
-			GraphicalUI.getInstance().activateLeaderCard(_choices.getValue());
+			synchronized (this) {
+				GraphicalUI.getInstance().activateLeaderCard(_choices.getValue());
+			}
+			_dialog.close();
 		} catch (RemoteException e) {
 			//TODO
 		} catch (GameException e) {
