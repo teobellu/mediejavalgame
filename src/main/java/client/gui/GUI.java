@@ -104,8 +104,10 @@ public class GUI extends Application {
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI: "+GraphicalUI.getInstance().getCommandToGui()+"###\n");
-				processString(GraphicalUI.getInstance().getCommandToGui());
+				String str = GraphicalUI.getInstance().getCommandToGui().poll();
+				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI: "+str+"###\n");
+				processString(str);
+				createMainObserver();
 			}
 			
 			private void processString(String str){
@@ -155,7 +157,7 @@ public class GUI extends Application {
 			protected Void call() throws Exception {
 				Thread.sleep(4000);
 				
-				while (GraphicalUI.getInstance().getCommandToGui() == null) {
+				while (GraphicalUI.getInstance().getCommandToGui().isEmpty()) {
 					try {
 						System.out.println("Waiting for _commandToGui object...");
 						Thread.sleep(1000);
@@ -204,7 +206,6 @@ public class GUI extends Application {
 				InitialSelectLeaderController controller = loader.getController();
 				controller.setLeaderList(leaders);
 				controller.setDialog(dialog);
-				controller.setGUI(this);
 
 				dialog.showAndWait();
 			} catch (IOException e) {
@@ -221,19 +222,11 @@ public class GUI extends Application {
 			loader.setLocation(GUI.class.getResource("/client/gui/PersonalBonusDialog.fxml"));
 			AnchorPane pane = loader.load();
 
-			Stage dialog = new Stage();
-
-			dialog.initStyle(StageStyle.UNDECORATED);
-			dialog.setTitle("Choose your personal bonus card");
-			dialog.initModality(Modality.WINDOW_MODAL);
-			dialog.initOwner(_primaryStage);
-			Scene scene = new Scene(pane);
-			dialog.setScene(scene);
+			Stage dialog = setupDialog(pane, "Choose your personal bonus card");
 
 			PersonalBonusController controller = loader.getController();
 			controller.setDialog(dialog);
 			controller.setMap(hashMap);
-			controller.setGUI(this);
 
 			dialog.showAndWait();
 		} catch (IOException e) {

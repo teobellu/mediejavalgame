@@ -28,7 +28,7 @@ import util.CommandStrings;
 
 public class GraphicalUI implements UI {
 	
-	private String _commandToGui;
+	private ConcurrentLinkedQueue<String> _commandToGui = new ConcurrentLinkedQueue<>();
 	
 	private ConcurrentLinkedQueue<Object> _fromGraphicalToGUI = new ConcurrentLinkedQueue<>();
 	
@@ -134,7 +134,7 @@ public class GraphicalUI implements UI {
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
 		addFromGraphicalToGUI(bonus);
-		_commandToGui = CommandStrings.INITIAL_PERSONAL_BONUS;
+		addToCommandToGui(CommandStrings.INITIAL_PERSONAL_BONUS);
 		
 		try{
 			synchronized (_commandToGui) {
@@ -149,7 +149,7 @@ public class GraphicalUI implements UI {
 		return 0;
 	}
 	
-	public String getCommandToGui(){
+	public synchronized ConcurrentLinkedQueue<String> getCommandToGui(){
 		return _commandToGui;
 	}
 	
@@ -170,7 +170,7 @@ public class GraphicalUI implements UI {
 	public int spendCouncil(List<Resource> options) {
 		try {
 			addFromGraphicalToGUI(options);
-			_commandToGui = CommandStrings.HANDLE_COUNCIL;
+			addToCommandToGui(CommandStrings.HANDLE_COUNCIL);
 			
 			synchronized (_commandToGui) {
 				_commandToGui.wait();
@@ -209,7 +209,7 @@ public class GraphicalUI implements UI {
 	@Override
 	public void startTurn(GameBoard board, Player me) {
 		addFromGraphicalToGUI(board, me);
-		_commandToGui = CommandStrings.START_TURN;
+		addToCommandToGui(CommandStrings.START_TURN);
 	}
 
 	@Override
@@ -235,7 +235,7 @@ public class GraphicalUI implements UI {
 		}
 		
 		addFromGraphicalToGUI(tempList);
-		_commandToGui = CommandStrings.INITIAL_LEADER;
+		addToCommandToGui(CommandStrings.INITIAL_LEADER);
 		
 		synchronized (_commandToGui) {
 			_commandToGui.wait();
@@ -248,7 +248,7 @@ public class GraphicalUI implements UI {
 	public int askInt(String message, int min, int max) {
 		try {
 			addFromGraphicalToGUI(message, min, max);
-			_commandToGui = CommandStrings.ASK_INT;
+			addToCommandToGui(CommandStrings.ASK_INT);
 			
 			synchronized (_commandToGui) {
 				_commandToGui.wait();
@@ -268,7 +268,7 @@ public class GraphicalUI implements UI {
 	public boolean askBoolean(String message) {
 		try {
 			addFromGraphicalToGUI(message);
-			_commandToGui = CommandStrings.ASK_BOOLEAN;
+			addToCommandToGui(CommandStrings.ASK_BOOLEAN);
 			
 			synchronized (_commandToGui) {
 				_commandToGui.wait();
@@ -300,19 +300,19 @@ public class GraphicalUI implements UI {
 	@Override
 	public void showInfo(String str) {
 		addFromGraphicalToGUI(str);
-		_commandToGui = CommandStrings.INFO;
+		addToCommandToGui(CommandStrings.INFO);
 	}
 
 	@Override
 	public void showInfoWithBoardUpdate(String info, GameBoard board) {
 		addFromGraphicalToGUI(info, board);
-		_commandToGui = CommandStrings.INFO_BOARD;
+		addToCommandToGui(CommandStrings.INFO_BOARD);
 	}
 	
 	private Object returnFirstAndCleanCommand(){
 		synchronized (this) {
 			Object obj = getFirstFromGUIToGraphical();
-			_commandToGui = null;
+			_commandToGui.poll();
 			System.out.println("\nCommand cleaned\n");
 			return obj;
 		}
@@ -336,5 +336,9 @@ public class GraphicalUI implements UI {
 	
 	public synchronized Object getFirstFromGUIToGraphical(){
 		return _fromGUItoGraphical.poll();
+	}
+	
+	public synchronized void addToCommandToGui(String command){
+		_commandToGui.add(command);
 	}
 }

@@ -23,9 +23,10 @@ public class AskIntController extends DialogAbstractController {
 		text.setFont(Font.font(24));
 		_textFlow.getChildren().add(text);
 		
-		for(int i = min;i<max;i++){
+		for(int i = min;i<=max;i++){
 			_choices.getItems().add(String.valueOf(i));
 		}
+		_choices.getSelectionModel().selectFirst();
 	}
 	
 	@FXML

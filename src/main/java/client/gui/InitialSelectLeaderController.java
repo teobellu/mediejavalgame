@@ -28,8 +28,6 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 	@FXML
 	private Text _text;
 	
-	private GUI _GUI;
-	
 	@FXML
 	private void initialize(){
 		
@@ -80,7 +78,6 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 	private void handleButton(int choice){
 		GraphicalUI.getInstance().addFromGUIToGraphical(choice);
 		GraphicalUI.getInstance().notifyCommandToGui();
-		_GUI.createMainObserver();
 		_dialog.close();
 	}
 	
@@ -93,9 +90,5 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 		button.setBackground(new Background(backImage));
 		button.setDisable(false);
 		button.setText(leader);
-	}
-
-	public void setGUI(GUI gui) {
-		_GUI = gui;
 	}
 }

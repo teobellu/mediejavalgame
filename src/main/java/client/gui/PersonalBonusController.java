@@ -31,8 +31,6 @@ public class PersonalBonusController extends DialogAbstractController{
 	
 	private List<Button> _buttons;
 	
-	private GUI _GUI;
-	
 	@FXML
 	private void initialize(){
 	}
@@ -65,12 +63,7 @@ public class PersonalBonusController extends DialogAbstractController{
 	private void handleButton(int i){
 		GraphicalUI.getInstance().addFromGUIToGraphical(i);
 		GraphicalUI.getInstance().notifyCommandToGui();
-		_GUI.createMainObserver();
 		_dialog.close();
-	}
-	
-	public void setGUI(GUI gui){
-		_GUI = gui;
 	}
 	
 	public void setMap(HashMap<String, List<Resource>> map){
