@@ -533,7 +533,7 @@ public class DynamicAction {
 		ExcommunicationTile tile = game.getBoard().getExCard()[age - 1];
 		Effect malus = tile.getEffect();
 		player.addEffect(malus);//TODO O MEGLIO UNA COPIA????
-		game.broadcastInfo(player.getName() + " has been excommunicated!");
+		//game.broadcastInfo(player.getName() + " has been excommunicated!");
 		//TODO GUI ?
 	}
 	

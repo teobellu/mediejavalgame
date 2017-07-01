@@ -276,13 +276,14 @@ public class Game implements Runnable {
 	}
 	
 	public void otherPlayersInfo(String message, Player excluded){
-		_players.stream()
-			.filter(player -> player != excluded)
-			.forEach(player -> player.getClient().getConnectionHandler().notifyInfo(message));
+//		CTRL + SHIFT + C
+//		_players.stream()
+//			.filter(player -> player != excluded)
+//			.forEach(player -> player.getClient().getConnectionHandler().info(message));
 	}
 	
 	public void broadcastInfo(String message){
-		_players.forEach(player -> player.getClient().getConnectionHandler().notifyInfo(message));
+//		_players.forEach(player -> player.getClient().getConnectionHandler().info(message));
 	}
 	
 	public State getState(){

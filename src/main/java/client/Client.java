@@ -32,7 +32,7 @@ public class Client extends Thread {
 	
 //	private void doGame() throws RemoteException {
 //		/*TODO se primo player, chiedi se vuole mettere suo file config
-//		 * se s�, cerca il file
+//		 * se si, cerca il file
 //		 * se lo trovi, manda file al server
 //		 * */
 //		

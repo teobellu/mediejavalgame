@@ -155,7 +155,7 @@ public class CommandLineUI implements UI {
 		}
 			
 		try {
-			_connectionHandler.placeFamiliar(selectedFamiliar, position);
+			placeFamiliar(selectedFamiliar.getColor(), position);
 			_board = _connectionHandler.getBoard();
 			_me = _connectionHandler.getMe();
 			ModelPrinter.printBoard(_board);
@@ -181,7 +181,7 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
 		try {
-			_connectionHandler.activateLeaderCard(myLeaders.get(selection).getName());
+			activateLeaderCard(myLeaders.get(selection).getName());
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
@@ -203,7 +203,7 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
 		try {
-			_connectionHandler.dropLeaderCard(myLeaders.get(selection).getName());
+			dropLeaderCard(myLeaders.get(selection).getName());
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
@@ -347,18 +347,6 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void notifyPutFamiliar(FamilyMember familiar) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void notifyDiscardLeaderCard(String playerName, String card) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public int selectInitialLeaders(List<LeaderCard> leaders) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -406,14 +394,29 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
-		// TODO Auto-generated method stub
-		
+		_connectionHandler.dropLeaderCard(leaderName);
 	}
 
 	@Override
 	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
-		// TODO Auto-generated method stub
-		
+		_connectionHandler.activateLeaderCard(leaderName);
+	}
+
+	@Override
+	public void info(String info) {
+		_ioHandler.write(info);
+	}
+
+	@Override
+	public void infoWithBoardUpdate(String info, GameBoard board) {
+		_board = board;
+		ModelPrinter.printBoard(_board);
+		_ioHandler.write(info);
+	}
+
+	@Override
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException {
+		_connectionHandler.placeFamiliar(familiarColour, position);
 	}
 	
 }
