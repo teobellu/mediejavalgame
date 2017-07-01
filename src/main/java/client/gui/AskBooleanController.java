@@ -38,7 +38,7 @@ public class AskBooleanController extends DialogAbstractController {
 	
 	@FXML
 	private void onOkPressed(){
-		GraphicalUI.getInstance().setFirstOBject(_toggleGroup.getSelectedToggle().equals(_yesRadio));
+		GraphicalUI.getInstance().addFromGUIToGraphical(_toggleGroup.getSelectedToggle().equals(_yesRadio));
 		GraphicalUI.getInstance().notifyCommandToGui();
 		_dialog.close();
 	}

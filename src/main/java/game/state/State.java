@@ -41,6 +41,14 @@ public abstract class State {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		try {
+			int i = _player.getClient().getConnectionHandler().askInt("Scegli tra 1 e 10", 1, 10);
+			System.out.println("Hai scelto "+i);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void doState(){

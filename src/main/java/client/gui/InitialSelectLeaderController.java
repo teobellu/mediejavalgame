@@ -78,7 +78,7 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 	}
 	
 	private void handleButton(int choice){
-		GraphicalUI.getInstance().setFirstOBject(choice);
+		GraphicalUI.getInstance().addFromGUIToGraphical(choice);
 		GraphicalUI.getInstance().notifyCommandToGui();
 		_GUI.createMainObserver();
 		_dialog.close();

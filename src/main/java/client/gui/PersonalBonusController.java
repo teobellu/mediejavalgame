@@ -63,7 +63,7 @@ public class PersonalBonusController extends DialogAbstractController{
 	}
 	
 	private void handleButton(int i){
-		GraphicalUI.getInstance().setFirstOBject(i);
+		GraphicalUI.getInstance().addFromGUIToGraphical(i);
 		GraphicalUI.getInstance().notifyCommandToGui();
 		_GUI.createMainObserver();
 		_dialog.close();

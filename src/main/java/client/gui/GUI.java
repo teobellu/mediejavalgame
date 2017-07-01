@@ -25,7 +25,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import util.CommandStrings;
-import util.Constants;
 
 public class GUI extends Application {
 
@@ -105,7 +104,7 @@ public class GUI extends Application {
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI###\n");
+				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI: "+GraphicalUI.getInstance().getCommandToGui()+"###\n");
 				processString(GraphicalUI.getInstance().getCommandToGui());
 			}
 			
@@ -114,23 +113,30 @@ public class GUI extends Application {
 					startTurn();
 				}
 				else if(str.equals(CommandStrings.INITIAL_LEADER)){
-					showInitialSelectLeaderDialog((List<String>) GraphicalUI.getInstance().getFirstOBject());
+					showInitialSelectLeaderDialog((List<String>) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
 				else if(str.equals(CommandStrings.INITIAL_PERSONAL_BONUS)){
-					showPersonalBonusDialog((HashMap<String, List<Resource>>)GraphicalUI.getInstance().getFirstOBject());
+					showPersonalBonusDialog((HashMap<String, List<Resource>>)GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
 				else if(str.equals(CommandStrings.INFO)){
-					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstOBject());
+					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
 				else if(str.equals(CommandStrings.INFO_BOARD)){
-					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstOBject());
-					_mainViewController.updateBoard((GameBoard) GraphicalUI.getInstance().getSecondObject());
+					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
+					_mainViewController.updateBoard((GameBoard) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
 				else if(str.equals(CommandStrings.ASK_BOOLEAN)){
-					showAskBooleanDialog((String) GraphicalUI.getInstance().getFirstOBject());
+					showAskBooleanDialog((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
+				}
+				else if(str.equals(CommandStrings.ASK_INT)){
+//					showAskIntDialog((String) GraphicalUI.getInstance().getFirstOBject(), 
+//									(int) GraphicalUI.getInstance().getSecondObject(), 
+//									(int) GraphicalUI.getInstance().getThirdObject());
+					showAskIntDialog((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI(), 
+							(int) GraphicalUI.getInstance().getFirstFromGraphicalToGUI(),(int) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
 				else if(str.equals(CommandStrings.HANDLE_COUNCIL)){
-					showCouncilPrivilegeDialog((List<Resource>) GraphicalUI.getInstance().getFirstOBject());
+					showCouncilPrivilegeDialog((List<Resource>) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
 				else {//TODO
 					System.out.println("\n###GUI HA RICEVUTO UN COMANDO SCONOSCIUTO###\n");
@@ -181,8 +187,8 @@ public class GUI extends Application {
 	}
 
 	public void startTurn(){
-		GameBoard board = (GameBoard) GraphicalUI.getInstance().getFirstOBject();
-		Player me = (Player) GraphicalUI.getInstance().getSecondObject();
+		GameBoard board = (GameBoard) GraphicalUI.getInstance().getFirstFromGraphicalToGUI();
+		Player me = (Player) GraphicalUI.getInstance().getFirstFromGraphicalToGUI();
 		_mainViewController.startTurn(me, board);
 	}
 	
@@ -357,6 +363,25 @@ public class GUI extends Application {
 		}
 	}
 	
+	public void showAskIntDialog(String message, int min, int max){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/AskIntDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose a value");
+			
+			AskIntController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setup(message, min, max);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			// TODO: handle exception
+		}
+	}
+
+	
 	private Stage setupDialog(AnchorPane pane, String title){
 		Stage dialog = new Stage();
 		
@@ -369,7 +394,7 @@ public class GUI extends Application {
 		
 		return dialog;
 	}
-
+	
 	private Stage _primaryStage;
 	private BorderPane _rootLayout;
 	

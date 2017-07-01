@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,11 +30,9 @@ public class GraphicalUI implements UI {
 	
 	private String _commandToGui;
 	
-	private Object _firstObject;
+	private ConcurrentLinkedQueue<Object> _fromGraphicalToGUI = new ConcurrentLinkedQueue<>();
 	
-	private Object _secondObject;
-	
-	private Object _thirdObject;
+	private ConcurrentLinkedQueue<Object> _fromGUItoGraphical = new ConcurrentLinkedQueue<>();
 	
 	private File _xmlFile;
 	
@@ -134,7 +133,7 @@ public class GraphicalUI implements UI {
 	
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
-		_firstObject = bonus;
+		addFromGraphicalToGUI(bonus);
 		_commandToGui = CommandStrings.INITIAL_PERSONAL_BONUS;
 		
 		try{
@@ -142,11 +141,7 @@ public class GraphicalUI implements UI {
 				_commandToGui.wait();
 			}
 			
-			synchronized (this) {
-				int i = (int) _firstObject;
-				_commandToGui = null;
-				return i;
-			}
+			return (int) returnFirstAndCleanCommand();
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -156,30 +151,6 @@ public class GraphicalUI implements UI {
 	
 	public String getCommandToGui(){
 		return _commandToGui;
-	}
-	
-	public void setFirstOBject(Object obj){
-		_firstObject = obj;
-	}
-	
-	public void setSecondObject(Object obj){
-		_secondObject = obj;
-	}
-	
-	public void setThirdObject(Object obj){
-		_thirdObject = obj;
-	}
-	
-	public Object getFirstOBject(){
-		return _firstObject;
-	}
-	
-	public Object getSecondObject(){
-		return _secondObject;
-	}
-	
-	public Object getThirdObject(){
-		return _thirdObject;
 	}
 	
 	public void notifyCommandToGui(){
@@ -198,18 +169,14 @@ public class GraphicalUI implements UI {
 	@Override
 	public int spendCouncil(List<Resource> options) {
 		try {
-			_firstObject = options;
+			addFromGraphicalToGUI(options);
 			_commandToGui = CommandStrings.HANDLE_COUNCIL;
 			
 			synchronized (_commandToGui) {
 				_commandToGui.wait();
 			}
 			
-			synchronized (this) {
-				int i = (int) _firstObject;
-				_commandToGui = null;
-				return i;
-			}
+			return (int) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			return 0;
@@ -234,28 +201,6 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public boolean askBoolean(String message) {
-		try {
-			_firstObject = message;
-			_commandToGui = CommandStrings.ASK_BOOLEAN;
-			
-			synchronized (_commandToGui) {
-				_commandToGui.wait();
-			}
-			
-			synchronized (this) {
-				boolean bol = (boolean) _firstObject;
-				_commandToGui = null;
-				return bol;
-			}
-		} catch (InterruptedException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		System.out.println("\n###ERRORE IN ASK BOOLEAN###\n");
-		return false;
-	}
-
-	@Override
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -263,8 +208,7 @@ public class GraphicalUI implements UI {
 	
 	@Override
 	public void startTurn(GameBoard board, Player me) {
-		_firstObject = board;
-		_secondObject = me;
+		addFromGraphicalToGUI(board, me);
 		_commandToGui = CommandStrings.START_TURN;
 	}
 
@@ -290,25 +234,52 @@ public class GraphicalUI implements UI {
 			tempList.add(s.getName());
 		}
 		
-		_firstObject = tempList;
+		addFromGraphicalToGUI(tempList);
 		_commandToGui = CommandStrings.INITIAL_LEADER;
 		
 		synchronized (_commandToGui) {
 			_commandToGui.wait();
 		}
 		
-		synchronized (this) {
-			int i = (int) _firstObject;
-			_commandToGui = null;
-			System.out.println("_commandToGui pulito, ritorno il valore al server");
-			return i;
-		}
+		return (int) returnFirstAndCleanCommand();
 	}
 
 	@Override
 	public int askInt(String message, int min, int max) {
-		// TODO Auto-generated method stub
+		try {
+			addFromGraphicalToGUI(message, min, max);
+			_commandToGui = CommandStrings.ASK_INT;
+			
+			synchronized (_commandToGui) {
+				_commandToGui.wait();
+			}
+			
+			return (int) returnFirstAndCleanCommand();
+		} catch (InterruptedException e) {
+			// TODO: handle exception
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		System.out.println("\n###ERRORE###\n");
 		return 0;
+	}
+	
+	@Override
+	public boolean askBoolean(String message) {
+		try {
+			addFromGraphicalToGUI(message);
+			_commandToGui = CommandStrings.ASK_BOOLEAN;
+			
+			synchronized (_commandToGui) {
+				_commandToGui.wait();
+			}
+			
+			return (boolean) returnFirstAndCleanCommand();
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		System.out.println("\n###ERRORE IN ASK BOOLEAN###\n");
+		return false;
 	}
 	
 	@Override
@@ -328,14 +299,42 @@ public class GraphicalUI implements UI {
 	
 	@Override
 	public void showInfo(String str) {
-		_firstObject = str;
+		addFromGraphicalToGUI(str);
 		_commandToGui = CommandStrings.INFO;
 	}
 
 	@Override
 	public void showInfoWithBoardUpdate(String info, GameBoard board) {
-		_firstObject = info;
-		_secondObject = board;
+		addFromGraphicalToGUI(info, board);
 		_commandToGui = CommandStrings.INFO_BOARD;
+	}
+	
+	private Object returnFirstAndCleanCommand(){
+		synchronized (this) {
+			Object obj = getFirstFromGUIToGraphical();
+			_commandToGui = null;
+			System.out.println("\nCommand cleaned\n");
+			return obj;
+		}
+	}
+	
+	public synchronized void addFromGraphicalToGUI(Object...objects){
+		for(Object obj : objects){
+			_fromGraphicalToGUI.add(obj);
+		}
+	}
+	
+	public synchronized void addFromGUIToGraphical(Object...objects){
+		for(Object obj : objects){
+			_fromGUItoGraphical.add(obj);
+		}
+	}
+	
+	public synchronized Object getFirstFromGraphicalToGUI(){
+		return _fromGraphicalToGUI.poll();
+	}
+	
+	public synchronized Object getFirstFromGUIToGraphical(){
+		return _fromGUItoGraphical.poll();
 	}
 }
