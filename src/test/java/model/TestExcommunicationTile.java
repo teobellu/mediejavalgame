@@ -2,17 +2,10 @@ package model;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import org.junit.Test;
 
 import game.ExcommunicationTile;
 import game.GC;
-import game.LeaderCard;
-import game.Player;
 
 /**
  * Test model: Excommunication Tile

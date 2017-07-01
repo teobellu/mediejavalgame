@@ -8,6 +8,11 @@ import java.io.Serializable;
 public class FamilyMember implements Serializable{
 	
 	/**
+	 * A default serial version ID to the selected type
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Owner of the familiar
 	 */
 	private Player owner;

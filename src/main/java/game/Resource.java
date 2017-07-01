@@ -13,6 +13,11 @@ import exceptions.GameException;
 public class Resource implements Serializable{
 	
 	/**
+	 * A default serial version ID to the selected type
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	/**
 	 * Object that contains information about the resource package;
 	 * To the left the type of resource, to the right its quantity
 	 */

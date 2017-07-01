@@ -2679,6 +2679,16 @@
 			</increase_value_action>
 
 		</ban_card>
+		
+		<ban_card>
+			<period>2</period>
+			<increase_value_action>
+				<action>building</action>
+				<value>-4</value>
+			</increase_value_action>
+
+		</ban_card>
+		
 		<ban_card>
 			<period>2</period>
 			<increase_value_action>

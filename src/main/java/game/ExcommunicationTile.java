@@ -10,6 +10,11 @@ import game.effect.Effect;
 public class ExcommunicationTile implements ICard, Serializable{
 
 	/**
+	 * A default serial version ID to the selected type
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * ID of the single card, for view;
 	 * Written in lower case for sonar
 	 */
@@ -43,7 +48,10 @@ public class ExcommunicationTile implements ICard, Serializable{
 		return id;
 	}
 	
-	//TODO description
+	/**
+	 * Setter, set the ID of the card
+	 * @param id ID of the card
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
