@@ -49,6 +49,10 @@ public class TestResource {
 		res2.add(res2);
 		assertTrue(res1.get(GC.RES_COINS) == 1);
 		assertTrue(res2.get(GC.RES_COINS) == 4);
+		
+		Resource res3 = res2;
+		res2.add(null);
+		assertTrue(res3.toString().equals(res2.toString()));
     }
 	
 	@Test

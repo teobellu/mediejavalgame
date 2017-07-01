@@ -142,16 +142,6 @@ public class GameBoard implements Serializable{
 				tower[row][column].getFamiliars().clear();
 	}
 	
-	public boolean canGetCard(Player player, int row, int column){
-		row--; 
-		column--;
-		if (row < MAX_ROW && column < MAX_COLUMN && row >= 0 && column >= 0) 
-			return false;
-		if (tower[row][column].getCard() == null) 
-			return false;
-		return true;
-	}
-	
 	public DevelopmentCard getCard(int row, int column){
 		return getFromTowers(row,column).getCard();
 	}
@@ -167,13 +157,10 @@ public class GameBoard implements Serializable{
 		return tower[row][column];
 	}
 	
-	
-	
 	public Space getCouncilPalaceSpace(){
 		return councilPalaceSpace;
 	}
 	
-	//ok
 	public Space getMarketSpace(int whichSpace){
 		return market[whichSpace];
 	}
@@ -210,8 +197,7 @@ public class GameBoard implements Serializable{
 		}
 	}
 	
-	//TODO magari rimuovere gameexception
-	public List<FamilyMember> getFamiliarInSameColumn(int column) throws GameException{
+	public List<FamilyMember> getFamiliarInSameColumn(int column){
 		List<FamilyMember> familiarInSameColumn = new ArrayList<>();
 		for (int row = 0; row < GameBoard.MAX_ROW; row++)
 			familiarInSameColumn.addAll(getFromTowers(row, column).getFamiliars());

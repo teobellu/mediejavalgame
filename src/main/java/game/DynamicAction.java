@@ -504,7 +504,7 @@ public class DynamicAction {
 		}
 		boolean answer = false;
 		try {
-			answer = player.getClient().getConnectionHandler().askBoolean("Do you what to show vatican support?");
+			answer = player.getClient().getConnectionHandler().askBoolean(Messages.MESS_SHOW_SUPPORT);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -519,9 +519,11 @@ public class DynamicAction {
 			// TODO non entrerò mai qui dentro
 			e.printStackTrace();
 		}
+		
 		int indexFaith = Math.min(faithPoints, infoGame.getBonusFaith().size() - 1);
 		int victory = infoGame.getBonusFaith().get(indexFaith);
 		player.gain(new Resource(GC.RES_VICTORYPOINTS, victory));
+		game.otherPlayersInfo(player.getName() + Messages.MESS_NOT_EXCOMMUNICATED, player);
 		activateEffect(GC.WHEN_SHOW_SUPPORT);
 	}
 	
@@ -533,7 +535,7 @@ public class DynamicAction {
 		ExcommunicationTile tile = game.getBoard().getExCard()[age - 1];
 		Effect malus = tile.getEffect();
 		player.addEffect(malus);//TODO O MEGLIO UNA COPIA????
-		//game.broadcastInfo(player.getName() + " has been excommunicated!");
+		game.broadcastInfo(player.getName() + Messages.MESS_EXCOMMUNICATED);
 		//TODO GUI ?
 	}
 	
@@ -550,6 +552,7 @@ public class DynamicAction {
 		player.removeLeaderCard(card);
 		player.addEffect(card.getEffect());
 		infoGame.addDiscardedLeader(card, player);
+		game.otherPlayersInfo(player.getName() + Messages.MESS_ACTIVATED_LEADER + card.getName(), player);
 	}
 	
 	/**
@@ -560,6 +563,7 @@ public class DynamicAction {
 	public void discardLeaderCard(LeaderCard card) throws RemoteException{
 		player.removeLeaderCard(card);
 		gain(new Resource(GC.RES_COUNCIL, 1));
+		game.otherPlayersInfo(player.getName() + Messages.MESS_DISCARDED_LEADER + card.getName(), player);
 	}
 	
 	/**

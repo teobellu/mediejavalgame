@@ -200,13 +200,6 @@ public class GameInformation{
 	public List<LeaderCard> getLeaderDeck() {
 		return leaderDeck;
 	}
-	
-	
-
-	public void deckBuilder(UserConfig userConfig){
-		//TODO
-		//riempio i deck
-	}
 
 	public void setExcommunicationTitlesOnBoard(){
 		ExcommunicationTile[] exCard = new ExcommunicationTile[3];
@@ -218,10 +211,6 @@ public class GameInformation{
 					break;
 				}
 		game.getBoard().setExCard(exCard);
-	}
-	
-	public void setDevelopmentCardOnBoard(int age){
-		//TODO
 	}
 
 	public Map<LeaderCard, Player> getDiscardedLeader() {

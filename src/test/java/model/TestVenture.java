@@ -15,14 +15,14 @@ import game.development.DevelopmentCard;
 import game.development.Venture;
 
 /**
- * Test model: Character
+ * Test model: Venture
  * @author M
  *
  */
 public class TestVenture {
 	
 	@Test
-    public void createCharacter() throws Exception {
+    public void createVenture() throws Exception {
 		Resource cost = new Resource(GC.RES_STONES, 6);
 		List<Resource> costs = new ArrayList<>();
 		costs.add(cost);

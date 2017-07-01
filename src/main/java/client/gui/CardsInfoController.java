@@ -56,6 +56,14 @@ public class CardsInfoController extends DialogAbstractController{
 	
 	@FXML
 	private void initialize(){
+		/*_gridPane = new GridPane();
+		
+		for (int col = 0; col < 6; col ++){
+			Node image = new ImageView();
+			_gridPane.add(image, col, 0);
+			Node image2 = new ImageView();
+			_gridPane.add(image2, col, 1);
+		}*/
 		_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom1.jpg").toURI().toString()));
 	}
 	
@@ -104,14 +112,20 @@ public class CardsInfoController extends DialogAbstractController{
 	private void setCardImages(int row, List<DevelopmentCard> cards){
 		
 		for(DevelopmentCard dc : cards){
+			System.out.println(_gridPane);
+			//TODO nullpointerexception code:
 			ImageView iv = (ImageView) getNodeFromGridPane(_gridPane, cards.indexOf(dc), row);
 			iv.setImage(new Image(new File("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+dc.getId()+".png").toURI().toString()));
+			//prova:
+			//ImageView node = new ImageView(new Image(new File("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+dc.getId()+".png").toURI().toString()));
+			//_gridPane.add(node, cards.indexOf(dc), row);
+			// ????????????????????? TODO
 		}
 	}
 	
 	private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
 	    for (Node node : gridPane.getChildren()) {
-	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+	        if (gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
 	            return node;
 	        }
 	    }

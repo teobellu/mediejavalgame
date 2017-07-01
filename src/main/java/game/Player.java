@@ -29,13 +29,14 @@ public class Player implements Serializable{
 	
 	private Resource productionBonus;
 	
-	private DevelopmentCardManager manager = new DevelopmentCardManager();
+	private DevelopmentCardManager manager;
 
 	protected Player(Client client){
 		_client = client;
-		id = 5555555;
+		id = 5555555;//TODO
 		name = client.getName();
 		resource = new Resource();
+		manager = new DevelopmentCardManager();
 		developmentCard = new ArrayList<>();
 		leaderCard = new ArrayList<>();
 		effects = new ArrayList<>();
@@ -43,7 +44,6 @@ public class Player implements Serializable{
 	}
 	
 	public void gain (Resource res){
-		//TODO Se res contiene privilegi del consiglio?
 		resource.add(res);
 	}
 	
@@ -92,8 +92,6 @@ public class Player implements Serializable{
 	public void addDevelopmentCard (DevelopmentCard newCard){
 		developmentCard.add(newCard);
 		manager.add(newCard);
-		//newCard.setPlayer(this);
-		//newCard.activateImmediateEffect();
 	}
 	
 	public Resource getResource(){
@@ -106,10 +104,6 @@ public class Player implements Serializable{
 
 	public List<Effect> getEffects() {
 		return effects;
-	}
-	
-	public void showFam() {
-		freeMember.stream().forEach(fam -> System.out.println(fam.getColor() + " " + fam.getValue()));
 	}
 
 	public List<DevelopmentCard> getDevelopmentCards() {

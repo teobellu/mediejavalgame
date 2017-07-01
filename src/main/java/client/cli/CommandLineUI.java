@@ -4,12 +4,14 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.junit.rules.Timeout;
+import javax.print.attribute.standard.Severity;
 
 import client.ClientText;
 import client.UI;
+import client.gui.DropLeaderController;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
 import exceptions.GameException;
@@ -26,6 +28,8 @@ import util.Constants;
 import util.IOHandler;
 
 public class CommandLineUI implements UI {
+	
+	private Logger _log = Logger.getLogger(CommandLineUI.class.getName());
 	
 	private GameBoard _board;
 	
@@ -104,6 +108,16 @@ public class CommandLineUI implements UI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void run() {
+		try {
+			getConnection().addMeToGame(getUsername());
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
 	}
 	
 	public void handleTurn() throws RemoteException{
@@ -256,17 +270,7 @@ public class CommandLineUI implements UI {
 		// TODO Auto-generated method stub	
 	}
 
-	@Override
-	public void run() {
-		DevelopmentCard card = new Territory("hi", 2, GC.NIX, GC.NIX, 6);
-		ModelPrinter.printCard(card);
-		try {
-			getConnection().addMeToGame(getUsername());
-		} catch (RemoteException e) {
-			
-		}
-		
-	}
+	
 	
 	@Override
 	public int spendCouncil(List<Resource> resources){

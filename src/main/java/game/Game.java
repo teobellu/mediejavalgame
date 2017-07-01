@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import game.development.DevelopmentCard;
+import game.development.Venture;
 import game.state.State;
 import game.state.StateStartingTurn;
 import server.Client;
@@ -117,6 +118,13 @@ public class Game implements Runnable {
 			c.getPermanentEffect().forEach(e -> System.out.print("perm " + e.getIEffectBehavior().toString()));
 			System.out.println("");
 		}
+		
+		int x = 45;
+		for (Player player : _players){
+			player.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(x));
+			x++;
+		}
+		
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
 		
 		gameInformation.getExcommunicationDeck().get(12);
