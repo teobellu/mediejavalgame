@@ -245,7 +245,7 @@ public class CommandLineUI implements UI {
 		return username;
 	}
 	
-	@Override
+	//TODO ERA OVERRIDE E DAVa conflitto (1/7/2017)
 	public String askForConfigFile() {
 		_ioHandler.write(ClientText.ASK_IF_CONFIG_FILE);
 		return _ioHandler.readLine(true);
@@ -338,13 +338,6 @@ public class CommandLineUI implements UI {
 		}
 		return _ioHandler.readNumberWithinInterval(realPayOptions.size() - 1);
 	}
-	
-	
-
-	@Override
-	public void showInfo(String str) {
-		_ioHandler.write("New Info: " + str);
-	}
 
 	@Override
 	public int selectInitialLeaders(List<LeaderCard> leaders) {
@@ -403,20 +396,20 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void info(String info) {
-		_ioHandler.write(info);
-	}
-
-	@Override
-	public void infoWithBoardUpdate(String info, GameBoard board) {
-		_board = board;
-		ModelPrinter.printBoard(_board);
+	public void showInfo(String info) {
 		_ioHandler.write(info);
 	}
 
 	@Override
 	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException {
 		_connectionHandler.placeFamiliar(familiarColour, position);
+	}
+
+	@Override
+	public void showInfoWithBoardUpdate(String info, GameBoard board) {
+		_board = board;
+		ModelPrinter.printBoard(_board);
+		_ioHandler.write(info);
 	}
 	
 }
