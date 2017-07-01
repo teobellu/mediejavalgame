@@ -292,13 +292,15 @@ public class CommandLineUI implements UI {
 	public int chooseLeader(String context, List<LeaderCard> leaders){
 		_ioHandler.writeNext(context);
 		_ioHandler.write(" : Select a Leader card");
+		ModelPrinter.printLeaderCards(leaders);
+		/*
 		int index = 0;
 		for(LeaderCard card : leaders){
 			_ioHandler.writeNext(index + ") ");
 			_ioHandler.writeNext("Name: " + card.getName() + " ");
 			_ioHandler.write("Effect: " + card.getEffect().toString());
 			index++;
-		}
+		}*/
 		return _ioHandler.readNumberWithinInterval(leaders.size() - 1);
 	}
 	
@@ -316,13 +318,15 @@ public class CommandLineUI implements UI {
 	public int chooseFamiliar(List<FamilyMember> familiars, String message) {
 		_ioHandler.write("Attention! Reply to this message: ");
 		_ioHandler.writeNext(message);
+		ModelPrinter.printListFamiliar(familiars);
+		/*
 		int index = 0;
 		for(FamilyMember familiar : familiars){
 			_ioHandler.writeNext(index + ") ");
 			_ioHandler.writeNext("Color: " + familiar.getColor());
 			_ioHandler.writeNext("Value: " + familiar.getValue());
 			index++;
-		}
+		}*/
 		return _ioHandler.readNumberWithinInterval(familiars.size() - 1);
 	}
 	
@@ -395,21 +399,22 @@ public class CommandLineUI implements UI {
 		_connectionHandler.activateLeaderCard(leaderName);
 	}
 
-	@Override
-	public void showInfo(String info) {
-		_ioHandler.write(info);
-	}
 
 	@Override
 	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException {
 		_connectionHandler.placeFamiliar(familiarColour, position);
+	}
+	
+	@Override
+	public void showInfo(String info) {
+		_ioHandler.write("[INFO] : " + info);
 	}
 
 	@Override
 	public void showInfoWithBoardUpdate(String info, GameBoard board) {
 		_board = board;
 		ModelPrinter.printBoard(_board);
-		_ioHandler.write(info);
+		_ioHandler.write("[INFO] : " + info);
 	}
 	
 }
