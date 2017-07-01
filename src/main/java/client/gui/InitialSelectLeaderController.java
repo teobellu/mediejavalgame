@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.LeaderCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -79,8 +78,9 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 	}
 	
 	private void handleButton(int choice){
-		GraphicalUI.getInstance().setReturnObject(choice);
-		_GUI.createSetupGameObserver();
+		GraphicalUI.getInstance().setFirstOBject(choice);
+		GraphicalUI.getInstance().notifyCommandToGui();
+		_GUI.createMainObserver();
 		_dialog.close();
 	}
 	

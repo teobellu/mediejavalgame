@@ -91,44 +91,11 @@ public class GUI extends Application {
 			_mainViewController.initialSetupController();
 			_mainViewController.setGUI(this);
 
-			createSetupGameObserver();
+			createMainObserver();
 			
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void createSetupGameObserver(){
-		Task<Void> task = createReturnObjectObserver();
-		
-		if(_counter<Constants.LEADER_CARDS_PER_PLAYER){
-			System.out.println("Creo listener per leader card");
-	
-			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-				@Override
-				public void handle(WorkerStateEvent event) {
-					showInitialSelectLeaderDialog((List<String>) GraphicalUI.getInstance().getReturnObject());
-				}
-			});
-	
-			_counter++;
-		} else {
-			System.out.println("Creo listener per personal bonus");
-			_counter = 0;
-			
-			task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-				@Override
-				public void handle(WorkerStateEvent event) {
-					showPersonalBonusDialog((HashMap<String, List<Resource>>)GraphicalUI.getInstance().getReturnObject());
-				}
-				
-			});
-		}
-		
-		Thread th = new Thread(task);
-		th.setDaemon(true);
-		th.start();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -139,38 +106,34 @@ public class GUI extends Application {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI###\n");
-				processObject();
-			}
-			
-			private void processObject(){//TODO
-				Object obj = GraphicalUI.getInstance().getReturnObject();
-				if(obj instanceof String){
-					processString((String) obj);
-				} else if(obj instanceof List<?>){
-					if(((List) obj).get(0) instanceof Resource){
-						showCouncilPrivilegeDialog((List<Resource>)obj);
-					}
-				} else {//TODO
-					System.out.println("\n###GUI HA RICEVUTO UN OGGETTO SCONOSCIUTO###\n");
-				}
+				processString(GraphicalUI.getInstance().getCommandToGui());
 			}
 			
 			private void processString(String str){
 				if(str.equals(CommandStrings.START_TURN)){
 					startTurn();
-				} 
+				}
+				else if(str.equals(CommandStrings.INITIAL_LEADER)){
+					showInitialSelectLeaderDialog((List<String>) GraphicalUI.getInstance().getFirstOBject());
+				}
+				else if(str.equals(CommandStrings.INITIAL_PERSONAL_BONUS)){
+					showPersonalBonusDialog((HashMap<String, List<Resource>>)GraphicalUI.getInstance().getFirstOBject());
+				}
 				else if(str.equals(CommandStrings.INFO)){
-					_mainViewController.appendToInfoText(GraphicalUI.getInstance().getInfo());
+					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstOBject());
 				}
 				else if(str.equals(CommandStrings.INFO_BOARD)){
-					_mainViewController.appendToInfoText(GraphicalUI.getInstance().getInfo());
-					_mainViewController.updateBoard(GraphicalUI.getInstance().getBoard());
+					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstOBject());
+					_mainViewController.updateBoard((GameBoard) GraphicalUI.getInstance().getSecondObject());
 				}
 				else if(str.equals(CommandStrings.ASK_BOOLEAN)){
-					showAskBooleanDialog(GraphicalUI.getInstance().getInfo());
+					showAskBooleanDialog((String) GraphicalUI.getInstance().getFirstOBject());
+				}
+				else if(str.equals(CommandStrings.HANDLE_COUNCIL)){
+					showCouncilPrivilegeDialog((List<Resource>) GraphicalUI.getInstance().getFirstOBject());
 				}
 				else {//TODO
-					System.out.println("\n###GUI HA RICEVUTO UNA STRINGA SCONOSCIUTA###\n");
+					System.out.println("\n###GUI HA RICEVUTO UN COMANDO SCONOSCIUTO###\n");
 				}
 			}
 		});
@@ -186,9 +149,9 @@ public class GUI extends Application {
 			protected Void call() throws Exception {
 				Thread.sleep(4000);
 				
-				while (GraphicalUI.getInstance().getReturnObject() == null) {
+				while (GraphicalUI.getInstance().getCommandToGui() == null) {
 					try {
-						System.out.println("Waiting for return object...");
+						System.out.println("Waiting for _commandToGui object...");
 						Thread.sleep(1000);
 					} catch (Exception e) {
 					}
@@ -218,9 +181,8 @@ public class GUI extends Application {
 	}
 
 	public void startTurn(){
-		GameBoard board = GraphicalUI.getInstance().getBoard();
-		Player me = GraphicalUI.getInstance().getMe();
-		
+		GameBoard board = (GameBoard) GraphicalUI.getInstance().getFirstOBject();
+		Player me = (Player) GraphicalUI.getInstance().getSecondObject();
 		_mainViewController.startTurn(me, board);
 	}
 	

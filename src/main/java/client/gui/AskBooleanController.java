@@ -38,11 +38,8 @@ public class AskBooleanController extends DialogAbstractController {
 	
 	@FXML
 	private void onOkPressed(){
-		if(_toggleGroup.getSelectedToggle().equals(_yesRadio)){
-			GraphicalUI.getInstance().setReturnObject(true);
-		} else {
-			GraphicalUI.getInstance().setReturnObject(false);
-		}
+		GraphicalUI.getInstance().setFirstOBject(_toggleGroup.getSelectedToggle().equals(_yesRadio));
+		GraphicalUI.getInstance().notifyCommandToGui();
 		_dialog.close();
 	}
 }

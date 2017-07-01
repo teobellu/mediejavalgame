@@ -27,11 +27,13 @@ import util.CommandStrings;
 
 public class GraphicalUI implements UI {
 	
-	private Object _returnObject = null;
+	private String _commandToGui;
 	
-	private GameBoard _board;
-	private Player _me;
-	private String _info;
+	private Object _firstObject;
+	
+	private Object _secondObject;
+	
+	private Object _thirdObject;
 	
 	private File _xmlFile;
 	
@@ -132,16 +134,17 @@ public class GraphicalUI implements UI {
 	
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) {
-		try {
-			_returnObject = bonus;
-			
-			synchronized (_returnObject) {
-				_returnObject.wait();
+		_firstObject = bonus;
+		_commandToGui = CommandStrings.INITIAL_PERSONAL_BONUS;
+		
+		try{
+			synchronized (_commandToGui) {
+				_commandToGui.wait();
 			}
 			
-			synchronized (_returnObject) {
-				int i = (int) _returnObject;
-				_returnObject = null;
+			synchronized (this) {
+				int i = (int) _firstObject;
+				_commandToGui = null;
 				return i;
 			}
 		} catch (Exception e) {
@@ -151,14 +154,37 @@ public class GraphicalUI implements UI {
 		return 0;
 	}
 	
-	public Object getReturnObject(){
-		return _returnObject;
+	public String getCommandToGui(){
+		return _commandToGui;
 	}
 	
-	public void setReturnObject(Object obj){
-		synchronized (_returnObject) {
-			_returnObject.notify();
-			_returnObject = obj;
+	public void setFirstOBject(Object obj){
+		_firstObject = obj;
+	}
+	
+	public void setSecondObject(Object obj){
+		_secondObject = obj;
+	}
+	
+	public void setThirdObject(Object obj){
+		_thirdObject = obj;
+	}
+	
+	public Object getFirstOBject(){
+		return _firstObject;
+	}
+	
+	public Object getSecondObject(){
+		return _secondObject;
+	}
+	
+	public Object getThirdObject(){
+		return _thirdObject;
+	}
+	
+	public void notifyCommandToGui(){
+		synchronized (_commandToGui) {
+			_commandToGui.notify();
 		}
 	}
 
@@ -172,15 +198,18 @@ public class GraphicalUI implements UI {
 	@Override
 	public int spendCouncil(List<Resource> options) {
 		try {
-			_returnObject = options;
+			_firstObject = options;
+			_commandToGui = CommandStrings.HANDLE_COUNCIL;
 			
-			System.out.println("Waiting user conversion...");
-			
-			synchronized (_returnObject) {
-				_returnObject.wait();
+			synchronized (_commandToGui) {
+				_commandToGui.wait();
 			}
 			
-			return (int) _returnObject;
+			synchronized (this) {
+				int i = (int) _firstObject;
+				_commandToGui = null;
+				return i;
+			}
 		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			return 0;
@@ -207,18 +236,17 @@ public class GraphicalUI implements UI {
 	@Override
 	public boolean askBoolean(String message) {
 		try {
-			_info = message;
-			_returnObject = CommandStrings.ASK_BOOLEAN;
+			_firstObject = message;
+			_commandToGui = CommandStrings.ASK_BOOLEAN;
 			
-			synchronized (_returnObject) {
-				_returnObject.wait();
+			synchronized (_commandToGui) {
+				_commandToGui.wait();
 			}
 			
-			synchronized (_returnObject) {
-				boolean returned = (boolean) _returnObject;
-				_returnObject = null;
-				System.out.println("_returnObject pulito, mando risposta.");
-				return returned;
+			synchronized (this) {
+				boolean bol = (boolean) _firstObject;
+				_commandToGui = null;
+				return bol;
 			}
 		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -235,21 +263,9 @@ public class GraphicalUI implements UI {
 	
 	@Override
 	public void startTurn(GameBoard board, Player me) {
-		_board = board;
-		_me = me;
-		_returnObject = CommandStrings.START_TURN;
-	}
-	
-	public GameBoard getBoard(){
-		return _board;
-	}
-	
-	public Player getMe(){
-		return _me;
-	}
-	
-	public String getInfo(){
-		return _info;
+		_firstObject = board;
+		_secondObject = me;
+		_commandToGui = CommandStrings.START_TURN;
 	}
 
 	@Override
@@ -274,17 +290,18 @@ public class GraphicalUI implements UI {
 			tempList.add(s.getName());
 		}
 		
-		_returnObject = tempList;
+		_firstObject = tempList;
+		_commandToGui = CommandStrings.INITIAL_LEADER;
 		
-		System.out.println("Waiting for player choice...");
-		synchronized (_returnObject) {
-			_returnObject.wait();
+		synchronized (_commandToGui) {
+			_commandToGui.wait();
 		}
-		synchronized (_returnObject) {
-			int returned = (int) _returnObject;
-			_returnObject = null;
-			System.out.println("_returnObject pulito, mando risposta.");
-			return returned;
+		
+		synchronized (this) {
+			int i = (int) _firstObject;
+			_commandToGui = null;
+			System.out.println("_commandToGui pulito, ritorno il valore al server");
+			return i;
 		}
 	}
 
@@ -311,14 +328,14 @@ public class GraphicalUI implements UI {
 	
 	@Override
 	public void showInfo(String str) {
-		_info = str;
-		_returnObject = CommandStrings.INFO;
+		_firstObject = str;
+		_commandToGui = CommandStrings.INFO;
 	}
 
 	@Override
 	public void showInfoWithBoardUpdate(String info, GameBoard board) {
-		_info = info;
-		_board = board;
-		_returnObject = CommandStrings.INFO_BOARD;
+		_firstObject = info;
+		_secondObject = board;
+		_commandToGui = CommandStrings.INFO_BOARD;
 	}
 }

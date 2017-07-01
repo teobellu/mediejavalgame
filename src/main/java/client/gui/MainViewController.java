@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
-import game.FamilyMember;
 import game.GC;
 import game.GameBoard;
 import game.LeaderCard;
@@ -108,6 +107,9 @@ public class MainViewController {
 	
 	private ArrayList<ImageView> _leaderCards = new ArrayList<>();
 	
+	private GameBoard _board;
+	private Player _me;
+	
 	private GUI _GUI;
 	
 	public void initialSetupController(){
@@ -183,22 +185,18 @@ public class MainViewController {
 	
 	@FXML
 	private void onFirstButtonClicked(){
-		GameBoard board = GraphicalUI.getInstance().getBoard();
-		List<FamilyMember> familiars = GraphicalUI.getInstance().getMe().getFreeMember();
-		_GUI.showPlaceFamiliar(board, familiars);
+		_GUI.showPlaceFamiliar(_board, _me.getFreeMember());
 	}
 	
 	@FXML
 	private void onSecondButtonClicked(){
-		Player me = GraphicalUI.getInstance().getMe();
-		List<LeaderCard> leaderCards = me.getLeaderCards();
-		_GUI.showActivateLeaderDialog(leaderCards);
+		_GUI.showActivateLeaderDialog(_me.getLeaderCards());
 	}
 	
 	@FXML
 	private void onThirdButtonClicked(){
 		List<String> leaders = new ArrayList<>();
-		List<LeaderCard> lead = GraphicalUI.getInstance().getMe().getLeaderCards();
+		List<LeaderCard> lead = _me.getLeaderCards();
 		
 		for(LeaderCard lc : lead){
 			leaders.add(lc.getName());
@@ -229,8 +227,7 @@ public class MainViewController {
 	
 	@FXML
 	private void onFifthButtonClicked(){
-		Player me = GraphicalUI.getInstance().getMe();
-		_GUI.showCardsInfoDialog(me);
+		_GUI.showCardsInfoDialog(_me);
 	}
 	
 	public void updateBoard(GameBoard board){
@@ -238,6 +235,10 @@ public class MainViewController {
 	}
 	
 	public void startTurn(Player me, GameBoard board){
+		_me = me;
+		_board = board;
+		
+		
 		_buttonPane.setDisable(false);
 		
 		_blackDiceValue.setText(board.getDices()[0].toString());
