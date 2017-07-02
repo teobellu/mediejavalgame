@@ -148,7 +148,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			}
 		}
 		else if(str.equals(CommandStrings.GAME_BOARD)){
-			GameBoard board = _theGame.getBoard();
+			GameBoard board = _theGame.getListener().getGameBoard();
 			writeObject(CommandStrings.GAME_BOARD);
 			writeObject(board);
 		}
@@ -156,7 +156,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			_configFile = (String) getFromClient();
 		}
 		else if(str.equals(CommandStrings.PLAYER)){
-			Player player = _theGame.getCurrentPlayer();
+			Player player = _theGame.getListener().getMe();
 			writeObject(CommandStrings.PLAYER);
 			writeObject(player);
 		}
