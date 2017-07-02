@@ -26,6 +26,13 @@ public class DropLeaderController extends DialogAbstractController{
 	
 	public void setLeaderList(List<String> leaders){
 		_leaderList = leaders;
+		
+		if(!_choiceBox.getItems().isEmpty()){
+			for(String s : _choiceBox.getItems()){
+				_choiceBox.getItems().remove(s);
+			}
+		}
+		
 		_choiceBox.getItems().addAll(_leaderList);
 		_choiceBox.getSelectionModel().selectFirst();
 	}

@@ -140,12 +140,6 @@ public class MainViewController {
 
 	}
 	
-	@FXML
-	private void initialize(){
-		
-		
-	}
-	
 	/*https://stackoverflow.com/q/28243156*/
 	/**
 	 * Append and show a text to the _buttonPane with font 18
@@ -196,7 +190,14 @@ public class MainViewController {
 	@FXML
 	private void onThirdButtonClicked(){
 		List<String> leaders = new ArrayList<>();
-		List<LeaderCard> lead = _me.getLeaderCards();
+		List<LeaderCard> lead = new ArrayList<>();
+		try {
+			Player pl = GraphicalUI.getInstance().getConnection().getMe();
+			lead = pl.getLeaderCards();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		for(LeaderCard lc : lead){
 			leaders.add(lc.getName());

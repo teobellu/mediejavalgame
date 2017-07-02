@@ -8,7 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
-public class CouncilPrivilegeController extends DialogAbstractController{
+public class HandleCouncilController extends DialogAbstractController{
 
 	@FXML
 	private Button _okButton;
@@ -26,7 +26,7 @@ public class CouncilPrivilegeController extends DialogAbstractController{
 					if(sb.length()==0){
 						sb.append("Converti in ");
 					} else {
-						sb.append(" e in");
+						sb.append(" e in ");
 					}
 					sb.append(i+" "+s);
 				}

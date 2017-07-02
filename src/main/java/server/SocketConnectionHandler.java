@@ -55,7 +55,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		while(_isRunning){
 			synchronized (_inputStream) {
 				try {
-					object = _inputStream.readObject();
+					object = _inputStream.readUnshared();
 				} catch (ClassNotFoundException e) {
 					object=null;
 				}
@@ -157,6 +157,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		}
 		else if(str.equals(CommandStrings.PLAYER)){
 			Player player = _theGame.getListener().getMe();
+			System.out.println("\nQuesto player ha "+player.getLeaderCards().size()+" carte leader\n");
 			writeObject(CommandStrings.PLAYER);
 			writeObject(player);
 		}
@@ -375,9 +376,13 @@ public class SocketConnectionHandler extends ConnectionHandler {
 						processObject(obj);
 					}
 				}
+				
+				
 			} catch (IOException e) {
 				shutdown();
 				_log.log(Level.SEVERE, e.getMessage(), e);
+			} finally {
+				System.out.println("\n\n###READER SHUTTING DOWN###\n\n");
 			}
 		}
 		

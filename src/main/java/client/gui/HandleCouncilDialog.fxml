@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="300.0" maxWidth="600.0" minHeight="300.0" minWidth="600.0" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.CouncilPrivilegeController">
+<AnchorPane maxHeight="300.0" maxWidth="600.0" minHeight="300.0" minWidth="600.0" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.HandleCouncilController">
    <children>
       <GridPane layoutX="35.0" layoutY="135.0" prefHeight="30.0" prefWidth="375.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0">
         <columnConstraints>

@@ -3,7 +3,6 @@ package game;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import exceptions.GameException;
 
@@ -12,8 +11,6 @@ public class ListenAction{
 	protected final Game _theGame;
 	protected Player _player;
 	protected List<String> actionsAlreadyDone;
-	
-	private Logger _log = Logger.getLogger(ListenAction.class.getName());
 	
 	public ListenAction(Game game){
 		_theGame = game;

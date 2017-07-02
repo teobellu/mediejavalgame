@@ -91,11 +91,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.INITIAL_PERSONAL_BONUS);
 			writeObject(i);
 		}
-		else if(obj.equals(CommandStrings.START_TURN)){
-			GameBoard board = (GameBoard) getFromServer();
-			Player me = (Player) getFromServer();
-			_ui.startTurn(board, me);
-		}
 		else if(obj.equals(CommandStrings.CHOOSE_CONVERT)){
 			List<Resource> realPayOptions = (List<Resource>) getFromServer();
 			List<Resource> realGainOptions = (List<Resource>) getFromServer();
@@ -131,7 +126,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.ASK_BOOLEAN);
 			writeObject(returned);
 		}
-		else if(obj.matches(CommandStrings.HANDLE_COUNCIL)){
+		else if(obj.equals(CommandStrings.HANDLE_COUNCIL)){
 			int i = _ui.spendCouncil((List<Resource>) getFromServer());
 			
 			writeObject(CommandStrings.HANDLE_COUNCIL);
@@ -143,6 +138,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				_returnObject.notify();
 				_returnObject = getFromServer();
+				System.out.println("Wake up!");
 			}
 		}else{
 			_log.log(Level.SEVERE, "\n###RICEVUTO COMANDO SCONOSCIUTO: "+obj+"###\n");
@@ -221,10 +217,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			do {
 				Object obj = null;
 				synchronized (_inputStream) {
-					obj = _inputStream.readObject();
+					obj = _inputStream.readUnshared();
 				}
 				
 				if (obj!=null) {
+					System.out.println("Ritornato oggetto di classe "+obj.getClass().getSimpleName());
 					return obj;
 				} else {
 					Thread.sleep(500);
@@ -289,6 +286,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			writeObject(CommandStrings.PLAYER);
 			
 			synchronized (_returnObject) {
+				System.out.println("\nWaiting...\n");
 				_returnObject.wait();
 			}
 			
@@ -371,6 +369,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		public void run() {
 			while (_isRunning) {
 				try{
+					System.out.println("Reading...");
 					Object obj = getFromServer();
 					if (obj != null) {
 						processObject(obj);
@@ -379,6 +378,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 					_log.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
+			
+			System.out.println("\n\n###READER SHUTTING DOWN###\n\n");
 		}
 	}
 }

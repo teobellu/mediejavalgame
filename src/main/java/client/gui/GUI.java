@@ -169,16 +169,17 @@ public class GUI extends Application {
 	
 	public void showCouncilPrivilegeDialog(List<Resource> resources) {
 		try {
+			System.out.println("Chiamato showCouncilPrivilegeDialog");
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("client/gui/CouncilPrivilegeDialog.fxml"));
+			loader.setLocation(GUI.class.getResource("/client/gui/HandleCouncilDialog.fxml"));
 			AnchorPane pane = loader.load();
-			
+
 			Stage dialog = setupDialog(pane, "Handle Council privilege");
-			
-			CouncilPrivilegeController controller = loader.getController();
+
+			HandleCouncilController controller = loader.getController();
 			controller.setDialog(dialog);
 			controller.setResources(resources);
-			
+
 			dialog.showAndWait();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -388,8 +389,6 @@ public class GUI extends Application {
 	
 	private Stage _primaryStage;
 	private BorderPane _rootLayout;
-	
-	private int _counter = 0;
 	
 	private MainViewController _mainViewController;
 

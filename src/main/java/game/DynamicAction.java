@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.omg.CORBA._PolicyStub;
-
 import exceptions.GameException;
 import game.development.DevelopmentCard;
 import game.development.Venture;
@@ -562,7 +560,25 @@ public class DynamicAction {
 	 */
 	public void discardLeaderCard(LeaderCard card) throws RemoteException{
 		player.removeLeaderCard(card);
-		gain(new Resource(GC.RES_COUNCIL, 1));
+		
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					gain(new Resource(GC.RES_COUNCIL, 1));
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}).start();
+		
+		
+		
+//		gain(new Resource(GC.RES_COUNCIL, 1));
 		game.otherPlayersInfo(player.getName() + Messages.MESS_DISCARDED_LEADER + card.getName(), player);
 	}
 	
