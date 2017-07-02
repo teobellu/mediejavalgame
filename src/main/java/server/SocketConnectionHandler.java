@@ -197,6 +197,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	private synchronized void writeObject(Object obj) throws IOException {
 		_outputStream.writeUnshared(obj);
 		_outputStream.flush();
+		_outputStream.reset();
 	}
 
 	@Override

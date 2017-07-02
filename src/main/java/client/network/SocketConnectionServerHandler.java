@@ -200,6 +200,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		try {
 			_outputStream.writeUnshared(message);
 			_outputStream.flush();
+			_outputStream.reset();
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -221,7 +222,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				}
 				
 				if (obj!=null) {
-					System.out.println("Ritornato oggetto di classe "+obj.getClass().getSimpleName());
+					
+					if(obj instanceof Player){
+						System.out.println("\n######Questo player ha "+((Player) obj).getLeaderCards().size()+" carte leader\n");
+					}
+					
 					return obj;
 				} else {
 					Thread.sleep(500);
@@ -290,6 +295,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				_returnObject.wait();
 			}
 			
+			Player pl = (Player) _returnObject;
+			
+			System.out.println("Questo player ha "+pl.getLeaderCards().size()+" carte leader");
 			return (Player) _returnObject;
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
