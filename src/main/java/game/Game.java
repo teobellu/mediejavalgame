@@ -141,10 +141,10 @@ public class Game implements Runnable {
 		
 		int n = 5;
 		for (Player p : _players){
-			p.gain(new Resource(GC.RES_WOOD, 2));
-			p.gain(new Resource(GC.RES_STONES, 2));
-			p.gain(new Resource(GC.RES_SERVANTS, 3));
-			p.gain(new Resource(GC.RES_COINS, n));
+			p.gain(new Resource(GC.RES_WOOD, 20));
+			p.gain(new Resource(GC.RES_STONES, 20));
+			p.gain(new Resource(GC.RES_SERVANTS, 30));
+			p.gain(new Resource(GC.RES_COINS, n+20));
 			n++;
 		}
 		

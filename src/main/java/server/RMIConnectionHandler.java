@@ -107,23 +107,39 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
-		_theGame.getListener().dropLeaderCard(leaderName);
+	public void dropLeaderCard(String leaderName) throws RemoteException {
+		try {
+			_theGame.getListener().dropLeaderCard(leaderName);
+		} catch (GameException e) {
+			sendInfo(e.getMessage());
+		}
 	}
 
 	@Override
-	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
-		_theGame.getListener().activateLeaderCard(leaderName);
+	public void activateLeaderCard(String leaderName) throws RemoteException {
+		try {
+			_theGame.getListener().activateLeaderCard(leaderName);
+		} catch (GameException e) {
+			sendInfo(e.getMessage());
+		}
 	}
 
 	@Override
-	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException {
-		_theGame.getListener().placeFamiliar(familiarColour, position);
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException {
+		try {
+			_theGame.getListener().placeFamiliar(familiarColour, position);
+		} catch (GameException e) {
+			sendInfo(e.getMessage());
+		}
 	}
 
 	@Override
-	public void endTurn() throws RemoteException, GameException {
-		_theGame.getListener().endTurn();
+	public void endTurn() throws RemoteException {
+		try {
+			_theGame.getListener().endTurn();
+		} catch (GameException e) {
+			sendInfo(e.getMessage());
+		}
 	}
 
 	@Override

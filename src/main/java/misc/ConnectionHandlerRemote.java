@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import exceptions.GameException;
 import game.GameBoard;
 import game.Player;
 import game.Position;
@@ -28,12 +27,12 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	
 	public Player getMe() throws RemoteException;
 	
-	public void dropLeaderCard(String leaderName) throws RemoteException, GameException;
+	public void dropLeaderCard(String leaderName) throws RemoteException;
 
-	public void activateLeaderCard(String leaderName) throws RemoteException, GameException;
+	public void activateLeaderCard(String leaderName) throws RemoteException;
 
-	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException;
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException;
 	
-	public void endTurn() throws RemoteException, GameException;
+	public void endTurn() throws RemoteException;
 
 }

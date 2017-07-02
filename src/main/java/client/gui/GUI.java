@@ -104,8 +104,9 @@ public class GUI extends Application {
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
+				System.out.println("Dentro handle");
 				String str = GraphicalUI.getInstance().getCommandToGui().poll();
-				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI: "+str+"###\n");
+				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI: "+str+"###\n"); 
 				processString(str);
 				createMainObserver();
 			}
@@ -152,8 +153,6 @@ public class GUI extends Application {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-//				Thread.sleep(4000);
-				
 				while (GraphicalUI.getInstance().getCommandToGui().isEmpty()) {
 					try {
 						System.out.println("Waiting for _commandToGui object...");
@@ -175,7 +174,7 @@ public class GUI extends Application {
 			AnchorPane pane = loader.load();
 
 			Stage dialog = setupDialog(pane, "Handle Council privilege");
-
+			
 			HandleCouncilController controller = loader.getController();
 			controller.setDialog(dialog);
 			controller.setResources(resources);

@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
 import game.LeaderCard;
@@ -49,21 +48,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 				}
 			}
 			
-//			try{
-//				UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+1);//TODO da rivedere
-//			} catch(ExportException e) {
-//				_log.log(Level.SEVERE, e.getMessage(), e);
-//				try{
-//					UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+2);
-//				}catch (Exception e2) {
-//					try{
-//						UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+3);
-//					}catch (Exception e3) {
-//						UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT+4);
-//					}
-//				}
-//			}
-			
 			ServerRemote _serverRMI = (ServerRemote) _registry.lookup(Constants.RMI);
 			
 			_connectionHandler = (ConnectionHandlerRemote) _serverRMI.onConnect();
@@ -101,6 +85,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	
 	@Override
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
+		System.out.println("\nChiamato spendCouncil su RMI\n");
 		return _ui.spendCouncil(councilRewards);
 	}
 	
@@ -140,22 +125,22 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 
 	@Override
-	public void dropLeaderCard(String leaderName) throws GameException, RemoteException {
+	public void dropLeaderCard(String leaderName) throws RemoteException {
 		_connectionHandler.dropLeaderCard(leaderName);
 	}
 
 	@Override
-	public void activateLeaderCard(String leaderName) throws GameException, RemoteException {
+	public void activateLeaderCard(String leaderName) throws RemoteException {
 		_connectionHandler.activateLeaderCard(leaderName);
 	}
 
 	@Override
-	public void placeFamiliar(String familiarColour, Position position) throws GameException, RemoteException {
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException {
 		_connectionHandler.placeFamiliar(familiarColour, position);
 	}
 
 	@Override
-	public void endTurn() throws GameException, RemoteException {
+	public void endTurn() throws RemoteException {
 		_connectionHandler.endTurn();
 	}
 

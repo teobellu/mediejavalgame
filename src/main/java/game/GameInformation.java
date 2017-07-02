@@ -10,8 +10,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.omg.CORBA._PolicyStub;
-
 import game.development.DevelopmentCard;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
@@ -92,8 +90,10 @@ public class GameInformation{
 			for (String color : GC.FM_TYPE){
 				FamilyMember familiar = new FamilyMember(color);
 				Integer[] dices = game.getBoard().getDices();
-				if(color != GC.FM_TRANSPARENT)
+				if(color != GC.FM_TRANSPARENT){
 					familiar.setValue(dices[GC.FM_TYPE.indexOf(color)]);
+				}
+				
 				familiars.add(familiar);
 			}
 			p.setFreeMember(familiars);

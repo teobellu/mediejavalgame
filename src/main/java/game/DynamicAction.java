@@ -103,7 +103,7 @@ public class DynamicAction {
 	}
 	
 	/**
-	 * Let player to get rewards from his cuncils
+	 * Let player to get rewards from his councils
 	 * @param res Resource with councils
 	 * @return Resource without councils
 	 * @throws RemoteException
@@ -561,24 +561,21 @@ public class DynamicAction {
 	public void discardLeaderCard(LeaderCard card) throws RemoteException{
 		player.removeLeaderCard(card);
 		
+//		new Thread(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				try {
+//					gain(new Resource(GC.RES_COUNCIL, 1));
+//				} catch (RemoteException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				
+//			}
+//		}).start();
 		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					gain(new Resource(GC.RES_COUNCIL, 1));
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		}).start();
-		
-		
-		
-//		gain(new Resource(GC.RES_COUNCIL, 1));
+		gain(new Resource(GC.RES_COUNCIL, 1));
 		game.otherPlayersInfo(player.getName() + Messages.MESS_DISCARDED_LEADER + card.getName(), player);
 	}
 	

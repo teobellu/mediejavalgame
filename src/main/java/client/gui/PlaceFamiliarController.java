@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.ClientText;
-import exceptions.GameException;
 import game.FamilyMember;
 import game.GC;
 import game.GameBoard;
@@ -14,11 +13,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -56,14 +53,23 @@ public class PlaceFamiliarController extends DialogAbstractController {
 			_familiarChoice.getItems().add(fm.getColor() + " - " +fm.getValue());
 		}
 		
-		_spaceTypes = GC.SPACE_TYPE;
+		_familiarChoice.getSelectionModel().selectFirst();
 		
-		for(String s : _spaceTypes){
-			s.replace("_", " ");
-			s = capsFirst(s);
+		_spaceTypes = new ArrayList<>();
+		
+		for(String s : GC.SPACE_TYPE){
+			String ss = s;
+			
+			ss.replace("_", " ");
+			ss = capsFirst(s);
+			_spaceTypes.add(s);
 		}
 		
+		_spaceTypes.add(0, _spaceTypes.get(1));
+		
 		_actionSpaceChoice.getItems().addAll(_spaceTypes);
+		
+		_actionSpaceChoice.getSelectionModel().selectFirst();
 		
 		/*https://stackoverflow.com/a/14523434*/
 		_actionSpaceChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -112,6 +118,17 @@ public class PlaceFamiliarController extends DialogAbstractController {
 	
 	private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
 	    for (Node node : gridPane.getChildren()) {
+	    	
+	    	if(GridPane.getColumnIndex(node)==null){
+	    		System.out.println("\n###TROVATO UN NODO CON COLONNA A NULL###\n");
+	    		GridPane.setColumnIndex(node, 0);
+	    	}
+	    	
+	    	if(GridPane.getRowIndex(node)==null){
+	    		System.out.println("\n###TROVATO UN NODO CON RIGA A NULL###\n");
+	    		GridPane.setRowIndex(node, 0);
+	    	}
+	    	
 	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
 	            return node;
 	        }
@@ -125,28 +142,29 @@ public class PlaceFamiliarController extends DialogAbstractController {
 		int i = _spaceTypes.indexOf(s);
 		
 		Position pos = null;
-		if(GC.SPACE_TYPE.get(i).equals(GC.MARKET)){
+		if(_spaceTypes.get(i).equals(GC.MARKET)){
 			int position = _positionChoice.getSelectionModel().getSelectedIndex();
 			pos = new Position(GC.SPACE_TYPE.get(i), position);
-		} else if(GC.SPACE_TYPE.get(i).equals(GC.TOWER)){
+		} else if(_spaceTypes.get(i).equals(GC.TOWER)){
 			//TODO
 		} else {
 			pos = new Position(GC.SPACE_TYPE.get(i));
 		}
 		
-		try {
-			GraphicalUI.getInstance().placeFamiliar(_familiarChoice.getValue(), pos);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (GameException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.initOwner(_dialog);
-			alert.setTitle("Cannot perform this operation");
-			alert.setHeaderText("Cannot place familiar here");
-			alert.setContentText("You cannot do this. You either don't have enough resources, or the position is already taken");
-			alert.showAndWait();
-		}
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					GraphicalUI.getInstance().placeFamiliar(_familiarChoice.getValue(), pos);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		
+		_dialog.close();
 	}
 	
 	@FXML

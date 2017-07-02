@@ -109,12 +109,8 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				synchronized (this) {
 					_theGame.getListener().dropLeaderCard(leaderName);
 				}
-				
-				writeObject(CommandStrings.DROP_LEADER_CARD);
-				writeObject(CommandStrings.SUCCESS);
 			} catch (GameException e) {
-				writeObject(CommandStrings.DROP_LEADER_CARD);
-				writeObject(CommandStrings.ERROR);
+				sendInfo(e.getMessage());
 			}
 		} 
 		else if(str.equals(CommandStrings.ACTIVATE_LEADER_CARD)){
@@ -123,28 +119,28 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				synchronized (this) {
 					_theGame.getListener().activateLeaderCard(leaderName);
 				}
-				
-				writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
-				writeObject(CommandStrings.SUCCESS);
 			} catch (GameException e) {
-				writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
-				writeObject(CommandStrings.ERROR);
+				sendInfo(e.getMessage());
 			}
 		}
 		else if(str.equals(CommandStrings.PLACE_FAMILIAR)){
-			//TODO
+			String familiarName = (String) getFromClient();
+			Position pos = (Position) getFromClient();
+			
+			//TODO provo a non metterlo synchronized
+			try {
+				_theGame.getListener().placeFamiliar(familiarName, pos);
+			} catch (GameException e) {
+				sendInfo(e.getMessage());
+			}
 		}
 		else if(str.equals(CommandStrings.END_TURN)){
 			try {
 				synchronized (this) {
 					_theGame.getListener().endTurn();
 				}
-				
-				writeObject(CommandStrings.END_TURN);
-				writeObject(CommandStrings.SUCCESS);
 			} catch (GameException e) {
-				writeObject(CommandStrings.END_TURN);
-				writeObject(CommandStrings.ERROR);
+				sendInfo(e.getMessage());
 			}
 		}
 		else if(str.equals(CommandStrings.GAME_BOARD)){

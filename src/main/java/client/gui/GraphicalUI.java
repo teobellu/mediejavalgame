@@ -169,6 +169,7 @@ public class GraphicalUI implements UI {
 	@Override
 	public int spendCouncil(List<Resource> options) {
 		try {
+			System.out.println("\nChiamato spendCouncil in GraphicalUI\n");
 			addFromGraphicalToGUI(options);
 			addToCommandToGui(CommandStrings.HANDLE_COUNCIL);
 			
@@ -190,7 +191,7 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
+	public void activateLeaderCard(String leaderName) throws RemoteException {
 		_connectionHandler.activateLeaderCard(leaderName);
 	}
 
@@ -283,17 +284,17 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException{
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException{
 		_connectionHandler.placeFamiliar(familiarColour, position);
 	}
 	
 	@Override
-	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
+	public void dropLeaderCard(String leaderName) throws RemoteException {
 		_connectionHandler.dropLeaderCard(leaderName);
 	}
 	
 	@Override
-	public void endTurn() throws RemoteException, GameException{
+	public void endTurn() throws RemoteException{
 		_connectionHandler.endTurn();
 	}
 	
