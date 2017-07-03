@@ -26,6 +26,9 @@ public class TestLeaderCard {
 		LeaderCard leader = new LeaderCard("Name", GC.NIX, trueFunction);
         assertTrue(leader.getName().equals("Name"));
         assertTrue(leader.getEffect().equals(GC.NIX));
+        
+        leader = new LeaderCard("Name2", null, null);
+        assertTrue(leader.canPlayThis(null));
     }
 	
 	@Test

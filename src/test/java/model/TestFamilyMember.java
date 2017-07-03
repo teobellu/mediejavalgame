@@ -32,4 +32,11 @@ public class TestFamilyMember {
 		assertTrue(familiar.getValue() == 2);
     }
 	
+	@Test
+    public void nullOwnerFamilyMember() throws Exception {
+		FamilyMember familiar = new FamilyMember(GC.FM_ORANGE);
+		familiar.setOwner(null);
+		assertTrue(familiar.getOwner() == null);
+    }
+	
 }

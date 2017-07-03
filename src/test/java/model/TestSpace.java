@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 
 import org.junit.Test;
+
+import game.FamilyMember;
 import game.GC;
 import game.Space;
 import game.effect.Effect;
@@ -33,4 +35,18 @@ public class TestSpace {
 		assertTrue(!space2.isSingleObject());
     }
 	
+	@Test
+	 public void modifySpace() throws Exception {
+		Space space = new Space(0, null, true);
+		int size = space.getFamiliars().size();
+		FamilyMember familiar = new FamilyMember(GC.FM_TRANSPARENT);
+		space.setFamiliar(familiar);
+		assertTrue(space.getFamiliars().size() == size + 1);
+		
+		space.setSingleObject(false);
+		assertTrue(!space.isSingleObject());
+		
+		//space.setCard(new Territory("Name", 1, null, null, 4));
+		assertTrue(space.getCard() == null);
+    }
 }

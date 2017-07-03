@@ -10,7 +10,6 @@ import org.junit.Test;
 import game.effect.Effect;
 import game.GC;
 import game.Resource;
-import game.development.Character;
 import game.development.DevelopmentCard;
 import game.development.Venture;
 

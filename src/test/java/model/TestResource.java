@@ -68,6 +68,10 @@ public class TestResource {
 		
 		res2.sub(new Resource(GC.RES_COINS, 1));
 		assertTrue(res2.get(GC.RES_COINS) == 4);
+		
+		res2 = res1;
+		res2.sub(null);
+		assertTrue(res2.toString().equals(res1.toString()));
     }
 	
 	@Test(expected = GameException.class)
