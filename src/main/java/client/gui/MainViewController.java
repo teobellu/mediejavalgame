@@ -215,15 +215,27 @@ public class MainViewController {
 	
 	@FXML
 	private void onFourthButtonClicked(){
-		try {
+		//try {
 			synchronized (this) {
-				GraphicalUI.getInstance().endTurn();
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						try {
+							GraphicalUI.getInstance().endTurn();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}).start();
+				//GraphicalUI.getInstance().endTurn();
 				endTurn();
-			}
+			}/*
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
+		}*/
 	}
 	
 	@FXML
