@@ -141,11 +141,13 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 
 	@Override
 	public void endTurn() throws RemoteException {
+		System.out.println("END TURN]]] i'm " + _host + " with ui = " + _ui.toString());
 		_connectionHandler.endTurn();
 	}
 
 	@Override
 	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException {
+		System.out.println("START TURN]]] i'm " + _host + " with ui = " + _ui.toString());
 		_ui.startTurn(board, currentPlayer);		
 	}
 

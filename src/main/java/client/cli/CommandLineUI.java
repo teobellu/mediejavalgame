@@ -62,7 +62,7 @@ public class CommandLineUI implements UI {
 		//Get server address
 		_ioHandler.write(ClientText.ASK_SERVER_ADDRESS);
 		String host = _ioHandler.readLine(false);
-		if (host == "0")
+		if (host.equals("0"))
 			host = "localhost";
 		
 		//Get server's port
@@ -123,10 +123,15 @@ public class CommandLineUI implements UI {
 		selection = _ioHandler.readNumberWithinInterval(commands.size() - 1);
 		switch (commands.get(selection)){
 			case CommandConstants.PLACE_FAMILIAR : placeFamiliar();
+				break;
 			case CommandConstants.ACTIVATE_LEADER : activateLeader();
+				break;
 			case CommandConstants.DROP_LEADER : dropLeader();
+				break;
 			case CommandConstants.END_TURN : endTurn();
+				break;
 			case CommandConstants.SHOW_MY_CARDS : showMyCards();
+				break;
 			default : handleTurn();
 		}
 	}
@@ -238,6 +243,7 @@ public class CommandLineUI implements UI {
 	}*/
 	
 	private void showMyCards() throws RemoteException{
+		System.out.println("COSA CI FACCIO QUI DENTRO?????");
 		_me = _connectionHandler.getMe();
 		ModelPrinter.printMyLoot(_me);
 		handleTurn();
