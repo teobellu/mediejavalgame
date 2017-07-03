@@ -1,7 +1,5 @@
 package game.effect.behaviors;
 
-import java.io.Serializable;
-
 import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;

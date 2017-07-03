@@ -80,7 +80,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws GameException I can't discard this card
 	 * @throws RemoteException Remote connection error
 	 */
-	public abstract void dropLeaderCard(String leaderName) throws GameException, RemoteException;
+	public abstract void dropLeaderCard(String leaderName) throws RemoteException;
 	
 	/**
 	 * Tells the server that I want to activate a Leader Card
@@ -88,7 +88,7 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws GameException I can't activate this card
 	 * @throws RemoteException Remote connection error
 	 */
-	public abstract void activateLeaderCard(String leaderName) throws GameException, RemoteException;
+	public abstract void activateLeaderCard(String leaderName) throws RemoteException;
 	
 	/**
 	 * Tells the server that I want to place a familiar
@@ -97,12 +97,12 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws GameException I can't place that familiar in that position
 	 * @throws RemoteException Remote connection error
 	 */
-	public abstract void placeFamiliar(String familiarColour, Position position) throws GameException, RemoteException;
+	public abstract void placeFamiliar(String familiarColour, Position position) throws RemoteException;
 	
 	/**
 	 * Tells the server that I want to end my turn
 	 * @throws GameException I can't end my turn
 	 * @throws RemoteException Remote connection error
 	 */
-	public abstract void endTurn() throws GameException, RemoteException;
+	public abstract void endTurn() throws RemoteException;
 }

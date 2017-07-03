@@ -11,7 +11,6 @@ import game.Player;
 import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
-import server.RMIConnectionHandler;
 
 public class EffectConvertResource implements IEffectBehavior{
 	

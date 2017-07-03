@@ -103,7 +103,7 @@ public class DynamicAction {
 	}
 	
 	/**
-	 * Let player to get rewards from his cuncils
+	 * Let player to get rewards from his councils
 	 * @param res Resource with councils
 	 * @return Resource without councils
 	 * @throws RemoteException
@@ -484,7 +484,7 @@ public class DynamicAction {
 	 */
 	private void endAction(FamilyMember familiar, Space space){
 		space.setFamiliar(familiar);
-		player.getFreeMember().removeIf(member -> member == familiar);
+		player.getFreeMembers().removeIf(member -> member == familiar);
 		player.getEffects().removeIf(effect -> effect.getSource().equals(GC.ACTION_SPACE));
 	}
 	
@@ -562,7 +562,6 @@ public class DynamicAction {
 	 */
 	public void discardLeaderCard(LeaderCard card) throws RemoteException{
 		player.removeLeaderCard(card);
-		
 		/*
 		Thread t = new Thread(new Runnable() {
 			
@@ -579,7 +578,6 @@ public class DynamicAction {
 		});
 		
 		t.start();
-		
 		*/
 		gain(new Resource(GC.RES_COUNCIL, 1));
 		game.otherPlayersInfo(player.getName() + Messages.MESS_DISCARDED_LEADER + card.getName(), player);

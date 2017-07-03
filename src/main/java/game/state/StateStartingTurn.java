@@ -2,14 +2,12 @@ package game.state;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.FamilyMember;
 import game.Game;
 import game.LeaderCard;
-import util.CommandStrings;
 
 public class StateStartingTurn extends State{
 
@@ -66,10 +64,10 @@ public class StateStartingTurn extends State{
 	
 	@Override
 	public List<FamilyMember> placeFamiliar() throws GameException {
-		if (_player.getFreeMember().isEmpty())
+		if (_player.getFreeMembers().isEmpty())
 			throw new GameException("You don't have free familiars!");
 		_theGame.setState(new StatePlaceFamiliar(_theGame));
-		return _player.getFreeMember();
+		return _player.getFreeMembers();
 	}
 
 	@Override

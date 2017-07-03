@@ -47,6 +47,9 @@ public final class CommandStrings {
 	
 	public static final String INFO = "info";
 	public static final String INFO_BOARD = "info_board";
+	public static final String INFO_PLAYER = "info_player";
+	public static final String INFO_BOARD_PLAYER = "info_board_player";
+	
 	/**
 	 * Hide constructor
 	 */

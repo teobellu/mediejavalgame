@@ -16,12 +16,14 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import util.CommandStrings;
@@ -74,22 +76,33 @@ public class GUI extends Application {
 
 	public void setMainScene() {
 		try {
+			_primaryStage.hide();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/MainView.fxml"));
 			AnchorPane pane = loader.load();
-			
-			_rootLayout.setMinSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
-			_rootLayout.setMaxSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
-			_rootLayout.setPrefSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
 			
 			_primaryStage.setTitle(_primaryStage.getTitle()+" - "+GraphicalUI.getInstance().getPlayerName());
 			
 			_rootLayout.setCenter(pane);
 
+			_primaryStage.setWidth(GuiSizeConstants.ROOT_WIDTH);
+			_primaryStage.setMaxWidth(GuiSizeConstants.ROOT_WIDTH);
+			_primaryStage.setMinWidth(GuiSizeConstants.ROOT_WIDTH);
+			
+			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+			
+			System.out.println("###"+primaryScreenBounds.getHeight());
+			
+			_primaryStage.setHeight(primaryScreenBounds.getHeight()/100*80);
+			_primaryStage.setMaxHeight(primaryScreenBounds.getHeight()/100*80);
+			_primaryStage.setMinHeight(primaryScreenBounds.getHeight()/100*80);
+			
 			_mainViewController = loader.getController();
 			_mainViewController.initialSetupController();
 			_mainViewController.setGUI(this);
-
+			
+			_primaryStage.show();
+			
 			createMainObserver();
 			
 		} catch (IOException e) {
@@ -104,8 +117,9 @@ public class GUI extends Application {
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
+				System.out.println("Dentro handle");
 				String str = GraphicalUI.getInstance().getCommandToGui().poll();
-				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI: "+str+"###\n");
+				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI: "+str+"###\n"); 
 				processString(str);
 				createMainObserver();
 			}
@@ -152,7 +166,8 @@ public class GUI extends Application {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-//				Thread.sleep(4000);
+				
+				System.out.println("\n##CREATED NEW TASK IN THREAD "+Thread.currentThread().getName()+"##\n");
 				
 				while (GraphicalUI.getInstance().getCommandToGui().isEmpty()) {
 					try {
@@ -175,7 +190,7 @@ public class GUI extends Application {
 			AnchorPane pane = loader.load();
 
 			Stage dialog = setupDialog(pane, "Handle Council privilege");
-
+			
 			HandleCouncilController controller = loader.getController();
 			controller.setDialog(dialog);
 			controller.setResources(resources);
@@ -310,7 +325,6 @@ public class GUI extends Application {
 			
 			PlaceFamiliarController controller = loader.getController();
 			controller.setDialog(dialog);
-			controller.setGUI(this);
 			controller.setBoardAndFamiliars(board, familiars);
 			
 			dialog.showAndWait();

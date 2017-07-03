@@ -70,7 +70,7 @@ public class GC{
 	
 	//se cambi l'ordine di queste cose, da cambiare anche in PlaceFamiliarController.java
 	public static final List<String> SPACE_TYPE = Collections.unmodifiableList(
-			Arrays.asList(MARKET, HARVEST, PRODUCTION, COUNCIL_PALACE, TOWER));
+			Arrays.asList(COUNCIL_PALACE, HARVEST, PRODUCTION, MARKET, TOWER));
 	
 	public static final String DEV_TERRITORY = "territory";
 	public static final String DEV_BUILDING = "building";

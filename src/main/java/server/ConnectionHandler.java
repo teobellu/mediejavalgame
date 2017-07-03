@@ -69,6 +69,12 @@ public abstract class ConnectionHandler implements Runnable {
 	
 	public abstract void sendInfo(String infoMessage) throws RemoteException;
 	
+	public abstract void sendInfo(String infoMessage, GameBoard board) throws RemoteException;
+	
+	public abstract void sendInfo(String message, Player me) throws RemoteException;
+	
+	public abstract void sendInfo(String message, GameBoard board, Player me) throws RemoteException;
+	
 	protected Client _client;
 	protected volatile boolean _isRunning;
 	protected String _configFile = null;

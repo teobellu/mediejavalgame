@@ -91,11 +91,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		return _clientConnectionHandler.chooseDashboardBonus(bonus);
 	}
 
-	//@Override TODO
-	public void notifyTurn() throws RemoteException {
-		//_clientConnectionHandler.notifyTurn(); TODO
-	}
-
 	@Override
 	public GameBoard getBoard() throws RemoteException {
 		return _theGame.getListener().getGameBoard();
@@ -107,23 +102,39 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
-		_theGame.getListener().dropLeaderCard(leaderName);
+	public void dropLeaderCard(String leaderName) throws RemoteException {
+		try {
+			_theGame.getListener().dropLeaderCard(leaderName);
+		} catch (GameException e) {
+			sendInfo(e.getMessage());
+		}
 	}
 
 	@Override
-	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
-		_theGame.getListener().activateLeaderCard(leaderName);
+	public void activateLeaderCard(String leaderName) throws RemoteException {
+		try {
+			_theGame.getListener().activateLeaderCard(leaderName);
+		} catch (GameException e) {
+			sendInfo(e.getMessage());
+		}
 	}
 
 	@Override
-	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException {
-		_theGame.getListener().placeFamiliar(familiarColour, position);
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException {
+		try {
+			_theGame.getListener().placeFamiliar(familiarColour, position);
+		} catch (GameException e) {
+			sendInfo(e.getMessage());
+		}
 	}
 
 	@Override
-	public void endTurn() throws RemoteException, GameException {
-		_theGame.getListener().endTurn();
+	public void endTurn() throws RemoteException {
+		try {
+			_theGame.getListener().endTurn();
+		} catch (GameException e) {
+			sendInfo(e.getMessage());
+		}
 	}
 
 	@Override
@@ -141,5 +152,9 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		_clientConnectionHandler.sendInfo(infoMessage);
 	}
 	
+	@Override
+	public void sendInfo(String infoMessage, GameBoard board) throws RemoteException {
+		_clientConnectionHandler.sendInfoWithBoardUpdate(infoMessage, board);
+	}
 	
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.GameException;
 import game.GC;
 import game.GameBoard;
 import game.LeaderCard;
@@ -18,8 +17,6 @@ import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -107,8 +104,8 @@ public class MainViewController {
 	
 	private ArrayList<ImageView> _leaderCards = new ArrayList<>();
 	
+	//TODO rimuovere la board
 	private GameBoard _board;
-	private Player _me;
 	
 	private GUI _GUI;
 	
@@ -179,12 +176,22 @@ public class MainViewController {
 	
 	@FXML
 	private void onFirstButtonClicked(){
-		_GUI.showPlaceFamiliar(_board, _me.getFreeMember());
+		try {
+			_GUI.showPlaceFamiliar(_board, GraphicalUI.getInstance().getConnection().getMe().getFreeMembers());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML
 	private void onSecondButtonClicked(){
-		_GUI.showActivateLeaderDialog(_me.getLeaderCards());
+		try {
+			_GUI.showActivateLeaderDialog(GraphicalUI.getInstance().getConnection().getMe().getLeaderCards());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML
@@ -216,19 +223,17 @@ public class MainViewController {
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
-		} catch (GameException e) {
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.initOwner(_GUI.getPrimaryStage());
-			alert.setTitle("Cannot pass turn");
-			alert.setHeaderText("You cannot pass your turn yet");
-			alert.setContentText("You cannot do this. You must place a familiar first");
-			alert.showAndWait();
 		}
 	}
 	
 	@FXML
 	private void onFifthButtonClicked(){
-		_GUI.showCardsInfoDialog(_me);
+		try {
+			_GUI.showCardsInfoDialog(GraphicalUI.getInstance().getConnection().getMe());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void updateBoard(GameBoard board){
@@ -236,7 +241,6 @@ public class MainViewController {
 	}
 	
 	public void startTurn(Player me, GameBoard board){
-		_me = me;
 		_board = board;
 		
 		
@@ -279,7 +283,7 @@ public class MainViewController {
 		
 		for(int row = 0;row<GameBoard.MAX_ROW;row++){
 			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){
-				ImageView iv = (ImageView) getNodeFromGridPane(_towersCardsGridPane, column, row);
+				ImageView iv = (ImageView) GuiUtil.getNodeFromGridPane(_towersCardsGridPane, column, row);
 				DevelopmentCard card = board.getCard((GameBoard.MAX_ROW -1 - row), column);
 				changeImageView("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+ card.getId() +".png", iv);
 				
@@ -301,29 +305,8 @@ public class MainViewController {
 		appendToInfoText("What do you want to do?");
 	}
 	
-	private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-	    for (Node node : gridPane.getChildren()) {
-	    	if(GridPane.getColumnIndex(node)==null){
-	    		System.out.println("\n###TROVATO UN NODO CON COLONNA A NULL###\n");
-	    		GridPane.setColumnIndex(node, 0);
-	    	}
-	    	
-	    	if(GridPane.getRowIndex(node)==null){
-	    		System.out.println("\n###TROVATO UN NODO CON RIGA A NULL###\n");
-	    		GridPane.setRowIndex(node, 0);
-	    	}
-	    	
-	    	
-	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-	            return node;
-	        }
-	    }
-	    return null;
-	}
-	
 	private void endTurn(){
 		_buttonPane.setDisable(true);
-		appendToInfoText("Turn ended.", 24);
 	}
 	
 	private Logger _log = Logger.getLogger(MainViewController.class.getName());

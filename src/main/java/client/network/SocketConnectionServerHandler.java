@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.GameException;
 import game.FamilyMember;
 import game.GameBoard;
 import game.LeaderCard;
@@ -55,7 +54,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		_reader.start();
 	}
 	
-	public void processObject(Object obj) throws Exception {
+	private void processObject(Object obj) throws Exception {
 		if(obj instanceof String){
 			processString((String) obj);
 		}
@@ -119,6 +118,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 		else if(obj.equals(CommandStrings.INFO)){
 			_ui.showInfo((String) getFromServer());
+		}
+		else if(obj.equals(CommandStrings.INFO_BOARD)){
+			String info = (String) getFromServer();
+			GameBoard board = (GameBoard) getFromServer();
+			_ui.showInfoWithBoardUpdate(info, board);
 		}
 		else if(obj.equals(CommandStrings.ASK_BOOLEAN)){
 			boolean returned = _ui.askBoolean((String) getFromServer());
@@ -245,22 +249,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public void endTurn() throws RemoteException, GameException {
-		try {
-			_returnObject = new Object();
-			
-			writeObject(CommandStrings.END_TURN);
-			
-			synchronized (_returnObject) {
-				_returnObject.wait();
-			}
-			
-			if(_returnObject.equals(CommandStrings.ERROR)){
-				throw new GameException();
-			}
-		} catch (InterruptedException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
+	public void endTurn() throws RemoteException {
+		writeObject(CommandStrings.END_TURN);
 	}
 	
 	public GameBoard getBoard(){
@@ -309,60 +299,22 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public void dropLeaderCard(String leaderName) throws GameException, RemoteException {
-		try {
-			_returnObject = new Object();
-			writeObject(CommandStrings.DROP_LEADER_CARD);
-			writeObject(leaderName);
-			
-			synchronized (_returnObject) {
-				_returnObject.wait();
-			}
-			
-			if(_returnObject.equals(CommandStrings.ERROR)){
-				throw new GameException();
-			}
-		} catch (InterruptedException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
+	public void dropLeaderCard(String leaderName) throws RemoteException {
+		writeObject(CommandStrings.DROP_LEADER_CARD);
+		writeObject(leaderName);
 	}
 
 	@Override
-	public void activateLeaderCard(String leaderName) throws GameException, RemoteException {
-		try {
-			_returnObject = new Object();
-			writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
-			writeObject(leaderName);
-			
-			synchronized (_returnObject) {
-				_returnObject.wait();
-			}
-			
-			if(_returnObject.equals(CommandStrings.ERROR)){
-				throw new GameException();
-			}
-		} catch (InterruptedException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
+	public void activateLeaderCard(String leaderName) throws RemoteException {
+		writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
+		writeObject(leaderName);
 	}
 
 	@Override
-	public void placeFamiliar(String familiarName, Position position) throws GameException, RemoteException {
-		try {
-			writeObject(CommandStrings.PLACE_FAMILIAR);
-			writeObject(familiarName);
-			writeObject(position);
-			
-			synchronized (_returnObject) {
-				_returnObject.wait();
-			}
-			
-			if(_returnObject.equals(CommandStrings.ERROR)){
-				throw new GameException();
-			}
-		} catch (InterruptedException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
+	public void placeFamiliar(String familiarName, Position position) throws RemoteException {
+		writeObject(CommandStrings.PLACE_FAMILIAR);
+		writeObject(familiarName);
+		writeObject(position);
 	}
 
 	private Object _returnObject = new Object();

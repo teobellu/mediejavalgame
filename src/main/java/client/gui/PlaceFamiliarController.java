@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.ClientText;
-import exceptions.GameException;
 import game.FamilyMember;
 import game.GC;
 import game.GameBoard;
@@ -14,11 +13,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -40,42 +37,43 @@ public class PlaceFamiliarController extends DialogAbstractController {
 	@FXML
 	private GridPane _gridPane;
 	
-	private GUI _GUI;
-	
-	private GameBoard _board;
-	
-	private List<FamilyMember> _familiars;
-	
 	private List<String> _spaceTypes;
 	
+	private List<String> _familyColours;
+	
 	public void setBoardAndFamiliars(GameBoard board, List<FamilyMember> familiars) {
-		_board = board;
-		_familiars = familiars;
 		
+		_familyColours = new ArrayList<>();
 		for(FamilyMember fm : familiars){
-			_familiarChoice.getItems().add(fm.getColor() + " - " +fm.getValue());
+			_familyColours.add(fm.getColor());
+			_familiarChoice.getItems().add(GuiUtil.cleanUnderscoresCapsFirst(fm.getColor()) + " - " +fm.getValue());
 		}
 		
-		_spaceTypes = GC.SPACE_TYPE;
+		_familiarChoice.getSelectionModel().selectFirst();
 		
-		for(String s : _spaceTypes){
-			s.replace("_", " ");
-			s = capsFirst(s);
+		_spaceTypes = new ArrayList<>();
+		
+		/*memo: space_type ha council palace, harvest, production, market, e tower*/
+		for(String s : GC.SPACE_TYPE){
+			String ss = GuiUtil.cleanUnderscoresCapsFirst(s);
+			_spaceTypes.add(ss);
 		}
 		
 		_actionSpaceChoice.getItems().addAll(_spaceTypes);
 		
+		_actionSpaceChoice.getSelectionModel().selectFirst();
+		
 		/*https://stackoverflow.com/a/14523434*/
 		_actionSpaceChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-
+			
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if(oldValue.matches(_spaceTypes.get(0)+"|"+_spaceTypes.get(4))){
+				if(oldValue.matches(_spaceTypes.get(3)+"|"+_spaceTypes.get(4))){
 					List<Node> nodes = new ArrayList<>();
-					nodes.add(getNodeFromGridPane(_gridPane, 0, 2));
-					nodes.add(getNodeFromGridPane(_gridPane, 0, 4));
-					nodes.add(getNodeFromGridPane(_gridPane, 0, 5));
-					nodes.add(getNodeFromGridPane(_gridPane, 1, 5));
+					nodes.add(GuiUtil.getNodeFromGridPane(_gridPane, 0, 2));
+					nodes.add(GuiUtil.getNodeFromGridPane(_gridPane, 0, 4));
+					nodes.add(GuiUtil.getNodeFromGridPane(_gridPane, 0, 5));
+					nodes.add(GuiUtil.getNodeFromGridPane(_gridPane, 1, 5));
 					
 					for(Node n : nodes){
 						if(n!=null){
@@ -84,7 +82,8 @@ public class PlaceFamiliarController extends DialogAbstractController {
 					}
 				}
 				
-				if(newValue.equals(_spaceTypes.get(0))){
+				//if equals market
+				if(newValue.equals(_spaceTypes.get(3))){
 					Label label = new Label("Position:");
 					label.setFont(Font.font(null, FontWeight.BOLD, 14));
 					_gridPane.add(label, 0, 5);
@@ -96,7 +95,9 @@ public class PlaceFamiliarController extends DialogAbstractController {
 					}
 					
 					_gridPane.add(_positionChoice, 1, 5);
-				} else if(newValue.equals(_spaceTypes.get(4))){
+					_positionChoice.getSelectionModel().selectFirst();
+				} //else if equals tower
+				else if(newValue.equals(_spaceTypes.get(4))){
 					Label label = new Label("Position:");
 					label.setFont(Font.font(null, FontWeight.BOLD, 14));
 					
@@ -105,18 +106,10 @@ public class PlaceFamiliarController extends DialogAbstractController {
 					
 					_gridPane.add(label, 0, 5);
 					_gridPane.add(_positionChoice, 1, 5);
+					_positionChoice.getSelectionModel().selectFirst();
 				}
 			}
 		});
-	}
-	
-	private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-	    for (Node node : gridPane.getChildren()) {
-	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-	            return node;
-	        }
-	    }
-	    return null;
 	}
 
 	@FXML
@@ -124,29 +117,22 @@ public class PlaceFamiliarController extends DialogAbstractController {
 		String s = _actionSpaceChoice.getValue();
 		int i = _spaceTypes.indexOf(s);
 		
-		Position pos = null;
-		if(GC.SPACE_TYPE.get(i).equals(GC.MARKET)){
-			int position = _positionChoice.getSelectionModel().getSelectedIndex();
-			pos = new Position(GC.SPACE_TYPE.get(i), position);
-		} else if(GC.SPACE_TYPE.get(i).equals(GC.TOWER)){
-			//TODO
-		} else {
-			pos = new Position(GC.SPACE_TYPE.get(i));
-		}
+		final Position pos = getPosition(i);
 		
-		try {
-			GraphicalUI.getInstance().placeFamiliar(_familiarChoice.getValue(), pos);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (GameException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.initOwner(_dialog);
-			alert.setTitle("Cannot perform this operation");
-			alert.setHeaderText("Cannot place familiar here");
-			alert.setContentText("You cannot do this. You either don't have enough resources, or the position is already taken");
-			alert.showAndWait();
-		}
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					GraphicalUI.getInstance().placeFamiliar(_familyColours.get(_familiarChoice.getSelectionModel().getSelectedIndex()), pos);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		
+		_dialog.close();
 	}
 	
 	@FXML
@@ -154,20 +140,23 @@ public class PlaceFamiliarController extends DialogAbstractController {
 		_dialog.close();
 	}
 	
-	public void setGUI(GUI gui){
-		_GUI = gui;
-	}
-	
-	private String capsFirst(String str) {
-	    String[] words = str.split(" ");
-	    StringBuilder ret = new StringBuilder();
-	    for(int i = 0; i < words.length; i++) {
-	        ret.append(Character.toUpperCase(words[i].charAt(0)));
-	        ret.append(words[i].substring(1));
-	        if(i < words.length - 1) {
-	            ret.append(' ');
-	        }
-	    }
-	    return ret.toString();
+	private Position getPosition(int i){
+		Position pos = null;
+		
+		if(_spaceTypes.get(i).equals(GC.MARKET)){
+			int position = _positionChoice.getSelectionModel().getSelectedIndex();
+			System.out.println("Debug: market place number "+position);
+			pos = new Position(GC.MARKET, position);
+		} else if(_spaceTypes.get(i).equals(GC.TOWER)){
+			int column = _positionChoice.getSelectionModel().getSelectedIndex()/4;
+			int row = _positionChoice.getSelectionModel().getSelectedIndex()-(4*column);
+			System.out.println("Debug: colonna "+column+", riga "+row);
+			pos = new Position(GC.TOWER, row, column);
+		} else {
+			System.out.println("Debug: Position "+GC.SPACE_TYPE.get(i));
+			pos = new Position(GC.SPACE_TYPE.get(i));
+		}
+		
+		return pos;
 	}
 }

@@ -1,8 +1,8 @@
 package util;
 
-import java.util.List;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class Constants {
 	
@@ -10,7 +10,7 @@ public class Constants {
 	public static final String SOCKET = "Socket";
 	
 	public static final List<String> CONNECTION_TYPES = Collections.unmodifiableList(
-			Arrays.asList(SOCKET, RMI));
+			Arrays.asList(RMI, SOCKET));
 	
 	public static final String CLI = "CLI";
 	public static final  String GUI = "GUI";

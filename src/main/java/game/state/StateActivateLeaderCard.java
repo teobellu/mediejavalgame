@@ -11,15 +11,7 @@ public class StateActivateLeaderCard extends State {
 
 	public StateActivateLeaderCard(Game game) {
 		super(game);
-		// TODO Auto-generated constructor stub
 	}
-
-	/*
-	@Override
-	protected State processAction(String action) throws GameException {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 
 	@Override
 	public List<String> dropLeaderCard() throws GameException {

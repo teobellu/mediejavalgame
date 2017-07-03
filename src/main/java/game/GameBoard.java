@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import exceptions.GameException;
 import game.development.Building;
 import game.development.DevelopmentCard;
 import game.effect.Effect;

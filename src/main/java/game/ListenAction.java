@@ -47,7 +47,14 @@ public class ListenAction{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 		}
-		//TODO avviso il player che è tutto ok
+		
+		try {
+			_player.getClient().getConnectionHandler().sendInfo("Leader card dropped!", _player);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//TODO avviso gli altri player
 		actionsAlreadyDone.add(GC.DROP_LEADER);
 	}
@@ -64,7 +71,15 @@ public class ListenAction{
 		if (selection == null)
 			throw new GameException("You can't activate this card!");
 		_theGame.getDynamicBar().activateLeaderCard(selection);
-		//TODO avviso il player che è tutto ok
+
+		try {
+			//TODO mando solo il player? O ci possono essere update della mappa anche?
+			_player.getClient().getConnectionHandler().sendInfo("Leader card activated!", _player);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//TODO avviso gli altri player
 		actionsAlreadyDone.add(GC.ACTIVATE_LEADER);
 	}
@@ -72,7 +87,7 @@ public class ListenAction{
 	public void placeFamiliar(String familiarColour, Position position) throws GameException {
 		if (actionsAlreadyDone.contains(GC.PLACE_FAMILIAR))
 			throw new GameException("You have already placed a familiar");
-		List<FamilyMember> freeMembers = _player.getFreeMember();
+		List<FamilyMember> freeMembers = _player.getFreeMembers();
 		FamilyMember selection = null;
 		for (FamilyMember f : freeMembers){
 			if (f.getColor().equals(familiarColour)){
@@ -101,8 +116,14 @@ public class ListenAction{
 				break;
 			default : throw new GameException("Invalid position");
 		}
-		//TODO avviso il player che è tutto ok
-		//TODO avviso gli altri player
+		
+		try {
+			_player.getClient().getConnectionHandler().sendInfo("Familiar placed!", _theGame.getBoard());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		actionsAlreadyDone.add(GC.PLACE_FAMILIAR);
 	}
 	
@@ -111,8 +132,16 @@ public class ListenAction{
 			throw new GameException("You have already ended turn");
 		_theGame.getState().nextState();
 		_player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
-		//TODO avviso il player che è tutto ok
-		//TODO avviso gli altri player
+		
+		try {
+			_player.getClient().getConnectionHandler().sendInfo("Ended turn.");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		_theGame.otherPlayersInfo("Player "+_player.getName()+" has ended his turn", _player);
+		
 		actionsAlreadyDone.clear();
 		//TODO cambio stato
 	}

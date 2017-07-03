@@ -191,7 +191,7 @@ public abstract class ModelPrinter {
 	
 		//free familiars
 		_ioHandler.write("\n*****Familiars: ");
-		me.getFreeMember()
+		me.getFreeMembers()
 			.forEach(fam -> _ioHandler.write(fam.getColor() + " with power " + fam.getValue()));
 		
 		//permanent effects

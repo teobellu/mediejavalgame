@@ -144,9 +144,6 @@ public abstract class State {
 	//TODO string?
 	public abstract void placeWhereFamiliar(String position) throws GameException;
 
-	
-	
-	
 	public Player getCurrenPlayer() {
 		return _player;
 	}

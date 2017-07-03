@@ -7,11 +7,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.print.attribute.standard.Severity;
-
 import client.ClientText;
 import client.UI;
-import client.gui.DropLeaderController;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
 import exceptions.GameException;
@@ -23,7 +20,6 @@ import game.Player;
 import game.Position;
 import game.Resource;
 import game.development.DevelopmentCard;
-import game.development.Territory;
 import util.Constants;
 import util.IOHandler;
 
@@ -138,7 +134,7 @@ public class CommandLineUI implements UI {
 	private void placeFamiliar() throws RemoteException{
 		int selection = 0;
 		// quale familiare
-		List<FamilyMember> myFreeFamiliars = _me.getFreeMember();
+		List<FamilyMember> myFreeFamiliars = _me.getFreeMembers();
 		ModelPrinter.printListFamiliar(myFreeFamiliars);
 		selection = _ioHandler.readNumberWithinInterval(myFreeFamiliars.size() - 1);
 		FamilyMember selectedFamiliar = myFreeFamiliars.get(selection);
@@ -226,12 +222,7 @@ public class CommandLineUI implements UI {
 	}
 	
 	public void endTurn() throws RemoteException{
-		try {
-			_connectionHandler.endTurn();
-		} catch (GameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		_connectionHandler.endTurn();
 	}
 	
 	/*
