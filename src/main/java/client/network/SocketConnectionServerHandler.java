@@ -54,7 +54,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		_reader.start();
 	}
 	
-	public void processObject(Object obj) throws Exception {
+	private void processObject(Object obj) throws Exception {
 		if(obj instanceof String){
 			processString((String) obj);
 		}
@@ -295,14 +295,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
-		_returnObject = new Object();
 		writeObject(CommandStrings.DROP_LEADER_CARD);
 		writeObject(leaderName);
 	}
 
 	@Override
 	public void activateLeaderCard(String leaderName) throws RemoteException {
-		_returnObject = new Object();
 		writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
 		writeObject(leaderName);
 	}

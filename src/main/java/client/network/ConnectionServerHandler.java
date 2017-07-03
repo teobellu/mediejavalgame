@@ -3,6 +3,7 @@ package client.network;
 import java.rmi.RemoteException;
 
 import client.UI;
+import exceptions.GameException;
 import game.GameBoard;
 import game.Player;
 import game.Position;

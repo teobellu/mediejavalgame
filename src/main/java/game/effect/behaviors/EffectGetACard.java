@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
-
 import game.GC;
 import game.GameBoard;
 import game.Player;

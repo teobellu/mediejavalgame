@@ -28,7 +28,7 @@ public class HandleCouncilController extends DialogAbstractController{
 					} else {
 						sb.append(" and ");
 					}
-					sb.append(i+" "+s);
+					sb.append(i+" "+GuiUtil.cleanUnderscoresCapsFirst(s));
 				}
 			}
 			

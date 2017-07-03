@@ -2,14 +2,12 @@ package game.state;
 
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.FamilyMember;
 import game.Game;
 import game.LeaderCard;
-import util.CommandStrings;
 
 public class StateDropLeaderCard extends State {
 

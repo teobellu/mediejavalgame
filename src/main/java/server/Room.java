@@ -14,7 +14,6 @@ import org.xml.sax.InputSource;
 
 import exceptions.GameException;
 import game.Game;
-import game.GameBoard;
 import game.GameInformation;
 import util.Constants;
 

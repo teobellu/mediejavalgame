@@ -1,12 +1,11 @@
 package game.effect.behaviors;
 
+import exceptions.GameException;
+import game.GC;
+import game.Player;
+import game.Resource;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
-
-import java.io.Serializable;
-
-import exceptions.GameException;
-import game.*;
 
 public class EffectLostVictoryDepicted implements IEffectBehavior{
 

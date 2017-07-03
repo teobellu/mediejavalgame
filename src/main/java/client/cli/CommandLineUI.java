@@ -7,11 +7,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.print.attribute.standard.Severity;
-
 import client.ClientText;
 import client.UI;
-import client.gui.DropLeaderController;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
 import exceptions.GameException;
@@ -23,7 +20,6 @@ import game.Player;
 import game.Position;
 import game.Resource;
 import game.development.DevelopmentCard;
-import game.development.Territory;
 import util.Constants;
 import util.IOHandler;
 

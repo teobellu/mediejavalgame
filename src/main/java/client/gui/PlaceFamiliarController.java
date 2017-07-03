@@ -46,7 +46,7 @@ public class PlaceFamiliarController extends DialogAbstractController {
 		_familyColours = new ArrayList<>();
 		for(FamilyMember fm : familiars){
 			_familyColours.add(fm.getColor());
-			_familiarChoice.getItems().add(capsFirst(fm.getColor()) + " - " +fm.getValue());
+			_familiarChoice.getItems().add(GuiUtil.cleanUnderscoresCapsFirst(fm.getColor()) + " - " +fm.getValue());
 		}
 		
 		_familiarChoice.getSelectionModel().selectFirst();
@@ -55,9 +55,7 @@ public class PlaceFamiliarController extends DialogAbstractController {
 		
 		/*memo: space_type ha council palace, harvest, production, market, e tower*/
 		for(String s : GC.SPACE_TYPE){
-			String ss = s;
-			
-			ss = capsFirst(ss.replaceAll("_", " "));
+			String ss = GuiUtil.cleanUnderscoresCapsFirst(s);
 			_spaceTypes.add(ss);
 		}
 		
@@ -68,7 +66,6 @@ public class PlaceFamiliarController extends DialogAbstractController {
 		/*https://stackoverflow.com/a/14523434*/
 		_actionSpaceChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 			
-			//TODO da finire? e da controllare sicuramente
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if(oldValue.matches(_spaceTypes.get(3)+"|"+_spaceTypes.get(4))){
@@ -161,18 +158,5 @@ public class PlaceFamiliarController extends DialogAbstractController {
 		}
 		
 		return pos;
-	}
-	
-	private String capsFirst(String str) {
-	    String[] words = str.split(" ");
-	    StringBuilder ret = new StringBuilder();
-	    for(int i = 0; i < words.length; i++) {
-	        ret.append(Character.toUpperCase(words[i].charAt(0)));
-	        ret.append(words[i].substring(1));
-	        if(i < words.length - 1) {
-	            ret.append(' ');
-	        }
-	    }
-	    return ret.toString();
 	}
 }

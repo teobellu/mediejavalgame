@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 public class GuiUtil {
+	
 	public static final Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
 	    for (Node node : gridPane.getChildren()) {
 	    	
@@ -22,5 +23,24 @@ public class GuiUtil {
 	        }
 	    }
 	    return null;
+	}
+	
+	public static final String cleanUnderscoresCapsFirst(String str) {
+		str = str.replaceAll("_", " ");
+		
+	    String[] words = str.split(" ");
+	    StringBuilder ret = new StringBuilder();
+	    for(int i = 0; i < words.length; i++) {
+	        ret.append(Character.toUpperCase(words[i].charAt(0)));
+	        ret.append(words[i].substring(1));
+	        if(i < words.length - 1) {
+	            ret.append(' ');
+	        }
+	    }
+	    return ret.toString();
+	}
+	
+	private GuiUtil(){
+		
 	}
 }

@@ -2,7 +2,8 @@ package game.effect.behaviors;
 
 import game.GC;
 import game.Player;
-import game.effect.*;
+import game.effect.Effect;
+import game.effect.IEffectBehavior;
 
 public class EffectDontGetVictoryFor implements IEffectBehavior{
 
