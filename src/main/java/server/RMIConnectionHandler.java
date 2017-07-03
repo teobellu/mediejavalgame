@@ -154,7 +154,17 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	
 	@Override
 	public void sendInfo(String infoMessage, GameBoard board) throws RemoteException {
-		_clientConnectionHandler.sendInfoWithBoardUpdate(infoMessage, board);
+		_clientConnectionHandler.sendInfo(infoMessage, board);
+	}
+
+	@Override
+	public void sendInfo(String message, Player me) throws RemoteException {
+		_clientConnectionHandler.sendInfo(message, me);
+	}
+
+	@Override
+	public void sendInfo(String message, GameBoard board, Player me) throws RemoteException {
+		_clientConnectionHandler.sendInfo(message, board, me);
 	}
 	
 }

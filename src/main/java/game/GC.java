@@ -112,6 +112,13 @@ public class GC{
 	public static final List<String> STANDARD_COMMANDS = Collections.unmodifiableList(
 		Arrays.asList(PLACE_FAMILIAR, ACTIVATE_LEADER, DROP_LEADER, SHOW_MY_CARDS, END_TURN));
 	
+	public static final String PLAYER_RED = "red";
+	public static final String PLAYER_BLUE = "blue";
+	public static final String PLAYER_GREEN = "green";
+	public static final String PLAYER_YELLOW = "yellow";
+	
+	public static final String[] PLAYER_COLOURS = new String[]{PLAYER_BLUE, PLAYER_GREEN, PLAYER_RED, PLAYER_YELLOW};
+	
 	public static final int NUMBER_OF_AGES = 3;
 	
 	/**

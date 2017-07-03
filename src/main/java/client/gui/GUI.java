@@ -16,14 +16,12 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import util.CommandStrings;
@@ -83,19 +81,16 @@ public class GUI extends Application {
 			
 			_primaryStage.setTitle(_primaryStage.getTitle()+" - "+GraphicalUI.getInstance().getPlayerName());
 			
-			_rootLayout.setCenter(pane);
-
+			Scene scene = new Scene(pane);
+			_primaryStage.setScene(scene);
+			
 			_primaryStage.setWidth(GuiSizeConstants.ROOT_WIDTH);
 			_primaryStage.setMaxWidth(GuiSizeConstants.ROOT_WIDTH);
 			_primaryStage.setMinWidth(GuiSizeConstants.ROOT_WIDTH);
 			
-			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-			
-			System.out.println("###"+primaryScreenBounds.getHeight());
-			
-			_primaryStage.setHeight(primaryScreenBounds.getHeight()/100*80);
-			_primaryStage.setMaxHeight(primaryScreenBounds.getHeight()/100*80);
-			_primaryStage.setMinHeight(primaryScreenBounds.getHeight()/100*80);
+			_primaryStage.setHeight(GuiSizeConstants.ROOT_HEIGHT);
+			_primaryStage.setMinHeight(GuiSizeConstants.ROOT_HEIGHT);
+			_primaryStage.setMaxHeight(GuiSizeConstants.ROOT_HEIGHT);
 			
 			_mainViewController = loader.getController();
 			_mainViewController.initialSetupController();
@@ -139,7 +134,16 @@ public class GUI extends Application {
 				}
 				else if(str.equals(CommandStrings.INFO_BOARD)){
 					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
-					_mainViewController.updateBoard((GameBoard) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
+					_mainViewController.updateBoard(GraphicalUI.getInstance().getCachedBoard());
+				}
+				else if(str.equals(CommandStrings.INFO_PLAYER)){
+					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
+					_mainViewController.updatePlayer(GraphicalUI.getInstance().getCachedMe());
+				}
+				else if(str.equals(CommandStrings.INFO_BOARD_PLAYER)){
+					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
+					_mainViewController.updateBoard(GraphicalUI.getInstance().getCachedBoard());
+					_mainViewController.updatePlayer(GraphicalUI.getInstance().getCachedMe());
 				}
 				else if(str.equals(CommandStrings.ASK_BOOLEAN)){
 					showAskBooleanDialog((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());

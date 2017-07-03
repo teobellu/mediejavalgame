@@ -43,6 +43,10 @@ public class GraphicalUI implements UI {
     private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
     
     private ConnectionServerHandler _connectionHandler = null;
+    
+    private GameBoard _cachedBoard;
+    
+    private Player _cachedMe;
 	
 	private GraphicalUI() {
 	}
@@ -209,6 +213,8 @@ public class GraphicalUI implements UI {
 	
 	@Override
 	public void startTurn(GameBoard board, Player me) {
+		_cachedBoard = board;
+		_cachedMe = me;
 		addFromGraphicalToGUI(board, me);
 		addToCommandToGui(CommandStrings.START_TURN);
 	}
@@ -305,9 +311,25 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public void showInfoWithBoardUpdate(String info, GameBoard board) {
-		addFromGraphicalToGUI(info, board);
+	public void showInfo(String info, GameBoard board) {
+		_cachedBoard = board;
+		addFromGraphicalToGUI(info);
 		addToCommandToGui(CommandStrings.INFO_BOARD);
+	}
+	
+	@Override
+	public void showInfo(String message, Player me) throws RemoteException {
+		_cachedMe = me;
+		addFromGraphicalToGUI(message);
+		addToCommandToGui(CommandStrings.INFO_PLAYER);
+	}
+
+	@Override
+	public void showInfo(String message, GameBoard board, Player me) throws RemoteException {
+		_cachedBoard = board;
+		_cachedMe = me;
+		addFromGraphicalToGUI(message);
+		addToCommandToGui(CommandStrings.INFO_BOARD_PLAYER);
 	}
 	
 	private Object returnFirstAndCleanCommand(){
@@ -341,5 +363,13 @@ public class GraphicalUI implements UI {
 	
 	public synchronized void addToCommandToGui(String command){
 		_commandToGui.add(command);
+	}
+	
+	public GameBoard getCachedBoard(){
+		return _cachedBoard;
+	}
+	
+	public Player getCachedMe(){
+		return _cachedMe;
 	}
 }

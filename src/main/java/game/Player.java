@@ -15,7 +15,7 @@ public class Player implements Serializable{
 
 	private final transient Client _client;
 	
-	private final int id;
+	private final String _playerColour;
 	private final String name;
 	private Resource resource;	
 	private List<DevelopmentCard> developmentCard;
@@ -31,9 +31,9 @@ public class Player implements Serializable{
 	
 	private DevelopmentCardManager manager;
 
-	protected Player(Client client){
+	protected Player(Client client, String colour){
 		_client = client;
-		id = 5555555;//TODO
+		_playerColour = colour;//TODO
 		name = client.getName();
 		resource = new Resource();
 		manager = new DevelopmentCardManager();
@@ -161,5 +161,9 @@ public class Player implements Serializable{
 
 	public void setProductionBonus(Resource productionBonus) {
 		this.productionBonus = productionBonus;
+	}
+	
+	public String getColour(){
+		return _playerColour;
 	}
 }

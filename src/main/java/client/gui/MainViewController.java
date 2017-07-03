@@ -1,6 +1,7 @@
 package client.gui;
 
 import java.io.File;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,14 +9,19 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import game.FamilyMember;
 import game.GC;
 import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
+import game.Space;
 import game.development.DevelopmentCard;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -31,6 +37,9 @@ public class MainViewController {
 
 	@FXML
 	private ImageView _backgroundImage;//mappa
+	
+	@FXML
+	private Button _downArrowButton;
 	
 	@FXML
 	private ImageView _goldWoodBg;
@@ -102,10 +111,19 @@ public class MainViewController {
 	@FXML
 	private Text _servantValue;
 	
+	@FXML
+	private AnchorPane _frontBackMainPane;
+	
+	@FXML
+	private GridPane _councilPalaceGrid;
+	@FXML
+	private GridPane _productionSpaceGrid;
+	@FXML
+	private GridPane _harvestSpaceGrid;
+	
 	private ArrayList<ImageView> _leaderCards = new ArrayList<>();
 	
-	//TODO rimuovere la board
-	private GameBoard _board;
+	private boolean _downArrowClicked = false;
 	
 	private GUI _GUI;
 	
@@ -117,7 +135,7 @@ public class MainViewController {
         }));
 		_infoScrollPane.setContent(_infoTextFlow);		
 		
-		changeImageView("src/main/resources/javafx/images/gameboard_f_c.jpeg", _backgroundImage);
+		changeImageView("src/main/resources/javafx/images/board_sopra.jpeg", _backgroundImage);
 		
 		_leaderCards.add(_leaderCard0);
 		_leaderCards.add(_leaderCard1);
@@ -125,13 +143,11 @@ public class MainViewController {
 		_leaderCards.add(_leaderCard3);
 		
 		for(ImageView iv : _leaderCards){
-		changeImageView("src/main/resources/javafx/images/leaders/leaders_b_c_00.jpg", iv);
+			changeImageView("src/main/resources/javafx/images/leaders/leaders_b_c_00.jpg", iv);
 		}
 		
 		_buttonPane.setDisable(true);
-		
-		changeImageView("src/main/resources/javafx/images/risorse2.jpg", _goldWoodBg);
-		changeImageView("src/main/resources/javafx/images/risorse1.jpg", _stoneServantBg);
+		_downArrowButton.setDisable(true);
 		
 		appendToInfoText("\nWaiting game initial setup...", 24);
 
@@ -164,7 +180,8 @@ public class MainViewController {
 		Image bg = new Image(file.toURI().toString());
 		
 		if(iv==null){
-			System.out.println("Imageview nulla. WTF?");
+			System.out.println("ImageView null");
+			iv = new ImageView();
 		}
 		
 		iv.setImage(bg);
@@ -176,35 +193,18 @@ public class MainViewController {
 	
 	@FXML
 	private void onFirstButtonClicked(){
-		try {
-			_GUI.showPlaceFamiliar(_board, GraphicalUI.getInstance().getConnection().getMe().getFreeMembers());
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		_GUI.showPlaceFamiliar(GraphicalUI.getInstance().getCachedBoard(), GraphicalUI.getInstance().getCachedMe().getFreeMembers());
 	}
 	
 	@FXML
 	private void onSecondButtonClicked(){
-		try {
-			_GUI.showActivateLeaderDialog(GraphicalUI.getInstance().getConnection().getMe().getLeaderCards());
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		_GUI.showActivateLeaderDialog(GraphicalUI.getInstance().getCachedMe().getLeaderCards());
 	}
 	
 	@FXML
 	private void onThirdButtonClicked(){
 		List<String> leaders = new ArrayList<>();
-		List<LeaderCard> lead = new ArrayList<>();
-		try {
-			Player pl = GraphicalUI.getInstance().getConnection().getMe();
-			lead = pl.getLeaderCards();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		List<LeaderCard> lead = GraphicalUI.getInstance().getCachedMe().getLeaderCards();
 		
 		for(LeaderCard lc : lead){
 			leaders.add(lc.getName());
@@ -228,32 +228,34 @@ public class MainViewController {
 	
 	@FXML
 	private void onFifthButtonClicked(){
-		try {
-			_GUI.showCardsInfoDialog(GraphicalUI.getInstance().getConnection().getMe());
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		_GUI.showCardsInfoDialog(GraphicalUI.getInstance().getCachedMe());
 	}
 	
 	public void updateBoard(GameBoard board){
+		//TODO
+	}
+	
+	public void updatePlayer(Player me){
 		
 	}
 	
 	public void startTurn(Player me, GameBoard board){
-		_board = board;
-		
-		
 		_buttonPane.setDisable(false);
+		_downArrowButton.setDisable(false);
 		
-		_blackDiceValue.setText(board.getDices()[0].toString());
-		_whiteDiceValue.setText(board.getDices()[1].toString());
-		_orangeDiceValue.setText(board.getDices()[2].toString());
-		
-		_goldValue.setText(me.getResource(GC.RES_COINS).toString());
-		_woodValue.setText(me.getResource(GC.RES_WOOD).toString());
-		_stoneValue.setText(me.getResource(GC.RES_STONES).toString());
-		_servantValue.setText(me.getResource(GC.RES_SERVANTS).toString());
+		try {
+			_frontBackMainPane.getChildren().clear();
+			_frontBackMainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/FrontMainView.fxml")));
+			_frontBackMainPane = (AnchorPane) _frontBackMainPane.getChildren().get(0);
+			
+			_buttonPane.getChildren().clear();
+			_buttonPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/FrontButtonPane.fxml")));
+			_buttonPane = (AnchorPane) _buttonPane.getChildren().get(0);
+			
+			setupFrontMainView(board, me);
+		} catch (/*TODO IOException*/Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 		
 		int i = 0;
 		
@@ -272,37 +274,159 @@ public class MainViewController {
 			_leaderCards.get(i).setDisable(true);
 		}
 		
-		
-		//TODO mostrare i familiari nello spazio "palazzo del consiglio"
-//		List<ImageView> councilPalaceServants = new ArrayList<>(
-//				Arrays.asList(_CouncilPalaceServant1,_CouncilPalaceServant2,_CouncilPalaceServant3,_CouncilPalaceServant4));
-//		
-//		for(ImageView iv : councilPalaceServants){
-//			
-//		}
-		
-		for(int row = 0;row<GameBoard.MAX_ROW;row++){
-			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){
-				ImageView iv = (ImageView) GuiUtil.getNodeFromGridPane(_towersCardsGridPane, column, row);
-				DevelopmentCard card = board.getCard((GameBoard.MAX_ROW -1 - row), column);
-				changeImageView("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+ card.getId() +".png", iv);
-				
-				//TODO prendere e piazzare i familiari
-//				Space space = board.getFromTowers((GameBoard.MAX_ROW - 1 - row), column);
-//				space.getFamiliars().get(space.getFamiliars().size()-1);
-			}
-		}
-		
-		List<ImageView> excCards = new ArrayList<>(
-				Arrays.asList(_excCard1, _excCard2, _excCard3));
-		for(i = 0;i<GC.NUMBER_OF_AGES;i++){
-			changeImageView("src/main/resources/javafx/images/exc_tiles/excomm_"+board.getExCard()[0].getAge()+"_"+ board.getExCard()[0].getID() +".png", excCards.get(i));
-		}
-		
 		//TODO mettere le info a posto
 		
 		appendToInfoText("It's YOUR turn now!", 24);
 		appendToInfoText("What do you want to do?");
+	}
+	
+	@FXML
+	private void onDownArrowPressed(){
+		try {
+			GameBoard board = GraphicalUI.getInstance().getCachedBoard();
+			Player me = GraphicalUI.getInstance().getCachedMe();
+			_frontBackMainPane.getChildren().clear();
+			_buttonPane.getChildren().clear();
+			if(_downArrowClicked){
+				_frontBackMainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/FrontMainView.fxml")));
+				_frontBackMainPane = (AnchorPane) _frontBackMainPane.getChildren().get(0);
+				
+				_buttonPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/FrontButtonPane.fxml")));
+				_buttonPane = (AnchorPane) _buttonPane.getChildren().get(0);
+				
+				setupFrontMainView(board, me);
+				_downArrowClicked = false;
+			} else {
+				_frontBackMainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/BackMainView.fxml")));
+				_frontBackMainPane = (AnchorPane) _frontBackMainPane.getChildren().get(0);
+				
+				_buttonPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/BackButtonPane.fxml")));
+				_buttonPane = (AnchorPane) _buttonPane.getChildren().get(0);
+				
+				setupBackMainView(board, me);
+				_downArrowClicked = true;
+			}
+		} catch (RemoteException e) {
+			// TODO: handle exception
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void setupFrontMainView(GameBoard board, Player me){
+		_backgroundImage = (ImageView) _frontBackMainPane.getChildren().get(0);
+		_towersCardsGridPane = (GridPane) _frontBackMainPane.getChildren().get(1);
+		_towersFamiliarsGridPane = (GridPane) _frontBackMainPane.getChildren().get(2);
+		
+		changeImageView("src/main/resources/javafx/images/board_sopra.jpeg", _backgroundImage);
+		
+		_firstButton = (Button) _buttonPane.getChildren().get(0);
+		_secondButton = (Button) _buttonPane.getChildren().get(1);
+		_thirdButton = (Button) _buttonPane.getChildren().get(2);
+		_fourthButton = (Button) _buttonPane.getChildren().get(3);
+		_fifthButton = (Button) _buttonPane.getChildren().get(4);
+		
+		_firstButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				onFirstButtonClicked();
+			}
+		});
+		_secondButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				onSecondButtonClicked();
+			}
+		});
+		_thirdButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				onThirdButtonClicked();
+			}
+		});
+		_fourthButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				onFourthButtonClicked();
+			}
+		});
+		_fifthButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				onFifthButtonClicked();
+			}
+		});
+		
+		for(int row = 0;row<GameBoard.MAX_ROW;row++){
+			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){
+				ImageView iv = (ImageView) GuiUtil.getNodeFromGridPane(_towersCardsGridPane, column, row);
+				
+				if(iv==null){
+					iv = new ImageView();
+					_towersCardsGridPane.add(iv, column, row);
+				}
+				
+				DevelopmentCard card = board.getCard((GameBoard.MAX_ROW -1 - row), column);
+				changeImageView("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+ card.getId() +".png", iv);
+				
+				Space space = board.getFromTowers((GameBoard.MAX_ROW - 1 - row), column);
+				List<FamilyMember> fams = space.getFamiliars();
+				if(!fams.isEmpty()){
+					iv = (ImageView) GuiUtil.getNodeFromGridPane(_towersFamiliarsGridPane, column, row);
+					
+					if(iv==null){
+						iv = new ImageView();
+						_towersFamiliarsGridPane.add(iv, column, row);
+					}
+					
+					String path = "src/main/resources/javafx/images/familiars/fam_"+fams.get(0).getOwner().getColour()+"_"+fams.get(0).getColor()+".png";
+					changeImageView(path, iv);
+				}
+			}
+		}
+	}
+	
+	private void setupBackMainView(GameBoard board, Player me){
+		_backgroundImage = (ImageView) _frontBackMainPane.getChildren().get(0);
+		_blackDiceValue = (Text) _frontBackMainPane.getChildren().get(1);
+		_whiteDiceValue = (Text) _frontBackMainPane.getChildren().get(2);
+		_orangeDiceValue = (Text) _frontBackMainPane.getChildren().get(3);
+		_excCard1 = (ImageView) _frontBackMainPane.getChildren().get(4);
+		_excCard2 = (ImageView) _frontBackMainPane.getChildren().get(5);
+		_excCard3 = (ImageView) _frontBackMainPane.getChildren().get(6);
+		_councilPalaceGrid = (GridPane) _frontBackMainPane.getChildren().get(7);
+		_productionSpaceGrid = (GridPane) _frontBackMainPane.getChildren().get(8);
+		_harvestSpaceGrid = (GridPane) _frontBackMainPane.getChildren().get(9);
+		
+		changeImageView("src/main/resources/javafx/images/board_sotto.jpeg", _backgroundImage);
+		
+		_blackDiceValue.setText(board.getDices()[0].toString());
+		_whiteDiceValue.setText(board.getDices()[1].toString());
+		_orangeDiceValue.setText(board.getDices()[2].toString());
+		
+		List<ImageView> excCards = new ArrayList<>(
+				Arrays.asList(_excCard1, _excCard2, _excCard3));
+		for(int i = 0;i<GC.NUMBER_OF_AGES;i++){
+			changeImageView("src/main/resources/javafx/images/exc_tiles/excomm_"+board.getExCard()[0].getAge()+"_"+ board.getExCard()[0].getID() +".png", excCards.get(i));
+		}
+		
+		//TODO sistemare le gridpane degli spazi azione
+		
+		_goldWoodBg = (ImageView) _buttonPane.getChildren().get(0);
+		_stoneServantBg = (ImageView) _buttonPane.getChildren().get(1);
+		_goldValue = (Text) _buttonPane.getChildren().get(2);
+		_woodValue = (Text) _buttonPane.getChildren().get(3);
+		_stoneValue = (Text) _buttonPane.getChildren().get(4);
+		_servantValue = (Text) _buttonPane.getChildren().get(5);
+		
+		_goldValue.setText(me.getResource(GC.RES_COINS).toString());
+		_woodValue.setText(me.getResource(GC.RES_WOOD).toString());
+		_stoneValue.setText(me.getResource(GC.RES_STONES).toString());
+		_servantValue.setText(me.getResource(GC.RES_SERVANTS).toString());
+		
+		changeImageView("src/main/resources/javafx/images/risorse2.jpg", _goldWoodBg);
+		changeImageView("src/main/resources/javafx/images/risorse1.jpg", _stoneServantBg);
 	}
 	
 	private void endTurn(){

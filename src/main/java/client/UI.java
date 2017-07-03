@@ -15,11 +15,15 @@ import game.development.DevelopmentCard;
 
 public interface UI extends Runnable{
 	
-	public void showInfo(String str);
-		
-	public void setConnection(String connectionType, String host, int port);
+	public void showInfo(String infoMessage) throws RemoteException;
 	
-	public void showInfoWithBoardUpdate(String info, GameBoard board);
+	public void showInfo(String infoMessage, GameBoard board) throws RemoteException;
+	
+	public void showInfo(String message, Player me) throws RemoteException;
+	
+	public void showInfo(String message, GameBoard board, Player me) throws RemoteException;
+	
+	public void setConnection(String connectionType, String host, int port);
 	
 	/**
 	 * Allows the player to select an initial leader card

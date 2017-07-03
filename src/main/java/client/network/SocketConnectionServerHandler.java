@@ -122,7 +122,18 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		else if(obj.equals(CommandStrings.INFO_BOARD)){
 			String info = (String) getFromServer();
 			GameBoard board = (GameBoard) getFromServer();
-			_ui.showInfoWithBoardUpdate(info, board);
+			_ui.showInfo(info, board);
+		}
+		else if(obj.equals(CommandStrings.INFO_PLAYER)){
+			String info = (String) getFromServer();
+			Player me = (Player) getFromServer();
+			_ui.showInfo(info, me);
+		}
+		else if(obj.equals(CommandStrings.INFO_BOARD_PLAYER)){
+			String message = (String) getFromServer();
+			GameBoard board = (GameBoard) getFromServer();
+			Player me = (Player) getFromServer();
+			_ui.showInfo(message, board, me);
 		}
 		else if(obj.equals(CommandStrings.ASK_BOOLEAN)){
 			boolean returned = _ui.askBoolean((String) getFromServer());

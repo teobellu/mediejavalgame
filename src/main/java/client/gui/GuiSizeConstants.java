@@ -5,9 +5,13 @@ public class GuiSizeConstants {
 	private GuiSizeConstants() {
 	}
 	
-	public final static double ROOT_HEIGHT = 900;
+	public final static double MAIN_VIEW_BG_IMAGE_BACK_HEIGHT = 600;
 	
-	public final static double ROOT_WIDTH = 1068;
+	public final static double MAIN_VIEW_BG_IMAGE_FRONT_HEIGHT = 653;
+	
+	public final static double ROOT_HEIGHT = 650;
+	
+	public final static double ROOT_WIDTH = 1200;
 	
 	public final static double INITIAL_LEADER_HEIGHT = 200;
 	
