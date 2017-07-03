@@ -199,7 +199,7 @@ public class DynamicAction {
 			if(space.getFamiliars().isEmpty()) 
 				return;
 			if ((Boolean) activateEffect(true, GC.WHEN_JOINING_SPACE) != null) 
-				throw new GameException();
+				throw new GameException("The are no free position in this space!");
 		}
 	}
 	
@@ -219,7 +219,7 @@ public class DynamicAction {
 			.filter(fam -> !fam.getColor().equals(GC.FM_TRANSPARENT))
 			.count();
 		if(countNotTransparent > 1) 
-			throw new GameException();
+			throw new GameException("Your familiar's color not allows you to occupy this space!");
 	}
 	
 	/**
@@ -245,8 +245,10 @@ public class DynamicAction {
 		Resource cost = new Resource();
 		Space space = game.getBoard().getFromTowers(row, column);
 		DevelopmentCard card = space.getCard();
-		if (card == null || player.getDevelopmentCards(card.toString()).size() == GC.MAX_DEVELOPMENT_CARDS)
-			throw new GameException();
+		if (card == null)
+			throw new GameException("There is no card here");
+		if (player.getDevelopmentCards(card.toString()).size() == GC.MAX_DEVELOPMENT_CARDS)
+			throw new GameException("You already have 6 cards of the same type");
 		int newValue = value + increaseWorker(cost);
 		cost.add(findTaxToPay(column));
 		
@@ -291,7 +293,7 @@ public class DynamicAction {
 		newValue = (Integer) activateEffect(newValue, card.toString(), GC.WHEN_FIND_VALUE_ACTION);
 		
 		if (newValue < space.getRequiredDiceValue()) 
-			throw new GameException();
+			throw new GameException("The value of your family is too low");
 		
 		
 		//canDicePaySpace(familiar, space);
@@ -370,7 +372,7 @@ public class DynamicAction {
 	 */
 	public void placeMarket (FamilyMember familiar, int whichSpace) throws GameException{
 		if ((Boolean) activateEffect(true, GC.WHEN_PLACE_FAMILIAR_MARKET) == null) 
-			throw new GameException();
+			throw new GameException("You have a malus that not allow you to put your family member in the market");
 		Space space = game.getBoard().getMarketSpace(whichSpace);
 		canOccupySpace(familiar, space);
 		player.addEffect(space.getInstantEffect());
@@ -387,7 +389,7 @@ public class DynamicAction {
 		Space space = game.getBoard().getCouncilPalaceSpace();
 		int power = (Integer) activateEffect(familiar.getValue(), GC.WHEN_FIND_VALUE_ACTION);
 		if (power < space.getRequiredDiceValue())
-			throw new GameException();
+			throw new GameException("The value of your family is too low");
 		if (!infoGame.getHeadPlayersTurn().contains(player))
 			infoGame.getHeadPlayersTurn().add(player);
 		player.addEffect(space.getInstantEffect());
@@ -429,7 +431,7 @@ public class DynamicAction {
 		int newPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
 		if (newPower < Math.max(space.getRequiredDiceValue(),1)){
 			player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
-			throw new GameException();
+			throw new GameException("The value of your family is too low");
 		}
 		launchesWork(power, action);
 		endAction(familiar, space);
@@ -465,7 +467,7 @@ public class DynamicAction {
 		System.out.println("work powe = " + realActionPower + " whit start of " + power);
 		if (realActionPower < 1){
 			player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
-			throw new GameException();
+			throw new GameException("The value of your family is too low");
 		}
 		player.getDevelopmentCards(cards).stream()
 			.filter(card -> realActionPower >= card.getDice())
@@ -546,7 +548,7 @@ public class DynamicAction {
 	public void activateLeaderCard(LeaderCard card) throws GameException{
 		GameInformation infoGame = game.getGameInformation();
 		if (!card.canPlayThis(player))
-			throw new GameException();
+			throw new GameException("You don't have the necessary requirements to activate this card");
 		player.removeLeaderCard(card);
 		player.addEffect(card.getEffect());
 		infoGame.addDiscardedLeader(card, player);
@@ -560,21 +562,23 @@ public class DynamicAction {
 	 */
 	public void discardLeaderCard(LeaderCard card) throws RemoteException{
 		player.removeLeaderCard(card);
+		/*
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					gain(new Resource(GC.RES_COUNCIL, 1));
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
 		
-//		new Thread(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				try {
-//					gain(new Resource(GC.RES_COUNCIL, 1));
-//				} catch (RemoteException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				
-//			}
-//		}).start();
-		
+		t.start();
+		*/
 		gain(new Resource(GC.RES_COUNCIL, 1));
 		game.otherPlayersInfo(player.getName() + Messages.MESS_DISCARDED_LEADER + card.getName(), player);
 	}

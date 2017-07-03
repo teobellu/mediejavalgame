@@ -130,7 +130,7 @@ public class ListenAction{
 	public void endTurn() throws GameException{
 		if (actionsAlreadyDone.contains(GC.END_TURN))
 			throw new GameException("You have already ended turn");
-		_theGame.getState().nextState();
+		
 		_player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
 		
 		try {
@@ -143,6 +143,7 @@ public class ListenAction{
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has ended his turn", _player);
 		
 		actionsAlreadyDone.clear();
+		_theGame.getState().nextState();
 		//TODO cambio stato
 	}
 

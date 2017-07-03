@@ -102,7 +102,7 @@ public class Resource implements Serializable{
 			.filter(type -> !hoard.containsKey(type) || hoard.get(type) < price.get(type))
 			.findFirst();
 		if (check.isPresent()) 
-			throw new GameException();
+			throw new GameException("You can't pay! You don't have enough resources!");
 		GC.RES_TYPES.stream()
 			.filter(type -> price.get(type) > 0)
 			.forEach(type -> add(type, -price.get(type)));

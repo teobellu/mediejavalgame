@@ -419,4 +419,16 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		}
 		
 	}
+
+	@Override
+	public void sendInfo(String message, Player me) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendInfo(String message, GameBoard board, Player me) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
 }
