@@ -7,6 +7,7 @@ import game.GC;
 import game.Player;
 import game.development.DevelopmentCard;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -55,19 +56,17 @@ public class CardsInfoController extends DialogAbstractController{
 	
 	@FXML
 	private void initialize(){
-		/*_gridPane = new GridPane();
-		
-		for (int col = 0; col < 6; col ++){
-			Node image = new ImageView();
-			_gridPane.add(image, col, 0);
-			Node image2 = new ImageView();
-			_gridPane.add(image2, col, 1);
-		}*/
 		_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom1.jpg").toURI().toString()));
 	}
 	
 	@FXML
 	private void onArrowClicked(){
+		for(Node n : _gridPane.getChildren()){
+			if(n instanceof ImageView){
+				((ImageView)n).setImage(null);
+			}
+		}
+		
 		if(_isArrowClicked){
 			_arrowButton.setText(">");
 			_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom1.jpg").toURI().toString()));
@@ -75,8 +74,8 @@ public class CardsInfoController extends DialogAbstractController{
 			List<DevelopmentCard> territoryCards = _player.getDevelopmentCards(GC.DEV_TERRITORY);
 			List<DevelopmentCard> buildingCards = _player.getDevelopmentCards(GC.DEV_BUILDING);
 			
-			setCardImages(0, territoryCards);
-			setCardImages(1, buildingCards);
+			setCardImages(CHAR_TERRITORY_ROW, territoryCards);
+			setCardImages(BUILDINGS_VENTURE_ROW, buildingCards);
 			
 			_isArrowClicked = false;
 		} else {
@@ -86,8 +85,8 @@ public class CardsInfoController extends DialogAbstractController{
 			List<DevelopmentCard> characterCards = _player.getDevelopmentCards(GC.DEV_CHARACTER);
 			List<DevelopmentCard> achievementCards = _player.getDevelopmentCards(GC.DEV_VENTURE);
 			
-			setCardImages(0, characterCards);
-			setCardImages(1, achievementCards);
+			setCardImages(CHAR_TERRITORY_ROW, characterCards);
+			setCardImages(BUILDINGS_VENTURE_ROW, achievementCards);
 			
 			_isArrowClicked = true;
 		}
@@ -104,21 +103,18 @@ public class CardsInfoController extends DialogAbstractController{
 		List<DevelopmentCard> territoryCards = _player.getDevelopmentCards(GC.DEV_TERRITORY);
 		List<DevelopmentCard> buildingCards = _player.getDevelopmentCards(GC.DEV_BUILDING);
 		
-		setCardImages(0, territoryCards);
-		setCardImages(1, buildingCards);
+		setCardImages(CHAR_TERRITORY_ROW, territoryCards);
+		setCardImages(BUILDINGS_VENTURE_ROW, buildingCards);
 	}
 	
 	private void setCardImages(int row, List<DevelopmentCard> cards){
 		
 		for(DevelopmentCard dc : cards){
-			System.out.println(_gridPane);
-			//TODO nullpointerexception code:
 			ImageView iv = (ImageView) GuiUtil.getNodeFromGridPane(_gridPane, cards.indexOf(dc), row);
 			iv.setImage(new Image(new File("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+dc.getId()+".png").toURI().toString()));
-			//prova:
-			//ImageView node = new ImageView(new Image(new File("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+dc.getId()+".png").toURI().toString()));
-			//_gridPane.add(node, cards.indexOf(dc), row);
-			// ????????????????????? TODO
 		}
 	}
+	
+	private final int CHAR_TERRITORY_ROW = 1;
+	private final int BUILDINGS_VENTURE_ROW = 0;
 }

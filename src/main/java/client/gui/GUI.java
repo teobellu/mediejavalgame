@@ -74,22 +74,33 @@ public class GUI extends Application {
 
 	public void setMainScene() {
 		try {
+			_primaryStage.hide();
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/MainView.fxml"));
 			AnchorPane pane = loader.load();
-			
-			_rootLayout.setMinSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
-			_rootLayout.setMaxSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
-			_rootLayout.setPrefSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
 			
 			_primaryStage.setTitle(_primaryStage.getTitle()+" - "+GraphicalUI.getInstance().getPlayerName());
 			
 			_rootLayout.setCenter(pane);
 
+			_primaryStage.setWidth(GuiSizeConstants.ROOT_WIDTH);
+			_primaryStage.setMaxWidth(GuiSizeConstants.ROOT_WIDTH);
+			_primaryStage.setMinWidth(GuiSizeConstants.ROOT_WIDTH);
+			
+			_primaryStage.setHeight(GuiSizeConstants.ROOT_HEIGHT);
+			_primaryStage.setMaxHeight(GuiSizeConstants.ROOT_HEIGHT);
+			_primaryStage.setMinHeight(GuiSizeConstants.ROOT_HEIGHT);
+
+//			_rootLayout.setMinSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
+//			_rootLayout.setMaxSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
+//			_rootLayout.setPrefSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
+			
 			_mainViewController = loader.getController();
 			_mainViewController.initialSetupController();
 			_mainViewController.setGUI(this);
-
+			
+			_primaryStage.show();
+			
 			createMainObserver();
 			
 		} catch (IOException e) {
@@ -153,6 +164,9 @@ public class GUI extends Application {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
+				
+				System.out.println("\n##CREATED NEW TASK IN THREAD "+Thread.currentThread().getName()+"##\n");
+				
 				while (GraphicalUI.getInstance().getCommandToGui().isEmpty()) {
 					try {
 						System.out.println("Waiting for _commandToGui object...");
