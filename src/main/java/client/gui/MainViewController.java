@@ -177,7 +177,7 @@ public class MainViewController {
 	@FXML
 	private void onFirstButtonClicked(){
 		try {
-			_GUI.showPlaceFamiliar(_board, GraphicalUI.getInstance().getConnection().getMe().getFreeMember());
+			_GUI.showPlaceFamiliar(_board, GraphicalUI.getInstance().getConnection().getMe().getFreeMembers());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -307,7 +307,6 @@ public class MainViewController {
 	
 	private void endTurn(){
 		_buttonPane.setDisable(true);
-		appendToInfoText("Turn ended.", 24);
 	}
 	
 	private Logger _log = Logger.getLogger(MainViewController.class.getName());

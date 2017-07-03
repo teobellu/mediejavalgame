@@ -30,4 +30,6 @@ public interface ClientRemote extends Remote {
 	public int askInt(String message, int min, int max) throws RemoteException;
 	
 	public void sendInfo(String infoMessage) throws RemoteException;
+	
+	public void sendInfoWithBoardUpdate(String infoMessage, GameBoard board) throws RemoteException;
 }

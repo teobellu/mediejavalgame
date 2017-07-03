@@ -16,12 +16,14 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import util.CommandStrings;
@@ -87,13 +89,13 @@ public class GUI extends Application {
 			_primaryStage.setMaxWidth(GuiSizeConstants.ROOT_WIDTH);
 			_primaryStage.setMinWidth(GuiSizeConstants.ROOT_WIDTH);
 			
-			_primaryStage.setHeight(GuiSizeConstants.ROOT_HEIGHT);
-			_primaryStage.setMaxHeight(GuiSizeConstants.ROOT_HEIGHT);
-			_primaryStage.setMinHeight(GuiSizeConstants.ROOT_HEIGHT);
-
-//			_rootLayout.setMinSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
-//			_rootLayout.setMaxSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
-//			_rootLayout.setPrefSize(GuiSizeConstants.ROOT_WIDTH, GuiSizeConstants.ROOT_HEIGHT);
+			Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+			
+			System.out.println("###"+primaryScreenBounds.getHeight());
+			
+			_primaryStage.setHeight(primaryScreenBounds.getHeight()/100*80);
+			_primaryStage.setMaxHeight(primaryScreenBounds.getHeight()/100*80);
+			_primaryStage.setMinHeight(primaryScreenBounds.getHeight()/100*80);
 			
 			_mainViewController = loader.getController();
 			_mainViewController.initialSetupController();

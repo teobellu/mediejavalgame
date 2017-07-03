@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import game.development.DevelopmentCard;
 import game.state.State;
@@ -15,11 +14,16 @@ import server.Room;
 import util.CommandStrings;
 import util.Constants;
 
+/**
+ * @author Jacopo
+ *
+ */
 public class Game implements Runnable {
 	
 	private ListenAction _listener;
 	
 	private List<Player> _players = new ArrayList<>();
+	private List<Player> _afkPlayers = new ArrayList<>();
 
 	private GameBoard _board;
 
@@ -65,8 +69,6 @@ public class Game implements Runnable {
 			e.printStackTrace();
 		}
 		/*
-		System.out.println("\n\n\n\n\n\n\nFINE SETUP");
-		
 		_state = new StateStartingTurn(this);
 		
 		while(!isGameOver()){
@@ -84,15 +86,6 @@ public class Game implements Runnable {
 
 	public boolean isOver() {
 		return _isOver;
-	}
-	
-	private boolean isGameOver(){
-		return !(_turn < Constants.MAX_TURN && _players.size()>1);
-		/*
-		if(_turn < Constants.MAX_TURN && _players.size()>1){
-			return false;
-		}
-		return true;*/
 	}
 	
 	public Player getCurrentPlayer(){
@@ -282,17 +275,40 @@ public class Game implements Runnable {
 		}
 	}
 	
-	public void otherPlayersInfo(String message, Player excluded){
-//		CTRL + SHIFT + C
-//		_players.stream()
-//			.filter(player -> player != excluded)
-//			.forEach(player -> player.getClient().getConnectionHandler().info(message));
+	public synchronized void otherPlayersInfo(String message, Player excluded){
+		_players.stream()
+			.filter(player -> player != excluded)
+			.forEach(player -> {
+				try {
+					player.getClient().getConnectionHandler().sendInfo(message);
+				} catch (RemoteException e) {
+					setAFK(player);
+				}
+			});
 	}
 	
-	public void broadcastInfo(String message){
-//		_players.forEach(player -> player.getClient().getConnectionHandler().info(message));
+	public synchronized void broadcastInfo(String message){
+		_players.forEach(player -> {
+			try {
+				player.getClient().getConnectionHandler().sendInfo(message);
+			} catch (RemoteException e) {
+				setAFK(player);
+			}
+		});
 	}
 	
+	
+	/**
+	 * Remove a player from the official players list, and saves him in a separate list 
+	 * @param player the player removed
+	 */
+	private synchronized void setAFK(Player player) {
+		for(Player p : _players){
+			_afkPlayers.add(p);
+			_players.remove(p);
+		}
+	}
+
 	public State getState(){
 		return _state;
 	}
@@ -325,8 +341,6 @@ public class Game implements Runnable {
 	public void setListener(ListenAction listener) {
 		this._listener = listener;
 	}
-
-	private Logger _log = Logger.getLogger(Game.class.getName());
 
 	protected void setPlayers(List<Player> nextPlayersTurn) {
 		_players = nextPlayersTurn;

@@ -91,11 +91,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		return _clientConnectionHandler.chooseDashboardBonus(bonus);
 	}
 
-	//@Override TODO
-	public void notifyTurn() throws RemoteException {
-		//_clientConnectionHandler.notifyTurn(); TODO
-	}
-
 	@Override
 	public GameBoard getBoard() throws RemoteException {
 		return _theGame.getListener().getGameBoard();
@@ -157,5 +152,9 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		_clientConnectionHandler.sendInfo(infoMessage);
 	}
 	
+	@Override
+	public void sendInfo(String infoMessage, GameBoard board) throws RemoteException {
+		_clientConnectionHandler.sendInfoWithBoardUpdate(infoMessage, board);
+	}
 	
 }

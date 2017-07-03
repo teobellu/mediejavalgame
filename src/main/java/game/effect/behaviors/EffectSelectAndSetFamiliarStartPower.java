@@ -79,7 +79,7 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 	 */
 	private void initializes(Effect ref) {
 		player = ref.getPlayer();
-		familiars = player.getFreeMember();
+		familiars = player.getFreeMembers();
 		message = Messages.MESS_SELECT_AND_SET_FAMILIAR + valueToSet;
 	}
 	

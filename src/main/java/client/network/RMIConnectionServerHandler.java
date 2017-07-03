@@ -158,4 +158,9 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	public void sendInfo(String infoMessage) throws RemoteException {
 		_ui.showInfo(infoMessage);
 	}
+	
+	@Override
+	public void sendInfoWithBoardUpdate(String infoMessage, GameBoard board) throws RemoteException {
+		_ui.showInfoWithBoardUpdate(infoMessage, board);
+	}
 }

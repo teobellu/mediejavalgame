@@ -58,7 +58,7 @@ public class EffectSetFamiliarStartPower implements IEffectBehavior{
 	 */
 	private void initializes(Effect ref) {
 		familiarsToModify = new ArrayList<>();
-		familiarsToModify.addAll(ref.getPlayer().getFreeMember());
+		familiarsToModify.addAll(ref.getPlayer().getFreeMembers());
 	}
 	
 	/**

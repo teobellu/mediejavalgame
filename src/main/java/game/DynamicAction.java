@@ -482,7 +482,7 @@ public class DynamicAction {
 	 */
 	private void endAction(FamilyMember familiar, Space space){
 		space.setFamiliar(familiar);
-		player.getFreeMember().removeIf(member -> member == familiar);
+		player.getFreeMembers().removeIf(member -> member == familiar);
 		player.getEffects().removeIf(effect -> effect.getSource().equals(GC.ACTION_SPACE));
 	}
 	

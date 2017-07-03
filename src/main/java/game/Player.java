@@ -118,7 +118,7 @@ public class Player implements Serializable{
 		return manager.getList(type);
 	}
 
-	public List<FamilyMember> getFreeMember() {
+	public List<FamilyMember> getFreeMembers() {
 		return freeMember;
 	}
 

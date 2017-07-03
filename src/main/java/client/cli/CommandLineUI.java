@@ -134,7 +134,7 @@ public class CommandLineUI implements UI {
 	private void placeFamiliar() throws RemoteException{
 		int selection = 0;
 		// quale familiare
-		List<FamilyMember> myFreeFamiliars = _me.getFreeMember();
+		List<FamilyMember> myFreeFamiliars = _me.getFreeMembers();
 		ModelPrinter.printListFamiliar(myFreeFamiliars);
 		selection = _ioHandler.readNumberWithinInterval(myFreeFamiliars.size() - 1);
 		FamilyMember selectedFamiliar = myFreeFamiliars.get(selection);
@@ -222,12 +222,7 @@ public class CommandLineUI implements UI {
 	}
 	
 	public void endTurn() throws RemoteException{
-		try {
-			_connectionHandler.endTurn();
-		} catch (GameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		_connectionHandler.endTurn();
 	}
 	
 	/*

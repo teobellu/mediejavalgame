@@ -362,6 +362,18 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		}
 	}
 	
+	@Override
+	public void sendInfo(String infoMessage, GameBoard board) throws RemoteException {
+		try {
+			writeObject(CommandStrings.INFO_BOARD);
+			writeObject(infoMessage);
+			writeObject(board);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
 	private class MyRunnable implements Runnable{
 
 		@Override
@@ -373,8 +385,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 						processObject(obj);
 					}
 				}
-				
-				
 			} catch (IOException e) {
 				shutdown();
 				_log.log(Level.SEVERE, e.getMessage(), e);
