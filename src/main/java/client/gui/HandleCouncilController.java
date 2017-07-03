@@ -24,9 +24,9 @@ public class HandleCouncilController extends DialogAbstractController{
 				int i = r.get(s);
 				if(i > 0){
 					if(sb.length()==0){
-						sb.append("Converti in ");
+						sb.append("Trade as ");
 					} else {
-						sb.append(" e in ");
+						sb.append(" and ");
 					}
 					sb.append(i+" "+s);
 				}

@@ -7,7 +7,6 @@ import game.GC;
 import game.Player;
 import game.development.DevelopmentCard;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -114,21 +113,12 @@ public class CardsInfoController extends DialogAbstractController{
 		for(DevelopmentCard dc : cards){
 			System.out.println(_gridPane);
 			//TODO nullpointerexception code:
-			ImageView iv = (ImageView) getNodeFromGridPane(_gridPane, cards.indexOf(dc), row);
+			ImageView iv = (ImageView) GuiUtil.getNodeFromGridPane(_gridPane, cards.indexOf(dc), row);
 			iv.setImage(new Image(new File("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+dc.getId()+".png").toURI().toString()));
 			//prova:
 			//ImageView node = new ImageView(new Image(new File("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+dc.getId()+".png").toURI().toString()));
 			//_gridPane.add(node, cards.indexOf(dc), row);
 			// ????????????????????? TODO
 		}
-	}
-	
-	private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-	    for (Node node : gridPane.getChildren()) {
-	        if (gridPane.getColumnIndex(node) == col && gridPane.getRowIndex(node) == row) {
-	            return node;
-	        }
-	    }
-	    return null;
 	}
 }

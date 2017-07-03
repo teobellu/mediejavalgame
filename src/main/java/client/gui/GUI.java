@@ -309,7 +309,6 @@ public class GUI extends Application {
 			
 			PlaceFamiliarController controller = loader.getController();
 			controller.setDialog(dialog);
-			controller.setGUI(this);
 			controller.setBoardAndFamiliars(board, familiars);
 			
 			dialog.showAndWait();

@@ -19,12 +19,24 @@ public class ClientText {
 			for(int j = 0;j<GC.TOWER_HEIGHT;j++){
 				StringBuilder sb = new StringBuilder(GC.DEV_TYPES.get(i).substring(0, 1).toUpperCase());
 				sb.append(GC.DEV_TYPES.get(i).substring(1));
-				sb.append(" - "+j);
+				sb.append(" - " + convertFloor(j));
 				list.add(sb.toString());
 			}
 		}
 		
 		return list;
+	}
+	
+	private static String convertFloor(int j){
+		if(j == 0){
+			return "Ground floor";
+		} else if(j == 1) {
+			return "First floor";
+		} else if (j == 2){
+			return "Second floor";
+		} else {
+			return "Top of the tower";
+		}
 	}
 	
 	/**
