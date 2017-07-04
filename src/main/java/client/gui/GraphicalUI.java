@@ -47,6 +47,8 @@ public class GraphicalUI implements UI {
     private GameBoard _cachedBoard;
     
     private Player _cachedMe;
+    
+    private String _uuid;
 	
 	private GraphicalUI() {
 	}
@@ -393,5 +395,18 @@ public class GraphicalUI implements UI {
 		} catch (RemoteException e) {
 			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
 		}
+	}
+
+	public boolean attemptReconnection() {
+		try {
+			return _connectionHandler.attemptReconnection(_uuid);
+		} catch (RemoteException e) {
+			return false;
+		}
+	}
+
+	@Override
+	public void setUUID(String uuid) {
+		_uuid = uuid;
 	}
 }

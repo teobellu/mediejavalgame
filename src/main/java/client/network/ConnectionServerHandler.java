@@ -99,4 +99,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws RemoteException Remote connection error
 	 */
 	public abstract void endTurn() throws RemoteException;
+
+	public abstract boolean attemptReconnection(String _uuid) throws RemoteException;
 }

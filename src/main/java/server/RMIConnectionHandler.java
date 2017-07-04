@@ -156,4 +156,9 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	public void sendInfo(String message, GameBoard board, Player me) throws RemoteException {
 		_clientConnectionHandler.sendInfo(message, board, me);
 	}
+
+	@Override
+	public void sendUUID(String uuid) throws RemoteException {
+		_clientConnectionHandler.sendUUID(uuid);
+	}
 }

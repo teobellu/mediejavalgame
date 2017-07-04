@@ -1,5 +1,6 @@
 package client.network;
 
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -42,7 +43,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 					break;
 				} catch(ExportException e){
 					if(i == Math.pow(10, 3)){
-						e.printStackTrace();
+						_log.log(Level.SEVERE, e.getMessage(), e);
 					}
 					continue;
 				}
@@ -61,6 +62,37 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+	}
+	
+	@Override
+	public boolean attemptReconnection(String uuid) throws RemoteException {
+		try {
+			Registry registry = LocateRegistry.getRegistry(_host, _port);
+			ServerRemote serverRMI = (ServerRemote) registry.lookup(Constants.RMI);
+			
+			//TODO non so se sia necessario
+//			for(int i = 1; i <= Math.pow(10, 3); i++){
+//				try{
+//					UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT + i);
+//					break;
+//				} catch(ExportException e){
+//					if(i == Math.pow(10, 3)){
+//						_log.log(Level.SEVERE, e.getMessage(), e);
+//					}
+//					continue;
+//				}
+//			}
+			
+			_connectionHandler = (ConnectionHandlerRemote) serverRMI.onReconnect(uuid);
+			_connectionHandler.setClientRemote(this);
+			
+			_log.info("Reconnected succesfully");
+			return true;
+		} catch (NotBoundException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		return false;
 	}
 	
 	@Override
@@ -169,5 +201,10 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	@Override
 	public void sendInfo(String message, GameBoard board, Player me) throws RemoteException {
 		_ui.showInfo(message, board, me);
+	}
+
+	@Override
+	public void sendUUID(String uuid) throws RemoteException {
+		_ui.setUUID(uuid);
 	}
 }

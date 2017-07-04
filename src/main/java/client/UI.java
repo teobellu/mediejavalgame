@@ -78,10 +78,12 @@ public interface UI extends Runnable{
 
 	void addMeToGame(String username) throws GameException;
 	
-	public abstract void dropLeaderCard(String leaderName) throws RemoteException, GameException;
+	public void dropLeaderCard(String leaderName) throws RemoteException, GameException;
 
-	public abstract void endTurn() throws RemoteException, GameException;
+	public void endTurn() throws RemoteException, GameException;
 	
-	public abstract void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException;
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException;
+
+	public void setUUID(String uuid);
 	
 }

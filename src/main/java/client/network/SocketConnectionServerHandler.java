@@ -76,6 +76,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				_returnObject = (boolean) getFromServer();
 			}
 		}
+		else if(obj.equals(CommandStrings.UUID)){
+			_ui.setUUID((String) getFromServer());
+		}
 		else if(obj.equals(CommandStrings.INITIAL_LEADER)){
 			List<LeaderCard> tempList = ((List<LeaderCard>) getFromServer());
 			
@@ -347,5 +350,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			System.out.println("\n\n###READER SHUTTING DOWN###\n\n");
 		}
+	}
+
+	@Override
+	public boolean attemptReconnection(String _uuid) throws RemoteException {
+		//TODO
+		return false;
 	}
 }

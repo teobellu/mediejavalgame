@@ -405,4 +405,15 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		}
 		
 	}
+
+	@Override
+	public void sendUUID(String uuid) throws RemoteException {
+		try {
+			writeObject(CommandStrings.UUID);
+			writeObject(uuid);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

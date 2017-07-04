@@ -36,4 +36,6 @@ public interface ClientRemote extends Remote {
 	public void sendInfo(String message, Player me) throws RemoteException;
 	
 	public void sendInfo(String message, GameBoard board, Player me) throws RemoteException;
+	
+	public void sendUUID(String uuid) throws RemoteException;
 }

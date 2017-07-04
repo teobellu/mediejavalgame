@@ -40,6 +40,8 @@ public abstract class ConnectionHandler implements Runnable {
 	
 	public abstract void startTurn(GameBoard board, Player currentPlayer) throws RemoteException;
 	
+	public abstract void sendUUID(String uuid) throws RemoteException;
+	
 	//TODO GAME METHOD
 	public abstract int spendCouncil(List<Resource> councilRewards) throws RemoteException;
 

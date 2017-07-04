@@ -3,6 +3,7 @@ package server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -130,6 +131,7 @@ public class Server extends Thread {
 		Client client = new Client(handler, id, name);
 		handler.setClient(client);
 		try{
+			client.getConnectionHandler().sendUUID(id);
 			if(!_games.isEmpty()){
 				System.out.println("Ci sono gia' dei game");
 				for(Room r : _games){
@@ -154,11 +156,17 @@ public class Server extends Thread {
 		} catch(GameException e){
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			return false;
+		} catch (RemoteException e) {
+			return false;
 		}
 	}
 	
 	public void shutdown(){
 		_isRunning = false;
+	}
+	
+	protected List<Room> getRooms(){
+		return _games;
 	}
 
 	private boolean _isRunning = false;

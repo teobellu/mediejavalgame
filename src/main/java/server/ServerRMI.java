@@ -54,15 +54,8 @@ public class ServerRMI extends Thread implements ServerRemote {
 		return _IS_RUNNING;
 	}
 	
-	
-	/**
-	 * A client should call this method to connect to the server.
-	 * 
-	 */
+	@Override
 	public ConnectionHandlerRemote onConnect(){
-		/*TODO 
-		 * Viene chiamato onConnect() di Server.
-		 * */
 		try {
 			RMIConnectionHandler connectionHandler = new RMIConnectionHandler();
 			
@@ -71,6 +64,18 @@ public class ServerRMI extends Thread implements ServerRemote {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
+	}
+	
+	@Override
+	public ConnectionHandlerRemote onReconnect(String uuid) throws RemoteException {
+		for(Room room : Server.getInstance().getRooms()){
+			for(Client client : room.getPlayers()){
+				if(client.getUUID().equals(uuid)){
+					return (ConnectionHandlerRemote) client.getConnectionHandler();
+				}
+			}
+		}
+		throw new RuntimeException("Cannot find the client");
 	}
 	
 	private Registry _registry = null;

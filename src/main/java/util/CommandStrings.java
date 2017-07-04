@@ -4,6 +4,8 @@ public final class CommandStrings {
 	
 	public static final String UUID = "uuid";
 	
+	public static final String RECONNECT = "reconnect";
+	
 	public static final String GAME_BOARD = "gameboard";
 	public static final String PLAYER = "player";
 	

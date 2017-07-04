@@ -10,6 +10,6 @@ public class DisconnectedController extends DialogAbstractController{
 	
 	@FXML
 	private void onReconnectClicked(){
-		
+		GraphicalUI.getInstance().attemptReconnection();
 	}
 }

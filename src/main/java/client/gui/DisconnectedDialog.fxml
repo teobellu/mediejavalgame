@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane minHeight="300.0" minWidth="600.0" xmlns="http://javafx.com/javafx/8.0.131" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.DisconnectedController">
+<AnchorPane minHeight="300.0" minWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.gui.DisconnectedController">
    <children>
       <TextFlow layoutX="200.0" layoutY="22.0" prefHeight="200.0" prefWidth="200.0" textAlignment="CENTER" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="35.0">
          <children>
@@ -21,6 +21,6 @@
             <Insets top="50.0" />
          </padding>
       </TextFlow>
-      <Button fx:id="_reconnectButton" layoutX="250.0" layoutY="235.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#onReconnectClicked" text="Reconnect" />
+      <Button fx:id="_reconnectButton" layoutX="250.0" layoutY="235.0" minHeight="40.0" minWidth="100.0" mnemonicParsing="false" onAction="#onReconnectClicked" text="RECONNECT" />
    </children>
 </AnchorPane>
