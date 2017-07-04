@@ -85,10 +85,6 @@ public class Player implements Serializable{
 		leaderCard.removeIf(card -> card == cardToDiscard);
 	}
 	
-	public void showLeaderCard (){
-		leaderCard.stream().forEach(card -> System.out.println(card.getName()));
-	}
-	
 	public void addDevelopmentCard (DevelopmentCard newCard){
 		developmentCard.add(newCard);
 		manager.add(newCard);
@@ -146,17 +142,9 @@ public class Player implements Serializable{
 			default : return new Resource();
 		}
 	}
-	
-	public Resource getHarvestBonus() {
-		return harvestBonus;
-	}
 
 	public void setHarvestBonus(Resource harvestBonus) {
 		this.harvestBonus = harvestBonus;
-	}
-
-	public Resource getProductionBonus() {
-		return productionBonus;
 	}
 
 	public void setProductionBonus(Resource productionBonus) {

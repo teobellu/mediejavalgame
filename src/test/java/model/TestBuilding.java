@@ -6,8 +6,10 @@ import org.junit.Test;
 
 import game.GC;
 import game.Resource;
+import game.development.AppendsToListVisitor;
 import game.development.Building;
 import game.development.DevelopmentCard;
+import game.development.DevelopmentCardManager;
 
 /**
  * Test model: Building
@@ -34,6 +36,9 @@ public class TestBuilding {
 		
 		card.setDice(2);
 		assertTrue(card.getDice() == 2);
+		
+		//visitor design pattern
+		card.accept(new AppendsToListVisitor(new DevelopmentCardManager()));
     }
 	
 }

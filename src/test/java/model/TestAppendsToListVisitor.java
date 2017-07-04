@@ -12,6 +12,11 @@ import game.development.DevelopmentCardManager;
 import game.development.Territory;
 import game.development.Venture;
 
+/**
+ * Test model: AppendsToListVisitor
+ * @author M
+ *
+ */
 public class TestAppendsToListVisitor {
 	
 	@Test

@@ -10,8 +10,10 @@ import org.junit.Test;
 import game.effect.Effect;
 import game.GC;
 import game.Resource;
+import game.development.AppendsToListVisitor;
 import game.development.Character;
 import game.development.DevelopmentCard;
+import game.development.DevelopmentCardManager;
 
 /**
  * Test model: Character
@@ -38,6 +40,9 @@ public class TestCharacter {
 		assertTrue(card.getId() == 0);
 		card.setId(6);
 		assertTrue(card.getId() == 6);
+		
+		//visitor design pattern
+		card.accept(new AppendsToListVisitor(new DevelopmentCardManager()));
     }
 	
 }

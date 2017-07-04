@@ -11,6 +11,11 @@ import game.development.DevelopmentCardManager;
 import game.development.Territory;
 import game.development.Venture;
 
+/**
+ * Test model: DevelopmentCardManager
+ * @author M
+ *
+ */
 public class TestDevelopmentCardManager {
 	
 	@Test

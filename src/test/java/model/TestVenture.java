@@ -10,7 +10,9 @@ import org.junit.Test;
 import game.effect.Effect;
 import game.GC;
 import game.Resource;
+import game.development.AppendsToListVisitor;
 import game.development.DevelopmentCard;
+import game.development.DevelopmentCardManager;
 import game.development.Venture;
 
 /**
@@ -42,6 +44,9 @@ public class TestVenture {
 		assertTrue(card.getId() == 6);
 		
 		assertTrue(card.getRequirement().equals(card.getCost()));
+		
+		//visitor design pattern
+		card.accept(new AppendsToListVisitor(new DevelopmentCardManager()));
     }
 	
 }

@@ -5,7 +5,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import game.GC;
+import game.development.AppendsToListVisitor;
 import game.development.DevelopmentCard;
+import game.development.DevelopmentCardManager;
 import game.development.Territory;
 
 /**
@@ -29,6 +31,9 @@ public class TestTerritory {
 		assertTrue(card.getId() == 0);
 		card.setId(4);
 		assertTrue(card.getId() == 4);
+		
+		//visitor design pattern
+		card.accept(new AppendsToListVisitor(new DevelopmentCardManager()));
     }
 	
 }

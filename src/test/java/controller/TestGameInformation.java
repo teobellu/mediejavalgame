@@ -19,6 +19,11 @@ import game.Player;
 import game.effect.Effect;
 import server.Room;
 
+/**
+ * Test controller: GameInformation
+ * @author M
+ *
+ */
 public class TestGameInformation {
 	
 	@Test
@@ -68,7 +73,7 @@ public class TestGameInformation {
 		List<Player> list = new ArrayList<>();
 		list.add(null);
 		list.add(null);
-		
+		 
 		gi.setHeadPlayersTurn(list);
 		gi.setTailPlayersTurn(list);
 		gi.setLatePlayersTurn(list);
