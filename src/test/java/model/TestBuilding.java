@@ -31,6 +31,9 @@ public class TestBuilding {
 		assertTrue(card.getId() == 0);
 		card.setId(4);
 		assertTrue(card.getId() == 4);
+		
+		card.setDice(2);
+		assertTrue(card.getDice() == 2);
     }
 	
 }

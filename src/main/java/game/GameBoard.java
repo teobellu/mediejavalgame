@@ -56,7 +56,7 @@ public class GameBoard implements Serializable{
 	//private int diceOrange;
 	//private int diceWhite;
 	private Integer dices[] = new Integer[MAX_DICES];
-	
+	/*
 	public GameBoard(){
 		Resource r1 = new Resource();
 		Effect x = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.HARVEST, -3));
@@ -83,7 +83,7 @@ public class GameBoard implements Serializable{
 		productionPos = new Space(1, eff, true);
 		harvestLongPos = new Space(1, x, false);
 		productionLongPos = new Space(1, GC.NIX, false);
-	}
+	}*/
 	
 	public GameBoard(Map<String, List<Effect>> spaceBonus) {
 		councilPalaceSpace = new Space(1, spaceBonus.get(GC.COUNCIL_PALACE).get(0), false);

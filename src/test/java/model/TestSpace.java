@@ -8,6 +8,7 @@ import org.junit.Test;
 import game.FamilyMember;
 import game.GC;
 import game.Space;
+import game.development.Territory;
 import game.effect.Effect;
 import game.effect.behaviors.EffectGetResource;
 
@@ -46,7 +47,7 @@ public class TestSpace {
 		space.setSingleObject(false);
 		assertTrue(!space.isSingleObject());
 		
-		//space.setCard(new Territory("Name", 1, null, null, 4));
+		space.setCard(new Territory("Name", 2, GC.NIX, GC.NIX, 3));
 		assertTrue(space.getCard() == null);
     }
 }

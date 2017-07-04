@@ -53,10 +53,6 @@ public class GameInformation{
 		generateLeaderCard();
 	}
 	
-	public void setupGame(ConfigFileHandler setup){
-		
-	}
-	
 	public void createBoard(Map<String, List<Effect>> spaceBonus) {
 		game.setBoard(new GameBoard(spaceBonus));
 	}
@@ -73,9 +69,7 @@ public class GameInformation{
 		rollDices();
 		generateFamiliars();
 		game.getBoard().clearPos();
-		System.out.println("xa " + developmentDeck.size());
 		game.getBoard().generateDevelopmentCards(developmentDeck, age);
-		System.out.println("ya " + developmentDeck.size());
 		System.out.println("ON CLOCK age: " + age);
 		game.setPlayers(getNextPlayersTurn());
 		System.out.println("DONE: size players = " +  game.getPlayers().size());

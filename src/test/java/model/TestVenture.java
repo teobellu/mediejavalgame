@@ -40,6 +40,8 @@ public class TestVenture {
 		assertTrue(card.getId() == 0);
 		card.setId(6);
 		assertTrue(card.getId() == 6);
+		
+		assertTrue(card.getRequirement().equals(card.getCost()));
     }
 	
 }
