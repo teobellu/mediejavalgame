@@ -1,6 +1,5 @@
 package client.gui;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,12 +122,7 @@ public class PlaceFamiliarController extends DialogAbstractController {
 			
 			@Override
 			public void run() {
-				try {
-					GraphicalUI.getInstance().placeFamiliar(_familyColours.get(_familiarChoice.getSelectionModel().getSelectedIndex()), pos);
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				GraphicalUI.getInstance().placeFamiliar(_familyColours.get(_familiarChoice.getSelectionModel().getSelectedIndex()), pos);
 			}
 		}).start();
 		

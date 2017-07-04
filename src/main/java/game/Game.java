@@ -352,4 +352,12 @@ public class Game implements Runnable {
 	protected void setPlayers(List<Player> nextPlayersTurn) {
 		_players = nextPlayersTurn;
 	}
+	
+	public void setMeAFK(String name){
+		for(Player p : _players){
+			if(p.getName().equals(name)){
+				setAFK(p);
+			}
+		}
+	}
 }

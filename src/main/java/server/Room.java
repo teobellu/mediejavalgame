@@ -25,11 +25,13 @@ public class Room extends Thread {
 	private boolean isRunning = false;
 	private List<Client> clients;
 	private ConfigFileHandler fileHandler;
+	private List<Client> afkClients;
 	
 	private Logger log = Logger.getLogger(Room.class.getName());
 	
 	public Room(String configFile) {
 		clients = new ArrayList<>();
+		afkClients = new ArrayList<>();
 		
 		fileHandler = new ConfigFileHandler();
 		
@@ -166,6 +168,16 @@ public class Room extends Thread {
 		}
 		
 		isRunning = false;
+	}
+	
+	public void setMeAfk(ConnectionHandler handler){
+		for(Client client : clients){
+			if(client.getConnectionHandler().equals(handler)){
+				afkClients.add(client);
+				clients.remove(client);
+				theGame.setMeAFK(client.getName());
+			}
+		}
 	}
 	
 }

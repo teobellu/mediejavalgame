@@ -9,10 +9,6 @@ import game.Player;
 import game.Position;
 
 public interface ConnectionHandlerRemote extends Remote, Serializable {
-
-
-	public void ping() throws RemoteException;
-	
 	public void onConnect() throws RemoteException;
 
 	public boolean addMeToGame(String name) throws RemoteException;
@@ -21,8 +17,6 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 
 	public void setClientRemote(ClientRemote rmiConnectionServerHandler) throws RemoteException;
 	
-	//NEW:
-
 	public GameBoard getBoard() throws RemoteException;
 	
 	public Player getMe() throws RemoteException;

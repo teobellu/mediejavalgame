@@ -11,7 +11,6 @@ public final class CommandStrings {
 		
 	public static final String ADD_TO_GAME = "add_to_game";
 	public static final String ASK_FOR_CONFIG = "ask_config";
-	public static final String PING = "ping";
 	
 	public static final String CHOOSE_CONVERT = "choose_convert";
 	public static final String CHOOSE_LEADER = "choose_leader";
@@ -37,8 +36,7 @@ public final class CommandStrings {
 	
 	public static final String HANDLE_COUNCIL = "handle_council";
 	
-	public static final String SUCCESS = "success";
-	public static final String ERROR = "error";
+	public static final String CONNECTION_ERROR = "connection_error";
 	
 	public static final String INITIAL_PERSONAL_BONUS = "initial_personal_bonus";
 	

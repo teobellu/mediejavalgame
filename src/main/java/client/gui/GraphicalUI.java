@@ -195,11 +195,6 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public void activateLeaderCard(String leaderName) throws RemoteException {
-		_connectionHandler.activateLeaderCard(leaderName);
-	}
-
-	@Override
 	public int chooseFamiliar(List<FamilyMember> familiars, String message) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -234,21 +229,27 @@ public class GraphicalUI implements UI {
 		return 0;
 	}
 	
-	private int showInitialLeaderList(List<LeaderCard> leadersList) throws Exception {
-		List<String> tempList = new ArrayList<>();
-		
-		for(LeaderCard s : leadersList){
-			tempList.add(s.getName());
+	private int showInitialLeaderList(List<LeaderCard> leadersList) {
+		try {
+			List<String> tempList = new ArrayList<>();
+			
+			for(LeaderCard s : leadersList){
+				tempList.add(s.getName());
+			}
+			
+			addFromGraphicalToGUI(tempList);
+			addToCommandToGui(CommandStrings.INITIAL_LEADER);
+			
+			synchronized (_commandToGui) {
+				_commandToGui.wait();
+			}
+			
+			return (int) returnFirstAndCleanCommand();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
 		}
-		
-		addFromGraphicalToGUI(tempList);
-		addToCommandToGui(CommandStrings.INITIAL_LEADER);
-		
-		synchronized (_commandToGui) {
-			_commandToGui.wait();
-		}
-		
-		return (int) returnFirstAndCleanCommand();
 	}
 
 	@Override
@@ -290,21 +291,6 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public void placeFamiliar(String familiarColour, Position position) throws RemoteException{
-		_connectionHandler.placeFamiliar(familiarColour, position);
-	}
-	
-	@Override
-	public void dropLeaderCard(String leaderName) throws RemoteException {
-		_connectionHandler.dropLeaderCard(leaderName);
-	}
-	
-	@Override
-	public void endTurn() throws RemoteException{
-		_connectionHandler.endTurn();
-	}
-	
-	@Override
 	public void showInfo(String str) {
 		addFromGraphicalToGUI(str);
 		addToCommandToGui(CommandStrings.INFO);
@@ -318,14 +304,14 @@ public class GraphicalUI implements UI {
 	}
 	
 	@Override
-	public void showInfo(String message, Player me) throws RemoteException {
+	public void showInfo(String message, Player me) {
 		_cachedMe = me;
 		addFromGraphicalToGUI(message);
 		addToCommandToGui(CommandStrings.INFO_PLAYER);
 	}
 
 	@Override
-	public void showInfo(String message, GameBoard board, Player me) throws RemoteException {
+	public void showInfo(String message, GameBoard board, Player me) {
 		_cachedBoard = board;
 		_cachedMe = me;
 		addFromGraphicalToGUI(message);
@@ -371,5 +357,41 @@ public class GraphicalUI implements UI {
 	
 	public Player getCachedMe(){
 		return _cachedMe;
+	}
+	
+	@Override
+	public void activateLeaderCard(String leaderName) {
+		try {
+			_connectionHandler.activateLeaderCard(leaderName);
+		} catch (RemoteException e) {
+			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
+		}
+	}
+	
+	@Override
+	public void placeFamiliar(String familiarColour, Position position) {
+		try {
+			_connectionHandler.placeFamiliar(familiarColour, position);
+		} catch (RemoteException e) {
+			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
+		}
+	}
+	
+	@Override
+	public void dropLeaderCard(String leaderName) {
+		try {
+			_connectionHandler.dropLeaderCard(leaderName);
+		} catch (RemoteException e) {
+			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
+		}
+	}
+	
+	@Override
+	public void endTurn() {
+		try {
+			_connectionHandler.endTurn();
+		} catch (RemoteException e) {
+			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
+		}
 	}
 }

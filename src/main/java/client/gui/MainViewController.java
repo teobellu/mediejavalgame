@@ -221,12 +221,7 @@ public class MainViewController {
 					
 					@Override
 					public void run() {
-						try {
-							GraphicalUI.getInstance().endTurn();
-						} catch (RemoteException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						GraphicalUI.getInstance().endTurn();
 					}
 				}).start();
 				//GraphicalUI.getInstance().endTurn();

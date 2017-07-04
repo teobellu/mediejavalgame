@@ -45,12 +45,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	public abstract void sendConfigFile(String file) throws RemoteException;
 		
 	/**
-	 * Ping the server that I'm still connected
-	 * @throws RemoteException
-	 */
-	public abstract void ping() throws RemoteException;
-		
-	/**
 	 * Add client to a game
 	 * @param username 
 	 * @return true if first player of a room, false otherwise

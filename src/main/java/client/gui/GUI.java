@@ -155,6 +155,9 @@ public class GUI extends Application {
 				else if(str.equals(CommandStrings.HANDLE_COUNCIL)){
 					showCouncilPrivilegeDialog((List<Resource>) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
+				else if(str.equals(CommandStrings.CONNECTION_ERROR)){
+					showDisconnectedDialog();
+				}
 				else {//TODO
 					System.out.println("\n###GUI HA RICEVUTO UN COMANDO SCONOSCIUTO###\n");
 				}
@@ -387,6 +390,24 @@ public class GUI extends Application {
 			
 			dialog.showAndWait();
 		} catch (IOException e) {
+			// TODO: handle exception
+		}
+	}
+	
+	private void showDisconnectedDialog() {
+		try {
+			//TODO provare a chiudere eventuali dialog aperti
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/DisconnectedDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Connection lost");
+			
+			DisconnectedController controller = loader.getController();
+			controller.setDialog(dialog);
+			
+			dialog.showAndWait();
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}

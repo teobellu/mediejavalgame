@@ -69,11 +69,6 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 
 	@Override
-	public void ping() throws RemoteException {
-		_connectionHandler.ping();		
-	}
-	
-	@Override
 	public boolean addMeToGame(String name) throws RemoteException {
 		return _connectionHandler.addMeToGame(name);
 	}

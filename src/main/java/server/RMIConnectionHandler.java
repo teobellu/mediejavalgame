@@ -2,11 +2,8 @@ package server;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.FamilyMember;
@@ -21,8 +18,6 @@ import misc.ConnectionHandlerRemote;
 public class RMIConnectionHandler extends ConnectionHandler implements ConnectionHandlerRemote, Serializable {
 
 	private ClientRemote _clientConnectionHandler;
-	private Date _lastPing;
-	private transient Logger _log = Logger.getLogger(RMIConnectionHandler.class.getName());
 	
 	@Override
 	public void run() {
@@ -34,11 +29,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		_clientConnectionHandler = rmiConnectionServerHandler;
 	}
 
-	@Override
-	public void ping() throws RemoteException {
-		_lastPing = Date.from(Instant.now());	
-	}
-	
 	@Override
 	public void onConnect() throws RemoteException {
 		// TODO Auto-generated method stub

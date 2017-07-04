@@ -1,7 +1,6 @@
 package server;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,12 +37,6 @@ public abstract class ConnectionHandler implements Runnable {
 			_theGame = _client.getRoom().getGame();
 		}
 	}
-	
-	public List<String> getTempLeaders(){
-		return _temporaryLeaders;
-	}
-	
-	private List<String> _temporaryLeaders = new ArrayList<>();
 	
 	public abstract void startTurn(GameBoard board, Player currentPlayer) throws RemoteException;
 	

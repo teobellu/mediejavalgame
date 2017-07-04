@@ -1,6 +1,5 @@
 package client.gui;
 
-import java.rmi.RemoteException;
 import java.util.List;
 
 import game.LeaderCard;
@@ -31,12 +30,7 @@ public class ActivateLeaderController extends DialogAbstractController {
 			
 			@Override
 			public void run() {
-				try {
-					GraphicalUI.getInstance().activateLeaderCard(_choices.getValue());
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				GraphicalUI.getInstance().activateLeaderCard(_choices.getValue());
 			}
 		}).start();
 		

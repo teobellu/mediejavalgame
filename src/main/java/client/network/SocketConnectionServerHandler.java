@@ -167,11 +167,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 
 	@Override
-	public void ping() throws RemoteException {
-			//TODO
-	}
-	
-	@Override
 	public void shutdown() {
 		super.shutdown();
 		

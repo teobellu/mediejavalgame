@@ -1,6 +1,5 @@
 package client.gui;
 
-import java.rmi.RemoteException;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -38,12 +37,7 @@ public class DropLeaderController extends DialogAbstractController{
 			
 			@Override
 			public void run() {
-				try {
-					GraphicalUI.getInstance().dropLeaderCard(_choiceBox.getValue());
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				GraphicalUI.getInstance().dropLeaderCard(_choiceBox.getValue());
 			}
 		}).start();
 		
