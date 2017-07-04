@@ -144,13 +144,13 @@ public class GameBoard implements Serializable{
 	public DevelopmentCard getCard(int row, int column){
 		return getFromTowers(row,column).getCard();
 	}
-	
+	/*
 	public void obtainCard(Player player, int row, int column){
 		//vari controlli, ottieni bonus, ecc.
 		DevelopmentCard card = getFromTowers(row, column).getCard();
 		player.addDevelopmentCard(card);
 		
-	}
+	}*/
 
 	public Cell getFromTowers(int row, int column){
 		return tower[row][column];

@@ -1,6 +1,7 @@
 package game.state;
 
 import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.List;
 
 import exceptions.GameException;
@@ -20,6 +21,8 @@ public abstract class State {
 	protected Player _player = null;
 	protected Client _client;
 	private List<Player> _players;
+	
+	private long startTime;
 	
 	public State(Game game){
 		_theGame = game;
@@ -98,12 +101,25 @@ public abstract class State {
 	
 	//TODO DICE AL PLAYER CHE E' IL SUO TURNO
 	private void notifyPlayerTurn(Player player){
+		startTime = new Date().getTime();
+		
 		ConnectionHandler handler = _player.getClient().getConnectionHandler();
 		try {
 			handler.startTurn(_theGame.getBoard(), player);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		boolean exit = false;
+		while (!exit){
+			if (isTimeoutOver()){
+				//_theGame.movePlayerAfk();
+				//avviso il client
+				_theGame.broadcastInfo("Player " + _player + " timer has expired");
+				//nextState();
+				exit = true;
+			}
 		}
 	}
 	
@@ -124,6 +140,11 @@ public abstract class State {
 			return getNextPlayer();
 		}
 		return _players.get(currentPlayerIndex + 1);
+	}
+	
+	public boolean isTimeoutOver(){
+		long currentTime = new Date().getTime();
+		return currentTime-startTime > _theGame.getTurnTimeout();
 	}
 	
 	public abstract List<String> dropLeaderCard() throws GameException;
