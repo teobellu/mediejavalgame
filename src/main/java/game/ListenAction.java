@@ -14,7 +14,7 @@ public class ListenAction{
 	
 	public ListenAction(Game game){
 		_theGame = game;
-		_player = _theGame.getCurrentPlayer();
+		_player = _theGame.getPlayers().get(0);
 		actionsAlreadyDone = new ArrayList<>();
 	}
 	

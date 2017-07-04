@@ -27,6 +27,7 @@ public class Game implements Runnable {
 
 	private GameBoard _board;
 
+	private long turnTimeout;
 	private State _state;
 	private int _turn;
 	private int _phase;
@@ -351,5 +352,13 @@ public class Game implements Runnable {
 
 	protected void setPlayers(List<Player> nextPlayersTurn) {
 		_players = nextPlayersTurn;
+	}
+
+	public long getTurnTimeout() {
+		return turnTimeout;
+	}
+
+	public void setTurnTimeout(long timeout) {
+		this.turnTimeout = timeout;
 	}
 }

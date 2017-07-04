@@ -334,7 +334,7 @@ public class CommandLineUI implements UI {
 	@Override
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions){
 		_ioHandler.write("Choose the resource to convert");
-		for (int i = 0; i < realPayOptions.size() - 1; i++){
+		for (int i = 0; i < realPayOptions.size(); i++){
 			_ioHandler.writeNext(i + ") ");
 			_ioHandler.writeNext("Pay: ");
 			ModelPrinter.printResource(realPayOptions.get(i));
@@ -412,10 +412,26 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void showInfoWithBoardUpdate(String info, GameBoard board) {
+	public void showInfo(String infoMessage, GameBoard board) throws RemoteException {
 		_board = board;
 		ModelPrinter.printBoard(_board);
-		_ioHandler.write("[INFO] : " + info);
+		showInfo(infoMessage);
+	}
+
+	@Override
+	public void showInfo(String message, Player me) throws RemoteException {
+		_me = me;
+		ModelPrinter.printMyLoot(_me);
+		showInfo(message);
+	}
+
+	@Override
+	public void showInfo(String message, GameBoard board, Player me) throws RemoteException {
+		_board = board;
+		_me = me;
+		ModelPrinter.printBoard(_board);
+		ModelPrinter.printMyLoot(_me);
+		showInfo(message);
 	}
 	
 }

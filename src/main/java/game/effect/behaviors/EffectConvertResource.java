@@ -83,15 +83,15 @@ public class EffectConvertResource implements IEffectBehavior{
 	}
 	
 	private void tryConvert() {
-		for (int i = 0; i <= payOptions.size(); i++){
+		for (int i = 0; i < payOptions.size(); i++){
 			try {
 				player.pay(payOptions.get(i));
-				player.gain(gainOptions.get(i));
+				player.gain(payOptions.get(i));
 				realPayOptions.add(payOptions.get(i));
 				realGainOptions.add(gainOptions.get(i));
 			} catch (GameException e) {
 				// TODO il giocatore non puo' converire perche' non ha le risorse necessarie
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
