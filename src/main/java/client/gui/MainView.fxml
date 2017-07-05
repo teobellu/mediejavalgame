@@ -85,9 +85,9 @@
                         </AnchorPane>
                         <AnchorPane maxHeight="650.0" maxWidth="132.0" minHeight="650.0" minWidth="132.0" prefHeight="650.0" prefWidth="132.0">
                            <children>
-                              <Button fx:id="_downArrowButton" layoutY="585.0" minHeight="50.0" mnemonicParsing="false" onAction="#onDownArrowPressed" text="⇩" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <Button fx:id="_downArrowButton" layoutY="585.0" minHeight="50.0" mnemonicParsing="false" onAction="#onDownArrowPressed" text="Show more" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                  <font>
-                                    <Font name="System Bold" size="24.0" />
+                                    <Font name="System Bold" size="14.0" />
                                  </font>
                               </Button>
                            </children>

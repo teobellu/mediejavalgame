@@ -132,18 +132,9 @@ public class GUI extends Application {
 				else if(str.equals(CommandStrings.INFO)){
 					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
-				else if(str.equals(CommandStrings.INFO_BOARD)){
+				else if(str.matches(CommandStrings.INFO_BOARD+"|"+CommandStrings.INFO_BOARD_PLAYER+"|"+CommandStrings.INFO_PLAYER)){
 					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
-					_mainViewController.updateBoard(GraphicalUI.getInstance().getCachedBoard());
-				}
-				else if(str.equals(CommandStrings.INFO_PLAYER)){
-					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
-					_mainViewController.updatePlayer(GraphicalUI.getInstance().getCachedMe());
-				}
-				else if(str.equals(CommandStrings.INFO_BOARD_PLAYER)){
-					_mainViewController.appendToInfoText((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
-					_mainViewController.updateBoard(GraphicalUI.getInstance().getCachedBoard());
-					_mainViewController.updatePlayer(GraphicalUI.getInstance().getCachedMe());
+					_mainViewController.updateBoardAndPlayer();
 				}
 				else if(str.equals(CommandStrings.ASK_BOOLEAN)){
 					showAskBooleanDialog((String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());

@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
 	<ImageView fitHeight="600.0" fitWidth="653.0" layoutY="25.0" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 	    <image>
 	       <Image url="@../../../resources/javafx/images/board_sotto.jpeg" />
@@ -75,4 +75,34 @@
 	     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
 	   </rowConstraints>
 	 </GridPane>
+   <ImageView fitHeight="50.0" fitWidth="200.0" layoutX="30.0" layoutY="412.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="50.0" fitWidth="200.0" layoutX="30.0" layoutY="531.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="50.0" fitWidth="200.0" layoutX="412.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="50.0" fitWidth="200.0" layoutX="483.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="50.0" fitWidth="200.0" layoutX="554.0" layoutY="419.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+      </image>
+   </ImageView>
+   <ImageView fitHeight="50.0" fitWidth="200.0" layoutX="606.0" layoutY="483.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

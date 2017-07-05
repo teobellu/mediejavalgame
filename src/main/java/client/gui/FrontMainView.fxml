@@ -13,10 +13,10 @@
       <image>
          <Image url="@../../../resources/javafx/images/board_sopra.jpeg" />
       </image></ImageView>
-   <GridPane layoutX="20.0" layoutY="21.0" prefHeight="629.0" prefWidth="592.0">
+   <GridPane layoutX="20.0" layoutY="17.0" prefHeight="633.0" prefWidth="622.0">
      <columnConstraints>
-       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+       <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
+       <ColumnConstraints hgrow="SOMETIMES" maxWidth="162.0" minWidth="10.0" prefWidth="162.0" />
          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
      </columnConstraints>
@@ -45,7 +45,7 @@
          <ImageView fitWidth="75.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
       </children>
    </GridPane>
-   <GridPane layoutX="110.0" layoutY="68.0" prefHeight="640.0" prefWidth="628.0">
+   <GridPane layoutX="130.0" layoutY="15.0" prefHeight="640.0" prefWidth="628.0">
      <columnConstraints>
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -61,68 +61,116 @@
       <children>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="2">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="3">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="0">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="0">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="0">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
          <ImageView fitHeight="35.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
             <GridPane.margin>
-               <Insets left="15.0" top="5.0" />
-            </GridPane.margin></ImageView>
+               <Insets />
+            </GridPane.margin>
+            <image>
+               <Image url="@../../../resources/javafx/images/familiars/famStd.png" />
+            </image></ImageView>
       </children>
    </GridPane>
 </AnchorPane>

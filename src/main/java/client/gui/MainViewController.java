@@ -63,13 +63,17 @@ public class MainViewController {
 	private ImageView _excCard3;
 	
 	@FXML
-	private ImageView _CouncilPalaceServant1;
+	private ImageView _productionLittleSpace;
 	@FXML
-	private ImageView _CouncilPalaceServant2;
+	private ImageView _harvestLittleSpace;
 	@FXML
-	private ImageView _CouncilPalaceServant3;
+	private ImageView _market0;
 	@FXML
-	private ImageView _CouncilPalaceServant4;
+	private ImageView _market1;
+	@FXML
+	private ImageView _market2;
+	@FXML
+	private ImageView _market3;
 	
 	@FXML
 	private GridPane _towersCardsGridPane;
@@ -175,16 +179,17 @@ public class MainViewController {
 		});
 	}
 	
-	private void changeImageView(String path, ImageView iv){
+	private ImageView changeImageView(String path, ImageView iv){
 		File file = new File(path);
 		Image bg = new Image(file.toURI().toString());
 		
 		if(iv==null){
-			System.out.println("ImageView null");
 			iv = new ImageView();
 		}
 		
 		iv.setImage(bg);
+		
+		return iv;
 	}
 	
 	public void setGUI(GUI gui){
@@ -238,12 +243,14 @@ public class MainViewController {
 		_GUI.showCardsInfoDialog(GraphicalUI.getInstance().getCachedMe());
 	}
 	
-	public void updateBoard(GameBoard board){
-		//TODO
-	}
-	
-	public void updatePlayer(Player me){
+	public void updateBoardAndPlayer(){
+		if(_downArrowClicked){//sono nella schermata dietro
+			setupBackMainView(GraphicalUI.getInstance().getCachedBoard(), GraphicalUI.getInstance().getCachedMe());
+		} else {//sono nella schermata avanti
+			setupFrontMainView(GraphicalUI.getInstance().getCachedBoard(), GraphicalUI.getInstance().getCachedMe());
+		}
 		
+		updateLeaderCards(GraphicalUI.getInstance().getCachedMe());
 	}
 	
 	public void startTurn(Player me, GameBoard board){
@@ -264,6 +271,15 @@ public class MainViewController {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
+		updateLeaderCards(me);
+		
+		//TODO mettere le info a posto
+		
+		appendToInfoText("It's YOUR turn now!", 24);
+		appendToInfoText("What do you want to do?");
+	}
+	
+	private void updateLeaderCards(Player me){
 		int i = 0;
 		
 		for(;i<me.getLeaderCards().size();i++){
@@ -280,11 +296,6 @@ public class MainViewController {
 			_leaderCards.get(i).setImage(image);
 			_leaderCards.get(i).setDisable(true);
 		}
-		
-		//TODO mettere le info a posto
-		
-		appendToInfoText("It's YOUR turn now!", 24);
-		appendToInfoText("What do you want to do?");
 	}
 	
 	@FXML
@@ -375,7 +386,12 @@ public class MainViewController {
 				}
 				
 				DevelopmentCard card = board.getCard((GameBoard.MAX_ROW -1 - row), column);
-				changeImageView("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+ card.getId() +".png", iv);
+				
+				if(card!=null){
+					changeImageView("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+ card.getId() +".png", iv);
+				} else {
+					iv.setImage(null);
+				}
 				
 				Space space = board.getFromTowers((GameBoard.MAX_ROW - 1 - row), column);
 				List<FamilyMember> fams = space.getFamiliars();
@@ -405,6 +421,13 @@ public class MainViewController {
 		_councilPalaceGrid = (GridPane) _frontBackMainPane.getChildren().get(7);
 		_productionSpaceGrid = (GridPane) _frontBackMainPane.getChildren().get(8);
 		_harvestSpaceGrid = (GridPane) _frontBackMainPane.getChildren().get(9);
+		_productionLittleSpace = (ImageView) _frontBackMainPane.getChildren().get(10);
+		_harvestLittleSpace = (ImageView) _frontBackMainPane.getChildren().get(11);
+		_market0 = (ImageView) _frontBackMainPane.getChildren().get(12);
+		_market1 = (ImageView) _frontBackMainPane.getChildren().get(13);
+		_market2 = (ImageView) _frontBackMainPane.getChildren().get(14);
+		_market3 = (ImageView) _frontBackMainPane.getChildren().get(15);
+		
 		
 		changeImageView("src/main/resources/javafx/images/board_sotto.jpeg", _backgroundImage);
 		
@@ -418,7 +441,52 @@ public class MainViewController {
 			changeImageView("src/main/resources/javafx/images/exc_tiles/excomm_"+board.getExCard()[0].getAge()+"_"+ board.getExCard()[0].getID() +".png", excCards.get(i));
 		}
 		
-		//TODO sistemare le gridpane degli spazi azione
+		int i = 0;
+		for(int row = 0;row<2;row++){
+			for(int column = row;column<2;column++){
+				
+				//add to council palace space
+				FamilyMember fm = board.getCouncilPalaceSpace().getFamiliars().get(i);
+				if(fm!=null){
+					_councilPalaceGrid.add(
+						new Text(fm.getOwner()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.getColor())+" familiar"), 
+						column, row);
+				}
+				
+				//add to production space
+				fm = board.getWorkLongSpace(GC.PRODUCTION).getFamiliars().get(i);
+				if(fm!=null){
+					_productionSpaceGrid.add(
+							new Text(fm.getOwner()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.getColor())+" familiar"), 
+							column, row);
+					
+				}
+				
+				//add to harvest space
+				fm = board.getWorkLongSpace(GC.HARVEST).getFamiliars().get(i);
+				if(fm!=null){
+					_harvestSpaceGrid.add(
+							new Text(fm.getOwner()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.getColor())+" familiar"), 
+							column, row);
+					
+				}
+				
+				
+				i++;
+			}
+		}
+		
+		//TODO sistemare gli spazi azione piccoli
+		
+		FamilyMember littleFamiliar = board.getWorkSpace(GC.PRODUCTION).getFamiliars().get(0);
+		if(littleFamiliar!=null){
+			_productionLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+littleFamiliar.getOwner().getColour()+"_"+littleFamiliar.getColor()+".png", null);
+		}
+		
+		littleFamiliar = board.getWorkSpace(GC.HARVEST).getFamiliars().get(0);
+		if(littleFamiliar!=null){
+			_harvestLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+littleFamiliar.getOwner().getColour()+"_"+littleFamiliar.getColor()+".png", null);
+		}
 		
 		_goldWoodBg = (ImageView) _buttonPane.getChildren().get(0);
 		_stoneServantBg = (ImageView) _buttonPane.getChildren().get(1);
@@ -434,6 +502,18 @@ public class MainViewController {
 		
 		changeImageView("src/main/resources/javafx/images/risorse2.jpg", _goldWoodBg);
 		changeImageView("src/main/resources/javafx/images/risorse1.jpg", _stoneServantBg);
+		
+		List<ImageView> markets = new ArrayList<>(
+				Arrays.asList(_market0, _market1, _market2, _market3));
+		
+		for(ImageView iv : markets){
+			List<FamilyMember> fams = board.getMarketSpace(markets.indexOf(iv)).getFamiliars();
+			if(fams.size()>0){
+				changeImageView("src/main/resources/javafx/images/familiars/fam_"+fams.get(0).getOwner().getColour()+"_"+fams.get(0).getColor()+".png", iv);
+			} else {
+				iv.setImage(null);
+			}
+		}
 	}
 	
 	private void endTurn(){

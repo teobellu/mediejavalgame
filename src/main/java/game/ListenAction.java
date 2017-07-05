@@ -118,7 +118,7 @@ public class ListenAction{
 		}
 		
 		try {
-			_player.getClient().getConnectionHandler().sendInfo("Familiar placed!", _theGame.getBoard());
+			_player.getClient().getConnectionHandler().sendInfo("Familiar placed!", _theGame.getBoard(), _player);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

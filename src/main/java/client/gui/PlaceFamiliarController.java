@@ -137,17 +137,19 @@ public class PlaceFamiliarController extends DialogAbstractController {
 	private Position getPosition(int i){
 		Position pos = null;
 		
-		if(_spaceTypes.get(i).equals(GC.MARKET)){
+		System.out.println("Debug: index "+i);
+		
+		if(_spaceTypes.get(i).equalsIgnoreCase(GC.MARKET)){
 			int position = _positionChoice.getSelectionModel().getSelectedIndex();
 			System.out.println("Debug: market place number "+position);
 			pos = new Position(GC.MARKET, position);
-		} else if(_spaceTypes.get(i).equals(GC.TOWER)){
+		} else if(_spaceTypes.get(i).equalsIgnoreCase(GC.TOWER)){
 			int column = _positionChoice.getSelectionModel().getSelectedIndex()/4;
 			int row = _positionChoice.getSelectionModel().getSelectedIndex()-(4*column);
 			System.out.println("Debug: colonna "+column+", riga "+row);
 			pos = new Position(GC.TOWER, row, column);
 		} else {
-			System.out.println("Debug: Position "+GC.SPACE_TYPE.get(i));
+			System.out.println("Debug: Position "+_spaceTypes.get(i));
 			pos = new Position(GC.SPACE_TYPE.get(i));
 		}
 		
