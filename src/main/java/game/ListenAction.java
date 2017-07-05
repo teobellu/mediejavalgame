@@ -55,7 +55,8 @@ public class ListenAction{
 			e.printStackTrace();
 		}
 		
-		//TODO avviso gli altri player
+		_theGame.otherPlayersInfo("Player "+_player.getName()+" has dropped the Leader card "+leaderName, _player);
+		
 		actionsAlreadyDone.add(GC.DROP_LEADER);
 	}
 	
@@ -80,7 +81,8 @@ public class ListenAction{
 			e.printStackTrace();
 		}
 		
-		//TODO avviso gli altri player
+		_theGame.otherPlayersInfo("Player "+_player.getName()+" has activated the Leader card " + leaderName, _player);
+		
 		actionsAlreadyDone.add(GC.ACTIVATE_LEADER);
 	}
 	
@@ -123,6 +125,8 @@ public class ListenAction{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		_theGame.otherPlayersInfo("Player "+_player.getName()+" has placed a familiar " + position.prettyPrintable(), _player);
 		
 		actionsAlreadyDone.add(GC.PLACE_FAMILIAR);
 	}

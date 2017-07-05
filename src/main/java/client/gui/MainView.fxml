@@ -77,6 +77,7 @@
                                           <Button fx:id="_thirdButton" layoutX="103.0" layoutY="150.0" mnemonicParsing="false" onAction="#onThirdButtonClicked" text="Drop Leader Card" />
                                           <Button fx:id="_fourthButton" layoutX="126.0" layoutY="200.0" mnemonicParsing="false" onAction="#onFourthButtonClicked" text="End Turn" />
                                           <Button fx:id="_fifthButton" layoutX="105.0" layoutY="250.0" mnemonicParsing="false" onAction="#onFifthButtonClicked" text="Show Your Cards" />
+                                          <Button fx:id="button" layoutX="14.0" layoutY="25.0" mnemonicParsing="false" onAction="#onButtonClicked" text="Button" />
                                        </children>
                                     </AnchorPane>
                                 </items>

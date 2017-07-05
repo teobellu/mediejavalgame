@@ -75,4 +75,9 @@ public class FamilyMember implements Serializable{
 	public void setOwner(Player player) {
 		owner = player;
 	}
+	
+	@Override
+	public String toString(){
+		return "Familiar "+color+", value "+value;
+	}
 }

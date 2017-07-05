@@ -345,16 +345,10 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public int selectInitialLeaders(List<LeaderCard> leaders) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int chooseCardCost(DevelopmentCard card) {
 		_ioHandler.write("This card has different costs, choose one");
 		ModelPrinter.printCard(card);
-		return _ioHandler.readNumberWithinInterval(card.getCost().size() - 1);
+		return _ioHandler.readNumberWithinInterval(card.getCosts().size() - 1);
 	}
 
 

@@ -125,11 +125,24 @@ public class MainViewController {
 	@FXML
 	private GridPane _harvestSpaceGrid;
 	
+	//TODO, da rimuovere
+	@FXML
+	private Button button;
+	
 	private ArrayList<ImageView> _leaderCards = new ArrayList<>();
 	
 	private boolean _downArrowClicked = false;
 	
 	private GUI _GUI;
+	
+	private int lol = 0;
+	
+	@FXML
+	private void onButtonClicked(){
+		appendToInfoText("Questo è un testo di prova perchè javafx fa cagare");
+		appendToInfoText(String.valueOf(lol));
+		lol++;
+	}
 	
 	public void initialSetupController(){
 		_infoTextFlow.getChildren().addListener((ListChangeListener<Node>) ((change) -> {
@@ -220,22 +233,17 @@ public class MainViewController {
 	
 	@FXML
 	private void onFourthButtonClicked(){
-		//try {
-			synchronized (this) {
-				new Thread(new Runnable() {
+		synchronized (this) {
+			new Thread(new Runnable() {
 					
-					@Override
-					public void run() {
-						GraphicalUI.getInstance().endTurn();
-					}
-				}).start();
-				//GraphicalUI.getInstance().endTurn();
-				endTurn();
-			}/*
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}*/
+				@Override
+				public void run() {
+					GraphicalUI.getInstance().endTurn();
+				}
+			}).start();
+
+			endTurn();
+		}
 	}
 	
 	@FXML
@@ -267,13 +275,11 @@ public class MainViewController {
 			_buttonPane = (AnchorPane) _buttonPane.getChildren().get(0);
 			
 			setupFrontMainView(board, me);
-		} catch (/*TODO IOException*/Exception e) {
+		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		updateLeaderCards(me);
-		
-		//TODO mettere le info a posto
 		
 		appendToInfoText("It's YOUR turn now!", 24);
 		appendToInfoText("What do you want to do?");
@@ -327,8 +333,7 @@ public class MainViewController {
 		} catch (RemoteException e) {
 			// TODO: handle exception
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -442,50 +447,59 @@ public class MainViewController {
 		}
 		
 		int i = 0;
+		List<FamilyMember> fm;
 		for(int row = 0;row<2;row++){
 			for(int column = row;column<2;column++){
-				
+
 				//add to council palace space
-				FamilyMember fm = board.getCouncilPalaceSpace().getFamiliars().get(i);
-				if(fm!=null){
-					_councilPalaceGrid.add(
-						new Text(fm.getOwner()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.getColor())+" familiar"), 
-						column, row);
+				fm = board.getCouncilPalaceSpace().getFamiliars();
+				if(fm!=null && fm.size()>0){
+					try {
+						_councilPalaceGrid.add(
+							new Text(fm.get(i).getOwner().getName()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.get(i).getColor())+" familiar"), 
+							column, row);
+					} catch (IndexOutOfBoundsException e) {
+						_councilPalaceGrid.add(new Text(""), column, row);
+					}
 				}
 				
 				//add to production space
-				fm = board.getWorkLongSpace(GC.PRODUCTION).getFamiliars().get(i);
-				if(fm!=null){
-					_productionSpaceGrid.add(
-							new Text(fm.getOwner()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.getColor())+" familiar"), 
-							column, row);
+				fm = board.getWorkLongSpace(GC.PRODUCTION).getFamiliars();
+				if(fm!=null && fm.size()>0){
+					try {
+						_productionSpaceGrid.add(
+								new Text(fm.get(i).getOwner().getName()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.get(i).getColor())+" familiar"), 
+								column, row);
+					} catch (IndexOutOfBoundsException e) {
+						_productionSpaceGrid.add(new Text(""), column, row);
+					}
 					
 				}
 				
 				//add to harvest space
-				fm = board.getWorkLongSpace(GC.HARVEST).getFamiliars().get(i);
-				if(fm!=null){
-					_harvestSpaceGrid.add(
-							new Text(fm.getOwner()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.getColor())+" familiar"), 
-							column, row);
-					
+				fm = board.getWorkLongSpace(GC.HARVEST).getFamiliars();
+				if(fm!=null && fm.size()>0){
+					try {
+						_harvestSpaceGrid.add(
+								new Text(fm.get(i).getOwner().getName()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.get(i).getColor())+" familiar"), 
+								column, row);
+					} catch (IndexOutOfBoundsException e) {
+						_harvestSpaceGrid.add(new Text(""), column, row);
+					}
 				}
-				
 				
 				i++;
 			}
 		}
 		
-		//TODO sistemare gli spazi azione piccoli
-		
-		FamilyMember littleFamiliar = board.getWorkSpace(GC.PRODUCTION).getFamiliars().get(0);
-		if(littleFamiliar!=null){
-			_productionLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+littleFamiliar.getOwner().getColour()+"_"+littleFamiliar.getColor()+".png", null);
+		fm = board.getWorkSpace(GC.PRODUCTION).getFamiliars();
+		if(fm!=null && fm.size()>0){
+			_productionLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+fm.get(0).getOwner().getColour()+"_"+fm.get(0).getColor()+".png", null);
 		}
 		
-		littleFamiliar = board.getWorkSpace(GC.HARVEST).getFamiliars().get(0);
-		if(littleFamiliar!=null){
-			_harvestLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+littleFamiliar.getOwner().getColour()+"_"+littleFamiliar.getColor()+".png", null);
+		fm = board.getWorkSpace(GC.HARVEST).getFamiliars();
+		if(fm!=null && fm.size()>0){
+			_harvestLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+fm.get(0).getOwner().getColour()+"_"+fm.get(0).getColor()+".png", null);
 		}
 		
 		_goldWoodBg = (ImageView) _buttonPane.getChildren().get(0);

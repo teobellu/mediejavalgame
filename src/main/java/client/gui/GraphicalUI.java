@@ -166,13 +166,6 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public int selectInitialLeaders(List<LeaderCard> leaders) {
-		// TODO Auto-generated method stub
-		//TODO da cambiare con showInitialLeaderList (forse?)
-		return 0;
-	}
-
-	@Override
 	public int spendCouncil(List<Resource> options) {
 		try {
 			System.out.println("\nChiamato spendCouncil in GraphicalUI\n");
@@ -191,24 +184,6 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public int chooseCardCost(DevelopmentCard card) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int chooseFamiliar(List<FamilyMember> familiars, String message) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	@Override
 	public void startTurn(GameBoard board, Player me) {
 		_cachedBoard = board;
 		_cachedMe = me;
@@ -218,29 +193,16 @@ public class GraphicalUI implements UI {
 
 	@Override
 	public int chooseLeader(String context, List<LeaderCard> tempList) {
-		if(context.equals(CommandStrings.INITIAL_LEADER)){
-			try {
-				return showInitialLeaderList(tempList);
-			} catch (Exception e) {
-				_log.log(Level.SEVERE, e.getMessage(), e);
-			}
-		}else if(context.equals(CommandStrings.CHOOSE_LEADER)){
-			//TODO
-		}
-		System.out.println("ERRORE");
-		return 0;
-	}
-	
-	private int showInitialLeaderList(List<LeaderCard> leadersList) {
+		
 		try {
-			List<String> tempList = new ArrayList<>();
+			List<String> leadersList = new ArrayList<>();
 			
-			for(LeaderCard s : leadersList){
-				tempList.add(s.getName());
+			for(LeaderCard s : tempList){
+				leadersList.add(s.getName());
 			}
 			
-			addFromGraphicalToGUI(tempList);
-			addToCommandToGui(CommandStrings.INITIAL_LEADER);
+			addFromGraphicalToGUI(leadersList);
+			addToCommandToGui(context);
 			
 			synchronized (_commandToGui) {
 				_commandToGui.wait();
@@ -248,8 +210,7 @@ public class GraphicalUI implements UI {
 			
 			return (int) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 			return 0;
 		}
 	}
@@ -266,7 +227,6 @@ public class GraphicalUI implements UI {
 			
 			return (int) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
-			// TODO: handle exception
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
@@ -290,6 +250,60 @@ public class GraphicalUI implements UI {
 		}
 		System.out.println("\n###ERRORE IN ASK BOOLEAN###\n");
 		return false;
+	}
+	
+	@Override
+	public int chooseCardCost(DevelopmentCard card) {
+		try {
+			addFromGraphicalToGUI(card);
+			addToCommandToGui(CommandStrings.CHOOSE_COST);
+			
+			synchronized (_commandToGui) {
+				_commandToGui.wait();
+			}
+			
+			return (int) returnFirstAndCleanCommand();
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public int chooseFamiliar(List<FamilyMember> familiars, String message) {
+		try {
+			addFromGraphicalToGUI(familiars, message);
+			addToCommandToGui(CommandStrings.CHOOSE_FAMILIAR);
+			
+			synchronized (_commandToGui) {
+				_commandToGui.wait();
+			}
+			
+			return (int) returnFirstAndCleanCommand();
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		return 0;
+	}
+
+	@Override
+	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) {
+		try {
+			addFromGraphicalToGUI(realPayOptions, realGainOptions);
+			addToCommandToGui(CommandStrings.CHOOSE_CONVERT);
+			
+			synchronized (_commandToGui) {
+				_commandToGui.wait();
+			}
+			
+			return (int) returnFirstAndCleanCommand();
+		} catch (InterruptedException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		return 0;
 	}
 	
 	@Override

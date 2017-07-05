@@ -258,9 +258,9 @@ public class DynamicAction {
 		* RESOURCE
 		 */
 		int index = 0;
-		if(card.getCost().size() > 1){
+		if(card.getCosts().size() > 1){
 			try {
-				index = player.getClient().getConnectionHandler().askInt("La carta selezionata ha più costi, quale vuoi?", 0, card.getCost().size()-1);
+				index = player.getClient().getConnectionHandler().askInt("La carta selezionata ha più costi, quale vuoi?", 0, card.getCosts().size()-1);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

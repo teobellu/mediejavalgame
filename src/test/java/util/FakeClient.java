@@ -1,10 +1,8 @@
 package util;
 
-import game.Player;
 import server.Client;
 import server.ConnectionHandler;
 import server.RMIConnectionHandler;
-import server.Room;
 public class FakeClient extends Client{
 
 	

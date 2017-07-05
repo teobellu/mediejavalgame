@@ -21,6 +21,7 @@ public class ActivateLeaderController extends DialogAbstractController {
 		for(LeaderCard lc : leaderCards){
 			_choices.getItems().add(lc.getName());		
 		}
+		_choices.getSelectionModel().selectFirst();
 	}
 	
 	@FXML

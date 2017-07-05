@@ -43,7 +43,7 @@ public class TestVenture {
 		card.setId(6);
 		assertTrue(card.getId() == 6);
 		
-		assertTrue(card.getRequirement().equals(card.getCost()));
+		assertTrue(card.getRequirement().equals(card.getCosts()));
 		
 		//visitor design pattern
 		card.accept(new AppendsToListVisitor(new DevelopmentCardManager()));

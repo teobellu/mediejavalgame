@@ -11,6 +11,7 @@ import game.GameBoard;
 import game.LeaderCard;
 import game.Player;
 import game.Resource;
+import game.development.DevelopmentCard;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -31,11 +32,6 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		//TODO settare dimensioni massime per stare dentro schermo 1440 * 900
-		//TODO settare dimensioni massime per stare dentro schermo 1440 * 900
-		//TODO settare dimensioni massime per stare dentro schermo 1440 * 900
-		//TODO settare dimensioni massime per stare dentro schermo 1440 * 900
-		
 		_primaryStage = primaryStage;
 		_primaryStage.setTitle("Lorenzo il Magnifico");
 		_primaryStage.setResizable(false);
@@ -146,13 +142,23 @@ public class GUI extends Application {
 				else if(str.equals(CommandStrings.HANDLE_COUNCIL)){
 					showCouncilPrivilegeDialog((List<Resource>) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
+				else if(str.equals(CommandStrings.CHOOSE_COST)){
+					showChooseCost((DevelopmentCard)GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
+				}
+				else if(str.equals(CommandStrings.CHOOSE_FAMILIAR)){
+					showChooseFamiliar((List<FamilyMember>)GraphicalUI.getInstance().getFirstFromGraphicalToGUI(),(String) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
+				}
+				else if(str.equals(CommandStrings.CHOOSE_CONVERT)){
+					showChooseConvert((List<Resource>)GraphicalUI.getInstance().getFirstFromGraphicalToGUI(),(List<Resource>) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
+				}
 				else if(str.equals(CommandStrings.CONNECTION_ERROR)){
 					showDisconnectedDialog();
 				}
-				else {//TODO
-					System.out.println("\n###GUI HA RICEVUTO UN COMANDO SCONOSCIUTO###\n");
+				else {
+					throw new RuntimeException("GUI.java has received an unknown command");
 				}
 			}
+
 		});
 		
 		Thread th = new Thread(task);
@@ -180,9 +186,62 @@ public class GUI extends Application {
 		return task;
 	}
 	
+	private void showChooseCost(DevelopmentCard card) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/ChooseCost.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose cost");
+			
+			ChooseCostController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setCard(card);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	protected void showChooseConvert(List<Resource> pay, List<Resource> gain) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/ChooseConvert.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose convert");
+			
+			ChooseConvertController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setup(pay, gain);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	protected void showChooseFamiliar(List<FamilyMember> familiars, String message) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/ChooseFamiliar.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose Familiar");
+			
+			ChooseFamiliarController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setup(familiars, message);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
 	public void showCouncilPrivilegeDialog(List<Resource> resources) {
 		try {
-			System.out.println("Chiamato showCouncilPrivilegeDialog");
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/HandleCouncilDialog.fxml"));
 			AnchorPane pane = loader.load();
@@ -194,8 +253,8 @@ public class GUI extends Application {
 			controller.setResources(resources);
 
 			dialog.showAndWait();
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -381,7 +440,7 @@ public class GUI extends Application {
 			
 			dialog.showAndWait();
 		} catch (IOException e) {
-			// TODO: handle exception
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -398,8 +457,8 @@ public class GUI extends Application {
 			controller.setDialog(dialog);
 			
 			dialog.showAndWait();
-		} catch (Exception e) {
-			// TODO: handle exception
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

@@ -101,7 +101,7 @@ public abstract class DevelopmentCard implements ICard, Serializable{
 		return cost.get(index);
 	}
 
-	public List<Resource> getCost() {
+	public List<Resource> getCosts() {
 		return cost;
 	}
 	

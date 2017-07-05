@@ -50,27 +50,27 @@ public class ConfigFileHandler {
 	/**
 	 * Map with all information about spaces bonus
 	 */
-	protected static final Map<String, List<Effect>> SPACE_BONUS = new HashMap<>();
+	private static final Map<String, List<Effect>> SPACE_BONUS = new HashMap<>();
 	
 	/**
 	 * Map with all information about bonuses associated with player dashboard
 	 */
-	protected static final Map<String, List<Resource>> BONUS_PLAYER_DASHBOARD = new HashMap<>();
+	private static final Map<String, List<Resource>> BONUS_PLAYER_DASHBOARD = new HashMap<>();
 	
 	/**
 	 * Faith bonus track information
 	 */
-	protected static final List<Integer> BONUS_FAITH = new ArrayList<>();
+	private static final List<Integer> BONUS_FAITH = new ArrayList<>();
 	
 	/**
 	 * Deck of development cards
 	 */
-	protected static final List<DevelopmentCard> DEVELOPMENT_DECK = new ArrayList<>();
+	private static final List<DevelopmentCard> DEVELOPMENT_DECK = new ArrayList<>();
 	
 	/**
 	 * Deck of excommunication tiles
 	 */
-	protected static final List<ExcommunicationTile> EXCOMMUNICATION_DECK = new ArrayList<>();
+	private static final List<ExcommunicationTile> EXCOMMUNICATION_DECK = new ArrayList<>();
 	
 	/**
 	 * Start timeout
@@ -710,6 +710,26 @@ public class ConfigFileHandler {
 		else
 			effectList.add(GC.NIX);
 		return effectList;
+	}
+
+	public Map<String, List<Effect>> getSpaceBonus() {
+		return SPACE_BONUS;
+	}
+
+	public Map<String, List<Resource>> getBonusPlayerDashboard() {
+		return BONUS_PLAYER_DASHBOARD;
+	}
+
+	public List<Integer> getBonusFaith() {
+		return BONUS_FAITH;
+	}
+
+	public List<DevelopmentCard> getDevelopmentDeck() {
+		return DEVELOPMENT_DECK;
+	}
+
+	public List<ExcommunicationTile> getExcommunicationDeck() {
+		return EXCOMMUNICATION_DECK;
 	}
 	
 }

@@ -19,7 +19,7 @@ import util.Constants;
 
 public class Room extends Thread {
 	
-	private long startTimeout;// = Constants.DEFAULT_START_ROOM_TIME_MILLIS; //TODO
+	private long startTimeout;
 	private final long startTime;
 	private Game theGame;
 	private boolean isRunning = false;
@@ -56,7 +56,6 @@ public class Room extends Thread {
 		startTime = new Date().getTime();
 		
 		startTimeout = fileHandler.TIMEOUT_START * 1000;
-		//TODO
 	}
 	
 	@Override
@@ -68,7 +67,6 @@ public class Room extends Thread {
 		}
 		
 		setupGame(theGame, fileHandler);
-		//TODO passare config a game
 		
 		new Thread(theGame).start();
 		
@@ -81,11 +79,11 @@ public class Room extends Thread {
 		//GameBoard board = new GameBoard(fileHandler.SPACE_BONUS);
 		GameInformation info = game.getGameInformation();
 		//game.setBoard(board);
-		info.createBoard(fileHandler.SPACE_BONUS);
-		info.setDevelopmentDeck(fileHandler.DEVELOPMENT_DECK);
-		info.setExcommunicationDeck(fileHandler.EXCOMMUNICATION_DECK);
-		info.setBonusPlayerDashBoard(fileHandler.BONUS_PLAYER_DASHBOARD);
-		info.setBonusFaith(fileHandler.BONUS_FAITH);
+		info.createBoard(fileHandler.getSpaceBonus());
+		info.setDevelopmentDeck(fileHandler.getDevelopmentDeck());
+		info.setExcommunicationDeck(fileHandler.getExcommunicationDeck());
+		info.setBonusPlayerDashBoard(fileHandler.getBonusPlayerDashboard());
+		info.setBonusFaith(fileHandler.getBonusFaith());
 		game.setTurnTimeout(fileHandler.TIMEOUT_TURN * 1000);
 		
 	}
@@ -133,12 +131,6 @@ public class Room extends Thread {
 		return clients;
 	}
 	
-	public void broadcastMessage(String message){
-		/*for(Client p : clients){
-			p.getConnectionHandler().sendToClient(message);
-		}*///TODO
-	}
-	
 	public void setStartTimeout(long time){
 		startTimeout = time;
 	}
@@ -156,7 +148,7 @@ public class Room extends Thread {
 		return currentTime-startTime > startTimeout;
 	}
 	
-	public void shutdown(){
+	public synchronized void shutdown(){
 		if(theGame!=null){
 			//TODO devo spegnere/togliere cose dal game?
 		}

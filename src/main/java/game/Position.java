@@ -85,4 +85,30 @@ public class Position implements Serializable{
 		return column;
 	}
 	
+	public String prettyPrintable(){
+		StringBuilder sb = new StringBuilder();
+		if(where.equals(GC.TOWER)){
+			String[] towers = new String[]{
+					"first","second","third","fourth"
+			};
+			
+			String[] floors = new String[]{
+					"ground","first","second","third"
+			};
+			
+			sb.append("in the "+towers[column]+" tower at the "+floors[row]+" floor.");
+		} else if(where.equals(GC.MARKET)){
+			String[] spaces = new String[]{
+					"first","second","third","fourth"
+			};
+			sb.append("at the market, in the "+ spaces[row]+"space.");
+		} else if(where.equals(GC.COUNCIL_PALACE)) {
+			sb.append("in the Council Palace.");
+		} else {
+			sb.append("in the "+where+" space.");
+		}
+		
+		return sb.toString();
+	}
+	
 }

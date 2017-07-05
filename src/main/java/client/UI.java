@@ -26,13 +26,6 @@ public interface UI extends Runnable{
 	public void setConnection(String connectionType, String host, int port);
 	
 	/**
-	 * Allows the player to select an initial leader card
-	 * @param leaders List options
-	 * @return Player's selection
-	 */
-	public int selectInitialLeaders(List<LeaderCard> leaders);
-	
-	/**
 	 * Allows the player to spend his council's privilege
 	 * @param options List of options
 	 * @return Player's selection

@@ -69,9 +69,9 @@ public abstract class ModelPrinter {
 		_ioHandler.writeNext(", Age: " + card.getAge());
 		if (card.getDice() > 0)
 			_ioHandler.writeNext(", Dice: " + card.getDice());
-		if (!card.getCost().isEmpty()){
+		if (!card.getCosts().isEmpty()){
 			_ioHandler.writeNext(", Costs:");
-			for(int i = 0; i < card.getCost().size(); i ++){
+			for(int i = 0; i < card.getCosts().size(); i ++){
 				_ioHandler.writeNext(" * ");
 				printResource(card.getCost(i));
 			}

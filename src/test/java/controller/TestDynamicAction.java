@@ -1,22 +1,11 @@
 package controller;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Test;
 
-import exceptions.GameException;
 import game.DynamicAction;
 import game.FamilyMember;
 import game.GC;
 import game.Game;
-import game.GameBoard;
-import game.effect.Effect;
-import game.effect.behaviors.EffectOverruleObject;
 import server.Room;
 import util.FakePlayer;
 

@@ -50,6 +50,8 @@ public final class CommandStrings {
 	public static final String INFO_PLAYER = "info_player";
 	public static final String INFO_BOARD_PLAYER = "info_board_player";
 	
+	public static final String CHOOSE_COST = "choose_cost";
+	
 	/**
 	 * Hide constructor
 	 */

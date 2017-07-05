@@ -110,11 +110,13 @@ public class Resource implements Serializable{
 	
 	@Override
 	public String toString(){
-		String space = " ";
-		String description = new String();
-		for (String type : GC.RES_TYPES)
-			if (get(type) > 0)
-				description += get(type) + space + type + space;
-		return description;
+		StringBuilder description = new StringBuilder();
+		for (String type : GC.RES_TYPES){
+			if (get(type) > 0){
+				description.append(get(type)+" "+type.replaceAll("_", " ")+", ");
+			}
+		}
+		
+		return description.substring(0, description.length()-2);
 	}
 }

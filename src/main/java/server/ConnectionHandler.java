@@ -42,22 +42,16 @@ public abstract class ConnectionHandler implements Runnable {
 	
 	public abstract void sendUUID(String uuid) throws RemoteException;
 	
-	//TODO GAME METHOD
 	public abstract int spendCouncil(List<Resource> councilRewards) throws RemoteException;
 
-	//TODO GAME METHOD
 	public abstract int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException;
 
-	//TODO GAME METHOD manda un messaggio al quale il giocatore deve rispondere si o no (true or false)
 	public abstract boolean askBoolean(String message) throws RemoteException;
 
-	//TODO GAME METHOD chiedi al giocatore un indice tra 0 e realPayOption.size() - 1
-	//Ho già chiesto al giocatore se vuole convertire o no, bisogna solo chiedergli un indice
 	public abstract int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException;
 
 	public abstract int chooseLeader(String context, List<LeaderCard> tempList)  throws RemoteException;
 
-	//TODO GAME METHOD, SELEZIONE TESSERA BONUS
 	public abstract int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException;
 	
 	public abstract int askInt(String message, int min, int max) throws RemoteException;

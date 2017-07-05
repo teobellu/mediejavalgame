@@ -22,7 +22,6 @@ import game.effect.behaviors.EffectSantaRita;
 import game.effect.behaviors.EffectSelectAndSetFamiliarStartPower;
 import game.effect.behaviors.EffectSetFamiliarStartPower;
 import game.effect.behaviors.EffectWork;
-import server.ConfigFileHandler;
 
 public class GameInformation{
 
