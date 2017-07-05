@@ -5,86 +5,98 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import game.development.Building;
 import game.development.DevelopmentCard;
 import game.effect.Effect;
-import game.effect.behaviors.EffectGetResource;
-import game.effect.behaviors.EffectIncreaseActionPower;
 
-
-
+/**
+ * This class is designed for the game board of Lorenzo il Magnifico
+ * @author M
+ *
+ */
 public class GameBoard implements Serializable{
-
 	
-
-	/*TODO da cancellare**/
-	public static final Resource ser3 = new Resource(GC.RES_SERVANTS, 3);
-	public static final Resource ser2 = new Resource(GC.RES_SERVANTS, 2);
-	public static final Resource ser1 = new Resource(GC.RES_SERVANTS, 1);
-	public static final Resource sto1 = new Resource(GC.RES_STONES, 1);
-	public static final Resource coi3 = new Resource(GC.RES_COINS, 3);
-	public static final Resource vic3 = new Resource(GC.RES_VICTORYPOINTS, 3);
-	public static final Resource vic1 = new Resource(GC.RES_VICTORYPOINTS, 1);
-	public static final Resource mil3 = new Resource(GC.RES_MILITARYPOINTS, 3);
+	/**
+	 * A default serial version ID to the selected type
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	public static final Effect eff = new Effect(GC.IMMEDIATE, new EffectGetResource(mil3));
-	public static final DevelopmentCard bui = new Building(1, "cartagialla", vic1, eff, eff, 4);
-	
+	/**
+	 * Number of rows in the towers
+	 */
 	public static final int MAX_ROW = 4;
+	
+	/**
+	 * Number of columns in the towers
+	 */
 	public static final int MAX_COLUMN = 4;
+	
+	/**
+	 * Number of excommunication tiles in the game board
+	 */
 	public static final int MAX_EXCOMUNNICATION_CARD = 3;
+	
+	/**
+	 * Number of dices
+	 */
 	public static final int MAX_DICES = 3;
+	
+	/**
+	 * Number of market spaces
+	 */
 	public static final int MAX_MARKET_SPACE = 4;
 	
-	//TODO O posso col polimorfismo?
-	private Cell[][] tower = new Cell[MAX_ROW][MAX_COLUMN];
+	/**
+	 * @Polymorphism
+	 * Cells of the towers, like a pair <DevelopmentCard, Space>
+	 */
+	private Space[][] tower = new Cell[MAX_ROW][MAX_COLUMN];
 
+	/**
+	 * Excommunication tiles on the gameboard
+	 */
 	private ExcommunicationTile[] exCard = new ExcommunicationTile[MAX_EXCOMUNNICATION_CARD];
 	
+	/**
+	 * Space of the council building
+	 */
 	private Space councilPalaceSpace;
 	
+	/**
+	 * Little space of harvest
+	 */
 	private Space harvestPos;
+	
+	/**
+	 * Little space of production
+	 */
 	private Space productionPos;
 	
+	/**
+	 * Big space of harvest
+	 */
 	private Space harvestLongPos;
+	
+	/**
+	 * Big space of production
+	 */
 	private Space productionLongPos;
 	
-	
+	/**
+	 * Market spaces
+	 */
 	private Space[] market = new Space[MAX_MARKET_SPACE];
 	
-	//private int diceBlack;
-	//private int diceOrange;
-	//private int diceWhite;
-	private Integer dices[] = new Integer[MAX_DICES];
-	/*
-	public GameBoard(){
-		Resource r1 = new Resource();
-		Effect x = new Effect(GC.WHEN_FIND_VALUE_ACTION, new EffectIncreaseActionPower(GC.HARVEST, -3));
-		x.setSource(GC.ACTION_SPACE);
-		
-		dices[0] = 3;
-		dices[1] = 5;
-		dices[2] = 2;
-		
-		exCard[0] = new ExcommunicationTile(1, GC.NIX);
-		exCard[1] = new ExcommunicationTile(2, GC.NIX);
-		exCard[2] = new ExcommunicationTile(3, GC.NIX);
-		
-		for (int column = 0; column < MAX_COLUMN; column++)
-			for(int row = MAX_ROW - 1; row >= 0; row--){
-				tower[row][column] = new Cell(1, eff);
-				tower[row][column].setCard(bui);
-			}
-		councilPalaceSpace = new Space(1, GC.NIX, false);
-		
-		for(int i = 0; i< 4; i++)
-			market[i] = new Space(1, GC.NIX, true);
-		harvestPos = new Space(1, eff, true);
-		productionPos = new Space(1, eff, true);
-		harvestLongPos = new Space(1, x, false);
-		productionLongPos = new Space(1, GC.NIX, false);
-	}*/
+	/**
+	 * Dices on the board
+	 */
+	private Integer[] dices = new Integer[MAX_DICES];
 	
+	/**
+	 * Constructor of the game board
+	 * @param spaceBonus this param is readen from the xml file. 
+	 * Is a table that contains simply to the left the types of action spaces as Strings 
+	 * and to the right the corresponding effects of the single space
+	 */
 	public GameBoard(Map<String, List<Effect>> spaceBonus) {
 		councilPalaceSpace = new Space(1, spaceBonus.get(GC.COUNCIL_PALACE).get(0), false);
 		harvestPos = new Space(1, spaceBonus.get(GC.HARVEST).get(0), true);
@@ -103,12 +115,25 @@ public class GameBoard implements Serializable{
 			}		
 	}
 	
+	/**
+	 * Generate the cards in the towers using a deck of development cards
+	 * @param cards Deck of development cards
+	 * @param age Current age
+	 */
 	public void generateDevelopmentCards(List<DevelopmentCard> cards, int age){
 		for (int column = 0; column < MAX_COLUMN; column++)
 			for(int row = 0; row < MAX_ROW; row++)
 				putCard(cards, age, row, column);
 	}
 	
+	/**
+	 * Private method because is not never outside
+	 * Take a card from a deck and put it in the specific cell selected
+	 * @param cards Deck of development cards
+	 * @param age Current age
+	 * @param row Row selected
+	 * @param column Column select
+	 */
 	private void putCard(List<DevelopmentCard> cards, int age, int row, int column){
 		for(DevelopmentCard card : cards)
 			if (card.toString() == GC.DEV_TYPES.get(column) && card.getAge() == age){
@@ -118,16 +143,9 @@ public class GameBoard implements Serializable{
 			}
 	}
 	
-	public void refresh(){
-		clearPos();
-		roll();
-	}
-	
-	public void roll(){
-		for (int dice : dices)
-			dice = (int)(Math.random()*6) + 1;
-	}
-	
+	/**
+	 * Clear all spaces, deleting cards and emptying all lists of familiars
+	 */
 	public void clearPos(){
 		councilPalaceSpace.getFamiliars().clear();
 		harvestPos.getFamiliars().clear();
@@ -141,45 +159,81 @@ public class GameBoard implements Serializable{
 				tower[row][column].getFamiliars().clear();
 	}
 	
+	/**
+	 * Getter: get a card from a specific space in the tower
+	 * @param row Row selected
+	 * @param column Column selected
+	 * @return the space selected
+	 */
 	public DevelopmentCard getCard(int row, int column){
 		return getFromTowers(row,column).getCard();
 	}
-	/*
-	public void obtainCard(Player player, int row, int column){
-		//vari controlli, ottieni bonus, ecc.
-		DevelopmentCard card = getFromTowers(row, column).getCard();
-		player.addDevelopmentCard(card);
-		
-	}*/
 
-	public Cell getFromTowers(int row, int column){
+	/**
+	 * @Polymorphism space -> cell
+	 * Getter: get the space of a specific position in the towers
+	 * @param row Row selected
+	 * @param column Column selected
+	 * @return the space selected
+	 */
+	public Space getFromTowers(int row, int column){
 		return tower[row][column];
 	}
 	
+	/**
+	 * Getter: get the council building big space
+	 * @return council building big space
+	 */
 	public Space getCouncilPalaceSpace(){
 		return councilPalaceSpace;
 	}
 	
+	/**
+	 * Getter: get a specific market space
+	 * @param whichSpace selection
+	 * @return space selected
+	 */
 	public Space getMarketSpace(int whichSpace){
 		return market[whichSpace];
 	}
 	
-	public ExcommunicationTile[] getExCard() {
-		return exCard;
-	}
-	
+	/**
+	 * Getter: get dices on the board	
+	 * @return dices on the board
+	 */
 	public Integer[] getDices() {
 		return dices;
 	}
 
+	/**
+	 * Setter: set dices on the board
+	 * @param dices dices on the board
+	 */
 	public void setDices(Integer[] dices) {
 		this.dices = dices;
 	}
-
+	
+	/**
+	 * Getter: get excommunication tiles on the board
+	 * @return exCard excommunication tiles
+	 */
+	public ExcommunicationTile[] getExCard() {
+		return exCard;
+	}
+	
+	/**
+	 * Setter: set excommunication tiles on the board
+	 * @param exCard excommunication tiles
+	 */
 	public void setExCard(ExcommunicationTile[] exCard) {
 		this.exCard = exCard;
 	}
 	
+	/**
+	 * Get a little work space depending on the action
+	 * @param action generally harvest or production
+	 * @return little space selected
+	 */
 	public Space getWorkSpace(String action){
 		switch(action){
 			case GC.HARVEST : return harvestPos;
@@ -188,6 +242,11 @@ public class GameBoard implements Serializable{
 		}
 	}
 	
+	/**
+	 * Get a big work space depending on the action
+	 * @param action generally harvest or production
+	 * @return big space selected
+	 */
 	public Space getWorkLongSpace(String action){
 		switch(action){
 			case GC.HARVEST : return harvestLongPos;
@@ -196,6 +255,11 @@ public class GameBoard implements Serializable{
 		}
 	}
 	
+	/**
+	 * Get a list of familiars in a specific column of the tower
+	 * @param column Column of the tower
+	 * @return List of familiars in that column of the tower
+	 */
 	public List<FamilyMember> getFamiliarInSameColumn(int column){
 		List<FamilyMember> familiarInSameColumn = new ArrayList<>();
 		for (int row = 0; row < GameBoard.MAX_ROW; row++)
@@ -204,6 +268,3 @@ public class GameBoard implements Serializable{
 	}
 
 }
-
-
-

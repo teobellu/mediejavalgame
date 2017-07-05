@@ -433,5 +433,11 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printMyLoot(_me);
 		showInfo(message);
 	}
+
+	@Override
+	public void setUUID(String uuid) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

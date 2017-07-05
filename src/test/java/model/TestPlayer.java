@@ -11,14 +11,11 @@ import exceptions.GameException;
 import game.FamilyMember;
 import game.GC;
 import game.LeaderCard;
-import game.Player;
 import game.Resource;
 import game.development.Building;
 import game.development.Territory;
 import game.effect.Effect;
-import game.effect.behaviors.EffectCopyLeader;
 import game.effect.behaviors.EffectDoNothing;
-import game.effect.behaviors.EffectGetResource;
 import util.FakePlayer;
 
 /**

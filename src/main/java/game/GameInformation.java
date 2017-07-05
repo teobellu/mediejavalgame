@@ -76,8 +76,8 @@ public class GameInformation{
 		//TODO CAMBIA L'ORDINE DI TURNO
 	}
 
-	private void generateFamiliars(){
-		List<Player> players = game.getPlayers();
+	private void generateFamiliars(){ 
+		List<Player> players = game.getPlayers(); 
 		List<FamilyMember> familiars;
 		for (Player p : players){
 			familiars = new ArrayList<>();
@@ -260,10 +260,9 @@ public class GameInformation{
 		
 		/**
 		 * Sigismondo Malatesta
-		 */
+		 */ 
 		
-		requirement = player -> 
-			player.getResource().get(GC.RES_MILITARYPOINTS) >= 7 &&
+		requirement = player -> player.getResource().get(GC.RES_MILITARYPOINTS) >= 7 &&
 			player.getResource().get(GC.RES_FAITHPOINTS) >= 3;
 		behavior = new EffectIncreaseFamiliarStartPower(GC.FM_TRANSPARENT, 3);
 		effect = new Effect(GC.WHEN_ROLL, behavior);
@@ -306,8 +305,7 @@ public class GameInformation{
 		 * Leonardo da Vinci
 		 */
 		
-		requirement = player -> 
-			player.getDevelopmentCards(GC.DEV_CHARACTER).size() >= 4 &&
+		requirement = player -> player.getDevelopmentCards(GC.DEV_CHARACTER).size() >= 4 &&
 			player.getDevelopmentCards(GC.DEV_TERRITORY).size() >= 2;
 		behavior = new EffectWork(GC.PRODUCTION, 0);
 		effect = new Effect(GC.ONCE_PER_TURN, behavior);
@@ -329,8 +327,7 @@ public class GameInformation{
 		 * Ludovico il Moro
 		 */
 		
-		requirement = player -> 
-			player.getDevelopmentCards(GC.DEV_TERRITORY).size() >= 2 &&
+		requirement = player -> player.getDevelopmentCards(GC.DEV_TERRITORY).size() >= 2 &&
 			player.getDevelopmentCards(GC.DEV_CHARACTER).size() >= 2 &&
 			player.getDevelopmentCards(GC.DEV_BUILDING).size() >= 2 &&
 			player.getDevelopmentCards(GC.DEV_VENTURE).size() >= 2;
@@ -342,8 +339,7 @@ public class GameInformation{
 		 * Lucrezia Borgia
 		 */
 		
-		requirement = player -> 
-			player.getDevelopmentCards(GC.DEV_TERRITORY).size() == 6 ||
+		requirement = player -> player.getDevelopmentCards(GC.DEV_TERRITORY).size() == 6 ||
 			player.getDevelopmentCards(GC.DEV_CHARACTER).size() == 6 ||
 			player.getDevelopmentCards(GC.DEV_BUILDING).size() == 6 ||
 			player.getDevelopmentCards(GC.DEV_VENTURE).size() == 6;
@@ -373,8 +369,7 @@ public class GameInformation{
 		 * Sisto IV
 		 */
 		
-		requirement = player -> 
-			player.getResource().get(GC.RES_WOOD) >= 6 &&
+		requirement = player -> player.getResource().get(GC.RES_WOOD) >= 6 &&
 			player.getResource().get(GC.RES_STONES) >= 6 &&
 			player.getResource().get(GC.RES_COINS) >= 6 &&
 			player.getResource().get(GC.RES_SERVANTS) >= 6;
@@ -387,8 +382,7 @@ public class GameInformation{
 		 * Cesare Borgia
 		 */
 		
-		requirement = player -> 
-			player.getDevelopmentCards(GC.DEV_BUILDING).size() >= 3 &&
+		requirement = player -> player.getDevelopmentCards(GC.DEV_BUILDING).size() >= 3 &&
 			player.getResource().get(GC.RES_COINS) >= 12 &&
 			player.getResource().get(GC.RES_FAITHPOINTS) >= 2;
 		behavior = new EffectOverruleObject(GC.DEV_TERRITORY);
@@ -413,8 +407,7 @@ public class GameInformation{
 		 * Cosimo de' Medici
 		 */
 		
-		requirement = player -> 
-			player.getDevelopmentCards(GC.DEV_BUILDING).size() >= 4 &&
+		requirement = player -> player.getDevelopmentCards(GC.DEV_BUILDING).size() >= 4 &&
 			player.getDevelopmentCards(GC.DEV_CHARACTER).size() >= 2;
 		resource = new Resource();
 		resource.add(GC.RES_SERVANTS, 3);
@@ -427,8 +420,7 @@ public class GameInformation{
 		 * Bartolomeo Colleoni
 		 */
 		
-		requirement = player -> 
-			player.getDevelopmentCards(GC.DEV_TERRITORY).size() >= 4 &&
+		requirement = player -> player.getDevelopmentCards(GC.DEV_TERRITORY).size() >= 4 &&
 			player.getDevelopmentCards(GC.DEV_VENTURE).size() >= 2;
 		resource = new Resource(GC.RES_VICTORYPOINTS, 4);
 		behavior = new EffectGetResource(resource);
@@ -449,8 +441,7 @@ public class GameInformation{
 		 * Pico della Mirandola
 		 */
 		
-		requirement = player -> 
-			player.getDevelopmentCards(GC.DEV_VENTURE).size() >= 4 &&
+		requirement = player -> player.getDevelopmentCards(GC.DEV_VENTURE).size() >= 4 &&
 			player.getDevelopmentCards(GC.DEV_BUILDING).size() >= 2;
 		resource = new Resource(GC.RES_COINS, 3);
 		behavior = new EffectDiscountResource(GC.DEV_TYPES, resource);

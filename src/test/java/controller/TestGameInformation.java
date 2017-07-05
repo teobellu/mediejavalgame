@@ -18,6 +18,7 @@ import game.LeaderCard;
 import game.Player;
 import game.effect.Effect;
 import server.Room;
+import util.FakePlayer;
 
 /**
  * Test controller: GameInformation
@@ -25,6 +26,11 @@ import server.Room;
  *
  */
 public class TestGameInformation {
+	
+	private static final List<Player> FAKE_PLAYERS = new ArrayList<>(
+			Arrays.asList(
+					new FakePlayer(null, GC.PLAYER_RED), 
+					new FakePlayer(null, GC.PLAYER_BLUE)));
 	
 	@Test
 	public void createGameInformation(){
@@ -37,6 +43,7 @@ public class TestGameInformation {
 	@Test
 	public void manageGameBoard(){
 		Game game = new Game(new Room(null));
+		game.getPlayers().addAll(FAKE_PLAYERS);
 		GameInformation gi = new GameInformation(game);
 		
 		Map<String, List<Effect>> map = new HashMap<>();
@@ -60,20 +67,35 @@ public class TestGameInformation {
 		gi.setExcommunicationDeck(tiles);
 		gi.setExcommunicationTitlesOnBoard();
 		
+		assertTrue(gi.getExcommunicationDeck().size() == 3);
+		
 		gi.setDevelopmentDeck(new ArrayList<>());
+		
+		assertTrue(gi.getDevelopmentDeck().isEmpty());
+		
 		gi.setupANewTurn();
 		gi.newPhase(2);
 	}
 	
 	@Test
 	public void manageListsOfPlayers(){
+		FakePlayer g1 = new FakePlayer(null, GC.PLAYER_RED);
+		FakePlayer g2 = new FakePlayer(null, GC.PLAYER_BLUE);
+		
 		Game game = new Game(new Room(null));
+		game.getPlayers().add(g1);
+		game.getPlayers().add(g2);
+		
 		GameInformation gi = new GameInformation(game);
 		
-		List<Player> list = new ArrayList<>();
-		list.add(null);
-		list.add(null);
-		 
+		List<Player> list = new ArrayList<>(Arrays.asList(g1, g2));
+		
+		//methods
+		
+		gi.endOfTheGameFindWinners();
+		
+		//jump turns 
+		
 		gi.setHeadPlayersTurn(list);
 		gi.setTailPlayersTurn(list);
 		gi.setLatePlayersTurn(list);
@@ -82,16 +104,20 @@ public class TestGameInformation {
 		assertTrue(gi.getTailPlayersTurn().size() == 2);
 		assertTrue(gi.getLatePlayersTurn().size() == 2);
 		
-		assertTrue(gi.hasToJumpTurn(null));
+		assertTrue(gi.hasToJumpTurn(g1));
 		gi.getTailPlayersTurn().clear();
-		assertTrue(!gi.hasToJumpTurn(null));
+		assertTrue(!gi.hasToJumpTurn(g1));
+		
+		//dashboard bonus
 		
 		gi.setBonusPlayerDashBoard(new HashMap<>());
-		assertTrue(gi.getBonusPlayerDashBoard().size() == 0);
+		assertTrue(gi.getBonusPlayerDashBoard().isEmpty());
 		
-		gi.endOfTheGameFindWinners();
+		//discarded leader cards
 		
-		gi.addDiscardedLeader(new LeaderCard("Name", GC.NIX, player -> true), null);
+		gi.addDiscardedLeader(new LeaderCard("Name", GC.NIX, player -> true), g2);
 		assertTrue(gi.getDiscardedLeader().size() == 1);
+		
+		
 	}
 }
