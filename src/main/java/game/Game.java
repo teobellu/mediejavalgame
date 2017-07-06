@@ -119,14 +119,9 @@ public class Game implements Runnable {
 			System.out.println("");
 		}
 		
-		int x = 45;
-		for (Player player : _players){
-			player.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(x));
-			x++;
-		}
-		
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
-		
+		/*
+		 TODO non cancellare per il momento
 		gameInformation.getExcommunicationDeck().get(12);
 		
 		ExcommunicationTile[] delay = new ExcommunicationTile[3];
@@ -134,10 +129,12 @@ public class Game implements Runnable {
 		delay[1] = gameInformation.getExcommunicationDeck().get(12);
 		delay[2] = gameInformation.getExcommunicationDeck().get(12);
 		
-		//gameInformation.setExcommunicationTitlesOnBoard();
-		
-		
 		_board.setExCard(delay);
+		*/
+		gameInformation.setExcommunicationTitlesOnBoard();
+		
+		
+		
 		
 		int n = 5;
 		for (Player p : _players){

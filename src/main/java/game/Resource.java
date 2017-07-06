@@ -116,7 +116,8 @@ public class Resource implements Serializable{
 				description.append(get(type)+" "+type.replaceAll("_", " ")+", ");
 			}
 		}
-		
+		if (description.length() == 0)
+			return "";
 		return description.substring(0, description.length()-2);
 	}
 }
