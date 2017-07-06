@@ -23,7 +23,9 @@ public class DynamicAction {
 	 */
 	protected Player player;
 
-	//TODO
+	/**
+	 * Reference to the corresponding game
+	 */
 	private Game game;
 	
 	/**
@@ -38,7 +40,10 @@ public class DynamicAction {
 		player.getEffects().forEach(effect -> effect.setBar(this));
 	}
 	
-	//TODO momentaneo ( o anche non momentaneo )
+	/**
+	 * Set current player
+	 * @param player current player
+	 */
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
@@ -152,12 +157,10 @@ public class DynamicAction {
 	}
 	
 	/**
-	 * TODO DESCRIP
-	 * @param familiar
-	 * @param amount
-	 * @throws GameException
+	 * Allows the player to increase the value of his action by spending servants
+	 * @param actualCost actual cost of the action, here will be added the servants to pay
 	 */
-	public int increaseWorker (Resource actualCost) throws GameException{
+	public int increaseWorker (Resource actualCost){
 		int playerServants = player.getResource(GC.RES_SERVANTS);
 		int amount = 0;
 		if (playerServants == 0)
@@ -169,7 +172,6 @@ public class DynamicAction {
 		}
 		int price = (Integer) activateEffect(amount, GC.WHEN_INCREASE_WORKER);
 		actualCost.add(new Resource(GC.RES_SERVANTS, price));
-		//familiar.setValue(familiar.getValue() + amount);TODO
 		return amount;
 	}
 	
@@ -278,12 +280,7 @@ public class DynamicAction {
 		Resource cardCost = new Resource();
 		cardCost.add(card.getCost(index));
 		
-		System.out.println("a+ " + cardCost.toString());//TODO
-		
 		cardCost = (Resource) activateEffect(cardCost, card.toString(), GC.WHEN_FIND_COST_CARD);
-		
-		
-		System.out.println("b+ " + cardCost.toString());//TODO
 		
 		cost.add(cardCost);
 		
@@ -298,8 +295,6 @@ public class DynamicAction {
 		
 		//canDicePaySpace(familiar, space);
 		//canJoinSpace(familiar, space); //e quindi canJoinArraySpace(familiar, space);
-
-		System.out.println("c+ " + cost.toString());//TODO
 		
 		player.pay(cost);
 		
@@ -313,10 +308,9 @@ public class DynamicAction {
 		player.addEffect(spaceEffect);
 		
 		player.addDevelopmentCard(card);
-		System.out.println(card.getImmediateEffect().get(0).getIEffectBehavior().toString());
+		
 		player.addEffect(card.getImmediateEffect());
 		if (card.getDice() == 0){
-			System.out.println(card.getPermanentEffect().get(0).getIEffectBehavior().toString());
 			player.addEffect(card.getPermanentEffect());
 		}
 		space.setCard(null);
@@ -374,22 +368,29 @@ public class DynamicAction {
 		if ((Boolean) activateEffect(true, GC.WHEN_PLACE_FAMILIAR_MARKET) == null) 
 			throw new GameException("You have a malus that not allow you to put your family member in the market");
 		Space space = game.getBoard().getMarketSpace(whichSpace);
+		Resource cost = new Resource();
 		canOccupySpace(familiar, space);
+		int value = familiar.getValue() + increaseWorker(cost);
+		if (value < space.getRequiredDiceValue())
+			throw new GameException("The value of your familiar is too low");
+		player.pay(cost);
 		player.addEffect(space.getInstantEffect());
 		endAction(familiar, space);
 	}
 	
 	/**
-	 *  comments TODO
+	 * The method allows the player to place his familiar in the council palace
 	 * @param familiar The familiar that the player wants to place
-	 * @throws GameException TODO
+	 * @throws GameException The value of player's familiar is too low
 	 */
 	public void placeCouncilPalace (FamilyMember familiar) throws GameException{
 		GameInformation infoGame = game.getGameInformation();
 		Space space = game.getBoard().getCouncilPalaceSpace();
 		int power = (Integer) activateEffect(familiar.getValue(), GC.WHEN_FIND_VALUE_ACTION);
-		if (power < space.getRequiredDiceValue())
-			throw new GameException("The value of your family is too low");
+		Resource cost = new Resource();
+		int value = power + increaseWorker(cost);
+		if (value < space.getRequiredDiceValue())
+			throw new GameException("The value of your familiar is too low");
 		if (!infoGame.getHeadPlayersTurn().contains(player))
 			infoGame.getHeadPlayersTurn().add(player);
 		player.addEffect(space.getInstantEffect());
@@ -463,11 +464,17 @@ public class DynamicAction {
 	 * @throws GameException 
 	 */
 	private void work (int power, String action, String cards) throws GameException{
-		int realActionPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
-		System.out.println("work powe = " + realActionPower + " whit start of " + power);
+		Resource cost = new Resource();
+		int realActionPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION) + increaseWorker(cost);
 		if (realActionPower < 1){
 			player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
 			throw new GameException("The value of your family is too low");
+		}
+		try{
+			player.pay(cost);
+		}catch (GameException e){
+			player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
+			throw new GameException("You can't pay those servants");
 		}
 		player.getDevelopmentCards(cards).stream()
 			.filter(card -> realActionPower >= card.getDice())
@@ -513,13 +520,7 @@ public class DynamicAction {
 			dontShowVaticanSupport(age);
 			return;
 		}
-		try {
-			player.pay(new Resource(GC.RES_FAITHPOINTS, faithPoints));
-		} catch (GameException e) {
-			// TODO non entrerò mai qui dentro
-			e.printStackTrace();
-		}
-		
+		player.getResource().add(GC.RES_FAITHPOINTS, -faithPoints);
 		int indexFaith = Math.min(faithPoints, infoGame.getBonusFaith().size() - 1);
 		int victory = infoGame.getBonusFaith().get(indexFaith);
 		player.gain(new Resource(GC.RES_VICTORYPOINTS, victory));
@@ -562,23 +563,6 @@ public class DynamicAction {
 	 */
 	public void discardLeaderCard(LeaderCard card) throws RemoteException{
 		player.removeLeaderCard(card);
-		/*
-		Thread t = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					gain(new Resource(GC.RES_COUNCIL, 1));
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		});
-		
-		t.start();
-		*/
 		gain(new Resource(GC.RES_COUNCIL, 1));
 		game.otherPlayersInfo(player.getName() + Messages.MESS_DISCARDED_LEADER + card.getName(), player);
 	}
@@ -623,10 +607,11 @@ public class DynamicAction {
 	 * @param index Amount of cards, of a certain type, that the player has
 	 */
 	public void addFinalReward (List<Integer> rewardList, int index){
-		index--;
-		if (index < 0) 
+		int position = index;
+		position--;
+		if (position < 0) 
 			return;
-		Resource finalReward = new Resource(GC.RES_VICTORYPOINTS, rewardList.get(index));
+		Resource finalReward = new Resource(GC.RES_VICTORYPOINTS, rewardList.get(position));
 		player.gain(finalReward);
 	}
 	

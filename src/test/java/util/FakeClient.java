@@ -14,7 +14,7 @@ public class FakeClient extends Client{
 		super(handler, uuid, name);
 		/*Room room = new Room("");
 		room.addPlayer(p);
-		ùùù*/
+		...*/
 	}
 
 }

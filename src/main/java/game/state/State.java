@@ -92,6 +92,7 @@ public abstract class State {
 	public void setupNewTurn(Player nextPlayer){
 		_theGame.getDynamicBar().setPlayer(nextPlayer);
 		_theGame.getListener().setPlayer(nextPlayer);
+		_theGame.getDynamicBar().startTurn();
 	}
 	
 	//TODO DICE AL PLAYER CHE E' IL SUO TURNO

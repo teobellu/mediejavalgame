@@ -120,8 +120,7 @@ public class Resource implements Serializable{
 		if(description.length()>0){
 			return description.substring(0, description.length()-2);
 		} else {
-			return description.toString();
-
+			return "";
 		}
 	}
 }
