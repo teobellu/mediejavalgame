@@ -138,7 +138,7 @@ public class ListenAction{
 		_player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
 		
 		try {
-			_player.getClient().getConnectionHandler().sendInfo("Ended turn.");
+			_player.getClient().getConnectionHandler().sendInfo("Ended turn.\n");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

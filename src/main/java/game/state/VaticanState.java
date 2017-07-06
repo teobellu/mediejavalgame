@@ -19,12 +19,6 @@ public class VaticanState extends State {
 	}
 
 	@Override
-	public void dropWhichLeaderCard(String leader) throws GameException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public boolean endTurn() throws GameException {
 		// TODO Auto-generated method stub
 		return false;
@@ -37,27 +31,8 @@ public class VaticanState extends State {
 	}
 
 	@Override
-	public void activateWhichLeaderCard(String leader) throws GameException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public List<FamilyMember> placeFamiliar() throws GameException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public List<String> placeWhichFamiliar(String familiar) throws GameException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void placeWhereFamiliar(String position) throws GameException {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -26,7 +26,6 @@ public abstract class State {
 	
 	public State(Game game){
 		_theGame = game;
-		//_player = _theGame.getCurrentPlayer();
 		_players = _theGame.getPlayers();
 	}
 	
@@ -35,19 +34,15 @@ public abstract class State {
 		age = 1;
 		phase = 1;
 		countTurn = 1;
-		_theGame.getDynamicBar().setPlayer(_players.get(0));
+		_theGame.getDynamicBar().setPlayer(_player);
 		_theGame.setListener(new ListenAction(_theGame));
-		_theGame.getListener().setPlayer(_players.get(0));
+		_theGame.getListener().setPlayer(_player);
 		try {
 			_player.getClient().getConnectionHandler().startTurn(_theGame.getBoard(), _player);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public void doState(){
-		
 	}
 	
 	public void nextState(){
@@ -149,22 +144,12 @@ public abstract class State {
 	
 	public abstract List<String> dropLeaderCard() throws GameException;
 	
-	public abstract void dropWhichLeaderCard(String leader) throws GameException;
-	
 	public abstract boolean endTurn() throws GameException;
 	
 	public abstract List<String> activateLeaderCard() throws GameException;
 
-	//TODO alcune carte richiedono interazione
-	public abstract void activateWhichLeaderCard(String leader) throws GameException;
-	
 	public abstract List<FamilyMember> placeFamiliar() throws GameException;
 	
-	public abstract List<String> placeWhichFamiliar(String familiar) throws GameException;
-	
-	//TODO string?
-	public abstract void placeWhereFamiliar(String position) throws GameException;
-
 	public Player getCurrenPlayer() {
 		return _player;
 	}

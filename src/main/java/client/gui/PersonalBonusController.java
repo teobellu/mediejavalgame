@@ -8,13 +8,17 @@ import java.util.List;
 import game.GC;
 import game.Resource;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class PersonalBonusController extends DialogAbstractController{
 
@@ -87,7 +91,11 @@ public class PersonalBonusController extends DialogAbstractController{
 	}
 	
 	private void setButton(Button button, Resource resource, Resource resource2){
-		button.setText("Produzione: "+resource.toString()+"\nRaccolto: "+resource2.toString());
+		Label label = new Label("Produzione: "+resource.toString()+"\nRaccolto: "+resource2.toString());
+		label.setRotate(-90);
+		label.setFont(Font.font(null, FontWeight.BOLD, 18));
+
+		button.setGraphic(new Group(label));
 		
 		File file = new File("src/main/resources/javafx/images/personal_bonus_standard.jpg/");
 		Image image = new Image(file.toURI().toString());

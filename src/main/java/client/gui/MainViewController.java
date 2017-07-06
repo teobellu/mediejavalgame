@@ -125,24 +125,21 @@ public class MainViewController {
 	@FXML
 	private GridPane _harvestSpaceGrid;
 	
-	//TODO, da rimuovere
 	@FXML
-	private Button button;
+	private ImageView _faithPointsIcon;
+	@FXML
+	private ImageView _militaryPointsIcon;
+	@FXML
+	private ImageView _victoryPointsIcon;
+	
+	@FXML
+	private TextFlow _personalBonusTextFlow;
 	
 	private ArrayList<ImageView> _leaderCards = new ArrayList<>();
 	
 	private boolean _downArrowClicked = false;
 	
 	private GUI _GUI;
-	
-	private int lol = 0;
-	
-	@FXML
-	private void onButtonClicked(){
-		appendToInfoText("Questo è un testo di prova perchè javafx fa cagare");
-		appendToInfoText(String.valueOf(lol));
-		lol++;
-	}
 	
 	public void initialSetupController(){
 		_infoTextFlow.getChildren().addListener((ListChangeListener<Node>) ((change) -> {
@@ -162,6 +159,10 @@ public class MainViewController {
 		for(ImageView iv : _leaderCards){
 			changeImageView("src/main/resources/javafx/images/leaders/leaders_b_c_00.jpg", iv);
 		}
+		
+		changeImageView(""/*TODO*/, _faithPointsIcon);
+		changeImageView(""/*TODO*/, _militaryPointsIcon);
+		changeImageView(""/*TODO*/, _victoryPointsIcon);
 		
 		_buttonPane.setDisable(true);
 		_downArrowButton.setDisable(true);
@@ -280,6 +281,11 @@ public class MainViewController {
 		}
 		
 		updateLeaderCards(me);
+		
+		_personalBonusTextFlow.getChildren().add(new Text("Production Bonus\n"));
+		_personalBonusTextFlow.getChildren().add(new Text(me.getBonus(GC.PRODUCTION).toString()+"\n"));
+		_personalBonusTextFlow.getChildren().add(new Text("Harvest Bonus\n"));
+		_personalBonusTextFlow.getChildren().add(new Text(me.getBonus(GC.HARVEST).toString()+"\n"));
 		
 		appendToInfoText("It's YOUR turn now!", 24);
 		appendToInfoText("What do you want to do?");

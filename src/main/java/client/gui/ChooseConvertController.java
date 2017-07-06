@@ -17,9 +17,8 @@ public class ChooseConvertController extends DialogAbstractController {
 	
 	public void setup(List<Resource> pay, List<Resource> gain) {
 		for(int i = 0;i<pay.size();i++){
-			_choiches.getItems().add("Convert "+pay+" in "+gain);
+			_choiches.getItems().add("Convert "+pay.get(i)+" in "+gain.get(i));
 		}
-		
 		_choiches.getSelectionModel().selectFirst();
 	}
 	

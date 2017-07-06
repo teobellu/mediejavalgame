@@ -154,7 +154,6 @@ public class Game implements Runnable {
 		
 		_state = new StateStartingTurn(this);
 		_state.setupState();
-		_listener = new ListenAction(this);
 	}
 	
 	public void setNewCards(){

@@ -2,7 +2,6 @@ package game.state;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.FamilyMember;
@@ -26,11 +25,6 @@ public class StateStartingTurn extends State{
 		_theGame.setState(new StateDropLeaderCard(_theGame));
 		
 		return leaders;
-	}
-
-	@Override
-	public void dropWhichLeaderCard(String leader) throws GameException {
-		throw new GameException("Called method dropWhichLeaderCard in StateStartingTurn");
 	}
 	
 	@Override
@@ -58,28 +52,10 @@ public class StateStartingTurn extends State{
 	}
 	
 	@Override
-	public void activateWhichLeaderCard(String leader) throws GameException {
-		throw new GameException("Called method activateWhichLeaderCard in StateStartingTurn");
-	}
-	
-	@Override
 	public List<FamilyMember> placeFamiliar() throws GameException {
 		if (_player.getFreeMembers().isEmpty())
 			throw new GameException("You don't have free familiars!");
 		_theGame.setState(new StatePlaceFamiliar(_theGame));
 		return _player.getFreeMembers();
 	}
-
-	@Override
-	public List<String> placeWhichFamiliar(String familiar) throws GameException {
-		throw new GameException("Called method placeWhichFamiliar in StateStartingTurn");
-	}
-
-	@Override
-	public void placeWhereFamiliar(String position) throws GameException {
-		throw new GameException("Called method placeWhereFamiliar in StateStartingTurn");
-	}
-	
-	private Logger _log = Logger.getLogger(StateStartingTurn.class.getName());
-
 }
