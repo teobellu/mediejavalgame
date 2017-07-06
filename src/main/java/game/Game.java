@@ -131,6 +131,7 @@ public class Game implements Runnable {
 		
 		_board.setExCard(delay);
 		*/
+		
 		gameInformation.setExcommunicationTitlesOnBoard();
 		
 		

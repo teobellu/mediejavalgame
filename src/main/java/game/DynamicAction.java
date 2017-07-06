@@ -113,7 +113,7 @@ public class DynamicAction {
 	 * @return Resource without councils
 	 * @throws RemoteException
 	 */
-	private Resource handleCouncil(Resource res) throws RemoteException{
+	public Resource handleCouncil(Resource res) throws RemoteException{
 		List<Resource> options = new ArrayList<>(GC.COUNCIL_REWARDS);
 		int councils = res.get(GC.RES_COUNCIL);
 		res.add(GC.RES_COUNCIL, -councils);

@@ -26,6 +26,7 @@ public class ChooseConvertController extends DialogAbstractController {
 	private void onOkClicked(){
 		GraphicalUI.getInstance().addFromGUIToGraphical(_choiches.getSelectionModel().getSelectedIndex());
 		GraphicalUI.getInstance().notifyCommandToGui();
+		_dialog.close();
 	}
 
 }

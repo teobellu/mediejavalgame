@@ -449,7 +449,7 @@ public class MainViewController {
 		List<ImageView> excCards = new ArrayList<>(
 				Arrays.asList(_excCard1, _excCard2, _excCard3));
 		for(int i = 0;i<GC.NUMBER_OF_AGES;i++){
-			changeImageView("src/main/resources/javafx/images/exc_tiles/excomm_"+board.getExCard()[0].getAge()+"_"+ board.getExCard()[0].getID() +".png", excCards.get(i));
+			changeImageView("src/main/resources/javafx/images/exc_tiles/excomm_"+board.getExCard()[i].getAge()+"_"+ board.getExCard()[i].getID() +".png", excCards.get(i));
 		}
 		
 		int i = 0;

@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.GameException;
+import game.GC;
 import game.Player;
 import game.Resource;
 import game.effect.Effect;
@@ -27,6 +28,8 @@ public class EffectConvertResource implements IEffectBehavior{
 	private List<Resource> gainOptions;
 	private List<Resource> realPayOptions;
 	private List<Resource> realGainOptions;
+
+	private Effect effect;
 	
 	private EffectConvertResource(){
 		payOptions = new ArrayList<>();
@@ -63,6 +66,7 @@ public class EffectConvertResource implements IEffectBehavior{
 	 * @param ref Effect that possesses this behavior
 	 */
 	private void initializes(Effect ref){
+		effect = ref;
 		player = ref.getPlayer();
 	}
 
@@ -72,10 +76,14 @@ public class EffectConvertResource implements IEffectBehavior{
 			return;
 		boolean wantConvert = player.getClient().getConnectionHandler().askBoolean(MESSAGE);
 		if (wantConvert){
+			Resource bonus = new Resource();
 			int index = player.getClient().getConnectionHandler().chooseConvert(realPayOptions, realGainOptions);
 			try {
 				player.pay(realPayOptions.get(index));
-				player.gain(realGainOptions.get(index));
+				bonus.add(realGainOptions.get(index));
+				if(bonus.get(GC.RES_COUNCIL) > 0)
+					bonus = effect.getBar().handleCouncil(bonus);
+				player.gain(bonus);
 			} catch (GameException e) {
 				return;
 			}
