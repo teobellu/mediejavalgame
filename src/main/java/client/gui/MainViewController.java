@@ -18,8 +18,6 @@ import game.Space;
 import game.development.DevelopmentCard;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -356,36 +354,11 @@ public class MainViewController {
 		_fourthButton = (Button) _buttonPane.getChildren().get(3);
 		_fifthButton = (Button) _buttonPane.getChildren().get(4);
 		
-		_firstButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				onFirstButtonClicked();
-			}
-		});
-		_secondButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				onSecondButtonClicked();
-			}
-		});
-		_thirdButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				onThirdButtonClicked();
-			}
-		});
-		_fourthButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				onFourthButtonClicked();
-			}
-		});
-		_fifthButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				onFifthButtonClicked();
-			}
-		});
+		_firstButton.setOnAction(event -> onFirstButtonClicked());
+		_secondButton.setOnAction(event -> onSecondButtonClicked());
+		_thirdButton.setOnAction(event -> onThirdButtonClicked());
+		_fourthButton.setOnAction(event -> onFourthButtonClicked());
+		_fifthButton.setOnAction(event -> onFifthButtonClicked());
 		
 		for(int row = 0;row<GameBoard.MAX_ROW;row++){
 			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){
@@ -459,7 +432,7 @@ public class MainViewController {
 
 				//add to council palace space
 				fm = board.getCouncilPalaceSpace().getFamiliars();
-				if(fm!=null && fm.size()>0){
+				if(fm!=null && !fm.isEmpty()){
 					try {
 						_councilPalaceGrid.add(
 							new Text(fm.get(i).getOwner().getName()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.get(i).getColor())+" familiar"), 
@@ -471,7 +444,7 @@ public class MainViewController {
 				
 				//add to production space
 				fm = board.getWorkLongSpace(GC.PRODUCTION).getFamiliars();
-				if(fm!=null && fm.size()>0){
+				if(fm!=null && !fm.isEmpty()){
 					try {
 						_productionSpaceGrid.add(
 								new Text(fm.get(i).getOwner().getName()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.get(i).getColor())+" familiar"), 
@@ -484,7 +457,7 @@ public class MainViewController {
 				
 				//add to harvest space
 				fm = board.getWorkLongSpace(GC.HARVEST).getFamiliars();
-				if(fm!=null && fm.size()>0){
+				if(fm!=null && !fm.isEmpty()){
 					try {
 						_harvestSpaceGrid.add(
 								new Text(fm.get(i).getOwner().getName()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.get(i).getColor())+" familiar"), 
@@ -499,12 +472,12 @@ public class MainViewController {
 		}
 		
 		fm = board.getWorkSpace(GC.PRODUCTION).getFamiliars();
-		if(fm!=null && fm.size()>0){
+		if(fm!=null && !fm.isEmpty()){
 			_productionLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+fm.get(0).getOwner().getColour()+"_"+fm.get(0).getColor()+".png", null);
 		}
 		
 		fm = board.getWorkSpace(GC.HARVEST).getFamiliars();
-		if(fm!=null && fm.size()>0){
+		if(fm!=null && !fm.isEmpty()){
 			_harvestLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+fm.get(0).getOwner().getColour()+"_"+fm.get(0).getColor()+".png", null);
 		}
 		
@@ -528,7 +501,7 @@ public class MainViewController {
 		
 		for(ImageView iv : markets){
 			List<FamilyMember> fams = board.getMarketSpace(markets.indexOf(iv)).getFamiliars();
-			if(fams.size()>0){
+			if(!fams.isEmpty()){
 				changeImageView("src/main/resources/javafx/images/familiars/fam_"+fams.get(0).getOwner().getColour()+"_"+fams.get(0).getColor()+".png", iv);
 			} else {
 				iv.setImage(null);

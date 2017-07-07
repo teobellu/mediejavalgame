@@ -304,14 +304,11 @@ public class Game implements Runnable {
 	
 	
 	/**
-	 * Remove a player from the official players list, and saves him in a separate list 
-	 * @param player the player removed
+	 * Set a player afk
+	 * @param player the player to set afk
 	 */
 	private synchronized void setAFK(Player player) {
-		for(Player p : _players){
-			_afkPlayers.add(p);
-			_players.remove(p);
-		}
+		player.setAfk(true);
 	}
 
 	public State getState(){

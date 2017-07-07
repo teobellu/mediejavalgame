@@ -4,13 +4,15 @@ import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
 
+import client.cli.CommandConstants;
 import exceptions.GameException;
-import game.FamilyMember;
 import game.Game;
 import game.ListenAction;
 import game.Player;
 import server.Client;
 import server.ConnectionHandler;
+import util.CommandStrings;
+import util.Constants;
 
 public abstract class State {
 	
@@ -49,7 +51,7 @@ public abstract class State {
 		//count turn è quello appena passato
 		Player nextPlayer = getNextPlayer();
 		
-		if (countTurn % (_players.size() * 4) == 0){//TODO non e' 4.
+		if (countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){//TODO non e' 4.
 			for(Player p : _theGame.getGameInformation().getLatePlayersTurn()){
 				setupNewTurn(p);
 				_theGame.getGameInformation().getLatePlayersTurn().removeIf(item -> item ==p);
@@ -74,15 +76,17 @@ public abstract class State {
 		countTurn++;
 		if (age == 4){
 			age = 3;
-			List<Player> players = _theGame.getGameInformation().endOfTheGameFindWinners();
-			players.forEach(player -> System.out.println(player.getName() + " win"));//TODO
-			
+			List<Player> winners = _theGame.getGameInformation().endOfTheGameFindWinners();
+			String notice = new String();
+			for (Player winner : winners)
+				notice += winner.getName() + " win! ";
+			if ("".equals(notice))
+				notice += "Noboy wins!";
+			_theGame.broadcastInfo(notice);
+			return;
 		}
-		_theGame.getDynamicBar().setPlayer(nextPlayer);
-		//refresho listener list
-		_theGame.getListener().setPlayer(nextPlayer);
-		//avviso che è il suo turno
 		_player = nextPlayer;
+		setupNewTurn(_player);
 		//se il player è nella lista tail gli faccio saltare il turno e lo metto nella lista tail 2TODO
 		//alla fine faccio fare il turno ai giocatori nella lista tail 2TODO
 		
@@ -142,14 +146,6 @@ public abstract class State {
 		long currentTime = new Date().getTime();
 		return currentTime-startTime > _theGame.getTurnTimeout();
 	}
-	
-	public abstract List<String> dropLeaderCard() throws GameException;
-	
-	public abstract boolean endTurn() throws GameException;
-	
-	public abstract List<String> activateLeaderCard() throws GameException;
-
-	public abstract List<FamilyMember> placeFamiliar() throws GameException;
 	
 	public Player getCurrenPlayer() {
 		return _player;

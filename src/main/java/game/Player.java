@@ -13,7 +13,14 @@ import server.Client;
 
 public class Player implements Serializable{
 
+	/**
+	 * A default serial version ID to the selected type
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final transient Client _client;
+	
+	private boolean afk = false;
 	
 	private final String _playerColour;
 	private final String name;
@@ -153,5 +160,13 @@ public class Player implements Serializable{
 	
 	public String getColour(){
 		return _playerColour;
+	}
+
+	public boolean isAfk() {
+		return afk;
+	}
+
+	public void setAfk(boolean afk) {
+		this.afk = afk;
 	}
 }

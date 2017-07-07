@@ -7,34 +7,54 @@ import util.Constants;
 import util.IOHandler;
 
 public class Client extends Thread {
+	
+	private final IOHandler ioHandler;
+	private Logger log = Logger.getLogger(Client.class.getName());
+	private UI ui;
 
 	public Client() {
-		_ioHandler = new IOHandler();
+		ioHandler = new IOHandler();
 	}
 	
 	@Override
 	public void run(){
+		printLogo();
+		
 		//Get UI
-		_ioHandler.write("Select your User Interface");
+		ioHandler.write("Select your User Interface");
 		
-		_ioHandler.writeList(Constants.UI_TYPES);
+		ioHandler.writeList(Constants.UI_TYPES);
 	
-		int selection = _ioHandler.readNumberWithinInterval(Constants.UI_TYPES.size() - 1);
-		_ui = UIFactory.getUserInterface(selection);
+		int selection = ioHandler.readNumberWithinInterval(Constants.UI_TYPES.size() - 1);
+		ui = UIFactory.getUserInterface(selection);
 		
-		if (_ui == null) {
-			_log.log(Level.SEVERE, "Can't get a UserInterface. What's goign on?");
+		if (ui == null) {
+			log.log(Level.SEVERE, "Can't get a UserInterface. What's goign on?");
 			this.shutdown();
 		}
 		
-		new Thread(_ui).start();
+		new Thread(ui).start();
 	}
 	
 	private void shutdown() {
-		_ioHandler.shutdown();
+		ioHandler.shutdown();
 	}
 	
-	private final IOHandler _ioHandler;
-	private Logger _log = Logger.getLogger(Client.class.getName());
-	private UI _ui;
+	/**
+	 * Prints the best awesome logo ever!
+	 */
+	private void printLogo(){
+		ioHandler.write(" _    _____ ____  ____  ___   _  _____  _____	    _  _    ");
+		ioHandler.write("| |  |  _  |    ||  __||   \\ | ||__   ||  _  |	   | || |   ");
+		ioHandler.write("| |  | | | | [] ||  _] |    \\| |  /  / | | | |	   | || |   ");
+		ioHandler.write("| |__| |_| |    || |__ | |\\    | /  /_ | |_| |	   | || |__ ");
+		ioHandler.write("|____|_____|_|\\_\\|____||_| \\___||_____||_____|	   |_||____|");
+		ioHandler.write(" __    __  _____  _____  ___   _  _  _____  _  _____  _____");
+		ioHandler.write("|  \\  /  ||  _  ||  ___||   \\ | || ||  ___|| ||  ___||  _  |");
+		ioHandler.write("|   \\/   || |_| || | __ |    \\| || ||  __| | || |    | | | |");
+		ioHandler.write("| | \\/ | ||  _  || |_| || |\\    || || |	   | || |___ | |_| |");
+		ioHandler.write("|_|    |_||_| |_||_____||_| \\___||_||_|    |_||_____||_____|\n");
+	}
+	
+	
 }
