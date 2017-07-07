@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import game.development.DevelopmentCard;
@@ -180,69 +179,6 @@ public class Game implements Runnable {
 		return _hasPlacedFamiliar;
 	}
 	
-	/**
-	 * Add the chosen leader card to the right player, and removes it from the temporary list
-	 * @param cli the client of the player who's choosing
-	 * @param leader the name of the card chosen
-	 
-	public void manipulateInitialLeaderList(Client cli, String leader){
-		try {
-			for(int i = 0;i<_players.size();i++){
-				if(_players.get(i).getClient().equals(cli)){
-					Player player = _players.get(i);
-					for(LeaderCard lc : _leaders){
-						if(lc.getName().equals(leader)){
-							player.addLeaderCard(lc);
-							System.out.println("Added leader card "+lc.getName()+" to player "+ player.getName());
-							if(_tempLeaderCardForEachPlayer.get(i).remove(lc.getName())){
-								System.out.println("Rimossa carta con successo");
-							} else {
-								System.out.println("Errore nel rimuovere carta");
-							}
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-	
-	/**
-	 * Non memorizza le liste...!
-	 * @throws RemoteException
-	 
-	@Deprecated
-	private void setupLeaderCards_SENZA_MEMORIA() throws RemoteException{
-		System.out.println("Setup Leader cards");
-		
-        List<LeaderCard> tempList = new ArrayList<>();
-        _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
-        
-		Collections.shuffle(_leaders);
-		
-		for(int j = 0;j<Constants.LEADER_CARDS_PER_PLAYER;j++){
-			  for (int k = 0; k < _players.size(); k++){
-				  for(int i = 0;i<Constants.LEADER_CARDS_PER_PLAYER - j;i++){
-					  LeaderCard lc = _leaders.remove(0);
-					  System.out.println("\nAggiunto "+lc.getName());
-					  tempList.add(lc);
-					  _leaders.add(lc);
-				  }
-				  
-				  System.out.println("\nMando la lista al player "+k+"-esimo, ovvero "+_players.get(k).getName());
-				  int selection = _players.get(k).getClient().getConnectionHandler().chooseLeader(tempList);
-				  _players.get(k).addLeaderCard(tempList.get(selection));
-				  if(_leaders.remove(tempList.get(selection))){
-					  System.out.println("Rimossa la carta numero "+selection+" ovvero "+ tempList.get(selection));
-				  }
-				  
-				  tempList.clear();
-			  }
-			  _players.add(_players.remove(0));
-		}
-	}
-	*/
 	private void setupLeaderCards() throws RemoteException{
 		
         _leaders = gameInformation.getLeaderDeck();
@@ -381,23 +317,23 @@ public class Game implements Runnable {
 			public void run() {
 				setAFK(getCurrentPlayer());
 			}
-		}, 60*3, TimeUnit.SECONDS);
+		}, 60*3, TimeUnit.SECONDS);//3 minuti
 		
 		
 	}
 	
 	public void nextState(){
 
-		//count turn è quello appena passato
 		Player nextPlayer = getNextPlayer();
 		
 		if (countTurn % (_players.size() * 4) == 0){//TODO non e' 4.
+			//TODO che è???
 			for(Player p : getGameInformation().getLatePlayersTurn()){
 				setupNewTurn(p);
 				getGameInformation().getLatePlayersTurn().removeIf(item -> item ==p);
 				getGameInformation().getTailPlayersTurn().add(p);
-				notifyPlayerTurn(p);
 			}
+			
 			if (phase == 2){
 				System.out.println("VATICAN PHASE");
 				for (Player p : _players){
@@ -417,18 +353,33 @@ public class Game implements Runnable {
 		if (age == 4){
 			age = 3;
 			List<Player> players = getGameInformation().endOfTheGameFindWinners();
-			players.forEach(player -> System.out.println(player.getName() + " win"));//TODO
+			players.forEach(player -> {
+				try {
+					player.getClient().getConnectionHandler().sendInfo("You Win!");
+					//TODO esci dal gioco
+				} catch (RemoteException e) {
+					//Do nothing, it's the end of the game
+				}
+			});
 			
 		}
 		getDynamicBar().setPlayer(nextPlayer);
-		//refresho listener list
+
 		getListener().setPlayer(nextPlayer);
-		//avviso che è il suo turno
+
 		_currentPlayer = nextPlayer;
-		//se il player è nella lista tail gli faccio saltare il turno e lo metto nella lista tail 2TODO
-		//alla fine faccio fare il turno ai giocatori nella lista tail 2TODO
 		
-		notifyPlayerTurn(_currentPlayer);
+		try {
+			_currentPlayer.getClient().getConnectionHandler().startTurn(_board, _currentPlayer);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			setAFK(_currentPlayer);
+			if(_players.size()>1){
+				nextState();
+			} else {
+				//TODO rimane un solo player, vincitore
+			}
+		}
 	}
 	
 	public void setupNewTurn(Player nextPlayer){

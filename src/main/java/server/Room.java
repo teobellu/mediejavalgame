@@ -84,7 +84,7 @@ public class Room extends Thread {
 		info.setExcommunicationDeck(fileHandler.getExcommunicationDeck());
 		info.setBonusPlayerDashBoard(fileHandler.getBonusPlayerDashboard());
 		info.setBonusFaith(fileHandler.getBonusFaith());
-		game.setTurnTimeout(fileHandler.TIMEOUT_TURN * 1000);
+		game.setTurnTimeout(/*fileHandler.TIMEOUT_TURN * 1000*/15);
 		
 	}
 

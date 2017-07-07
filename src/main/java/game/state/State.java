@@ -20,7 +20,6 @@ public abstract class State {
 	protected final Game _theGame; //TODO
 //	protected Player _player = null;
 	protected Client _client;
-	private List<Player> _players;
 	
 	private long startTime;
 	
@@ -30,13 +29,6 @@ public abstract class State {
 	}
 	
 	public void setupState() {
-		_player = _players.get(0);
-		age = 1;
-		phase = 1;
-		countTurn = 1;
-		_theGame.getDynamicBar().setPlayer(_player);
-		_theGame.setListener(new ListenAction(_theGame));
-		_theGame.getListener().setPlayer(_player);
 	}
 	
 //	public void nextState(){
@@ -83,35 +75,35 @@ public abstract class State {
 //		notifyPlayerTurn(_player);
 //	}
 	
-	public void setupNewTurn(Player nextPlayer){
-		_theGame.getDynamicBar().setPlayer(nextPlayer);
-		_theGame.getListener().setPlayer(nextPlayer);
-		_theGame.getDynamicBar().startTurn();
-	}
+//	public void setupNewTurn(Player nextPlayer){
+//		_theGame.getDynamicBar().setPlayer(nextPlayer);
+//		_theGame.getListener().setPlayer(nextPlayer);
+//		_theGame.getDynamicBar().startTurn();
+//	}
 	
 	//TODO DICE AL PLAYER CHE E' IL SUO TURNO
-	private void notifyPlayerTurn(Player player){
-		startTime = new Date().getTime();
-		
-		ConnectionHandler handler = _player.getClient().getConnectionHandler();
-		try {
-			handler.startTurn(_theGame.getBoard(), player);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		boolean exit = false;
-		while (!exit){
-			if (isTimeoutOver()){
-				//_theGame.movePlayerAfk();
-				//avviso il client
-				_theGame.broadcastInfo("Player " + _player + " timer has expired");
-				//nextState();
-				exit = true;
-			}
-		}
-	}
+//	private void notifyPlayerTurn(Player player){
+//		startTime = new Date().getTime();
+//		
+//		ConnectionHandler handler = _player.getClient().getConnectionHandler();
+//		try {
+//			handler.startTurn(_theGame.getBoard(), player);
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		boolean exit = false;
+//		while (!exit){
+//			if (isTimeoutOver()){
+//				//_theGame.movePlayerAfk();
+//				//avviso il client
+//				_theGame.broadcastInfo("Player " + _player + " timer has expired");
+//				//nextState();
+//				exit = true;
+//			}
+//		}
+//	}
 	
 	/**
 	 * TODO OTTIENI IL PROSSIMO GIOCATORE, A RUOTA
