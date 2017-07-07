@@ -147,7 +147,7 @@ public class ListenAction{
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has ended his turn", _player);
 		
 		actionsAlreadyDone.clear();
-		_theGame.getState().nextState();
+		_theGame.nextState();
 		//TODO cambio stato
 	}
 

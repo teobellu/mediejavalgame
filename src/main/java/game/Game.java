@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import game.development.DevelopmentCard;
 import game.state.State;
@@ -24,15 +28,22 @@ public class Game implements Runnable {
 	
 	private List<Player> _players = new ArrayList<>();
 	private List<Player> _afkPlayers = new ArrayList<>();
+	
+	private Player _currentPlayer;
 
 	private GameBoard _board;
 
 	private long turnTimeout;
 	private State _state;
-	private int _turn;
-	private int _phase;
+	
+	protected int age; //1,2,3
+	protected int phase; //
+	protected int countTurn;
+	
 	private boolean _isOver = false;
 	private final Room _theRoom;
+	
+	ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	
 	private List<LeaderCard> _leaders = new ArrayList<>();
 	
@@ -50,8 +61,9 @@ public class Game implements Runnable {
 
 	public Game(Room room) {
 		_theRoom = room;
-		_turn = 0;
-		_phase = 0;
+		age = 1;
+		phase = 1;
+		countTurn = 1;
 		
 		List<String> playerColours = new ArrayList<>();
 		for(String color : GC.PLAYER_COLOURS){
@@ -62,6 +74,9 @@ public class Game implements Runnable {
 		for(Client cli : _theRoom.getPlayers()){
 			_players.add(new Player(cli, playerColours.remove(0)));//TODO
 		}
+		
+		_currentPlayer = _players.get(0);
+		
 		_dynamicAction = new DynamicAction(this);
 		gameInformation = new GameInformation(this);
 	}
@@ -76,6 +91,9 @@ public class Game implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		_state.startTurn();
+		
 		/*
 		_state = new StateStartingTurn(this);
 		
@@ -152,10 +170,6 @@ public class Game implements Runnable {
 		
 		_state = new StateStartingTurn(this);
 		_state.setupState();
-	}
-	
-	public void setNewCards(){
-		
 	}
 	
 	public int getLeft(){
@@ -359,6 +373,85 @@ public class Game implements Runnable {
 		}
 	}
 
+	public void startState(){
+		//TODO wip
+		executor.schedule(new Runnable() {
+			
+			@Override
+			public void run() {
+				setAFK(getCurrentPlayer());
+			}
+		}, 60*3, TimeUnit.SECONDS);
+		
+		
+	}
+	
+	public void nextState(){
+
+		//count turn è quello appena passato
+		Player nextPlayer = getNextPlayer();
+		
+		if (countTurn % (_players.size() * 4) == 0){//TODO non e' 4.
+			for(Player p : getGameInformation().getLatePlayersTurn()){
+				setupNewTurn(p);
+				getGameInformation().getLatePlayersTurn().removeIf(item -> item ==p);
+				getGameInformation().getTailPlayersTurn().add(p);
+				notifyPlayerTurn(p);
+			}
+			if (phase == 2){
+				System.out.println("VATICAN PHASE");
+				for (Player p : _players){
+					getDynamicBar().setPlayer(p);
+					getListener().setPlayer(p);
+					getDynamicBar().showVaticanSupport(age);
+				}
+				phase = 0;
+				age++;
+			}
+			System.out.println("NEXT PHASE");
+			getGameInformation().newPhase(age);
+			nextPlayer = getPlayers().get(0);
+			phase++;
+		}
+		countTurn++;
+		if (age == 4){
+			age = 3;
+			List<Player> players = getGameInformation().endOfTheGameFindWinners();
+			players.forEach(player -> System.out.println(player.getName() + " win"));//TODO
+			
+		}
+		getDynamicBar().setPlayer(nextPlayer);
+		//refresho listener list
+		getListener().setPlayer(nextPlayer);
+		//avviso che è il suo turno
+		_currentPlayer = nextPlayer;
+		//se il player è nella lista tail gli faccio saltare il turno e lo metto nella lista tail 2TODO
+		//alla fine faccio fare il turno ai giocatori nella lista tail 2TODO
+		
+		notifyPlayerTurn(_currentPlayer);
+	}
+	
+	public void setupNewTurn(Player nextPlayer){
+		getDynamicBar().setPlayer(nextPlayer);
+		getListener().setPlayer(nextPlayer);
+		getDynamicBar().startTurn();
+	}
+	
+	private Player getNextPlayer(){
+		int currentPlayerIndex = _players.indexOf(_currentPlayer);
+		if (currentPlayerIndex == _players.size() - 1)
+			return _players.get(0);
+		Player next = _players.get(currentPlayerIndex + 1);
+		if (getGameInformation().getTailPlayersTurn().contains(next)){
+			getGameInformation().getTailPlayersTurn().removeIf(player -> player == next);
+			getGameInformation().getLatePlayersTurn().add(next);
+			_currentPlayer = next;
+			countTurn++;
+			return getNextPlayer();
+		}
+		return _players.get(currentPlayerIndex + 1);
+	}
+	
 	public long getTurnTimeout() {
 		return turnTimeout;
 	}

@@ -14,11 +14,11 @@ import server.ConnectionHandler;
 
 public abstract class State {
 	
-	protected int age; //1,2,3
-	protected int phase; //
-	protected int countTurn;
+//	protected int age; //1,2,3
+//	protected int phase; //
+//	protected int countTurn;
 	protected final Game _theGame; //TODO
-	protected Player _player = null;
+//	protected Player _player = null;
 	protected Client _client;
 	private List<Player> _players;
 	
@@ -37,57 +37,51 @@ public abstract class State {
 		_theGame.getDynamicBar().setPlayer(_player);
 		_theGame.setListener(new ListenAction(_theGame));
 		_theGame.getListener().setPlayer(_player);
-		try {
-			_player.getClient().getConnectionHandler().startTurn(_theGame.getBoard(), _player);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
-	public void nextState(){
-		//count turn è quello appena passato
-		Player nextPlayer = getNextPlayer();
-		
-		if (countTurn % (_players.size() * 4) == 0){//TODO non e' 4.
-			for(Player p : _theGame.getGameInformation().getLatePlayersTurn()){
-				setupNewTurn(p);
-				_theGame.getGameInformation().getLatePlayersTurn().removeIf(item -> item ==p);
-				_theGame.getGameInformation().getTailPlayersTurn().add(p);
-				notifyPlayerTurn(p);
-			}
-			if (phase == 2){
-				System.out.println("VATICAN PHASE");
-				for (Player p : _players){
-					_theGame.getDynamicBar().setPlayer(p);
-					_theGame.getListener().setPlayer(p);
-					_theGame.getDynamicBar().showVaticanSupport(age);
-				}
-				phase = 0;
-				age++;
-			}
-			System.out.println("NEXT PHASE");
-			_theGame.getGameInformation().newPhase(age);
-			nextPlayer = _theGame.getPlayers().get(0);
-			phase++;
-		}
-		countTurn++;
-		if (age == 4){
-			age = 3;
-			List<Player> players = _theGame.getGameInformation().endOfTheGameFindWinners();
-			players.forEach(player -> System.out.println(player.getName() + " win"));//TODO
-			
-		}
-		_theGame.getDynamicBar().setPlayer(nextPlayer);
-		//refresho listener list
-		_theGame.getListener().setPlayer(nextPlayer);
-		//avviso che è il suo turno
-		_player = nextPlayer;
-		//se il player è nella lista tail gli faccio saltare il turno e lo metto nella lista tail 2TODO
-		//alla fine faccio fare il turno ai giocatori nella lista tail 2TODO
-		
-		notifyPlayerTurn(_player);
-	}
+//	public void nextState(){
+//		//count turn è quello appena passato
+//		Player nextPlayer = getNextPlayer();
+//		
+//		if (countTurn % (_players.size() * 4) == 0){//TODO non e' 4.
+//			for(Player p : _theGame.getGameInformation().getLatePlayersTurn()){
+//				setupNewTurn(p);
+//				_theGame.getGameInformation().getLatePlayersTurn().removeIf(item -> item ==p);
+//				_theGame.getGameInformation().getTailPlayersTurn().add(p);
+//				notifyPlayerTurn(p);
+//			}
+//			if (phase == 2){
+//				System.out.println("VATICAN PHASE");
+//				for (Player p : _players){
+//					_theGame.getDynamicBar().setPlayer(p);
+//					_theGame.getListener().setPlayer(p);
+//					_theGame.getDynamicBar().showVaticanSupport(age);
+//				}
+//				phase = 0;
+//				age++;
+//			}
+//			System.out.println("NEXT PHASE");
+//			_theGame.getGameInformation().newPhase(age);
+//			nextPlayer = _theGame.getPlayers().get(0);
+//			phase++;
+//		}
+//		countTurn++;
+//		if (age == 4){
+//			age = 3;
+//			List<Player> players = _theGame.getGameInformation().endOfTheGameFindWinners();
+//			players.forEach(player -> System.out.println(player.getName() + " win"));//TODO
+//			
+//		}
+//		_theGame.getDynamicBar().setPlayer(nextPlayer);
+//		//refresho listener list
+//		_theGame.getListener().setPlayer(nextPlayer);
+//		//avviso che è il suo turno
+//		_player = nextPlayer;
+//		//se il player è nella lista tail gli faccio saltare il turno e lo metto nella lista tail 2TODO
+//		//alla fine faccio fare il turno ai giocatori nella lista tail 2TODO
+//		
+//		notifyPlayerTurn(_player);
+//	}
 	
 	public void setupNewTurn(Player nextPlayer){
 		_theGame.getDynamicBar().setPlayer(nextPlayer);
@@ -123,20 +117,20 @@ public abstract class State {
 	 * TODO OTTIENI IL PROSSIMO GIOCATORE, A RUOTA
 	 * @return 
 	 */
-	private Player getNextPlayer(){
-		int currentPlayerIndex = _players.indexOf(_player);
-		if (currentPlayerIndex == _players.size() - 1)
-			return _players.get(0);
-		Player next = _players.get(currentPlayerIndex + 1);
-		if (_theGame.getGameInformation().getTailPlayersTurn().contains(next)){
-			_theGame.getGameInformation().getTailPlayersTurn().removeIf(player -> player == next);
-			_theGame.getGameInformation().getLatePlayersTurn().add(next);
-			_player = next;
-			countTurn++;
-			return getNextPlayer();
-		}
-		return _players.get(currentPlayerIndex + 1);
-	}
+//	private Player getNextPlayer(){
+//		int currentPlayerIndex = _players.indexOf(_player);
+//		if (currentPlayerIndex == _players.size() - 1)
+//			return _players.get(0);
+//		Player next = _players.get(currentPlayerIndex + 1);
+//		if (_theGame.getGameInformation().getTailPlayersTurn().contains(next)){
+//			_theGame.getGameInformation().getTailPlayersTurn().removeIf(player -> player == next);
+//			_theGame.getGameInformation().getLatePlayersTurn().add(next);
+//			_player = next;
+//			countTurn++;
+//			return getNextPlayer();
+//		}
+//		return _players.get(currentPlayerIndex + 1);
+//	}
 	
 	public boolean isTimeoutOver(){
 		long currentTime = new Date().getTime();
@@ -153,6 +147,16 @@ public abstract class State {
 	
 	public Player getCurrenPlayer() {
 		return _player;
+	}
+
+	public void startTurn() {
+		try {
+			_player.getClient().getConnectionHandler().startTurn(_theGame.getBoard(), _player);
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
