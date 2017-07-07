@@ -88,13 +88,13 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 
 	@Override
 	public Player getMe() throws RemoteException {
-		return _theGame.getListener().getMe();
+		return _theGame.getListener().getMe(_client.getName());
 	}
 
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
 		try {
-			_theGame.getListener().dropLeaderCard(leaderName);
+			_theGame.getListener().dropLeaderCard(_client.getName(), leaderName);
 		} catch (GameException e) {
 			sendInfo(e.getMessage());
 		}
@@ -103,7 +103,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public void activateLeaderCard(String leaderName) throws RemoteException {
 		try {
-			_theGame.getListener().activateLeaderCard(leaderName);
+			_theGame.getListener().activateLeaderCard(_client.getName(), leaderName);
 		} catch (GameException e) {
 			sendInfo(e.getMessage());
 		}
@@ -112,7 +112,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public void placeFamiliar(String familiarColour, Position position) throws RemoteException {
 		try {
-			_theGame.getListener().placeFamiliar(familiarColour, position);
+			_theGame.getListener().placeFamiliar(_client.getName(), familiarColour, position);
 		} catch (GameException e) {
 			sendInfo(e.getMessage());
 		}
@@ -121,7 +121,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public void endTurn() throws RemoteException {
 		try {
-			_theGame.getListener().endTurn();
+			_theGame.getListener().endTurn(_client.getName());
 		} catch (GameException e) {
 			sendInfo(e.getMessage());
 		}

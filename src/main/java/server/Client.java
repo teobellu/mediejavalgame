@@ -1,6 +1,11 @@
 package server;
 
 public class Client {
+	
+	private Room _room = null;
+	private final ConnectionHandler _connectionHandler;
+	private final String _uuid;
+	private final String _name;
 
 	public Client(ConnectionHandler handler, String uuid, String name) {
 		_connectionHandler = handler;
@@ -39,8 +44,5 @@ public class Client {
 		}
 	}
 	
-	private Room _room = null;
-	private final ConnectionHandler _connectionHandler;
-	private final String _uuid;
-	private final String _name;
+	
 }

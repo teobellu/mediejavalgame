@@ -4,14 +4,11 @@ import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
 
-import client.cli.CommandConstants;
-import exceptions.GameException;
 import game.Game;
 import game.ListenAction;
 import game.Player;
 import server.Client;
 import server.ConnectionHandler;
-import util.CommandStrings;
 import util.Constants;
 
 public abstract class State {
@@ -36,15 +33,9 @@ public abstract class State {
 		age = 1;
 		phase = 1;
 		countTurn = 1;
-		_theGame.getDynamicBar().setPlayer(_player);
+		
 		_theGame.setListener(new ListenAction(_theGame));
-		_theGame.getListener().setPlayer(_player);
-		try {
-			_player.getClient().getConnectionHandler().startTurn(_theGame.getBoard(), _player);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		notifyPlayerTurn(_player);
 	}
 	
 	public void nextState(){
@@ -83,6 +74,7 @@ public abstract class State {
 			if ("".equals(notice))
 				notice += "Noboy wins!";
 			_theGame.broadcastInfo(notice);
+			_theGame.closeGame();
 			return;
 		}
 		_player = nextPlayer;
@@ -101,6 +93,12 @@ public abstract class State {
 	
 	//TODO DICE AL PLAYER CHE E' IL SUO TURNO
 	private void notifyPlayerTurn(Player player){
+		if (player.isAfk()){
+			_theGame.otherPlayersInfo("The player " + player.getName() + " is afk, turn is skipped!", player);
+			nextState();
+			return;
+		}
+		
 		startTime = new Date().getTime();
 		
 		ConnectionHandler handler = _player.getClient().getConnectionHandler();
@@ -116,16 +114,17 @@ public abstract class State {
 			if (isTimeoutOver()){
 				//_theGame.movePlayerAfk();
 				//avviso il client
-				_theGame.broadcastInfo("Player " + _player + " timer has expired");
-				//nextState();
-				exit = true;
+				_theGame.broadcastInfo("Player " + _player + " timer has expired and will be disconnected.");
+				_player.setAfk(true);
+				nextState();
+				return;
 			}
 		}
 	}
 	
 	/**
-	 * TODO OTTIENI IL PROSSIMO GIOCATORE, A RUOTA
-	 * @return 
+	 * Get the next player according to game rules
+	 * @return the next player
 	 */
 	private Player getNextPlayer(){
 		int currentPlayerIndex = _players.indexOf(_player);
@@ -150,6 +149,5 @@ public abstract class State {
 	public Player getCurrenPlayer() {
 		return _player;
 	}
-
 	
 }

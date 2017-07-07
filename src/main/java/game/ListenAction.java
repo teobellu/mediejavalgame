@@ -22,16 +22,35 @@ public class ListenAction{
 		_player = nextPlayer;
 		actionsAlreadyDone.clear();
 	}
+	
+	private void checkOut(String nickname) throws GameException{
+		if (!_player.getName().equals(nickname)){
+			Player caller = null;
+			for (Player p : _theGame.getPlayers()){
+				if (p.getName().equals(nickname))
+					caller = p;
+			}
+			if (caller == null)
+				throw new GameException("You can't reconnect this time, sorry!");
+			if (caller.isAfk()){
+				caller.setAfk(false);
+				//client = getnewClient() ....
+			}
+			throw new GameException("It's not your turn!");
+		}
+		
+	}
 
 	public GameBoard getGameBoard() {
 		return _theGame.getBoard();
 	}
 	
-	public Player getMe() {
+	public Player getMe(String nickname) {
 		return _player;
 	}
 	
-	public void dropLeaderCard(String leaderName) throws GameException{
+	public void dropLeaderCard(String nickname, String leaderName) throws GameException{
+		checkOut(nickname);
 		LeaderCard selection = null;
 		List<LeaderCard> playerLeaders = _player.getLeaderCards();
 		List<String> playerLeadersNames = new ArrayList<>();
@@ -60,7 +79,8 @@ public class ListenAction{
 		actionsAlreadyDone.add(GC.DROP_LEADER);
 	}
 	
-	public void activateLeaderCard(String leaderName) throws GameException {
+	public void activateLeaderCard(String nickname, String leaderName) throws GameException {
+		checkOut(nickname);
 		LeaderCard selection = null;
 		List<LeaderCard> activableLeaders = _player.getActivableLeaderCards();
 		List<String> playerLeadersNames = new ArrayList<>();
@@ -86,7 +106,8 @@ public class ListenAction{
 		actionsAlreadyDone.add(GC.ACTIVATE_LEADER);
 	}
 	
-	public void placeFamiliar(String familiarColour, Position position) throws GameException {
+	public void placeFamiliar(String nickname, String familiarColour, Position position) throws GameException {
+		checkOut(nickname);
 		if (actionsAlreadyDone.contains(GC.PLACE_FAMILIAR))
 			throw new GameException("You have already placed a familiar");
 		List<FamilyMember> freeMembers = _player.getFreeMembers();
@@ -131,7 +152,8 @@ public class ListenAction{
 		actionsAlreadyDone.add(GC.PLACE_FAMILIAR);
 	}
 	
-	public void endTurn() throws GameException{
+	public void endTurn(String nickname) throws GameException{
+		checkOut(nickname);
 		if (actionsAlreadyDone.contains(GC.END_TURN))
 			throw new GameException("You have already ended turn");
 		

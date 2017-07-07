@@ -363,4 +363,8 @@ public class Game implements Runnable {
 	public void setTurnTimeout(long timeout) {
 		this.turnTimeout = timeout;
 	}
+
+	public void closeGame() {
+		_theRoom.shutdown();
+	}
 }
