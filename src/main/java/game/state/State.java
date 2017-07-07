@@ -12,7 +12,7 @@ import game.Player;
 import server.Client;
 import server.ConnectionHandler;
 
-public abstract class State {
+public class State implements Runnable{
 	
 //	protected int age; //1,2,3
 //	protected int phase; //
@@ -137,18 +137,20 @@ public abstract class State {
 
 	public abstract List<FamilyMember> placeFamiliar() throws GameException;
 	
-	public Player getCurrenPlayer() {
-		return _player;
-	}
-
-	public void startTurn() {
+	public void startTurn(Player currentPlayer) {
 		try {
-			_player.getClient().getConnectionHandler().startTurn(_theGame.getBoard(), _player);
+			currentPlayer.getClient().getConnectionHandler().startTurn(_theGame.getBoard(), currentPlayer);
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

@@ -71,7 +71,7 @@ public class Game implements Runnable {
 		Collections.shuffle(playerColours);
 		
 		for(Client cli : _theRoom.getPlayers()){
-			_players.add(new Player(cli, playerColours.remove(0)));//TODO
+			_players.add(new Player(cli, playerColours.remove(0)));
 		}
 		
 		_currentPlayer = _players.get(0);
@@ -82,8 +82,6 @@ public class Game implements Runnable {
 	
 	@Override
 	public void run() {
-		//TODO
-		
 		try {
 			setupGame();
 		} catch (RemoteException e) {
@@ -91,7 +89,33 @@ public class Game implements Runnable {
 			e.printStackTrace();
 		}
 		
-		_state.startTurn();
+		for(int i = 0;i<3;i++){//fasi
+			for(int j = 0;j<2;j++){//turni per fase
+				for(int k=0;k<Constants.NUMBER_OF_FAMILIARS;k++){//familiari per player
+					for(int l=0;l<_players.size();l++){//numero di players
+						_state = new State(this);
+						
+						Thread tr = new Thread(_state);
+						synchronized (this) {
+							tr.start();
+							executor.schedule(new Runnable() {
+								
+								@Override
+								public void run() {
+									if(!tr.isInterrupted()){
+										setAFK(_currentPlayer);
+									}
+								}
+							}, 60*3, TimeUnit.SECONDS);
+						}
+						
+						
+					}
+				}
+			}
+		}
+		
+		_state.startTurn(_currentPlayer);
 		
 		/*
 		_state = new StateStartingTurn(this);
@@ -111,11 +135,6 @@ public class Game implements Runnable {
 
 	public boolean isOver() {
 		return _isOver;
-	}
-	
-	public Player getCurrentPlayer(){
-		return _state.getCurrenPlayer();
-		//return _players.get(_phase);
 	}
 	
 	public GameBoard getGameBoard() {
