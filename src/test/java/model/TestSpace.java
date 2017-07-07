@@ -41,7 +41,7 @@ public class TestSpace {
 		Space space = new Space(0, null, true);
 		int size = space.getFamiliars().size();
 		FamilyMember familiar = new FamilyMember(GC.FM_TRANSPARENT);
-		space.setFamiliar(familiar);
+		space.placeFamiliar(familiar);
 		assertTrue(space.getFamiliars().size() == size + 1);
 		
 		space.setSingleObject(false);

@@ -16,7 +16,7 @@ import game.effect.Effect;
  */
 public class DynamicAction {
 	
-	private static final String MESSAGE_INCREASE_WORKER = "You can spend servants to increase this action! How much do you want to increase?";
+	
 	
 	/**
 	 * Current player, ad the joystick holder
@@ -166,7 +166,7 @@ public class DynamicAction {
 		if (playerServants == 0)
 			return 0;
 		try {
-			amount = player.getClient().getConnectionHandler().askInt(MESSAGE_INCREASE_WORKER, 0, playerServants);
+			amount = player.getClient().getConnectionHandler().askInt(Messages.MESS_INCREASE_WORKER, 0, playerServants);
 		} catch (RemoteException e) {
 			//TODO
 		}
@@ -262,7 +262,7 @@ public class DynamicAction {
 		int index = 0;
 		if(card.getCosts().size() > 1){
 			try {
-				index = player.getClient().getConnectionHandler().askInt("La carta selezionata ha più costi, quale vuoi?", 0, card.getCosts().size()-1);
+				index = player.getClient().getConnectionHandler().askInt("The card has more costs. Which do you prefer to pay?", 0, card.getCosts().size()-1);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -290,7 +290,7 @@ public class DynamicAction {
 		newValue = (Integer) activateEffect(newValue, card.toString(), GC.WHEN_FIND_VALUE_ACTION);
 		
 		if (newValue < space.getRequiredDiceValue()) 
-			throw new GameException("The value of your family is too low");
+			throw new GameException(Messages.MESS_LOW_POWER);
 		
 		
 		//canDicePaySpace(familiar, space);
@@ -365,6 +365,8 @@ public class DynamicAction {
 	 * @throws GameException The player can not place his familiar in the space selected
 	 */
 	public void placeMarket (FamilyMember familiar, int whichSpace) throws GameException{
+		if (whichSpace >= 2 && game.getPlayers().size() < 4)
+			throw new GameException(Messages.MESS_FEW_PLAYERS);
 		if ((Boolean) activateEffect(true, GC.WHEN_PLACE_FAMILIAR_MARKET) == null) 
 			throw new GameException("You have a malus that not allow you to put your family member in the market");
 		Space space = game.getBoard().getMarketSpace(whichSpace);
@@ -372,7 +374,7 @@ public class DynamicAction {
 		canOccupySpace(familiar, space);
 		int value = familiar.getValue() + increaseWorker(cost);
 		if (value < space.getRequiredDiceValue())
-			throw new GameException("The value of your familiar is too low");
+			throw new GameException(Messages.MESS_LOW_POWER);
 		player.pay(cost);
 		player.addEffect(space.getInstantEffect());
 		endAction(familiar, space);
@@ -390,7 +392,7 @@ public class DynamicAction {
 		Resource cost = new Resource();
 		int value = power + increaseWorker(cost);
 		if (value < space.getRequiredDiceValue())
-			throw new GameException("The value of your familiar is too low");
+			throw new GameException(Messages.MESS_LOW_POWER);
 		if (!infoGame.getHeadPlayersTurn().contains(player))
 			infoGame.getHeadPlayersTurn().add(player);
 		player.addEffect(space.getInstantEffect());
@@ -411,6 +413,8 @@ public class DynamicAction {
 			canOccupySpace(familiar, space);
 		}
 		catch (GameException e) {
+			if (game.getPlayers().size() < 3)
+				throw new GameException(Messages.MESS_FEW_PLAYERS);
 			canOccupyForColorLogic(familiar, space.getFamiliars());
 			space = game.getBoard().getWorkLongSpace(action);
 			canOccupySpace(familiar, space);
@@ -432,7 +436,7 @@ public class DynamicAction {
 		int newPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION);
 		if (newPower < Math.max(space.getRequiredDiceValue(),1)){
 			player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
-			throw new GameException("The value of your family is too low");
+			throw new GameException(Messages.MESS_LOW_POWER);
 		}
 		launchesWork(power, action);
 		endAction(familiar, space);
@@ -468,7 +472,7 @@ public class DynamicAction {
 		int realActionPower = (Integer) activateEffect(power, action, GC.WHEN_FIND_VALUE_ACTION) + increaseWorker(cost);
 		if (realActionPower < 1){
 			player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
-			throw new GameException("The value of your family is too low");
+			throw new GameException(Messages.MESS_LOW_POWER);
 		}
 		try{
 			player.pay(cost);
@@ -490,7 +494,7 @@ public class DynamicAction {
 	 * @param space The space where the action was performed
 	 */
 	private void endAction(FamilyMember familiar, Space space){
-		space.setFamiliar(familiar);
+		space.placeFamiliar(familiar);
 		player.getFreeMembers().removeIf(member -> member == familiar);
 		player.getEffects().removeIf(effect -> effect.getSource().equals(GC.ACTION_SPACE));
 	}
