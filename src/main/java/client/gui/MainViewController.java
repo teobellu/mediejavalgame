@@ -133,6 +133,13 @@ public class MainViewController {
 	private ImageView _victoryPointsIcon;
 	
 	@FXML
+	private Text _faithValue;
+	@FXML
+	private Text _militaryValue;
+	@FXML
+	private Text _victoryValue;
+	
+	@FXML
 	private TextFlow _personalBonusTextFlow;
 	
 	private ArrayList<ImageView> _leaderCards = new ArrayList<>();
@@ -160,9 +167,9 @@ public class MainViewController {
 			changeImageView("src/main/resources/javafx/images/leaders/leaders_b_c_00.jpg", iv);
 		}
 		
-		changeImageView(""/*TODO*/, _faithPointsIcon);
-		changeImageView(""/*TODO*/, _militaryPointsIcon);
-		changeImageView(""/*TODO*/, _victoryPointsIcon);
+		changeImageView("src/main/resources/javafx/images/faith_point_icon.png", _faithPointsIcon);
+		changeImageView("src/main/resources/javafx/images/mil_point_icon.png", _militaryPointsIcon);
+		changeImageView("src/main/resources/javafx/images/vic_point_icon.png", _victoryPointsIcon);
 		
 		_buttonPane.setDisable(true);
 		_downArrowButton.setDisable(true);
@@ -260,6 +267,7 @@ public class MainViewController {
 		}
 		
 		updateLeaderCards(GraphicalUI.getInstance().getCachedMe());
+		updateSidePanelPoints(GraphicalUI.getInstance().getCachedMe());
 	}
 	
 	public void startTurn(Player me, GameBoard board){
@@ -281,6 +289,7 @@ public class MainViewController {
 		}
 		
 		updateLeaderCards(me);
+		updateSidePanelPoints(me);
 		
 		_personalBonusTextFlow.getChildren().add(new Text("Production Bonus\n"));
 		_personalBonusTextFlow.getChildren().add(new Text(me.getBonus(GC.PRODUCTION).toString()+"\n"));
@@ -308,6 +317,15 @@ public class MainViewController {
 			_leaderCards.get(i).setImage(image);
 			_leaderCards.get(i).setDisable(true);
 		}
+	}
+	
+	private void updateSidePanelPoints(Player me){
+		_faithValue.setText(me.getResource(GC.RES_FAITHPOINTS)>9 ? 
+				String.valueOf(me.getResource(GC.RES_FAITHPOINTS)) : "0"+String.valueOf(me.getResource(GC.RES_FAITHPOINTS)));
+		_militaryValue.setText(me.getResource(GC.RES_MILITARYPOINTS)>9 ? 
+				String.valueOf(me.getResource(GC.RES_MILITARYPOINTS)) : "0"+String.valueOf(me.getResource(GC.RES_MILITARYPOINTS)));
+		_victoryValue.setText(me.getResource(GC.RES_VICTORYPOINTS)>9 ? 
+				String.valueOf(me.getResource(GC.RES_VICTORYPOINTS)) : "0"+String.valueOf(me.getResource(GC.RES_VICTORYPOINTS)));
 	}
 	
 	@FXML

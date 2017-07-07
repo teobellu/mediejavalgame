@@ -413,7 +413,22 @@ public class GraphicalUI implements UI {
 
 	public boolean attemptReconnection() {
 		try {
-			return _connectionHandler.attemptReconnection(_uuid);
+			addFromGraphicalToGUI("Attempting reconnection...");
+			addToCommandToGui(CommandStrings.INFO);
+			
+			boolean reconnected = _connectionHandler.attemptReconnection(_uuid);
+			
+			if(reconnected){
+				addFromGraphicalToGUI("Reconnected succesfully!");
+				addToCommandToGui(CommandStrings.INFO);
+				
+				return true;
+			} else {
+				addFromGraphicalToGUI("Failed to reconnect.");
+				addToCommandToGui(CommandStrings.INFO);
+				
+				return false;
+			}
 		} catch (RemoteException e) {
 			return false;
 		}

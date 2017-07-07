@@ -37,12 +37,12 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		try {
 			Registry _registry = LocateRegistry.getRegistry(_host, _port);
 			
-			for(int i = 1; i <= Math.pow(10, 3); i++){
+			for(int i = 1; i <= 1000; i++){
 				try{
 					UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT + i);//TODO da rivedere
 					break;
 				} catch(ExportException e){
-					if(i == Math.pow(10, 3)){
+					if(i == 1000){
 						_log.log(Level.SEVERE, e.getMessage(), e);
 					}
 					continue;
@@ -71,12 +71,12 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 			ServerRemote serverRMI = (ServerRemote) registry.lookup(Constants.RMI);
 			
 			//TODO non so se sia necessario
-//			for(int i = 1; i <= Math.pow(10, 3); i++){
+//			for(int i = 1; i <= 1000; i++){
 //				try{
 //					UnicastRemoteObject.exportObject((ClientRemote)this, Constants.DEFAULT_SOCKET_PORT + i);
 //					break;
 //				} catch(ExportException e){
-//					if(i == Math.pow(10, 3)){
+//					if(i == 1000){
 //						_log.log(Level.SEVERE, e.getMessage(), e);
 //					}
 //					continue;

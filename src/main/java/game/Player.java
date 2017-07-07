@@ -33,7 +33,7 @@ public class Player implements Serializable{
 
 	protected Player(Client client, String colour){
 		_client = client;
-		_playerColour = colour;//TODO
+		_playerColour = colour;
 		name = client.getName();
 		resource = new Resource();
 		manager = new DevelopmentCardManager();
@@ -43,7 +43,7 @@ public class Player implements Serializable{
 		setFreeMember(new ArrayList<>());
 	}
 	
-	public void gain (Resource res){
+	public void gain(Resource res){
 		resource.add(res);
 	}
 	
