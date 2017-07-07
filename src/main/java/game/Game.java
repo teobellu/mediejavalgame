@@ -152,10 +152,9 @@ public class Game implements Runnable {
 		
 		_state = new StateStartingTurn(this);
 		_state.setupState();
-	}
-	
-	public void setNewCards(){
 		
+		
+		_theRoom.shutdown();
 	}
 	
 	public int getLeft(){
@@ -365,6 +364,7 @@ public class Game implements Runnable {
 	}
 
 	public void closeGame() {
+		broadcastInfo("Game ended, thanks for play!");
 		_theRoom.shutdown();
 	}
 }

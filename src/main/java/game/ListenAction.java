@@ -23,7 +23,7 @@ public class ListenAction{
 		actionsAlreadyDone.clear();
 	}
 	
-	private void checkOut(String nickname) throws GameException{
+	private void reconnect(String nickname) throws GameException{
 		if (!_player.getName().equals(nickname)){
 			Player caller = null;
 			for (Player p : _theGame.getPlayers()){
@@ -40,6 +40,25 @@ public class ListenAction{
 		}
 		
 	}
+	
+	private void checkOut(String nickname, boolean removeAfk) throws GameException{
+		if (!_player.getName().equals(nickname)){
+			Player caller = null;
+			for (Player p : _theGame.getPlayers()){
+				if (p.getName().equals(nickname))
+					caller = p;
+			}
+			if (caller == null)
+				throw new GameException("You can't reconnect this time, sorry!");
+			if (removeAfk)
+				if (caller.isAfk()){
+					caller.setAfk(false);
+					throw new GameException("Successful reconnection!");
+				}
+			throw new GameException("It's not your turn! Please click \"End turn\" for reconnect !");
+		}
+		
+	}
 
 	public GameBoard getGameBoard() {
 		return _theGame.getBoard();
@@ -50,7 +69,7 @@ public class ListenAction{
 	}
 	
 	public void dropLeaderCard(String nickname, String leaderName) throws GameException{
-		checkOut(nickname);
+		checkOut(nickname, false);
 		LeaderCard selection = null;
 		List<LeaderCard> playerLeaders = _player.getLeaderCards();
 		List<String> playerLeadersNames = new ArrayList<>();
@@ -63,12 +82,8 @@ public class ListenAction{
 			throw new GameException("You can't discard this card!");
 		try {
 			_theGame.getDynamicBar().discardLeaderCard(selection);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-		}
-		
-		try {
 			_player.getClient().getConnectionHandler().sendInfo("Leader card dropped!", _player);
+			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,7 +95,7 @@ public class ListenAction{
 	}
 	
 	public void activateLeaderCard(String nickname, String leaderName) throws GameException {
-		checkOut(nickname);
+		checkOut(nickname, false);
 		LeaderCard selection = null;
 		List<LeaderCard> activableLeaders = _player.getActivableLeaderCards();
 		List<String> playerLeadersNames = new ArrayList<>();
@@ -107,7 +122,7 @@ public class ListenAction{
 	}
 	
 	public void placeFamiliar(String nickname, String familiarColour, Position position) throws GameException {
-		checkOut(nickname);
+		checkOut(nickname, false);
 		if (actionsAlreadyDone.contains(GC.PLACE_FAMILIAR))
 			throw new GameException("You have already placed a familiar");
 		List<FamilyMember> freeMembers = _player.getFreeMembers();
@@ -153,7 +168,7 @@ public class ListenAction{
 	}
 	
 	public void endTurn(String nickname) throws GameException{
-		checkOut(nickname);
+		checkOut(nickname, true);
 		if (actionsAlreadyDone.contains(GC.END_TURN))
 			throw new GameException("You have already ended turn");
 		
@@ -172,8 +187,5 @@ public class ListenAction{
 		_theGame.getState().nextState();
 		//TODO cambio stato
 	}
-
-	
-	
 		
 }

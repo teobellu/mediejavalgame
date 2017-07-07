@@ -3,6 +3,8 @@ package game.state;
 import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import game.Game;
 import game.ListenAction;
@@ -35,6 +37,7 @@ public abstract class State {
 		countTurn = 1;
 		
 		_theGame.setListener(new ListenAction(_theGame));
+		setupNewTurn(_player);
 		notifyPlayerTurn(_player);
 	}
 	
@@ -94,12 +97,22 @@ public abstract class State {
 	//TODO DICE AL PLAYER CHE E' IL SUO TURNO
 	private void notifyPlayerTurn(Player player){
 		if (player.isAfk()){
-			_theGame.otherPlayersInfo("The player " + player.getName() + " is afk, turn is skipped!", player);
+			_theGame.otherPlayersInfo("The player " + player.getName() + " still afk, turn is skipped!", player);
 			nextState();
 			return;
 		}
 		
-		startTime = new Date().getTime();
+		//startTime = new Date().getTime();
+		System.out.println("time tasking!");
+		
+		
+		TimerTask timerTask = new TimeTimerTask(countTurn, _theGame, player);
+        
+
+        Timer timer = new Timer("MyTimer");
+
+        
+        timer.schedule(timerTask, _theGame.getTurnTimeout());
 		
 		ConnectionHandler handler = _player.getClient().getConnectionHandler();
 		try {
@@ -109,17 +122,42 @@ public abstract class State {
 			e.printStackTrace();
 		}
 		
+		System.out.println("I'm to going in!");
+		
+		/*
+		int oldCounter = countTurn;
+		long start = System.currentTimeMillis();
+		long now = System.currentTimeMillis();
+		while (now - start < _theGame.getTurnTimeout())
+		{
+		    now = System.currentTimeMillis();
+		}
+		
+		System.out.println("I'm out!");
+		System.out.println(countTurn);
+		System.out.println(_theGame.getState().countTurn);
+		
+		if (countTurn == _theGame.getState().countTurn){
+			_theGame.broadcastInfo("Player " + _player.getName() + " timer has expired and will be disconnected.");
+			_player.setAfk(true);
+			nextState();
+			return;
+		}
+		*/
+		
+        //timer.scheduleAtFixedRate(timerTask, 30, 3000);//this line starts the timer at the same time its executed
+		
+		/*
 		boolean exit = false;
 		while (!exit){
 			if (isTimeoutOver()){
-				//_theGame.movePlayerAfk();
 				//avviso il client
-				_theGame.broadcastInfo("Player " + _player + " timer has expired and will be disconnected.");
+				_theGame.broadcastInfo("Player " + _player.getName() + " timer has expired and will be disconnected.");
 				_player.setAfk(true);
 				nextState();
 				return;
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -150,4 +188,27 @@ public abstract class State {
 		return _player;
 	}
 	
+}
+
+class TimeTimerTask extends TimerTask {
+
+    private final int turn;
+    private final Game _theGame;
+    private final Player player;
+
+    TimeTimerTask (int turn, Game game, Player player)
+    {
+    	this.player = player;
+    	_theGame = game;
+    	this.turn = turn;
+    }
+
+    public void run() {
+    	if (turn == _theGame.getState().countTurn){
+			_theGame.broadcastInfo("Player " + player.getName() + " timer has expired and will be disconnected.");
+			player.setAfk(true);
+			_theGame.getState().nextState();
+			return;
+		}
+    }
 }

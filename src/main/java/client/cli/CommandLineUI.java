@@ -135,7 +135,7 @@ public class CommandLineUI implements UI {
 			default : handleTurn();
 		}
 	}
-	
+
 	private void placeFamiliar() throws RemoteException{
 		int selection = 0;
 		// quale familiare

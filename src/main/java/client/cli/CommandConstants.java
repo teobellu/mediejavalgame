@@ -11,9 +11,19 @@ public abstract class CommandConstants {
 	public static final String DROP_LEADER = "drop leader card";
 	public static final String SHOW_MY_CARDS = "show my cards";
 	public static final String END_TURN = "end turn";
+	//public static final String RECONNECT = "reconnect";
 	
 	public static final List<String> STANDARD_COMMANDS = Collections.unmodifiableList(
-			Arrays.asList(PLACE_FAMILIAR, ACTIVATE_LEADER, DROP_LEADER, SHOW_MY_CARDS, END_TURN));
+			Arrays.asList(
+					PLACE_FAMILIAR, 
+					ACTIVATE_LEADER, 
+					DROP_LEADER, 
+					SHOW_MY_CARDS, 
+					END_TURN
+					//,RECONNECT
+			)
+	);
+	
 	
 	private CommandConstants(){
 		
