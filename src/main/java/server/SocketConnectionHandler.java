@@ -106,13 +106,15 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		}
 		else if (str.equals(CommandStrings.DROP_LEADER_CARD)) {
 			String leaderName = (String) getFromClient();
-//			new Thread(new Runnable() {
-//				
-//				@Override
-//				public void run() {
+			
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
 					try {
 						synchronized (this) {
 							_theGame.getListener().dropLeaderCard(_client.getName(), leaderName);
+							queueToClient(CommandStrings.DROP_LEADER_CARD);
 						}
 					} catch (GameException e) {
 						try {
@@ -122,18 +124,20 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							e1.printStackTrace();
 						}
 					}
-//				}
-//			}).start();
+				}
+			}).start();
 		} 
 		else if(str.equals(CommandStrings.ACTIVATE_LEADER_CARD)){
 			String leaderName = (String) getFromClient();
-//			new Thread(new Runnable() {
-//				
-//				@Override
-//				public void run() {
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
 					try {
 						synchronized (this) {
 							_theGame.getListener().activateLeaderCard(_client.getName(), leaderName);
+							_returnObject = new Object();
+							queueToClient(CommandStrings.ACTIVATE_LEADER_CARD);
 						}
 					} catch (GameException e) {
 						try {
@@ -143,19 +147,21 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							e1.printStackTrace();
 						}
 					}
-//				}
-//			}).start();
+				}
+			}).start();
 		}
 		else if(str.equals(CommandStrings.PLACE_FAMILIAR)){
 			String familiarName = (String) getFromClient();
 			Position pos = (Position) getFromClient();
-//			new Thread(new Runnable() {
-//				
-//				@Override
-//				public void run() {
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
 					try {
 						synchronized (this) {
 							_theGame.getListener().placeFamiliar(_client.getName(), familiarName, pos);
+							_returnObject = new Object();
+							queueToClient(CommandStrings.PLACE_FAMILIAR);
 						}
 					} catch (GameException e) {
 						try {
@@ -165,8 +171,8 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							e1.printStackTrace();
 						}
 					}
-//				}
-//			}).start();
+				}
+			}).start();
 		}
 		else if(str.equals(CommandStrings.END_TURN)){
 			try {
@@ -444,25 +450,25 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		@Override
 		public void run() {
 			while(_isRunning){
-				try {
+//				try {
 					Object obj = getFromClient();
-					new Thread(new Runnable() {
-						
-						@Override
-						public void run() {
+//					new Thread(new Runnable() {
+//						
+//						@Override
+//						public void run() {
 							try {
 								processObject(obj);
 							} catch (RemoteException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-						}
-					}).start();
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//						}
+//					}).start();
+////					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}
 		}
 		
@@ -473,7 +479,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		@Override
 		public void run() {
 			while(_isRunning){
-				synchronized (_fromServerToClient) {
+				//synchronized (_fromServerToClient) {
 					if(!_fromServerToClient.isEmpty()){
 						System.out.println("Exit queue not empty! ");
 						try {
@@ -492,7 +498,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 						}
 					}
 					
-				}
+				//}
 			}
 		}
 		

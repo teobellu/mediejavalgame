@@ -109,9 +109,9 @@ public class Game implements Runnable {
 		
 		
 		int i=0;
-		int j=0;
-		int k=0;
-		int w=0;
+		int j=24;
+		int k=48;
+		int w=72;
 		
 		int n = 5;
 		for (Player p : _players){

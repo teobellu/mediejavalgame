@@ -95,13 +95,20 @@ public class CommandLineUI implements UI {
 		_me = me;
 		ModelPrinter.printBoard(_board);
 		ModelPrinter.printMyLoot(_me);
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					handleTurn();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}// TODO Auto-generated method stub
+				
+			}
+		}).start();
 		
-		try {
-			handleTurn();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	@Override
@@ -169,8 +176,8 @@ public class CommandLineUI implements UI {
 			
 		try {
 			placeFamiliar(selectedFamiliar.getColor(), position);
-			_board = _connectionHandler.getBoard();
-			_me = _connectionHandler.getMe();
+			getBoard();
+			getMe();
 			ModelPrinter.printBoard(_board);
 			ModelPrinter.printMyLoot(_me);
 		} catch (GameException e) {
@@ -180,11 +187,45 @@ public class CommandLineUI implements UI {
 		//fine, esco da questo metodo
 	}
 	
+	private void getMe() {
+		/*
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					_me = _connectionHandler.getMe();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		*/
+	}
+
+	private void getBoard() {
+		/*
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					_board = _connectionHandler.getBoard();
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		*/
+	}
+
 	private void activateLeader() throws RemoteException{
 		int selection = 0;
 		List<LeaderCard> myLeaders;
 		//seleziona carta
-		_me = _connectionHandler.getMe();
+		getMe();
 		myLeaders = _me.getLeaderCards();
 		if (myLeaders.isEmpty()){
 			_ioHandler.write("You don't have leader cards!");
@@ -198,7 +239,7 @@ public class CommandLineUI implements UI {
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
-		_me = _connectionHandler.getMe();
+		getMe();
 		handleTurn();
 	}
 	
@@ -206,7 +247,7 @@ public class CommandLineUI implements UI {
 		int selection = 0;
 		List<LeaderCard> myLeaders;
 		//seleziona carta
-		_me = _connectionHandler.getMe();
+		getMe();
 		myLeaders = _me.getLeaderCards();
 		if (myLeaders.isEmpty()){
 			_ioHandler.write("You don't have leader cards!");
@@ -220,18 +261,34 @@ public class CommandLineUI implements UI {
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
-		_me = _connectionHandler.getMe();
+		getMe();
 		handleTurn();
+	}
+	
+	@Override
+	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
+		_connectionHandler.dropLeaderCard(leaderName);
+	}
+
+	@Override
+	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
+		_connectionHandler.activateLeaderCard(leaderName);
+	}
+
+
+	@Override
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException {
+		_connectionHandler.placeFamiliar(familiarColour, position);
 	}
 	
 	@Override
 	public void endTurn() throws RemoteException{
 		_connectionHandler.endTurn();
+		
 	}
 	
 	private void showMyCards() throws RemoteException{
-		System.out.println("COSA CI FACCIO QUI DENTRO?????");
-		_me = _connectionHandler.getMe();
+		getMe();
 		ModelPrinter.printMyLoot(_me);
 		handleTurn();
 	}
@@ -288,7 +345,7 @@ public class CommandLineUI implements UI {
 	public boolean askBoolean(String message){
 		_ioHandler.write("Attention! Reply to this message: ");
 		_ioHandler.write(message);
-		_ioHandler.write("0) ok");
+		_ioHandler.write("0) ok/yes");
 		_ioHandler.write("1) no");
 		int answer = _ioHandler.readNumberWithinInterval(1);
 		return answer == 0;
@@ -355,21 +412,7 @@ public class CommandLineUI implements UI {
 		}
 	}
 
-	@Override
-	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
-		_connectionHandler.dropLeaderCard(leaderName);
-	}
-
-	@Override
-	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
-		_connectionHandler.activateLeaderCard(leaderName);
-	}
-
-
-	@Override
-	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException {
-		_connectionHandler.placeFamiliar(familiarColour, position);
-	}
+	
 	
 	@Override
 	public void showInfo(String info) {

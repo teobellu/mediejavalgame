@@ -324,17 +324,69 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
-		queueToServer(CommandStrings.DROP_LEADER_CARD, leaderName);
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				_returnObject = new Object();
+				queueToServer(CommandStrings.DROP_LEADER_CARD, leaderName);
+				
+			}
+		});
+		t.start();
+		synchronized (_returnObject) {
+			try {
+				_returnObject.wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void activateLeaderCard(String leaderName) throws RemoteException {
-		queueToServer(CommandStrings.ACTIVATE_LEADER_CARD, leaderName);
+		try{
+			_returnObject = new Object();
+			
+			queueToServer(CommandStrings.ACTIVATE_LEADER_CARD);
+			
+			synchronized (_returnObject) {
+				System.out.println("\nWaiting...\n");
+				_returnObject.wait();
+			}
+			
+			return;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		System.out.println("ERRORE IN getMe");
+		
+		return;
 	}
 
 	@Override
 	public void placeFamiliar(String familiarName, Position position) throws RemoteException {
-		queueToServer(CommandStrings.PLACE_FAMILIAR, familiarName, position);
+		try{
+			_returnObject = new Object();
+			
+			queueToServer(CommandStrings.PLACE_FAMILIAR, familiarName, position);
+			
+			synchronized (_returnObject) {
+				System.out.println("\nWaiting...\n");
+				_returnObject.wait();
+			}
+			
+			return;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		System.out.println("ERRORE IN getMe");
+		
+		return;
+		
 	}
 	
 	@Override

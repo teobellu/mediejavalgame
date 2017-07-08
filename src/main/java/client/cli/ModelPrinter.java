@@ -36,7 +36,7 @@ public abstract class ModelPrinter {
 	 * @param resource Resource to print
 	 */
 	public static void printResource(Resource resource){
-		if (!(resource == null))
+		if (resource != null)
 			_ioHandler.writeNext(resource.toString());
 	}
 	
