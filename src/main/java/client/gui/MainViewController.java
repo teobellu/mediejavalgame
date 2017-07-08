@@ -289,6 +289,7 @@ public class MainViewController {
 		updateLeaderCards(me);
 		updateSidePanelPoints(me);
 		
+		_personalBonusTextFlow.getChildren().clear();
 		_personalBonusTextFlow.getChildren().add(new Text("Production Bonus\n"));
 		_personalBonusTextFlow.getChildren().add(new Text(me.getBonus(GC.PRODUCTION).toString()+"\n"));
 		_personalBonusTextFlow.getChildren().add(new Text("Harvest Bonus\n"));
