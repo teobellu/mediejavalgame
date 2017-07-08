@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,8 +14,10 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import exceptions.GameException;
+import game.GC;
 import game.Game;
 import game.GameInformation;
+import game.Resource;
 import util.Constants;
 
 public class Room extends Thread {
@@ -82,7 +85,18 @@ public class Room extends Thread {
 		info.createBoard(fileHandler.getSpaceBonus());
 		info.setDevelopmentDeck(fileHandler.getDevelopmentDeck());
 		info.setExcommunicationDeck(fileHandler.getExcommunicationDeck());
-		info.setBonusPlayerDashBoard(fileHandler.getBonusPlayerDashboard());
+		
+		
+		//TODO debug
+		Map<String, List<Resource>> map = fileHandler.getBonusPlayerDashboard();
+		System.out.println("\n\n\n###map size:"+ map.get(GC.HARVEST).size() +"\n\n\n");
+		for(Resource resource :  map.get(GC.HARVEST)){
+			System.out.println("\n\nRisorse: "+resource.toString());
+		}
+		
+		info.setBonusPlayerDashBoard(map);
+		
+		
 		info.setBonusFaith(fileHandler.getBonusFaith());
 		game.setTurnTimeout(fileHandler.TIMEOUT_TURN * 1000);
 		

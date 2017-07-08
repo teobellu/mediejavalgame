@@ -87,6 +87,10 @@ public class ConfigFileHandler {
 	 */
 	private static final Map<String, Function<Node , Effect>> EFFECTS = new HashMap<>();
 	
+	public ConfigFileHandler() {
+		
+	}
+	
 	/**
 	 * Reads a xml file
 	 * @param xml Input xml file
@@ -122,10 +126,23 @@ public class ConfigFileHandler {
 		List<Node> listNode = getChildNodesFromNode(root);
 		
 		//Initialize objects used for reading
+		EFFECTS.clear();
 		buildMap();
+		
+		SPACE_BONUS.clear();
 		GC.SPACE_TYPE.forEach(type -> SPACE_BONUS.putIfAbsent(type, new ArrayList<>()));
+		
+		BONUS_PLAYER_DASHBOARD.clear();
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.HARVEST, new ArrayList<>());
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.PRODUCTION, new ArrayList<>());
+		
+		
+		//TODO debug
+		for(Resource resource :  BONUS_PLAYER_DASHBOARD.get(GC.HARVEST)){
+			System.out.println("\n\nRisorse in configfilehandler: "+resource.toString());
+		}
+		
+		
 		
 		//load from file
 		uploadSpaceBonus(listNode.get(0));

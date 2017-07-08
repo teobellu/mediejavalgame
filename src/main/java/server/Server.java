@@ -143,14 +143,16 @@ public class Server extends Thread {
 						}
 						r.addPlayer(client);
 						System.out.println("Aggiunto ad un game");
+						System.out.println("Numero di room in questo momento: "+_startingGames.size());
 						return true;
 					}
 				}
 			}
-			System.out.println("Primo game creato");
+			System.out.println("Game creato");
 			Room r = new Room(handler.getConfigFile());
 			r.addPlayer(client);
 			System.out.println("added to game");
+			System.out.println("Numero di room in questo momento: "+_startingGames.size());
 			return _startingGames.add(r);
 		} catch(GameException e){
 			_log.log(Level.SEVERE, e.getMessage(), e);

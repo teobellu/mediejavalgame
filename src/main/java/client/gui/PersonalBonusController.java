@@ -81,6 +81,8 @@ public class PersonalBonusController extends DialogAbstractController{
 		
 		int i = 0;
 		
+		System.out.println("\n\n###map size: "+ map.get(GC.HARVEST).size() +"\n\n");
+		
 		for(; i<map.get(GC.HARVEST).size();i++){
 			setButton(_buttons.get(i), map.get(GC.HARVEST).get(i), map.get(GC.PRODUCTION).get(i));
 		}
