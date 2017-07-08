@@ -10,7 +10,14 @@ public class DisconnectedController extends DialogAbstractController{
 	
 	@FXML
 	private void onReconnectClicked(){
-		GraphicalUI.getInstance().attemptReconnection();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				GraphicalUI.getInstance().attemptReconnection();
+			}
+		}).start();
+		
 		_dialog.close();
 	}
 }

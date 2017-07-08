@@ -206,8 +206,26 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				_returnObject.notify();
 				_returnObject = getFromClient();
 			}
-		} else {
+		}
+		else if(str.equals(CommandStrings.RECONNECT)){
+			String uuid = (String) getFromClient();
+			attemptReconnection(uuid);
+		} 
+		else {
 			_log.log(Level.SEVERE, "\n###RICEVUTO COMANDO SCONOSCIUTO###\n");
+		}
+	}
+
+	private void attemptReconnection(String uuid) {
+		for(Room room : Server.getInstance().getRooms()){
+			for(Client client : room.getPlayers()){
+				if(client.getUUID().equals(uuid)){
+					client.setConnectionHandler(this);
+					_client = client;
+					_theGame = _client.getRoom().getGame();
+					queueToClient(CommandStrings.RECONNECT, true);
+				}
+			}
 		}
 	}
 

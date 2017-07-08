@@ -79,4 +79,6 @@ public interface UI extends Runnable{
 
 	public void setUUID(String uuid);
 	
+	public void reconnected();
+	
 }

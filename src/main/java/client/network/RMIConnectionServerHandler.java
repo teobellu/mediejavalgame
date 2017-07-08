@@ -24,6 +24,9 @@ import util.Constants;
 
 public class RMIConnectionServerHandler extends ConnectionServerHandler implements ClientRemote {
 	
+	//TODO debug, per simulare disconnessione
+	private boolean primo = true;
+	
 	private ConnectionHandlerRemote _connectionHandler;
 	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
 
@@ -65,7 +68,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 	
 	@Override
-	public boolean attemptReconnection(String uuid) throws RemoteException {
+	public void attemptReconnection(String uuid) throws RemoteException {
 		try {
 			Registry registry = LocateRegistry.getRegistry(_host, _port);
 			ServerRemote serverRMI = (ServerRemote) registry.lookup(Constants.RMI);
@@ -87,12 +90,13 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 			_connectionHandler.setClientRemote(this);
 			
 			_log.info("Reconnected succesfully");
-			return true;
+			_ui.showInfo("Reconnected succesfully");
+//			return true;
 		} catch (NotBoundException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		return false;
+//		return false;
 	}
 	
 	@Override
@@ -153,7 +157,12 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
-		_connectionHandler.dropLeaderCard(leaderName);
+		if(primo){
+			primo = false;
+			throw new RemoteException();
+		} else{
+			_connectionHandler.dropLeaderCard(leaderName);
+		}
 	}
 
 	@Override

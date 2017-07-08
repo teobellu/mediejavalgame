@@ -30,14 +30,12 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public void onConnect() throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	public boolean addMeToGame(String name) throws RemoteException {
-		return Server.getInstance().addMeToGame(this, name);
+		boolean returned = Server.getInstance().addMeToGame(this, name);
+		if(returned){
+			sendUUID(_client.getUUID());
+		}
+		return returned;
 	}
 	
 	@Override

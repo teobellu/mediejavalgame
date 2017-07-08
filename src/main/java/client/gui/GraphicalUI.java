@@ -411,31 +411,42 @@ public class GraphicalUI implements UI {
 		}
 	}
 
-	public boolean attemptReconnection() {
+	public void attemptReconnection() {
 		try {
 			addFromGraphicalToGUI("Attempting reconnection...");
 			addToCommandToGui(CommandStrings.INFO);
 			
-			boolean reconnected = _connectionHandler.attemptReconnection(_uuid);
+//			boolean reconnected = 
+					_connectionHandler.attemptReconnection(_uuid);
 			
-			if(reconnected){
-				addFromGraphicalToGUI("Reconnected succesfully!");
-				addToCommandToGui(CommandStrings.INFO);
-				
-				return true;
-			} else {
-				addFromGraphicalToGUI("Failed to reconnect.");
-				addToCommandToGui(CommandStrings.INFO);
-				
-				return false;
-			}
+//			if(reconnected){
+//				addFromGraphicalToGUI("Reconnected succesfully!");
+//				addToCommandToGui(CommandStrings.INFO);
+//				
+//			} else {
+//				addFromGraphicalToGUI("Failed to reconnect.");
+//				addToCommandToGui(CommandStrings.INFO);
+//				
+//			}
 		} catch (RemoteException e) {
-			return false;
+			//TODO
 		}
+	}
+	
+	@Override
+	public void reconnected(){
+		System.out.println("\n\n###reconnected");
+		addFromGraphicalToGUI("Reconnected succesfully");
+		addToCommandToGui(CommandStrings.INFO);
 	}
 
 	@Override
 	public void setUUID(String uuid) {
 		_uuid = uuid;
+	}
+	
+	public void shutdown(){
+		_connectionHandler.shutdown();
+		_instance = null;
 	}
 }

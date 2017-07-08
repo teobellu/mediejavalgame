@@ -68,8 +68,10 @@ public class ServerRMI extends Thread implements ServerRemote {
 	
 	@Override
 	public ConnectionHandlerRemote onReconnect(String uuid) throws RemoteException {
+		System.out.println("uuid client: "+uuid);
 		for(Room room : Server.getInstance().getRooms()){
 			for(Client client : room.getPlayers()){
+				System.out.println("\nuuid server: "+client.getUUID());
 				if(client.getUUID().equals(uuid)){
 					return (ConnectionHandlerRemote) client.getConnectionHandler();
 				}

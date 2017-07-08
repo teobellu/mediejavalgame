@@ -10,8 +10,6 @@ import game.Position;
 
 public interface ConnectionHandlerRemote extends Remote, Serializable {
 	
-	public void onConnect() throws RemoteException;
-
 	public boolean addMeToGame(String name) throws RemoteException;
 
 	public void sendConfigFile(String file) throws RemoteException;

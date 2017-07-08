@@ -10,7 +10,7 @@ public class Constants {
 	public static final String SOCKET = "Socket";
 	
 	public static final List<String> CONNECTION_TYPES = Collections.unmodifiableList(
-			Arrays.asList(RMI, SOCKET));
+			Arrays.asList(SOCKET, RMI));
 	
 	public static final String CLI = "CLI";
 	public static final  String GUI = "GUI";
@@ -29,8 +29,6 @@ public class Constants {
 	public static final long TIMEOUT_CONNESSION_MILLIS = 30000;
 	
 	public static final int NUMBER_OF_FAMILIARS = 4;
-	
-	//public static final int DEFAULT_START_ROOM_TIME_MILLIS = 20000; 
 	
 	public static final int DEFAULT_SOCKET_PORT = 2334;
 	

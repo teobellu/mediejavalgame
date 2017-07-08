@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,9 @@ import util.Constants;
  */
 public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
+	//TODO debug, rimuovere
+	private boolean primo = true;
+	
 	public SocketConnectionServerHandler(String host, int port) {
 		super(host, port);
 		
@@ -53,6 +57,51 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	}
 	
 	@Override
+	public void attemptReconnection(String uuid) throws RemoteException {
+		try {
+			
+			_socket = new Socket(_host, _port);
+			
+			_outputStream = new ObjectOutputStream(_socket.getOutputStream());
+			_inputStream = new ObjectInputStream(_socket.getInputStream());
+			
+			_reader = new Thread(new MyReader());
+			_processor = new Thread(new MyProcessor());
+			_writer = new Thread(new MyWriter());
+			
+			_reader.start();
+			_processor.start();
+			_writer.start();
+			
+			_isRunning = true;	
+
+			
+			_returnObject = new Object();
+			
+			//TODO potrei dover notificare tutto quello che è in attesa, non so
+//			_returnObject.notifyAll();
+			
+			queueToServer(CommandStrings.RECONNECT, uuid);
+			
+			synchronized (_returnObject) {
+				_returnObject.wait();
+			}
+			
+			return;
+//			return (boolean) _returnObject;
+		} catch (InterruptedException e) {
+//			_log.log(Level.SEVERE, e.getMessage(), e);
+//			return false;
+		} catch (UnknownHostException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+//			return false;
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+//			return false;
+		}
+	}
+	
+	@Override
 	public void run() {
 		_reader.start();
 		_processor.start();
@@ -68,8 +117,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@SuppressWarnings("unchecked")
 	private void processString(String obj){
 		//TODO da rimuovere
-		_log.info(obj);
-		System.out.println("process string");
+		_log.info("\n"+obj+"\n");
 		
 		if(obj.equals(CommandStrings.START_TURN)){
 			GameBoard board = (GameBoard) getFromServer();
@@ -81,6 +129,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				_returnObject.notify();
 				_returnObject = (boolean) getFromServer();
 			}
+		}
+		else if(obj.equals(CommandStrings.RECONNECT)){
+//			_returnObject.notify();
+//			_returnObject = (boolean) getFromServer();
+			_ui.reconnected();
 		}
 		else if(obj.equals(CommandStrings.UUID)){
 			_ui.setUUID((String) getFromServer());
@@ -102,9 +155,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			List<Resource> realGainOptions = (List<Resource>) getFromServer();
 			
 			int i = _ui.chooseConvert(realPayOptions, realGainOptions);
-			
-			
-			
 			queueToServer(CommandStrings.CHOOSE_CONVERT, i);
 		}
 		else if(obj.equals(CommandStrings.CHOOSE_FAMILIAR)){
@@ -158,7 +208,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			System.out.println("try to wake up");
 			synchronized (_returnObject) {
 				_returnObject.notify();
-				//_returnObject = getFromServer();
+//				_returnObject = getFromServer();
 				System.out.println("Wake up!");
 			}
 		}else{
@@ -326,6 +376,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
+		
+		if(primo){
+			throw new RemoteException();
+		}
+		
 		try{
 			_returnObject = new Object();
 			
@@ -336,8 +391,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				_returnObject.wait();
 			}
 			
+			if(_returnObject.equals(CommandStrings.CONNECTION_ERROR)){
+				throw new RemoteException();
+			}
+			
 			return;
-		} catch (Exception e) {
+		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
@@ -348,6 +407,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
 	@Override
 	public void activateLeaderCard(String leaderName) throws RemoteException {
+		if(primo){
+			primo = false;
+			throw new RemoteException();
+		}
+		
 		try{
 			_returnObject = new Object();
 			
@@ -389,12 +453,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		
 		return;
 		
-	}
-	
-	@Override
-	public boolean attemptReconnection(String _uuid) throws RemoteException {
-		//TODO
-		return false;
 	}
 	
 	private void queueToServer(Object...objects){
@@ -456,8 +514,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 						try {
 							writeObject(_fromClientToServer.poll());
 						} catch (RemoteException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							_returnObject = CommandStrings.CONNECTION_ERROR;
+							_returnObject.notify();
 						}
 					}
 				}
