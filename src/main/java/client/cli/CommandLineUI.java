@@ -62,7 +62,7 @@ public class CommandLineUI implements UI {
 		//Get server address
 		_ioHandler.write(ClientText.ASK_SERVER_ADDRESS);
 		String host = _ioHandler.readLine(false);
-		if (host.equals("0"))
+		if ("0".equals(host))
 			host = "localhost";
 		
 		//Get server's port
@@ -93,8 +93,6 @@ public class CommandLineUI implements UI {
 		_ioHandler.write("\nIt's your turn! :D");
 		_board = board;
 		_me = me;
-		//_board = _connectionHandler.getBoard();
-		//_me = _connectionHandler.getMe();
 		ModelPrinter.printBoard(_board);
 		ModelPrinter.printMyLoot(_me);
 		
@@ -226,21 +224,10 @@ public class CommandLineUI implements UI {
 		handleTurn();
 	}
 	
+	@Override
 	public void endTurn() throws RemoteException{
 		_connectionHandler.endTurn();
 	}
-	
-	/*
-	private void endTurn() throws RemoteException{
-		try {
-			_connectionHandler.endTurn();
-		} catch (GameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			//TODO non puoi passare, quindi rifai il turno ( o no? )
-			handleTurn();
-		}
-	}*/
 	
 	private void showMyCards() throws RemoteException{
 		System.out.println("COSA CI FACCIO QUI DENTRO?????");
@@ -294,14 +281,6 @@ public class CommandLineUI implements UI {
 		_ioHandler.writeNext(context);
 		_ioHandler.write(" : Select a Leader card");
 		ModelPrinter.printLeaderCards(leaders);
-		/*
-		int index = 0;
-		for(LeaderCard card : leaders){
-			_ioHandler.writeNext(index + ") ");
-			_ioHandler.writeNext("Name: " + card.getName() + " ");
-			_ioHandler.write("Effect: " + card.getEffect().toString());
-			index++;
-		}*/
 		return _ioHandler.readNumberWithinInterval(leaders.size() - 1);
 	}
 	
@@ -320,14 +299,6 @@ public class CommandLineUI implements UI {
 		_ioHandler.write("Attention! Reply to this message: ");
 		_ioHandler.writeNext(message);
 		ModelPrinter.printListFamiliar(familiars);
-		/*
-		int index = 0;
-		for(FamilyMember familiar : familiars){
-			_ioHandler.writeNext(index + ") ");
-			_ioHandler.writeNext("Color: " + familiar.getColor());
-			_ioHandler.writeNext("Value: " + familiar.getValue());
-			index++;
-		}*/
 		return _ioHandler.readNumberWithinInterval(familiars.size() - 1);
 	}
 	

@@ -2,6 +2,7 @@ package game;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -23,24 +24,15 @@ public class Game implements Runnable {
 	private ListenAction _listener;
 	
 	private List<Player> _players = new ArrayList<>();
-	private List<Player> _afkPlayers = new ArrayList<>();
 
 	private GameBoard _board;
 
 	private long turnTimeout;
 	private State _state;
-	private int _turn;
-	private int _phase;
 	private boolean _isOver = false;
 	private final Room _theRoom;
 	
-	private List<LeaderCard> _leaders = new ArrayList<>();
-	
 	private final DynamicAction _dynamicAction;
-	
-	private int cardLeft = 4;
-	
-	private boolean _hasPlacedFamiliar = false;
 	
 	private GameInformation gameInformation;
 	
@@ -50,13 +42,9 @@ public class Game implements Runnable {
 
 	public Game(Room room) {
 		_theRoom = room;
-		_turn = 0;
-		_phase = 0;
 		
-		List<String> playerColours = new ArrayList<>();
-		for(String color : GC.PLAYER_COLOURS){
-			playerColours.add(color);
-		}
+		List<String> playerColours = new ArrayList<>(Arrays.asList(GC.PLAYER_COLOURS));
+		
 		Collections.shuffle(playerColours);
 		
 		for(Client cli : _theRoom.getPlayers()){
@@ -76,20 +64,6 @@ public class Game implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*
-		_state = new StateStartingTurn(this);
-		
-		while(!isGameOver()){
-			for(int i = 0;i<Constants.NUMBER_OF_FAMILIARS; i++){
-				cycleState();
-				_hasPlacedFamiliar = false;
-				_state = new StateStartingTurn(this);
-			}
-			_turn++;
-		}*/
-		
-//		List<Player> winners = gameInformation.endOfTheGameFindWinners();
-//		winners.forEach(player -> player.getClient().getConnectionHandler().sendToClient("GG U WIN"));
 	}
 
 	public boolean isOver() {
@@ -98,7 +72,6 @@ public class Game implements Runnable {
 	
 	public Player getCurrentPlayer(){
 		return _state.getCurrenPlayer();
-		//return _players.get(_phase);
 	}
 	
 	public GameBoard getGameBoard() {
@@ -135,7 +108,10 @@ public class Game implements Runnable {
 		gameInformation.setExcommunicationTitlesOnBoard();
 		
 		
-		
+		int i=0;
+		int j=0;
+		int k=0;
+		int w=0;
 		
 		int n = 5;
 		for (Player p : _players){
@@ -144,6 +120,32 @@ public class Game implements Runnable {
 			p.gain(new Resource(GC.RES_SERVANTS, 30));
 			p.gain(new Resource(GC.RES_COINS, n+20));
 			n++;
+			
+			//TODO da cancellare:
+			p.gain(new Resource(GC.RES_MILITARYPOINTS, 20));
+			p.gain(new Resource(GC.RES_FAITHPOINTS, 20));
+			p.gain(new Resource(GC.RES_VICTORYPOINTS, 20));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(i));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(i +1));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(i +2));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(i +3));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(j));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(j +1));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(j +2));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(j +3));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(k));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(k +1));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(k +2));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(k +3));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(w));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(w +1));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(w +2));
+			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(w +3));
+			
+			i+= 4;
+			j+= 4;
+			k+=4;
+			w+=4;
 		}
 		
 		gameInformation.newPhase(1);
@@ -152,17 +154,6 @@ public class Game implements Runnable {
 		
 		_state = new StateStartingTurn(this);
 		_state.setupState();
-		
-		
-		_theRoom.shutdown();
-	}
-	
-	public int getLeft(){
-		return cardLeft;
-	}
-	
-	public boolean hasPlacedFamiliarYet(){
-		return _hasPlacedFamiliar;
 	}
 	
 	/**
@@ -230,9 +221,9 @@ public class Game implements Runnable {
 	*/
 	private void setupLeaderCards() throws RemoteException{
 		
-        _leaders = gameInformation.getLeaderDeck();
+		List<LeaderCard> leaders = gameInformation.getLeaderDeck();
         
-		Collections.shuffle(_leaders);
+		Collections.shuffle(leaders);
 		
 		List<List<LeaderCard>> playerLists = new ArrayList<>();
 		
@@ -240,7 +231,7 @@ public class Game implements Runnable {
 		for (@SuppressWarnings("unused") Player player : _players){
 			List<LeaderCard> miniDeck = new ArrayList<>();
 			for (int i = 0; i < Constants.LEADER_CARDS_PER_PLAYER; i++)
-				miniDeck.add(_leaders.remove(0));
+				miniDeck.add(leaders.remove(0));
 			playerLists.add(miniDeck);
 		}
 		
@@ -365,6 +356,10 @@ public class Game implements Runnable {
 
 	public void closeGame() {
 		broadcastInfo("Game ended, thanks for play!");
+		_isOver = true;
+		_dynamicAction.setPlayer(null);
+		_listener.setPlayer(null);
+		_players.clear();
 		_theRoom.shutdown();
 	}
 }

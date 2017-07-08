@@ -2779,6 +2779,6 @@
 		20
 	</timeout_start>
 	<timeout_turn>
-		30
+		120
 	</timeout_turn>
 </root>

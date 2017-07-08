@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import game.DynamicAction;
 import game.Game;
+import game.GameInformation;
 import game.ListenAction;
 import game.Player;
 import server.Client;
@@ -23,6 +25,12 @@ public abstract class State {
 	protected Client _client;
 	private List<Player> _players;
 	
+	private DynamicAction controller;
+	private ListenAction listener;
+	private GameInformation information;
+	
+	private boolean delayMoment = false;
+	
 	private long startTime;
 	
 	public State(Game game){
@@ -35,8 +43,10 @@ public abstract class State {
 		age = 1;
 		phase = 1;
 		countTurn = 1;
-		
+		controller = _theGame.getDynamicBar();
+		information = _theGame.getGameInformation();
 		_theGame.setListener(new ListenAction(_theGame));
+		listener = _theGame.getListener();
 		setupNewTurn(_player);
 		notifyPlayerTurn(_player);
 	}
@@ -45,35 +55,51 @@ public abstract class State {
 		//count turn è quello appena passato
 		Player nextPlayer = getNextPlayer();
 		
+		if (delayMoment)
+			return;
+		
 		if (countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){//TODO non e' 4.
 			for(Player p : _theGame.getGameInformation().getLatePlayersTurn()){
+				delayMoment = true;
 				setupNewTurn(p);
-				_theGame.getGameInformation().getLatePlayersTurn().removeIf(item -> item ==p);
-				_theGame.getGameInformation().getTailPlayersTurn().add(p);
-				notifyPlayerTurn(p);
+				information.getLatePlayersTurn().removeIf(item -> item ==p);
+				information.getTailPlayersTurn().add(p);
+				if (!p.isAfk())
+					notifyPlayerTurn(p);
+				else
+					_theGame.otherPlayersInfo("The player " + p.getName() + " still afk, turn is skipped!", p);
+				delayMoment = false;
 			}
 			if (phase == 2){
 				System.out.println("VATICAN PHASE");
 				for (Player p : _players){
-					_theGame.getDynamicBar().setPlayer(p);
-					_theGame.getListener().setPlayer(p);
-					_theGame.getDynamicBar().showVaticanSupport(age);
+					controller.setPlayer(p);
+					listener.setPlayer(p);
+					if (!p.isAfk())
+						controller.showVaticanSupport(age);
+					else
+						controller.dontShowVaticanSupport(age);
 				}
 				phase = 0;
 				age++;
 			}
 			System.out.println("NEXT PHASE");
-			_theGame.getGameInformation().newPhase(age);
+			information.newPhase(age);
+			for (Player p : _theGame.getPlayers()){
+				controller.setPlayer(p);
+				if (!p.isAfk())
+					controller.readDices();
+			}
 			nextPlayer = _theGame.getPlayers().get(0);
 			phase++;
 		}
 		countTurn++;
 		if (age == 4){
 			age = 3;
-			List<Player> winners = _theGame.getGameInformation().endOfTheGameFindWinners();
+			List<Player> winners = information.endOfTheGameFindWinners();
 			String notice = new String();
 			for (Player winner : winners)
-				notice += winner.getName() + " win! ";
+				notice += winner.getName() + " wins! ";
 			if ("".equals(notice))
 				notice += "Noboy wins!";
 			_theGame.broadcastInfo(notice);
@@ -89,9 +115,18 @@ public abstract class State {
 	}
 	
 	public void setupNewTurn(Player nextPlayer){
-		_theGame.getDynamicBar().setPlayer(nextPlayer);
-		_theGame.getListener().setPlayer(nextPlayer);
-		_theGame.getDynamicBar().startTurn();
+		controller.setPlayer(nextPlayer);
+		listener.setPlayer(nextPlayer);
+		try {
+			if (countTurn > _players.size())
+			nextPlayer.getClient().getConnectionHandler()
+				.sendInfo("You turn is starting", _theGame.getBoard(), nextPlayer);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!nextPlayer.isAfk())
+			controller.startTurn();
 	}
 	
 	//TODO DICE AL PLAYER CHE E' IL SUO TURNO
@@ -169,9 +204,9 @@ public abstract class State {
 		if (currentPlayerIndex == _players.size() - 1)
 			return _players.get(0);
 		Player next = _players.get(currentPlayerIndex + 1);
-		if (_theGame.getGameInformation().getTailPlayersTurn().contains(next)){
-			_theGame.getGameInformation().getTailPlayersTurn().removeIf(player -> player == next);
-			_theGame.getGameInformation().getLatePlayersTurn().add(next);
+		if (information.getTailPlayersTurn().contains(next)){
+			information.getTailPlayersTurn().removeIf(player -> player == next);
+			information.getLatePlayersTurn().add(next);
 			_player = next;
 			countTurn++;
 			return getNextPlayer();
@@ -193,21 +228,21 @@ public abstract class State {
 class TimeTimerTask extends TimerTask {
 
     private final int turn;
-    private final Game _theGame;
+    private final Game game;
     private final Player player;
 
-    TimeTimerTask (int turn, Game game, Player player)
-    {
+    TimeTimerTask (int turn, Game game, Player player){
     	this.player = player;
-    	_theGame = game;
+    	this.game = game;
     	this.turn = turn;
     }
 
+    @Override
     public void run() {
-    	if (turn == _theGame.getState().countTurn){
-			_theGame.broadcastInfo("Player " + player.getName() + " timer has expired and will be disconnected.");
+    	if (turn == game.getState().countTurn){
+			game.broadcastInfo("Player " + player.getName() + " has disconnected. The time available is over.");
 			player.setAfk(true);
-			_theGame.getState().nextState();
+			game.getState().nextState();
 			return;
 		}
     }

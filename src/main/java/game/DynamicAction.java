@@ -147,6 +147,7 @@ public class DynamicAction {
 	 */
 	public void startTurn(){
 		activateEffect(GC.ONCE_PER_TURN);
+		
 	}
 	
 	/**
