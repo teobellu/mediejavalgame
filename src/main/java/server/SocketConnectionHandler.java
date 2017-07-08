@@ -118,6 +118,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 						}
 					} catch (GameException e) {
 						try {
+							queueToClient(CommandStrings.DROP_LEADER_CARD);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
@@ -141,6 +142,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 						}
 					} catch (GameException e) {
 						try {
+							queueToClient(CommandStrings.ACTIVATE_LEADER_CARD);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
@@ -165,6 +167,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 						}
 					} catch (GameException e) {
 						try {
+							queueToClient(CommandStrings.PLACE_FAMILIAR);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
