@@ -10,7 +10,7 @@ public class Constants {
 	public static final String SOCKET = "Socket";
 	
 	public static final List<String> CONNECTION_TYPES = Collections.unmodifiableList(
-			Arrays.asList(RMI, SOCKET));
+			Arrays.asList(SOCKET, RMI));
 	
 	public static final String CLI = "CLI";
 	public static final  String GUI = "GUI";

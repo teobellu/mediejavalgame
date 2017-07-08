@@ -406,21 +406,21 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void showInfo(String infoMessage, GameBoard board) throws RemoteException {
+	public void showInfo(String infoMessage, GameBoard board) {
 		_board = board;
 		ModelPrinter.printBoard(_board);
 		showInfo(infoMessage);
 	}
 
 	@Override
-	public void showInfo(String message, Player me) throws RemoteException {
+	public void showInfo(String message, Player me) {
 		_me = me;
 		ModelPrinter.printMyLoot(_me);
 		showInfo(message);
 	}
 
 	@Override
-	public void showInfo(String message, GameBoard board, Player me) throws RemoteException {
+	public void showInfo(String message, GameBoard board, Player me) {
 		_board = board;
 		_me = me;
 		ModelPrinter.printBoard(_board);

@@ -154,7 +154,8 @@ public class Game implements Runnable {
 		_state.setupState();
 		
 		
-		_theRoom.shutdown();
+		//TODO ???????????????
+//		_theRoom.shutdown();
 	}
 	
 	public int getLeft(){

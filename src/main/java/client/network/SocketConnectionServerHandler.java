@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,7 +39,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			_outputStream = new ObjectOutputStream(_socket.getOutputStream());
 			_inputStream = new ObjectInputStream(_socket.getInputStream());
 			
-			_reader = new Thread(new MyRunnable());
+			_reader = new Thread(new MyReader());
+			_processor = new Thread(new MyProcessor());
+			_writer = new Thread(new MyWriter());
 			
 			_log.info("Socket Connection is up");
 			
@@ -52,16 +55,18 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public void run() {
 		_reader.start();
+		_processor.start();
+		_writer.start();
 	}
 	
-	private void processObject(Object obj) throws Exception {
+	private void processObject(Object obj) {
 		if(obj instanceof String){
 			processString((String) obj);
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	private void processString(String obj) throws Exception{
+	private void processString(String obj){
 		//TODO da rimuovere
 		_log.info(obj);
 		
@@ -83,31 +88,30 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			List<LeaderCard> tempList = ((List<LeaderCard>) getFromServer());
 			
 			int i = _ui.chooseLeader(CommandStrings.INITIAL_LEADER, tempList);
-			writeObject(CommandStrings.INITIAL_LEADER);
-			writeObject(i);
+			queueToServer(CommandStrings.INITIAL_LEADER, i);
 		}
 		else if(obj.equals(CommandStrings.INITIAL_PERSONAL_BONUS)){
 			Map<String, List<Resource>> bonus = (Map<String, List<Resource>>) getFromServer();
 			
 			int i = _ui.chooseDashboardBonus(bonus);
-			writeObject(CommandStrings.INITIAL_PERSONAL_BONUS);
-			writeObject(i);
+			queueToServer(CommandStrings.INITIAL_PERSONAL_BONUS, i);
 		}
 		else if(obj.equals(CommandStrings.CHOOSE_CONVERT)){
 			List<Resource> realPayOptions = (List<Resource>) getFromServer();
 			List<Resource> realGainOptions = (List<Resource>) getFromServer();
 			
 			int i = _ui.chooseConvert(realPayOptions, realGainOptions);
-			writeObject(CommandStrings.CHOOSE_CONVERT);
-			writeObject(i);
+			
+			
+			
+			queueToServer(CommandStrings.CHOOSE_CONVERT, i);
 		}
 		else if(obj.equals(CommandStrings.CHOOSE_FAMILIAR)){
 			List<FamilyMember> familiars = (List<FamilyMember>) getFromServer();
 			String message = (String) getFromServer();
 			
 			int i = _ui.chooseFamiliar(familiars, message);
-			writeObject(CommandStrings.CHOOSE_FAMILIAR);
-			writeObject(i);
+			queueToServer(CommandStrings.CHOOSE_FAMILIAR, i);
 		}
 		else if(obj.equals(CommandStrings.ASK_INT)){
 			String message = (String) getFromServer();
@@ -116,8 +120,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			int i = _ui.askInt(message, min, max);
 			
-			writeObject(CommandStrings.ASK_INT);
-			writeObject(i);
+			queueToServer(CommandStrings.ASK_INT, i);
 		}
 		else if(obj.equals(CommandStrings.INFO)){
 			_ui.showInfo((String) getFromServer());
@@ -141,14 +144,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		else if(obj.equals(CommandStrings.ASK_BOOLEAN)){
 			boolean returned = _ui.askBoolean((String) getFromServer());
 			
-			writeObject(CommandStrings.ASK_BOOLEAN);
-			writeObject(returned);
+			queueToServer(CommandStrings.ASK_BOOLEAN, returned);
 		}
 		else if(obj.equals(CommandStrings.HANDLE_COUNCIL)){
 			int i = _ui.spendCouncil((List<Resource>) getFromServer());
 			
-			writeObject(CommandStrings.HANDLE_COUNCIL);
-			writeObject(i);
+			queueToServer(CommandStrings.HANDLE_COUNCIL, i);
 		}
 		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER+
 				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD+
@@ -165,8 +166,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	
 	@Override
 	public void sendConfigFile(String file) throws RemoteException {
-			writeObject(CommandStrings.ASK_FOR_CONFIG);
-			writeObject(file);
+			queueToServer(CommandStrings.ASK_FOR_CONFIG, file);
 	}
 
 	@Override
@@ -194,8 +194,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	public boolean addMeToGame(String name) throws RemoteException {
 		try {
 			_returnObject = new Object();
-			writeObject(CommandStrings.ADD_TO_GAME);
-			writeObject(name);
+			queueToServer(CommandStrings.ADD_TO_GAME, name);
 			
 			synchronized (_returnObject) {
 				_returnObject.wait();
@@ -209,13 +208,15 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		return false;
 	}
 	
-	private synchronized void writeObject(Object message){
+	private void writeObject(Object message) throws RemoteException{
 		try {
+			System.out.println("\n###Sended "+message.toString()+"\n");
 			_outputStream.writeUnshared(message);
 			_outputStream.flush();
 			_outputStream.reset();
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			throw new RemoteException();
 		}
 		
 	}
@@ -226,47 +227,64 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
-	private Object getFromServer() {
+	private void fetchFromServer() {
 		try {
 			do {
 				Object obj = null;
 				synchronized (_inputStream) {
-					obj = _inputStream.readUnshared();
+					obj = _inputStream.readObject();
 				}
 				
 				if (obj!=null) {
-					
-					if(obj instanceof Player){
-						System.out.println("\n######Questo player ha "+((Player) obj).getLeaderCards().size()+" carte leader\n");
+					_log.info(obj.toString());
+					synchronized (_fromServerToClient) {
+						_fromServerToClient.add(obj);
 					}
-					
-					return obj;
 				} else {
 					Thread.sleep(500);
 				}
 			} while (_isRunning);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | ClassNotFoundException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
-		} catch(ClassNotFoundException cnf){
-			_log.log(Level.SEVERE, cnf.getMessage(), cnf);
 		} catch (IOException ioe) {
 			_log.log(Level.SEVERE, ioe.getMessage(), ioe);
 			shutdown();
 		}
+		
 		System.out.println("Errore");
-		return CommandStrings.END_TURN;
+		synchronized (_fromServerToClient) {
+			_fromServerToClient.add(CommandStrings.END_TURN);
+		}
+	}
+	
+	private Object getFromServer(){
+		do{
+			Object obj = null;
+			synchronized (_fromServerToClient) {
+				obj = _fromServerToClient.poll();
+			}
+			if(obj!=null){
+				return obj;
+			} else {
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					_log.log(Level.SEVERE, e.getMessage(), e);
+				}
+			}
+		} while(true);
 	}
 
 	@Override
 	public void endTurn() throws RemoteException {
-		writeObject(CommandStrings.END_TURN);
+		queueToServer(CommandStrings.END_TURN);
 	}
 	
 	public GameBoard getBoard(){
 		try {
 			_returnObject = new Object();
 			
-			writeObject(CommandStrings.GAME_BOARD);
+			queueToServer(CommandStrings.GAME_BOARD);
 			
 			synchronized (_returnObject) {
 				_returnObject.wait();
@@ -287,16 +305,13 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		try{
 			_returnObject = new Object();
 			
-			writeObject(CommandStrings.PLAYER);
+			queueToServer(CommandStrings.PLAYER);
 			
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				_returnObject.wait();
 			}
 			
-			Player pl = (Player) _returnObject;
-			
-			System.out.println("Questo player ha "+pl.getLeaderCards().size()+" carte leader");
 			return (Player) _returnObject;
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -309,40 +324,55 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
-		writeObject(CommandStrings.DROP_LEADER_CARD);
-		writeObject(leaderName);
+		queueToServer(CommandStrings.DROP_LEADER_CARD, leaderName);
 	}
 
 	@Override
 	public void activateLeaderCard(String leaderName) throws RemoteException {
-		writeObject(CommandStrings.ACTIVATE_LEADER_CARD);
-		writeObject(leaderName);
+		queueToServer(CommandStrings.ACTIVATE_LEADER_CARD, leaderName);
 	}
 
 	@Override
 	public void placeFamiliar(String familiarName, Position position) throws RemoteException {
-		writeObject(CommandStrings.PLACE_FAMILIAR);
-		writeObject(familiarName);
-		writeObject(position);
+		queueToServer(CommandStrings.PLACE_FAMILIAR, familiarName, position);
+	}
+	
+	@Override
+	public boolean attemptReconnection(String _uuid) throws RemoteException {
+		//TODO
+		return false;
+	}
+	
+	private void queueToServer(Object...objects){
+		synchronized (_fromClientToServer) {
+			for(Object obj : objects){
+				_fromClientToServer.add(obj);
+			}
+		}
+		
 	}
 
 	private Object _returnObject = new Object();
+	
 	private Thread _reader;
+	private Thread _processor;
+	private Thread _writer;
+	
 	private Socket _socket;
 	private ObjectInputStream _inputStream;
 	private ObjectOutputStream _outputStream;
 	private final Logger _log = Logger.getLogger(SocketConnectionServerHandler.class.getName());
 	
-	private class MyRunnable implements Runnable{
+	private ConcurrentLinkedQueue<Object> _fromServerToClient = new ConcurrentLinkedQueue<>();
+	private ConcurrentLinkedQueue<Object> _fromClientToServer = new ConcurrentLinkedQueue<>();
+	
+	private class MyReader implements Runnable{
 		@Override
 		public void run() {
 			while (_isRunning) {
 				try{
 					System.out.println("Reading...");
-					Object obj = getFromServer();
-					if (obj != null) {
-						processObject(obj);
-					}
+					fetchFromServer();
 				}catch(Exception e){
 					_log.log(Level.SEVERE, e.getMessage(), e);
 				}
@@ -351,10 +381,35 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			System.out.println("\n\n###READER SHUTTING DOWN###\n\n");
 		}
 	}
+	
+	private class MyProcessor implements Runnable{
 
-	@Override
-	public boolean attemptReconnection(String _uuid) throws RemoteException {
-		//TODO
-		return false;
+		@Override
+		public void run() {
+			while(_isRunning){
+				processObject(getFromServer());
+			}
+		}
+	}
+	
+	private class MyWriter implements Runnable{
+
+		@Override
+		public void run() {
+			while(isRunning()){
+				synchronized (_fromClientToServer) {
+					if(!_fromClientToServer.isEmpty()){
+						try {
+							writeObject(_fromClientToServer.poll());
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				
+			}
+		}
+		
 	}
 }

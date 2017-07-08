@@ -102,7 +102,7 @@ public class Room extends Thread {
 		return clients.size() == Constants.MAX_PLAYER;
 	}
 	
-	private boolean hasEnoughPlayers(){
+	private synchronized boolean hasEnoughPlayers(){
 		return clients.size()>=Constants.MIN_PLAYER;
 	}
 	
@@ -115,7 +115,6 @@ public class Room extends Thread {
 			}
 			return true;
 		}
-		
 		return false;
 	}
 	
@@ -162,15 +161,4 @@ public class Room extends Thread {
 		
 		isRunning = false;
 	}
-	
-	public void setMeAfk(ConnectionHandler handler){
-		for(Client client : clients){
-			if(client.getConnectionHandler().equals(handler)){
-				afkClients.add(client);
-				clients.remove(client);
-				theGame.setMeAFK(client.getName());
-			}
-		}
-	}
-	
 }

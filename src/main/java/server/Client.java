@@ -11,7 +11,6 @@ public class Client {
 		_connectionHandler = handler;
 		_uuid = uuid;
 		_name = name;
-		//TODO manda al client il suo id per la riconnessione
 	}
 	
 	public ConnectionHandler getConnectionHandler(){
