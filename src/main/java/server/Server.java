@@ -134,7 +134,7 @@ public class Server extends Thread {
 			if(!_startingGames.isEmpty()){
 				System.out.println("Ci sono gia' dei game");
 				for(Room r : _startingGames){
-					if(!r.isFull()){
+					if(!r.isRunning() && !r.isFull()){
 						for(Client c : r.getPlayers()){
 							if(c.getName().equalsIgnoreCase(name)){
 								System.out.println("Nome uguale");

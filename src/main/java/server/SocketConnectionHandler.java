@@ -106,10 +106,10 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		}
 		else if (str.equals(CommandStrings.DROP_LEADER_CARD)) {
 			String leaderName = (String) getFromClient();
-			new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
+//			new Thread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
 					try {
 						synchronized (this) {
 							_theGame.getListener().dropLeaderCard(_client.getName(), leaderName);
@@ -122,15 +122,15 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							e1.printStackTrace();
 						}
 					}
-				}
-			}).start();
+//				}
+//			}).start();
 		} 
 		else if(str.equals(CommandStrings.ACTIVATE_LEADER_CARD)){
 			String leaderName = (String) getFromClient();
-			new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
+//			new Thread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
 					try {
 						synchronized (this) {
 							_theGame.getListener().activateLeaderCard(_client.getName(), leaderName);
@@ -143,16 +143,16 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							e1.printStackTrace();
 						}
 					}
-				}
-			}).start();
+//				}
+//			}).start();
 		}
 		else if(str.equals(CommandStrings.PLACE_FAMILIAR)){
 			String familiarName = (String) getFromClient();
 			Position pos = (Position) getFromClient();
-			new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
+//			new Thread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
 					try {
 						synchronized (this) {
 							_theGame.getListener().placeFamiliar(_client.getName(), familiarName, pos);
@@ -165,8 +165,8 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							e1.printStackTrace();
 						}
 					}
-				}
-			}).start();
+//				}
+//			}).start();
 		}
 		else if(str.equals(CommandStrings.END_TURN)){
 			try {
@@ -445,10 +445,23 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		public void run() {
 			while(_isRunning){
 				try {
-					processObject(getFromClient());
-				} catch (RemoteException e) {
-					// TODO gestire disconnessione
-					_log.log(Level.SEVERE, e.getMessage(), e);
+					Object obj = getFromClient();
+					new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+								processObject(obj);
+							} catch (RemoteException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}).start();
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}
