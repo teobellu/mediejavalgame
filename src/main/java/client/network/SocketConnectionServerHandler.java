@@ -69,6 +69,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	private void processString(String obj){
 		//TODO da rimuovere
 		_log.info(obj);
+		System.out.println("process string");
 		
 		if(obj.equals(CommandStrings.START_TURN)){
 			GameBoard board = (GameBoard) getFromServer();
@@ -154,9 +155,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER+
 				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD+
 				"|"+CommandStrings.ACTIVATE_LEADER_CARD+"|"+CommandStrings.PLACE_FAMILIAR)){
+			System.out.println("try to wake up");
 			synchronized (_returnObject) {
 				_returnObject.notify();
-				_returnObject = getFromServer();
+				//_returnObject = getFromServer();
 				System.out.println("Wake up!");
 			}
 		}else{
@@ -324,24 +326,24 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
-		Thread t = new Thread(new Runnable() {
+		try{
+			_returnObject = new Object();
 			
-			@Override
-			public void run() {
-				_returnObject = new Object();
-				queueToServer(CommandStrings.DROP_LEADER_CARD, leaderName);
-				
-			}
-		});
-		t.start();
-		synchronized (_returnObject) {
-			try {
+			queueToServer(CommandStrings.DROP_LEADER_CARD, leaderName);
+			
+			synchronized (_returnObject) {
+				System.out.println("\nWaiting...\n");
 				_returnObject.wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+			
+			return;
+		} catch (Exception e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
+		
+		System.out.println("ERRORE IN getMe");
+		
+		return;
 	}
 
 	@Override
@@ -349,7 +351,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		try{
 			_returnObject = new Object();
 			
-			queueToServer(CommandStrings.ACTIVATE_LEADER_CARD);
+			queueToServer(CommandStrings.ACTIVATE_LEADER_CARD, leaderName);
 			
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
