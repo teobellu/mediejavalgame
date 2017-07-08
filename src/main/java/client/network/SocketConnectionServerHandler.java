@@ -290,8 +290,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			synchronized (_returnObject) {
 				_returnObject.wait();
+				_returnObject = getFromServer();
 			}
-			
 			return (GameBoard) _returnObject;
 		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -312,6 +312,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				_returnObject.wait();
+				_returnObject = getFromServer();
 			}
 			
 			return (Player) _returnObject;

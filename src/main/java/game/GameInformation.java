@@ -42,15 +42,11 @@ public class GameInformation{
 	private List<ExcommunicationTile> excommunicationDeck;
 	
 	private List<Player> headPlayersTurn;
-	private List<Player> tailPlayersTurn;
-	private List<Player> latePlayersTurn;
 	
 	public GameInformation(Game game) {
 		this.game = game;
 		discardedLeader = new HashMap<>();
 		headPlayersTurn = new ArrayList<>();
-		tailPlayersTurn = new ArrayList<>();
-		latePlayersTurn = new ArrayList<>();
 		generateLeaderCard();
 	}
 	
@@ -144,19 +140,6 @@ public class GameInformation{
 		}
 		awardPrizeMilitary(players);
 		return getTheRichest(players, GC.RES_VICTORYPOINTS);
-	}
-	
-	/**
-	 * TODO VERIFICA SE IL GIOCATORE DEVE SALTARE IL TURNO
-	 * @param player
-	 * @return
-	 */
-	public boolean hasToJumpTurn(Player player){
-		if (!tailPlayersTurn.contains(player))
-			return false;
-		tailPlayersTurn.removeIf(item -> item == player); 
-		//TODO ogni turno di gioco => non posso
-		return true;
 	}
 	
 	/**
@@ -460,14 +443,6 @@ public class GameInformation{
 		this.headPlayersTurn = headPlayersTurn;
 	}
 
-	public List<Player> getTailPlayersTurn() {
-		return tailPlayersTurn;
-	}
-
-	public void setTailPlayersTurn(List<Player> tailPlayersTurn) {
-		this.tailPlayersTurn = tailPlayersTurn;
-	}
-
 	public List<DevelopmentCard> getDevelopmentDeck() {
 		return developmentDeck;
 	}
@@ -500,16 +475,5 @@ public class GameInformation{
 	public Map<String, List<Resource>> getBonusPlayerDashBoard() {
 		return bonusPlayerDashBoard;
 	}
-
-	public List<Player> getLatePlayersTurn() {
-		return latePlayersTurn;
-	}
-
-	public void setLatePlayersTurn(List<Player> latePlayersTurn) {
-		this.latePlayersTurn = latePlayersTurn;
-	}
-
-
-
 	
 }

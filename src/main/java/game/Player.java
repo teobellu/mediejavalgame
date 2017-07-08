@@ -37,6 +37,14 @@ public class Player implements Serializable{
 	private Resource productionBonus;
 	
 	private DevelopmentCardManager manager;
+	
+	/**
+	 * TODO
+	 * 0 -> NORMAL
+	 * 1 -> JUMP
+	 * 2 -> RECUPERA JUMP
+	 */
+	private int delay;
 
 	protected Player(Client client, String colour){
 		_client = client;
@@ -48,6 +56,7 @@ public class Player implements Serializable{
 		leaderCard = new ArrayList<>();
 		effects = new ArrayList<>();
 		setFreeMember(new ArrayList<>());
+		delay = GC.NORMAL;
 	}
 	
 	public void gain(Resource res){
@@ -168,5 +177,13 @@ public class Player implements Serializable{
 
 	public void setAfk(boolean afk) {
 		this.afk = afk;
+	}
+
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
 	}
 }

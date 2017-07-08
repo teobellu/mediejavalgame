@@ -93,19 +93,17 @@ public class Game implements Runnable {
 		}
 		
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
-		/*
-		 TODO non cancellare per il momento
+		
 		gameInformation.getExcommunicationDeck().get(12);
 		
 		ExcommunicationTile[] delay = new ExcommunicationTile[3];
-		delay[0] = gameInformation.getExcommunicationDeck().get(12);
+		delay[0] = gameInformation.getExcommunicationDeck().get(13);
 		delay[1] = gameInformation.getExcommunicationDeck().get(12);
 		delay[2] = gameInformation.getExcommunicationDeck().get(12);
 		
 		_board.setExCard(delay);
-		*/
 		
-		gameInformation.setExcommunicationTitlesOnBoard();
+		//gameInformation.setExcommunicationTitlesOnBoard();
 		
 		
 		int i=0;

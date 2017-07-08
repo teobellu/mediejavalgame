@@ -6,6 +6,7 @@ import java.util.List;
 
 public abstract class CommandConstants {
 	
+	public static final String PRINT_BOARD = "print game board";
 	public static final String PLACE_FAMILIAR = "place familiar";
 	public static final String ACTIVATE_LEADER = "activate leader card";
 	public static final String DROP_LEADER = "drop leader card";
@@ -15,6 +16,7 @@ public abstract class CommandConstants {
 	
 	public static final List<String> STANDARD_COMMANDS = Collections.unmodifiableList(
 			Arrays.asList(
+					PRINT_BOARD,
 					PLACE_FAMILIAR, 
 					ACTIVATE_LEADER, 
 					DROP_LEADER, 

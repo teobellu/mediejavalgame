@@ -1,5 +1,6 @@
 package game.effect.behaviors;
 
+import game.GC;
 import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
@@ -25,7 +26,7 @@ public class EffectDelayFirstAction implements IEffectBehavior{
 	}
 	
 	private void delayTurn(){
-		effect.getBar().addDelayMalus();
+		player.setDelay(GC.DELAY);
 	}
 	
 	/**

@@ -93,8 +93,8 @@ public class CommandLineUI implements UI {
 		_ioHandler.write("\nIt's your turn! :D");
 		_board = board;
 		_me = me;
-		ModelPrinter.printBoard(_board);
-		ModelPrinter.printMyLoot(_me);
+//		ModelPrinter.printBoard(_board);
+//		ModelPrinter.printMyLoot(_me);
 		new Thread(new Runnable() {
 			
 			@Override
@@ -127,6 +127,8 @@ public class CommandLineUI implements UI {
 		_ioHandler.writeList(commands);
 		selection = _ioHandler.readNumberWithinInterval(commands.size() - 1);
 		switch (commands.get(selection)){
+			case CommandConstants.PRINT_BOARD : printBoard();
+				break;
 			case CommandConstants.PLACE_FAMILIAR : placeFamiliar();
 				break;
 			case CommandConstants.ACTIVATE_LEADER : activateLeader();
@@ -141,7 +143,7 @@ public class CommandLineUI implements UI {
 		}
 	}
 
-	private void placeFamiliar() throws RemoteException{
+	private synchronized void placeFamiliar() throws RemoteException{
 		int selection = 0;
 		// quale familiare
 		List<FamilyMember> myFreeFamiliars = _me.getFreeMembers();
@@ -176,10 +178,10 @@ public class CommandLineUI implements UI {
 			
 		try {
 			placeFamiliar(selectedFamiliar.getColor(), position);
-			getBoard();
-			getMe();
-			ModelPrinter.printBoard(_board);
-			ModelPrinter.printMyLoot(_me);
+//			getBoard();
+//			getMe();
+//			ModelPrinter.printBoard(_board);
+//			ModelPrinter.printMyLoot(_me);
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
@@ -187,45 +189,40 @@ public class CommandLineUI implements UI {
 		//fine, esco da questo metodo
 	}
 	
-	private void getMe() {
-		/*
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					_me = _connectionHandler.getMe();
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}).start();
-		*/
+//	private void getMe() {
+//		try {
+//			_me = _connectionHandler.getMe();
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private void getBoard() {
+//		
+//		try {
+//			_board = _connectionHandler.getBoard();
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
+	
+	private synchronized void printBoard() throws RemoteException{
+		ModelPrinter.printBoard(_board);
+		handleTurn();
+	}
+	
+	private synchronized void showMyCards() throws RemoteException{
+		ModelPrinter.printMyLoot(_me);
+		handleTurn();
 	}
 
-	private void getBoard() {
-		/*
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					_board = _connectionHandler.getBoard();
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}).start();
-		*/
-	}
-
-	private void activateLeader() throws RemoteException{
+	private synchronized void activateLeader() throws RemoteException{
 		int selection = 0;
 		List<LeaderCard> myLeaders;
 		//seleziona carta
-		getMe();
+//		getMe();
 		myLeaders = _me.getLeaderCards();
 		if (myLeaders.isEmpty()){
 			_ioHandler.write("You don't have leader cards!");
@@ -239,15 +236,15 @@ public class CommandLineUI implements UI {
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
-		getMe();
+//		getMe();
 		handleTurn();
 	}
 	
-	private void dropLeader() throws RemoteException{
+	private synchronized void dropLeader() throws RemoteException{
 		int selection = 0;
 		List<LeaderCard> myLeaders;
 		//seleziona carta
-		getMe();
+//		getMe();
 		myLeaders = _me.getLeaderCards();
 		if (myLeaders.isEmpty()){
 			_ioHandler.write("You don't have leader cards!");
@@ -261,7 +258,7 @@ public class CommandLineUI implements UI {
 		} catch (GameException e) {
 			e.printStackTrace();
 		}
-		getMe();
+//		getMe();
 		handleTurn();
 	}
 	
@@ -285,12 +282,6 @@ public class CommandLineUI implements UI {
 	public void endTurn() throws RemoteException{
 		_connectionHandler.endTurn();
 		
-	}
-	
-	private void showMyCards() throws RemoteException{
-		getMe();
-		ModelPrinter.printMyLoot(_me);
-		handleTurn();
 	}
 	
 	public String getUsername(){
@@ -422,14 +413,14 @@ public class CommandLineUI implements UI {
 	@Override
 	public void showInfo(String infoMessage, GameBoard board) {
 		_board = board;
-		ModelPrinter.printBoard(_board);
+//		ModelPrinter.printBoard(_board);
 		showInfo(infoMessage);
 	}
 
 	@Override
 	public void showInfo(String message, Player me) {
 		_me = me;
-		ModelPrinter.printMyLoot(_me);
+//		ModelPrinter.printMyLoot(_me);
 		showInfo(message);
 	}
 
@@ -437,8 +428,8 @@ public class CommandLineUI implements UI {
 	public void showInfo(String message, GameBoard board, Player me) {
 		_board = board;
 		_me = me;
-		ModelPrinter.printBoard(_board);
-		ModelPrinter.printMyLoot(_me);
+//		ModelPrinter.printBoard(_board);
+//		ModelPrinter.printMyLoot(_me);
 		showInfo(message);
 	}
 

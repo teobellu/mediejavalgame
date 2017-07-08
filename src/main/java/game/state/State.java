@@ -7,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import game.DynamicAction;
+import game.GC;
 import game.Game;
 import game.GameInformation;
 import game.ListenAction;
@@ -29,8 +30,6 @@ public abstract class State {
 	private ListenAction listener;
 	private GameInformation information;
 	
-	private boolean delayMoment = false;
-	
 	private long startTime;
 	
 	public State(Game game){
@@ -49,40 +48,29 @@ public abstract class State {
 		listener = _theGame.getListener();
 		setupNewTurn(_player);
 		notifyPlayerTurn(_player);
+		
 	}
 	
 	public void nextState(){
+		
+		if (phase == 2 && countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){
+			System.out.println("VATICAN PHASE");
+			for (Player p : _players){
+				controller.setPlayer(p);
+				listener.setPlayer(p);
+				if (!p.isAfk())
+					controller.showVaticanSupport(age);
+				else
+					controller.dontShowVaticanSupport(age);
+			}
+			phase = 0;
+			age++;
+		}
 		//count turn è quello appena passato
 		Player nextPlayer = getNextPlayer();
 		
-		if (delayMoment)
-			return;
-		
 		if (countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){//TODO non e' 4.
-			for(Player p : _theGame.getGameInformation().getLatePlayersTurn()){
-				delayMoment = true;
-				setupNewTurn(p);
-				information.getLatePlayersTurn().removeIf(item -> item ==p);
-				information.getTailPlayersTurn().add(p);
-				if (!p.isAfk())
-					notifyPlayerTurn(p);
-				else
-					_theGame.otherPlayersInfo("The player " + p.getName() + " still afk, turn is skipped!", p);
-				delayMoment = false;
-			}
-			if (phase == 2){
-				System.out.println("VATICAN PHASE");
-				for (Player p : _players){
-					controller.setPlayer(p);
-					listener.setPlayer(p);
-					if (!p.isAfk())
-						controller.showVaticanSupport(age);
-					else
-						controller.dontShowVaticanSupport(age);
-				}
-				phase = 0;
-				age++;
-			}
+			
 			System.out.println("NEXT PHASE");
 			information.newPhase(age);
 			for (Player p : _theGame.getPlayers()){
@@ -90,7 +78,7 @@ public abstract class State {
 				if (!p.isAfk())
 					controller.readDices();
 			}
-			nextPlayer = _theGame.getPlayers().get(0);
+			//nextPlayer = _theGame.getPlayers().get(0);
 			phase++;
 		}
 		countTurn++;
@@ -153,46 +141,9 @@ public abstract class State {
 		try {
 			handler.startTurn(_theGame.getBoard(), player);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block mettero' il player afk?
 			e.printStackTrace();
 		}
-		
-		System.out.println("I'm to going in!");
-		
-		/*
-		int oldCounter = countTurn;
-		long start = System.currentTimeMillis();
-		long now = System.currentTimeMillis();
-		while (now - start < _theGame.getTurnTimeout())
-		{
-		    now = System.currentTimeMillis();
-		}
-		
-		System.out.println("I'm out!");
-		System.out.println(countTurn);
-		System.out.println(_theGame.getState().countTurn);
-		
-		if (countTurn == _theGame.getState().countTurn){
-			_theGame.broadcastInfo("Player " + _player.getName() + " timer has expired and will be disconnected.");
-			_player.setAfk(true);
-			nextState();
-			return;
-		}
-		*/
-		
-        //timer.scheduleAtFixedRate(timerTask, 30, 3000);//this line starts the timer at the same time its executed
-		
-		/*
-		boolean exit = false;
-		while (!exit){
-			if (isTimeoutOver()){
-				//avviso il client
-				_theGame.broadcastInfo("Player " + _player.getName() + " timer has expired and will be disconnected.");
-				_player.setAfk(true);
-				nextState();
-				return;
-			}
-		}*/
 	}
 	
 	/**
@@ -200,17 +151,47 @@ public abstract class State {
 	 * @return the next player
 	 */
 	private Player getNextPlayer(){
-		int currentPlayerIndex = _players.indexOf(_player);
+		Player current = _player;
+		Player shifted = shiftPlayer(current);
+		if (existsDelayTarget(GC.RECOVERY) && !existsDelayTarget(GC.RECOVERY - 1)){
+			do{
+				int delay = shifted.getDelay();
+				if (delay == GC.RECOVERY){
+					shifted.setDelay(GC.DELAY);
+					break;
+				}
+				shifted = shiftPlayer(shifted);
+			}while(true);
+		}
+		else{
+			do{
+				int delay = shifted.getDelay();
+				if (delay == 0){
+					break;
+				}else if (shifted.getDelay() == GC.DELAY){
+					shifted.setDelay(delay + 1);
+				}else if (delay >= 2 && delay <= 4){
+					shifted.setDelay(delay + 1);
+					break;
+				}
+				shifted = shiftPlayer(shifted);
+			}while(true);
+		
+		}
+		return shifted;
+	}
+	
+	private boolean existsDelayTarget(int target) {
+		for (Player p : _players)
+			if (p.getDelay() == target)
+				return true;
+		return false;
+	}
+	
+	private Player shiftPlayer(Player player){
+		int currentPlayerIndex = _players.indexOf(player);
 		if (currentPlayerIndex == _players.size() - 1)
 			return _players.get(0);
-		Player next = _players.get(currentPlayerIndex + 1);
-		if (information.getTailPlayersTurn().contains(next)){
-			information.getTailPlayersTurn().removeIf(player -> player == next);
-			information.getLatePlayersTurn().add(next);
-			_player = next;
-			countTurn++;
-			return getNextPlayer();
-		}
 		return _players.get(currentPlayerIndex + 1);
 	}
 	
@@ -225,12 +206,35 @@ public abstract class State {
 	
 }
 
+/**
+ * Turn timer
+ * @Override TimerTask class java.util
+ * @author M
+ *
+ */
 class TimeTimerTask extends TimerTask {
 
+	/**
+	 * Turn when timer is callen
+	 */
     private final int turn;
+    
+    /**
+     * Game
+     */
     private final Game game;
+    
+    /**
+     * Current player when timer is callen
+     */
     private final Player player;
 
+    /**
+     * Timer task friendly constructor
+     * @param turn Turn when timer is callen
+     * @param game The game
+     * @param player Current player when timer is callen
+     */
     TimeTimerTask (int turn, Game game, Player player){
     	this.player = player;
     	this.game = game;

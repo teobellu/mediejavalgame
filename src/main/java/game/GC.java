@@ -121,6 +121,10 @@ public class GC{
 	
 	public static final int NUMBER_OF_AGES = 3;
 	
+	public static final int NORMAL = 0;
+	public static final int DELAY = 1;
+	public static final int RECOVERY = 5;
+	
 	/**
 	 * Private constructor to hide the implicit public one
 	 */

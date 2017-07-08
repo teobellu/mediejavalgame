@@ -573,14 +573,6 @@ public class DynamicAction {
 	}
 	
 	/**
-	 * Add player to a list because he has the delay first action malus
-	 */
-	public void addDelayMalus() {
-		GameInformation infoGame = game.getGameInformation();
-		infoGame.getTailPlayersTurn().add(player);
-	}
-	
-	/**
 	 * This method is launched by each player at the end of the game, 
 	 * it counts the final victory points by consulting the rules of the game
 	 */
