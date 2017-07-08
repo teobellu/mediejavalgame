@@ -108,9 +108,7 @@ public class GUI extends Application {
 		task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 			@Override
 			public void handle(WorkerStateEvent event) {
-				System.out.println("Dentro handle");
 				String str = GraphicalUI.getInstance().getCommandToGui().poll();
-				System.out.println("\n###RICEVUTO MESSAGGIO DA GUI: "+str+"###\n"); 
 				processString(str);
 				createMainObserver();
 			}
@@ -170,12 +168,8 @@ public class GUI extends Application {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
-				
-				System.out.println("\n##CREATED NEW TASK IN THREAD "+Thread.currentThread().getName()+"##\n");
-				
 				while (GraphicalUI.getInstance().getCommandToGui().isEmpty()) {
 					try {
-						System.out.println("Waiting for _commandToGui object...");
 						Thread.sleep(1000);
 					} catch (Exception e) {
 					}

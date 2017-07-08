@@ -3,7 +3,6 @@ package server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +39,7 @@ public class Server extends Thread {
 		_serverSocket.start();
 		
 		//creazione delle room e loro gestione
-		_games = new ArrayList<>();
+		_startingGames = new ArrayList<>();
 		
 		_isRunning = true;
 		
@@ -75,21 +74,22 @@ public class Server extends Thread {
 				_isRunning = false;
 			}
 			
-			for(Room r : _games){
+			for(Room r : _startingGames){
 				if(r.isTimeoutOver()){//se è scaduto il timeout
 					if(r.isReady()){
 						if(r.isRunning()){
 							if(r.isOver()){
 								r.shutdown();
-								_games.remove(r);
+								_startingGames.remove(r);
 								_log.info("Room removed 'cause the game was over");
 							}
 						} else {
+							
 							_gameExecutor.execute(r);
 						}
 					} else {
 						r.shutdown();
-						_games.remove(r);
+						_startingGames.remove(r);
 						_log.info("Room removed 'cause timeout was over");
 						
 					}
@@ -109,8 +109,8 @@ public class Server extends Thread {
 		
 		_log.info("Shutting down the server...");
 		
-		for(Room r : _games){
-			_games.remove(r);
+		for(Room r : _startingGames){
+			_startingGames.remove(r);
 		}
 
 		if(_serverRMI.isRunning()){
@@ -131,10 +131,9 @@ public class Server extends Thread {
 		Client client = new Client(handler, id, name);
 		handler.setClient(client);
 		try{
-			client.getConnectionHandler().sendUUID(id);
-			if(!_games.isEmpty()){
+			if(!_startingGames.isEmpty()){
 				System.out.println("Ci sono gia' dei game");
-				for(Room r : _games){
+				for(Room r : _startingGames){
 					if(!r.isFull()){
 						for(Client c : r.getPlayers()){
 							if(c.getName().equalsIgnoreCase(name)){
@@ -152,11 +151,9 @@ public class Server extends Thread {
 			Room r = new Room(handler.getConfigFile());
 			r.addPlayer(client);
 			System.out.println("added to game");
-			return _games.add(r);
+			return _startingGames.add(r);
 		} catch(GameException e){
 			_log.log(Level.SEVERE, e.getMessage(), e);
-			return false;
-		} catch (RemoteException e) {
 			return false;
 		}
 	}
@@ -166,11 +163,12 @@ public class Server extends Thread {
 	}
 	
 	protected List<Room> getRooms(){
-		return _games;
+		return _startingGames;
 	}
 
 	private boolean _isRunning = false;
-	private List<Room> _games;
+	private List<Room> _startingGames;
+	//TODO spostare i game startati in un'altra lista
 	private ServerRMI _serverRMI;
 	private SocketServer _serverSocket;
 	private static Server _instance = null;
