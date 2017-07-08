@@ -3,6 +3,8 @@ package client.gui;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,16 +27,27 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import util.CommandStrings;
 
 public class GUI extends Application {
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-
+	public void start(Stage primaryStage) {
+		
 		_primaryStage = primaryStage;
 		_primaryStage.setTitle("Lorenzo il Magnifico");
 		_primaryStage.setResizable(false);
+		_primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				System.out.println("Bye!");
+				executor.shutdownNow();
+				GraphicalUI.getInstance().shutdown();
+				System.exit(0);
+			}
+		});
 
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -159,9 +172,11 @@ public class GUI extends Application {
 
 		});
 		
-		Thread th = new Thread(task);
-		th.setDaemon(true);
-		th.start();
+		executor.execute(task);
+		
+//		Thread th = new Thread(task);
+//		th.setDaemon(true);
+//		th.start();
 	}
 	
 	private Task<Void> createReturnObjectObserver(){
@@ -476,4 +491,6 @@ public class GUI extends Application {
 	private MainViewController _mainViewController;
 
 	private Logger _log = Logger.getLogger(GUI.class.getName());
+	
+	private ExecutorService executor = Executors.newCachedThreadPool();
 }

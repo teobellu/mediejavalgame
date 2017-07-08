@@ -3,7 +3,7 @@ package server;
 public class Client {
 	
 	private Room _room = null;
-	private final ConnectionHandler _connectionHandler;
+	private ConnectionHandler _connectionHandler;
 	private final String _uuid;
 	private final String _name;
 
@@ -15,6 +15,10 @@ public class Client {
 	
 	public ConnectionHandler getConnectionHandler(){
 		return _connectionHandler;
+	}
+	
+	public void setConnectionHandler(ConnectionHandler handler){
+		_connectionHandler = handler;
 	}
 	
 	public String getUUID(){

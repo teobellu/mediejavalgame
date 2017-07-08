@@ -100,5 +100,5 @@ public abstract class ConnectionServerHandler extends Thread {
 	 */
 	public abstract void endTurn() throws RemoteException;
 
-	public abstract boolean attemptReconnection(String _uuid) throws RemoteException;
+	public abstract void attemptReconnection(String _uuid) throws RemoteException;
 }

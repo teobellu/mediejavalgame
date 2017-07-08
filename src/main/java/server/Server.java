@@ -105,13 +105,11 @@ public class Server extends Thread {
 		stopServer();
 	}
 	
-	private void stopServer(){
+	private synchronized void stopServer(){
 		
 		_log.info("Shutting down the server...");
 		
-		for(Room r : _startingGames){
-			_startingGames.remove(r);
-		}
+		_startingGames.clear();
 
 		if(_serverRMI.isRunning()){
 			_serverRMI.stopServer();
