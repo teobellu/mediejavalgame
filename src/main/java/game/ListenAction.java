@@ -10,10 +10,10 @@ import exceptions.GameException;
 
 public class ListenAction{
 	
-	private transient Logger _log = Logger.getLogger(ListenAction.class.getName());
+	private Logger _log = Logger.getLogger(ListenAction.class.getName());
 	
 	protected final Game _theGame;
-	protected Player _player;
+	protected Player _player; 
 	protected List<String> actionsAlreadyDone;
 	
 	public ListenAction(Game game){
@@ -56,7 +56,7 @@ public class ListenAction{
 		try {
 			_player.getClient().getConnectionHandler().sendInfo("Ok! You will try to show support to the Vatican");
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			_player.setAfk(true);
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
@@ -70,7 +70,7 @@ public class ListenAction{
 		try {
 			_player.getClient().getConnectionHandler().sendInfo("Cards activated!", _player);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			_player.setAfk(true);
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
@@ -92,7 +92,7 @@ public class ListenAction{
 			_player.getClient().getConnectionHandler().sendInfo("Leader card dropped!", _player);
 			
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			_player.setAfk(true);
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
@@ -116,10 +116,9 @@ public class ListenAction{
 		_theGame.getDynamicBar().activateLeaderCard(selection);
 
 		try {
-			//TODO mando solo il player? O ci possono essere update della mappa anche?
 			_player.getClient().getConnectionHandler().sendInfo("Leader card activated!", _player);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			_player.setAfk(true);
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
@@ -165,7 +164,7 @@ public class ListenAction{
 		try {
 			_player.getClient().getConnectionHandler().sendInfo("Familiar placed!", _theGame.getBoard(), _player);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			_player.setAfk(true);
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
@@ -184,7 +183,7 @@ public class ListenAction{
 		try {
 			_player.getClient().getConnectionHandler().sendInfo("Ended turn.\n");
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			_player.setAfk(true);
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		

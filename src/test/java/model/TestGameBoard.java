@@ -34,7 +34,7 @@ public class TestGameBoard {
 		map.put(GC.HARVEST, effects);
 		map.put(GC.PRODUCTION, effects);
 		map.put(GC.TOWER, effects);
-		GameBoard board = new GameBoard(map);
+		GameBoard board = new GameBoard(map); 
 		board.clearPos();
 		//council palace
 		assertTrue(!board.getCouncilPalaceSpace().isSingleObject());
