@@ -27,13 +27,16 @@ public class ListenAction{
 		actionsAlreadyDone.clear();
 	}
 	
+	private Player getPlayerFromNickName (String nickname){
+		for (Player p : _theGame.getPlayers())
+			if (p.getName().equals(nickname))
+				return p;
+		return null;
+	}
+	
 	private void checkOut(String nickname, boolean removeAfk) throws GameException{
 		if (!_player.getName().equals(nickname)){
-			Player caller = null;
-			for (Player p : _theGame.getPlayers()){
-				if (p.getName().equals(nickname))
-					caller = p;
-			}
+			Player caller = getPlayerFromNickName(nickname);
 			if (caller == null)
 				throw new GameException("You can't reconnect this time, sorry!");
 			if (removeAfk)
@@ -53,6 +56,18 @@ public class ListenAction{
 //	public Player getMe(String nickname) {
 //		return _player;
 //	}
+	
+	public void showVaticanSupport(String nickname) throws GameException{
+		checkOut(nickname, false);
+		_player.setVaticanSupport(true);
+		
+		try {
+			_player.getClient().getConnectionHandler().sendInfo("Ok! You will try to show support to the Vatican");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
 	
 	public void dropLeaderCard(String nickname, String leaderName) throws GameException{
 		checkOut(nickname, false);

@@ -103,6 +103,12 @@ public class TestPlayer {
 		fake.addEffect(effects);
 		
 		assertTrue(fake.getEffects().size() == 0);
+		
+		//delay malus
+		
+		assertTrue(fake.getDelay() == 0);
+		fake.setDelay(GC.DELAY);
+		assertTrue(fake.getDelay() == GC.DELAY);
     }
 	
 	@Test(expected = GameException.class)

@@ -62,10 +62,8 @@ public abstract class State {
 			for (Player p : _players){
 				controller.setPlayer(p);
 				listener.setPlayer(p);
-				if (!p.isAfk())
-					controller.showVaticanSupport(age);
-				else
-					controller.dontShowVaticanSupport(age);
+				controller.showVaticanSupport(age);
+				p.setVaticanSupport(false);
 			}
 			phase = 0;
 			age++;

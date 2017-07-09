@@ -58,7 +58,7 @@ public class Room extends Thread {
 		
 		startTime = new Date().getTime();
 		
-		startTimeout = fileHandler.TIMEOUT_START * 1000;
+		startTimeout = fileHandler.timeoutStart * 1000;
 	}
 	
 	@Override
@@ -98,7 +98,7 @@ public class Room extends Thread {
 		
 		
 		info.setBonusFaith(fileHandler.getBonusFaith());
-		game.setTurnTimeout(fileHandler.TIMEOUT_TURN * 1000);
+		game.setTurnTimeout(fileHandler.timeoutTurn * 1000);
 		
 	}
 

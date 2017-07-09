@@ -22,6 +22,8 @@ public class Player implements Serializable{
 	
 	private boolean afk = false;
 	
+	private boolean vaticanSupport = false;
+	
 	private final String _playerColour;
 	private final String name;
 	private Resource resource;	
@@ -185,5 +187,13 @@ public class Player implements Serializable{
 
 	public void setDelay(int delay) {
 		this.delay = delay;
+	}
+
+	public boolean isVaticanSupport() {
+		return vaticanSupport;
+	}
+
+	public void setVaticanSupport(boolean vaticanSupport) {
+		this.vaticanSupport = vaticanSupport;
 	}
 }

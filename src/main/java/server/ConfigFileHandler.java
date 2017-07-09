@@ -50,7 +50,10 @@ import game.effect.behaviors.EffectWork;
  */
 public class ConfigFileHandler {
 	
-	private transient Logger _log = Logger.getLogger(ConfigFileHandler.class.getName());
+	/**
+	 * Private logger for invalid xml files
+	 */
+	private Logger log = Logger.getLogger(ConfigFileHandler.class.getName());
 	
 	/**
 	 * @Lambda_Functions
@@ -86,18 +89,12 @@ public class ConfigFileHandler {
 	/**
 	 * Start timeout
 	 */
-	protected long TIMEOUT_START;
+	protected long timeoutStart;
 	
 	/**
 	 * Turn timeout
 	 */
-	protected long TIMEOUT_TURN;
-	
-	
-	
-	public ConfigFileHandler() {
-		
-	}
+	protected long timeoutTurn;
 	
 	/**
 	 * Reads a xml file
@@ -110,13 +107,7 @@ public class ConfigFileHandler {
 			Document doc = db.parse(xml);
 			validate(doc);
 		} catch (Exception e) {
-			_log.log(Level.INFO, e.getMessage(), e);
-			/*TODO le carte caricate prima dell'errore rimangono!
-			 * cosi' su 2 piedi mi vengono in mente 2 opzioni, ce ne saranno di migliori:
-			 * 1- svuotare tutto, space_bonus ecc. ma perderebbo "final"
-			 * 2- chiudere il gioco
-			 * 3- fare un metodo clean() //possibile?
-			 */
+			log.log(Level.INFO, e.getMessage(), e);
 		}
 	}
 	
@@ -143,14 +134,6 @@ public class ConfigFileHandler {
 		BONUS_PLAYER_DASHBOARD.clear();
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.HARVEST, new ArrayList<>());
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.PRODUCTION, new ArrayList<>());
-		
-		
-		//TODO debug
-		for(Resource resource :  BONUS_PLAYER_DASHBOARD.get(GC.HARVEST)){
-			System.out.println("\n\nRisorse in configfilehandler: "+resource.toString());
-		}
-		
-		
 		
 		//load from file
 		uploadSpaceBonus(listNode.get(0));
@@ -282,7 +265,7 @@ public class ConfigFileHandler {
 		List<Integer> values = new ArrayList<>();
 		List<Node> listNode = getChildNodesFromNode(node);
 		listNode.forEach(lnode -> values.add(Integer.parseInt(lnode.getTextContent())));
-		values.forEach(value -> BONUS_FAITH.add(value));
+		BONUS_FAITH.addAll(values);
 	}
 	
 	/**
@@ -409,7 +392,7 @@ public class ConfigFileHandler {
 	 * @param root Root
 	 */
 	private void uploadTimerStart(Node root){
-		TIMEOUT_START = getIntegerFromNode(root);
+		timeoutStart = getIntegerFromNode(root);
 	}
 	
 	/**
@@ -417,7 +400,7 @@ public class ConfigFileHandler {
 	 * @param root Root
 	 */
 	private void uploadTimerTurn(Node root){
-		TIMEOUT_TURN = getIntegerFromNode(root);
+		timeoutTurn = getIntegerFromNode(root);
 	}
 	
 	/**
@@ -448,6 +431,7 @@ public class ConfigFileHandler {
 	 * @return the triggered effect
 	 */
 	private static Effect delayFirstAction(Node node){
+		node.toString(); //sonar unused parameter
 		IEffectBehavior behavior = new EffectDelayFirstAction();
 		return new Effect(GC.IMMEDIATE, behavior);
 	}
@@ -519,6 +503,7 @@ public class ConfigFileHandler {
 	 * @return the triggered effect
 	 */
 	private static Effect blockFloor(Node node){
+		node.toString(); //sonar unused parameter
 		IEffectBehavior behavior = new EffectOverruleObject();
 		return new Effect(GC.WHEN_GET_TOWER_BONUS, behavior);
 	}
@@ -631,6 +616,7 @@ public class ConfigFileHandler {
 	 * @return the triggered effect
 	 */
 	private static Effect noMarket(Node node){
+		node.toString(); //sonar unused parameter
 		IEffectBehavior behavior = new EffectOverruleObject();
 		return new Effect(GC.WHEN_PLACE_FAMILIAR_MARKET, behavior);
 	}
@@ -732,22 +718,42 @@ public class ConfigFileHandler {
 		return effectList;
 	}
 
+	/**
+	 * Getter: get space bonus
+	 * @return SpaceBonus
+	 */
 	public Map<String, List<Effect>> getSpaceBonus() {
 		return SPACE_BONUS;
 	}
 
+	/**
+	 * Getter: get Bonus Player Dashboard
+	 * @return Bonus Player Dashboard
+	 */
 	public Map<String, List<Resource>> getBonusPlayerDashboard() {
 		return BONUS_PLAYER_DASHBOARD;
 	}
 
+	/**
+	 * Get Bonus of Faith track on game board
+	 * @return Bonus of Faith track on game board
+	 */
 	public List<Integer> getBonusFaith() {
 		return BONUS_FAITH;
 	}
 
+	/**
+	 * Get deck of development cards
+	 * @return development cards
+	 */
 	public List<DevelopmentCard> getDevelopmentDeck() {
 		return DEVELOPMENT_DECK;
 	}
 
+	/**
+	 * Get deck of excommunication tiles
+	 * @return excommunication tiles
+	 */
 	public List<ExcommunicationTile> getExcommunicationDeck() {
 		return EXCOMMUNICATION_DECK;
 	}

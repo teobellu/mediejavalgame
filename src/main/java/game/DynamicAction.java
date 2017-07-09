@@ -518,18 +518,7 @@ public class DynamicAction {
 	public void showVaticanSupport(int age){
 		GameInformation infoGame = game.getGameInformation();
 		int faithPoints = player.getResource(GC.RES_FAITHPOINTS);
-		if (faithPoints < 2 + age){
-			dontShowVaticanSupport(age);
-			return;
-		}
-		boolean answer = false;
-		try {
-			answer = player.getClient().getConnectionHandler().askBoolean(Messages.MESS_SHOW_SUPPORT);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		if (!answer){
+		if (!player.isVaticanSupport() || faithPoints < 2 + age){
 			dontShowVaticanSupport(age);
 			return;
 		}
@@ -545,7 +534,7 @@ public class DynamicAction {
 	 * This method will be called by players who can not or do not want to show support to the Vatican
 	 * @param age TODO, non dovrebbe ricevere in input niente
 	 */
-	public void dontShowVaticanSupport(int age){
+	private void dontShowVaticanSupport(int age){
 		ExcommunicationTile tile = game.getBoard().getExCard()[age - 1];
 		Effect malus = tile.getEffect();
 		player.addEffect(malus);//TODO O MEGLIO UNA COPIA????
