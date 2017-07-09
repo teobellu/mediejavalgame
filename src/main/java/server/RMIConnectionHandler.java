@@ -160,9 +160,10 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public void showVaticanSupport() throws RemoteException {
 		try {
-			_theGame.showVaticanSupport(_client.getName());
+			_theGame.getListener().showVaticanSupport(_client.getName());
 		} catch (GameException e) {
-			// TODO: handle exception
+			_log.log(Level.OFF, e.getMessage(), e);
+			sendInfo(e.getMessage());
 		}
 	}
 }

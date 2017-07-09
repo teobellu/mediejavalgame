@@ -11,6 +11,7 @@ public abstract class CommandConstants {
 	public static final String ACTIVATE_LEADER = "activate leader card";
 	public static final String DROP_LEADER = "drop leader card";
 	public static final String SHOW_MY_CARDS = "show my cards";
+	public static final String SHOW_SUPPORT = "show vatican support";
 	public static final String END_TURN = "end turn";
 	//public static final String RECONNECT = "reconnect";
 	
@@ -21,12 +22,15 @@ public abstract class CommandConstants {
 					ACTIVATE_LEADER, 
 					DROP_LEADER, 
 					SHOW_MY_CARDS, 
+					SHOW_SUPPORT,
 					END_TURN
 					//,RECONNECT
 			)
 	);
 	
-	
+	/**
+	 * Hide private constructor
+	 */
 	private CommandConstants(){
 		
 	}

@@ -55,16 +55,21 @@ public abstract class State {
 		
 	}
 	
+	private void vaticanPhase(){
+		System.out.println("VATICAN PHASE");
+		for (Player p : _players){
+			controller.setPlayer(p);
+			listener.setPlayer(p);
+			controller.showVaticanSupport(age);
+			p.setVaticanSupport(false);
+		}
+		
+	}
+	
 	public void nextState(){
 		
 		if (phase == 2 && countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){
-			System.out.println("VATICAN PHASE");
-			for (Player p : _players){
-				controller.setPlayer(p);
-				listener.setPlayer(p);
-				controller.showVaticanSupport(age);
-				p.setVaticanSupport(false);
-			}
+			vaticanPhase();
 			phase = 0;
 			age++;
 		}

@@ -137,7 +137,17 @@ public class CommandLineUI implements UI {
 				break;
 			case CommandConstants.SHOW_MY_CARDS : showMyCards();
 				break;
+			case CommandConstants.SHOW_SUPPORT : showSupport();
+			break;
 			default : handleTurn();
+		}
+	}
+
+	private void showSupport() {
+		try{
+			showVaticanSupport();
+		} catch (GameException e) {
+			_log.log(Level.FINE, e.getMessage(), e);
 		}
 	}
 
@@ -422,6 +432,11 @@ public class CommandLineUI implements UI {
 	public void reconnected() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void showVaticanSupport() {
+		_connectionHandler.showVaticanSupport();
 	}
 	
 }
