@@ -21,6 +21,7 @@ public final class CommandStrings {
 	public static final String CHOOSE_FAMILIAR = "choose_familiar";
 	
 	public static final String INITIAL_LEADER = "initial_leader";
+	public static final String CHOOSE_LEADER = "choose_leader";
 	
 	public static final String START_TURN = "start_turn";
 	

@@ -11,6 +11,7 @@ import game.LeaderCard;
 import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
+import util.CommandStrings;
 
 public class EffectCopyLeader implements IEffectBehavior{
 	
@@ -53,7 +54,7 @@ public class EffectCopyLeader implements IEffectBehavior{
 		
 		discardedLeader.forEach((card, owner) -> {if (!owner.getName().equals(player.getName())) options.add(card);});
 		
-		int index = player.getClient().getConnectionHandler().chooseLeader(MESSAGE, options);;
+		int index = player.getClient().getConnectionHandler().chooseLeader(CommandStrings.CHOOSE_LEADER, options);;
 		
 		LeaderCard selection = options.get(index);
 		
