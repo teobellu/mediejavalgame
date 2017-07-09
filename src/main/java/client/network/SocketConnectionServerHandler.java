@@ -217,7 +217,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER+
 				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD+
-				"|"+CommandStrings.ACTIVATE_LEADER_CARD+"|"+CommandStrings.PLACE_FAMILIAR+"|"+CommandStrings.SHOW_VATICAN_SUPPORT)){
+				"|"+CommandStrings.ACTIVATE_LEADER_CARD+"|"+CommandStrings.PLACE_FAMILIAR+
+				"|"+CommandStrings.SHOW_VATICAN_SUPPORT+"|"+CommandStrings.ACTIVATE_OPT_LEADERS)){
 			System.out.println("try to wake up");
 			synchronized (_returnObject) {
 				_returnObject.notify();
@@ -427,6 +428,34 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			return;
 		} catch (InterruptedException e){
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			Thread.currentThread().interrupt();
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#activateOPTLeaders()
+	 */
+	@Override
+	public void activateOPTLeaders() throws RemoteException {
+		try{
+			_returnObject = new Object();
+			
+			queueToServer(CommandStrings.ACTIVATE_OPT_LEADERS);
+			
+			synchronized (_returnObject) {
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
+			}
+			
+			if(_returnObject.equals(CommandStrings.CONNECTION_ERROR)){
+				throw new RemoteException();
+			}
+			
+			return;
+		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			Thread.currentThread().interrupt();
 		}

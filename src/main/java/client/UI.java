@@ -75,7 +75,7 @@ public interface UI extends Runnable{
 	 * @throws RemoteException connection error
 	 * @throws GameException if you cannot activate this card
 	 */
-	public void activateLeaderCard(String leaderName) throws RemoteException, GameException;
+	public void activateLeaderCard(String leaderName) throws RemoteException;
 	
 	/**
 	 * Show a message and allows the player to choose a familiar from a list
@@ -144,14 +144,14 @@ public interface UI extends Runnable{
 	 * @throws RemoteException connection error
 	 * @throws GameException you cannot drop this card
 	 */
-	public void dropLeaderCard(String leaderName) throws RemoteException, GameException;
+	public void dropLeaderCard(String leaderName) throws RemoteException;
 
 	/**
 	 * End the turn
 	 * @throws RemoteException connection error
 	 * @throws GameException you cannot end the turn
 	 */
-	public void endTurn() throws RemoteException, GameException;
+	public void endTurn() throws RemoteException;
 	
 	/**
 	 * Place a familiar on the board
@@ -160,7 +160,7 @@ public interface UI extends Runnable{
 	 * @throws RemoteException connection error
 	 * @throws GameException you cannot put a familiar there
 	 */
-	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException;
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException;
 
 	/**
 	 * Set the uuid of this client
@@ -178,7 +178,7 @@ public interface UI extends Runnable{
 	 * @throws RemoteException
 	 * @throws GameException
 	 */
-	public void showVaticanSupport() throws RemoteException, GameException;
+	public void showVaticanSupport() throws RemoteException;
 
 	/**
 	 * Activate OPT Leaders
