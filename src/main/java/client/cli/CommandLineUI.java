@@ -186,11 +186,7 @@ public class CommandLineUI implements UI {
 	}
 
 	private void showSupport() throws RemoteException {
-		try{
-			showVaticanSupport();
-		} catch (GameException e) {
-			_log.log(Level.FINE, e.getMessage(), e);
-		}
+		showVaticanSupport();
 		handleTurn();
 	}
 
@@ -226,16 +222,7 @@ public class CommandLineUI implements UI {
 			}
 			default : position = new Position(where);
 		}
-			
-		try {
-			placeFamiliar(selectedFamiliar.getColor(), position);
-//			getBoard();
-//			getMe();
-//			ModelPrinter.printBoard(_board);
-//			ModelPrinter.printMyLoot(_me);
-		} catch (GameException e) {
-			_log.log(Level.FINE, e.getMessage(), e);
-		}
+		placeFamiliar(selectedFamiliar.getColor(), position);
 		handleTurn();
 		//fine, esco da questo metodo
 	}
@@ -263,11 +250,7 @@ public class CommandLineUI implements UI {
 		_ioHandler.write("Select card to activate");
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
-		try {
-			activateLeaderCard(myLeaders.get(selection).getName());
-		} catch (GameException e) {
-			_log.log(Level.FINE, e.getMessage(), e);
-		}
+		activateLeaderCard(myLeaders.get(selection).getName());
 //		getMe();
 		handleTurn();
 	}
@@ -285,28 +268,24 @@ public class CommandLineUI implements UI {
 		_ioHandler.write("Select card to drop");
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
-		try {
-			dropLeaderCard(myLeaders.get(selection).getName());
-		} catch (GameException e) {
-			_log.log(Level.FINE, e.getMessage(), e);
-		}
+		dropLeaderCard(myLeaders.get(selection).getName());
 //		getMe();
 		handleTurn();
 	}
 	
 	@Override
-	public void dropLeaderCard(String leaderName) throws RemoteException, GameException {
+	public void dropLeaderCard(String leaderName) throws RemoteException {
 		_connectionHandler.dropLeaderCard(leaderName);
 	}
 
 	@Override
-	public void activateLeaderCard(String leaderName) throws RemoteException, GameException {
+	public void activateLeaderCard(String leaderName) throws RemoteException{
 		_connectionHandler.activateLeaderCard(leaderName);
 	}
 
 
 	@Override
-	public void placeFamiliar(String familiarColour, Position position) throws RemoteException, GameException {
+	public void placeFamiliar(String familiarColour, Position position) throws RemoteException {
 		_connectionHandler.placeFamiliar(familiarColour, position);
 	}
 	
@@ -317,8 +296,13 @@ public class CommandLineUI implements UI {
 	}
 	
 	@Override
-	public void showVaticanSupport() throws RemoteException, GameException{
+	public void showVaticanSupport() throws RemoteException{
 		_connectionHandler.showVaticanSupport();
+	}
+	
+	@Override
+	public void activateOPTLeaders() throws RemoteException {
+		_connectionHandler.activateOPTLeaders();
 	}
 	
 	public String getUsername(){
@@ -481,6 +465,8 @@ public class CommandLineUI implements UI {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 
 	
 	
