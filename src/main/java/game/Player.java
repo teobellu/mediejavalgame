@@ -90,9 +90,16 @@ public class Player implements Serializable{
 	private DevelopmentCardManager manager;
 	
 	/**
+<<<<<<< HEAD
 	 * Delay malus turn
 	 * {@link: GC.NORMAL} -> Normal player
 	 * {@link: GC.DELAY} -> Has to jump turn
+=======
+	 * 
+	 * 0 -> NORMAL
+	 * 1 -> JUMP
+	 * 2 -> RECUPERA JUMP
+>>>>>>> 2ddb80416f380a2dd2fc621f9892d7753bfbc5c0
 	 */
 	private int delay;
 
@@ -169,12 +176,12 @@ public class Player implements Serializable{
 	/**
 	 * @Lambda_expression
 	 * Get activable leader cards {@link LeaderCard}
-	 * @return activable leader cards
+	 * @return activable leader cards 
 	 */
 	public List<LeaderCard> getActivableLeaderCards(){
 		return leaderCard.stream()
 			.filter(card -> card.canPlayThis(this))
-			.collect(Collectors.toList());
+			.collect(Collectors.toList()); 
 	}
 	
 	/**

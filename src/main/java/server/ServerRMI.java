@@ -83,6 +83,6 @@ public class ServerRMI extends Thread implements ServerRemote {
 	}
 	
 	private Registry _registry = null;
-	private transient Logger _log = Logger.getLogger(ServerRMI.class.getName());
+	private Logger _log = Logger.getLogger(ServerRMI.class.getName());
 	private boolean _IS_RUNNING = false;
 }

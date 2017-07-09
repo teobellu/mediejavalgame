@@ -67,7 +67,5 @@ public abstract class ConnectionHandler implements Runnable {
 	protected Client _client;
 	protected volatile boolean _isRunning;
 	protected String _configFile = null;
-	protected transient Game _theGame = null;
-
-	
+	protected Game _theGame = null;
 }

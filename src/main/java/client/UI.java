@@ -174,7 +174,7 @@ public interface UI extends Runnable{
 	public void reconnected();
 	
 	/**
-	 * Show your support to the Vatican TODO
+	 * Show your support to the Vatican
 	 * @throws RemoteException
 	 * @throws GameException
 	 */

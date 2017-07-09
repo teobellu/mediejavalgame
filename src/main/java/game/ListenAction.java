@@ -48,14 +48,6 @@ public class ListenAction{
 		}
 		
 	}
-
-//	public GameBoard getGameBoard() {
-//		return _theGame.getBoard();
-//	}
-//	
-//	public Player getMe(String nickname) {
-//		return _player;
-//	}
 	
 	public void showVaticanSupport(String nickname) throws GameException{
 		checkOut(nickname, false);

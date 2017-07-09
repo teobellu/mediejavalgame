@@ -123,34 +123,26 @@ public class Server extends Thread {
 		System.exit(0);
 	}
 	
-	public synchronized boolean addMeToGame(ConnectionHandler handler, String name){//TODO controllarlo
-		System.out.println("Client asked to join a game");
+	public synchronized boolean addMeToGame(ConnectionHandler handler, String name){
 		String id = UUID.randomUUID().toString();
 		Client client = new Client(handler, id, name);
 		handler.setClient(client);
 		try{
 			if(!_startingGames.isEmpty()){
-				System.out.println("Ci sono gia' dei game");
 				for(Room r : _startingGames){
 					if(!r.isRunning() && !r.isFull()){
 						for(Client c : r.getPlayers()){
 							if(c.getName().equalsIgnoreCase(name)){
-								System.out.println("Nome uguale");
 								return false;
 							}
 						}
 						r.addPlayer(client);
-						System.out.println("Aggiunto ad un game");
-						System.out.println("Numero di room in questo momento: "+_startingGames.size());
 						return true;
 					}
 				}
 			}
-			System.out.println("Game creato");
 			Room r = new Room(handler.getConfigFile());
 			r.addPlayer(client);
-			System.out.println("added to game");
-			System.out.println("Numero di room in questo momento: "+_startingGames.size());
 			return _startingGames.add(r);
 		} catch(GameException e){
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -168,11 +160,10 @@ public class Server extends Thread {
 
 	private boolean _isRunning = false;
 	private List<Room> _startingGames;
-	//TODO spostare i game startati in un'altra lista
 	private ServerRMI _serverRMI;
 	private SocketServer _serverSocket;
 	private static Server _instance = null;
 	private Executor _gameExecutor = Executors.newCachedThreadPool();
 	
-	private transient Logger _log = Logger.getLogger(Server.class.getName());
+	private Logger _log = Logger.getLogger(Server.class.getName());
 }

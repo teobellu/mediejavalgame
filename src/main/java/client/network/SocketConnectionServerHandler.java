@@ -222,11 +222,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD+
 				"|"+CommandStrings.ACTIVATE_LEADER_CARD+"|"+CommandStrings.PLACE_FAMILIAR+
 				"|"+CommandStrings.SHOW_VATICAN_SUPPORT+"|"+CommandStrings.ACTIVATE_OPT_LEADERS)){
-			System.out.println("try to wake up");
 			synchronized (_returnObject) {
 				_returnObject.notify();
 //				_returnObject = getFromServer();
-				System.out.println("Wake up!");
 			}
 		}else{
 			_log.log(Level.SEVERE, "\n###RICEVUTO COMANDO SCONOSCIUTO: "+obj+"###\n");
@@ -296,7 +294,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	 */
 	private void writeObject(Object message) throws RemoteException{
 		try {
-			System.out.println("\n###Sended "+message.toString()+"\n");
 			_outputStream.writeUnshared(message);
 			_outputStream.flush();
 			_outputStream.reset();
@@ -340,7 +337,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			shutdown();
 		}
 		
-		System.out.println("Errore");
 		synchronized (_fromServerToClient) {
 			_fromServerToClient.add(CommandStrings.END_TURN);
 		}
@@ -394,7 +390,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			queueToServer(CommandStrings.DROP_LEADER_CARD, leaderName);
 			
 			synchronized (_returnObject) {
-				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
 					_returnObject.wait();
 					break;
@@ -423,7 +418,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			queueToServer(CommandStrings.SHOW_VATICAN_SUPPORT);
 			
 			synchronized (_returnObject) {
-				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
 					_returnObject.wait();
 					break;
@@ -480,7 +474,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			queueToServer(CommandStrings.ACTIVATE_LEADER_CARD, leaderName);
 			
 			synchronized (_returnObject) {
-				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
 					_returnObject.wait();
 					break;
@@ -509,7 +502,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			queueToServer(CommandStrings.PLACE_FAMILIAR, familiarName, position);
 			
 			synchronized (_returnObject) {
-				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
 					_returnObject.wait();
 					break;
@@ -563,14 +555,12 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		public void run() {
 			while (_isRunning) {
 				try{
-					System.out.println("Reading...");
 					fetchFromServer();
 				}catch(Exception e){
 					_log.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 			
-			System.out.println("\n\n###READER SHUTTING DOWN###\n\n");
 		}
 	}
 	
