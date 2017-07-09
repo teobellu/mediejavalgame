@@ -186,18 +186,18 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				sendInfo(e.getMessage());
 			}
 		}
-		else if(str.equals(CommandStrings.GAME_BOARD)){
-			GameBoard board = _theGame.getListener().getGameBoard();
-			queueToClient(CommandStrings.GAME_BOARD, board);
-		}
+//		else if(str.equals(CommandStrings.GAME_BOARD)){
+//			GameBoard board = _theGame.getListener().getGameBoard();
+//			queueToClient(CommandStrings.GAME_BOARD, board);
+//		}
 		else if(str.equals(CommandStrings.ASK_FOR_CONFIG)){
 			_configFile = (String) getFromClient();
 		}
-		else if(str.equals(CommandStrings.PLAYER)){
-			Player player = _theGame.getListener().getMe(_client.getName());
-			System.out.println("\nQuesto player ha "+player.getLeaderCards().size()+" carte leader\n");
-			queueToClient(CommandStrings.PLAYER, player);
-		}
+//		else if(str.equals(CommandStrings.PLAYER)){
+//			Player player = _theGame.getListener().getMe(_client.getName());
+//			System.out.println("\nQuesto player ha "+player.getLeaderCards().size()+" carte leader\n");
+//			queueToClient(CommandStrings.PLAYER, player);
+//		}
 		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL
 				+"|"+CommandStrings.INITIAL_PERSONAL_BONUS+"|"+CommandStrings.CHOOSE_CONVERT
 				+"|"+CommandStrings.CHOOSE_FAMILIAR+"|"+CommandStrings.ASK_INT

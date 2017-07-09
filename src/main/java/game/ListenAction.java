@@ -42,13 +42,13 @@ public class ListenAction{
 		
 	}
 
-	public GameBoard getGameBoard() {
-		return _theGame.getBoard();
-	}
-	
-	public Player getMe(String nickname) {
-		return _player;
-	}
+//	public GameBoard getGameBoard() {
+//		return _theGame.getBoard();
+//	}
+//	
+//	public Player getMe(String nickname) {
+//		return _player;
+//	}
 	
 	public void dropLeaderCard(String nickname, String leaderName) throws GameException{
 		checkOut(nickname, false);
