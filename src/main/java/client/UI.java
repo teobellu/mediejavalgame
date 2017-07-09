@@ -185,5 +185,11 @@ public interface UI extends Runnable{
 	 * @throws RemoteException
 	 */
 	public void activateOPTLeaders() throws RemoteException;
+
+	/**
+	 * Attempt Reconnection
+	 * @throws RemoteException
+	 */
+	public void attemptReconnection() throws RemoteException;
 	
 }

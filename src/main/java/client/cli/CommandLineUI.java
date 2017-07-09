@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -44,6 +45,8 @@ public class CommandLineUI implements UI {
 	
 	private ConnectionServerHandler _connectionHandler;
 	
+	private String _uuid;
+	
 	public static CommandLineUI getInstance(){
 		if(_instance==null){
 			synchronized (CommandLineUI.class) {
@@ -59,8 +62,7 @@ public class CommandLineUI implements UI {
 		_ioHandler = new IOHandler();
 	}
 	
-	public ConnectionServerHandler getConnection() {
-		
+	public void getConnection() {
 				
 		//Get server address
 		_ioHandler.write(ClientText.ASK_SERVER_ADDRESS);
@@ -82,8 +84,7 @@ public class CommandLineUI implements UI {
 		
 		String path = _ioHandler.readLine(true);
 		
-		ConnectionServerHandler connection = ConnectionServerHandlerFactory.getConnectionServerHandler(Constants.CONNECTION_TYPES.get(selected), host, port);
-		connection.setClient(this);
+		setConnection(Constants.CONNECTION_TYPES.get(selected), host, port);
 		
 		File file = new File(path);
 		FileReader customConfig = null;
@@ -105,8 +106,8 @@ public class CommandLineUI implements UI {
 			}
 			_ioHandler.write("Using default file.");
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.FINE, e.getMessage(), e);
+			//TODO il server è offline fin dall'inizio, spegni
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		} finally {
@@ -120,12 +121,6 @@ public class CommandLineUI implements UI {
 		}
 		
 		commands.addAll(CommandConstants.STANDARD_COMMANDS);
-		
-		_connectionHandler = connection;
-		
-		new Thread(connection).start();
-		
-		return connection;
 	}
 	
 	@Override
@@ -135,13 +130,7 @@ public class CommandLineUI implements UI {
 		_me = me;
 		
 		Runnable run = () -> {
-			try {
-				handleTurn();
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				_log.log(Level.SEVERE, e.getMessage(), e);
-			}// TODO Auto-generated method stub
-			
+			handleTurn();
 		};
 		new Thread(run).start();
 		
@@ -149,20 +138,25 @@ public class CommandLineUI implements UI {
 	
 	@Override
 	public void run() {
-		try {
-			getConnection().addMeToGame(getUsername());
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		
+		getConnection();
+		do {
+			try {
+				addMeToGame(getUsername());
+				break;
+			} catch (GameException e) {
+				_log.log(Level.FINE, e.getMessage(), e);
+				_ioHandler.write("Name already taken.");
+			}
+		} while (true);
 	}
 	
-	public void handleTurn() throws RemoteException{
+	public void handleTurn(){
 		int selection = 0;
 		_ioHandler.write("\nWhat do you want to do?");
 		_ioHandler.writeList(commands);
 		selection = _ioHandler.readNumberWithinInterval(commands.size() - 1);
-		switch (commands.get(selection)){
+		try {
+			switch (commands.get(selection)){
 			case CommandConstants.PRINT_BOARD : printBoard();
 				break;
 			case CommandConstants.PLACE_FAMILIAR : placeFamiliar();
@@ -180,6 +174,21 @@ public class CommandLineUI implements UI {
 			case CommandConstants.PLAY_OPT_LEADERS : playOPTLeader();
 				break;
 			default : handleTurn();
+		}
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			_ioHandler.write("Connection error. Would you like to attempt reconnection?");
+			_ioHandler.writeList(Arrays.asList("Yes","No"));
+			int yesno  = _ioHandler.readNumberWithinInterval(1);
+			if(yesno == 0){
+				try {
+					attemptReconnection();
+				} catch (RemoteException e1) {
+					//TODO shutdown
+				}
+			} else {
+				//TODO shutdown
+			}
 		}
 	}
 
@@ -314,15 +323,11 @@ public class CommandLineUI implements UI {
 		return username;
 	}
 	
-	//TODO ERA OVERRIDE E DAVa conflitto (1/7/2017)
-	public String askForConfigFile() {
-		_ioHandler.write(ClientText.ASK_IF_CONFIG_FILE);
-		return _ioHandler.readLine(true);
-	}
-
 	@Override
 	public void setConnection(String connectionType, String host, int port) {
-		// TODO Auto-generated method stub	
+		_connectionHandler = ConnectionServerHandlerFactory.getConnectionServerHandler(connectionType, host, port);
+		_connectionHandler.setClient(this);
+		new Thread(_connectionHandler).start();
 	}
 
 	
@@ -417,12 +422,14 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void addMeToGame(String username) throws GameException {
+	public void addMeToGame(String username) throws GameException{
 		try {
-			getConnection().addMeToGame(username);
+			if(!_connectionHandler.addMeToGame(username)){
+				throw new GameException("Name already taken!");
+			}
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			//TODO server offline fin dall'inizio, spengo tutto
 		}
 	}
 
@@ -458,13 +465,16 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public void setUUID(String uuid) {
-		// TODO Auto-generated method stub
-		
+		_uuid = uuid;
 	}
 
 	@Override
 	public void reconnected() {
-		// TODO Auto-generated method stub
-		
+		_ioHandler.write("You have been succesfully reconnected");
+	}
+
+	@Override
+	public void attemptReconnection() throws RemoteException {
+		_connectionHandler.attemptReconnection(_uuid);
 	}
 }

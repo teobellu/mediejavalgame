@@ -446,6 +446,7 @@ public class GraphicalUI implements UI {
 		}
 	}
 
+	@Override
 	public void attemptReconnection() {
 		try {
 			addFromGraphicalToGUI("Attempting reconnection...");

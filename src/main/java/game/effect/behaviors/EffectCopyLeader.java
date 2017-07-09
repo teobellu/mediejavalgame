@@ -11,6 +11,7 @@ import game.LeaderCard;
 import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
+import util.CommandStrings;
 
 public class EffectCopyLeader implements IEffectBehavior{
 	
@@ -54,11 +55,12 @@ public class EffectCopyLeader implements IEffectBehavior{
 		discardedLeader.forEach((card, owner) -> {if (!owner.getName().equals(player.getName())) options.add(card);});
 		
 		if (!options.isEmpty()){
-			int index = player.getClient().getConnectionHandler().chooseLeader(MESSAGE, options);
+			int index = player.getClient().getConnectionHandler().chooseLeader(CommandStrings.CHOOSE_LEADER, options);
 			LeaderCard selection = options.get(index);
 			player.addEffect(selection.getEffect());
 		}else
 			player.getClient().getConnectionHandler().sendInfo("You did not copy any effects because there were no effects available");
+
 	}
 	
 	private void activateLeaderCard() {

@@ -66,7 +66,7 @@ public class GUI extends Application {
 				if(str.equals(CommandStrings.START_TURN)){
 					startTurn();
 				}
-				else if(str.equals(CommandStrings.INITIAL_LEADER)){
+				else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.CHOOSE_LEADER)){
 					showInitialSelectLeaderDialog((List<String>) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
 				else if(str.equals(CommandStrings.INITIAL_PERSONAL_BONUS)){
