@@ -54,7 +54,7 @@ public class EffectCopyLeader implements IEffectBehavior{
 		
 		discardedLeader.forEach((card, owner) -> {if (!owner.getName().equals(player.getName())) options.add(card);});
 		
-		int index = player.getClient().getConnectionHandler().chooseLeader(CommandStrings.CHOOSE_LEADER, options);;
+		int index = player.getClient().getConnectionHandler().chooseLeader(CommandStrings.CHOOSE_LEADER, options);
 		
 		LeaderCard selection = options.get(index);
 		

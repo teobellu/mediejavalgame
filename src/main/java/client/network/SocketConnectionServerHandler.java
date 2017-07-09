@@ -151,11 +151,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		else if(obj.equals(CommandStrings.UUID)){
 			_ui.setUUID((String) getFromServer());
 		}
-		else if(obj.equals(CommandStrings.INITIAL_LEADER)){
+		else if(obj.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.CHOOSE_LEADER)){
 			List<LeaderCard> tempList = ((List<LeaderCard>) getFromServer());
 			
-			int i = _ui.chooseLeader(CommandStrings.INITIAL_LEADER, tempList);
-			queueToServer(CommandStrings.INITIAL_LEADER, i);
+			int i = _ui.chooseLeader(obj, tempList);
+			queueToServer(obj, i);
 		}
 		else if(obj.equals(CommandStrings.INITIAL_PERSONAL_BONUS)){
 			Map<String, List<Resource>> bonus = (Map<String, List<Resource>>) getFromServer();
@@ -486,6 +486,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			return;
 		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			Thread.currentThread().interrupt();
 		}
 	}
 

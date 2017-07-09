@@ -31,16 +31,14 @@ public class SocketServer extends Thread {
 		do {
 			try {
 				Socket socket = _serverSocket.accept();
-				if(_isRunning){
-					SocketConnectionHandler handler = new SocketConnectionHandler(socket);
-					
-					executor.submit(handler);
-					
-					_log.info("New SocketConnectionHandler created");
-				}
+				SocketConnectionHandler handler = new SocketConnectionHandler(socket);
+				
+				executor.submit(handler);
+				
+				_log.info("New SocketConnectionHandler created");
 			} catch (Exception e) {
 				_log.log(Level.SEVERE, e.getMessage(), e);
-				break;
+				_isRunning = false;
 			}
 		} while(_isRunning);
 		

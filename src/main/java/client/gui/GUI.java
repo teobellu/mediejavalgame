@@ -66,8 +66,11 @@ public class GUI extends Application {
 				if(str.equals(CommandStrings.START_TURN)){
 					startTurn();
 				}
-				else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.CHOOSE_LEADER)){
+				else if(str.equals(CommandStrings.INITIAL_LEADER)){
 					showInitialSelectLeaderDialog((List<String>) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
+				}
+				else if(str.equals(CommandStrings.CHOOSE_LEADER)){
+					showChooseLeaderDialog((List<String>) GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
 				}
 				else if(str.equals(CommandStrings.INITIAL_PERSONAL_BONUS)){
 					showPersonalBonusDialog((HashMap<String, List<Resource>>)GraphicalUI.getInstance().getFirstFromGraphicalToGUI());
@@ -244,7 +247,7 @@ public class GUI extends Application {
 	 * Ask a yes/no question
 	 * @param message the question
 	 */
-	public void showAskBooleanDialog(String message){
+	private void showAskBooleanDialog(String message){
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/AskBooleanDialog.fxml"));
@@ -268,7 +271,7 @@ public class GUI extends Application {
 	 * @param min minimum int
 	 * @param max maximum int
 	 */
-	public void showAskIntDialog(String message, int min, int max){
+	private void showAskIntDialog(String message, int min, int max){
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/AskIntDialog.fxml"));
@@ -313,7 +316,7 @@ public class GUI extends Application {
 	 * @param pay what you pay
 	 * @param gain what you gain
 	 */
-	protected void showChooseConvert(List<Resource> pay, List<Resource> gain) {
+	private void showChooseConvert(List<Resource> pay, List<Resource> gain) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/ChooseConvert.fxml"));
@@ -358,7 +361,7 @@ public class GUI extends Application {
 	 * @param familiars the familiars
 	 * @param message message to display
 	 */
-	protected void showChooseFamiliar(List<FamilyMember> familiars, String message) {
+	private void showChooseFamiliar(List<FamilyMember> familiars, String message) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/ChooseFamiliar.fxml"));
@@ -403,7 +406,7 @@ public class GUI extends Application {
 	 * Show the handle council privilege dialog
 	 * @param resources
 	 */
-	public void showCouncilPrivilegeDialog(List<Resource> resources) {
+	private void showCouncilPrivilegeDialog(List<Resource> resources) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/HandleCouncilDialog.fxml"));
@@ -478,7 +481,7 @@ public class GUI extends Application {
 	 * Show the initial leader dialog
 	 * @param leaders
 	 */
-	public void showInitialSelectLeaderDialog(List<String> leaders) {
+	private void showInitialSelectLeaderDialog(List<String> leaders) {
 		if (!leaders.isEmpty()) {
 			try {
 				FXMLLoader loader = new FXMLLoader();
@@ -496,14 +499,38 @@ public class GUI extends Application {
 				_log.log(Level.SEVERE, e.getMessage(), e);
 			}
 		} else {
-			_log.log(Level.SEVERE, "List vuota in showInitialSelectLeaderDialog");
+			_log.log(Level.SEVERE, "Empty list in showInitialSelectLeaderDialog");
 		}
 	}
+	
+	private void showChooseLeaderDialog(List<String> leaders) {
+		if(!leaders.isEmpty()){
+			try {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(GUI.class.getResource("/client/gui/ChooseLeaderDialog.fxml"));
+				AnchorPane pane = loader.load();
+				
+				Stage dialog = setupDialog(pane, "Choose Leader Card");
+				
+				ChooseLeaderController controller = loader.getController();
+				controller.setDialog(dialog);
+				controller.setLeaderList(leaders);
+				
+				dialog.showAndWait();
+			} catch (IOException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+			}
+		} else {
+			_log.log(Level.SEVERE, "Empty list in showChooseLeaderDialog");
+		}
+		
+	}
+	
 	/**
 	 * Show the initial personal bonus dialog
 	 * @param hashMap
 	 */
-	public void showPersonalBonusDialog(HashMap<String, List<Resource>> hashMap) {
+	private void showPersonalBonusDialog(HashMap<String, List<Resource>> hashMap) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/PersonalBonusDialog.fxml"));
@@ -583,7 +610,7 @@ public class GUI extends Application {
 	/**
 	 * Setup the starting turn phase
 	 */
-	public void startTurn(){
+	private void startTurn(){
 		GameBoard board = (GameBoard) GraphicalUI.getInstance().getFirstFromGraphicalToGUI();
 		Player me = (Player) GraphicalUI.getInstance().getFirstFromGraphicalToGUI();
 		_mainViewController.startTurn(me, board);

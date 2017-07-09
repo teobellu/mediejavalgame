@@ -505,7 +505,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	
 	private void queueToClient(Object...objects){
 		for(Object obj : objects){
-			System.out.println("Aggiunto in uscita "+obj.toString());
 			_fromServerToClient.add(obj);
 		}
 	}
@@ -562,25 +561,22 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		@Override
 		public void run() {
 			while(_isRunning){
-				//synchronized (_fromServerToClient) {
-					if(!_fromServerToClient.isEmpty()){
-						System.out.println("Exit queue not empty! ");
-						try {
-							System.out.println("Trying to send... ");
-							writeObject(_fromServerToClient.poll());
-						} catch (RemoteException e) {
-							// TODO Auto-generated catch block
-							_log.log(Level.SEVERE, e.getMessage(), e);
-						}
-					} else {
-						try {
-							Thread.sleep(200);
-						} catch (InterruptedException e) {
-							_log.log(Level.SEVERE, e.getMessage(), e);
-							Thread.currentThread().interrupt();
-						}
+				if(!_fromServerToClient.isEmpty()){
+					try {
+						System.out.println("Trying to send... ");
+						writeObject(_fromServerToClient.poll());
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						_log.log(Level.SEVERE, e.getMessage(), e);
 					}
-				//}
+				} else {
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						_log.log(Level.SEVERE, e.getMessage(), e);
+						Thread.currentThread().interrupt();
+					}
+				}
 			}
 		}
 		
