@@ -9,8 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author jacopo
- *
+ * Class with methods to write to the console
+ * @author Jacopo
+ * @author Matteo
  */
 public class IOHandler {
 	

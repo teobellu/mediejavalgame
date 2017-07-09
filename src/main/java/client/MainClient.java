@@ -2,6 +2,8 @@ package client;
 
 /**
  * Main of the player's client
+ * @author Jacopo
+ * @author Matteo
  */
 public class MainClient {
 

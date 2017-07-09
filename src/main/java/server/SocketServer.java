@@ -13,7 +13,6 @@ import util.Constants;
 public class SocketServer extends Thread {
 
 	public SocketServer(){
-		//TODO
 	}
 	
 	@Override
@@ -44,6 +43,8 @@ public class SocketServer extends Thread {
 				break;
 			}
 		} while(_isRunning);
+		
+		_log.info("Shutting down socket server...");
 		
 		executor.shutdown();
 		try {

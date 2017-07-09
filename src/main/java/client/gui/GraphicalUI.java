@@ -447,6 +447,5 @@ public class GraphicalUI implements UI {
 	
 	public void shutdown(){
 		_connectionHandler.shutdown();
-		_instance = null;
 	}
 }

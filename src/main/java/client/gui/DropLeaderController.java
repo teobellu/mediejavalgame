@@ -6,6 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
+/**
+ * Controller for the drop leader dialog
+ * @author Jacopo
+ *
+ */
 public class DropLeaderController extends DialogAbstractController{
 
 	@FXML
@@ -18,19 +23,17 @@ public class DropLeaderController extends DialogAbstractController{
 	
 	private List<String> _leaderList;
 	
-	public void setLeaderList(List<String> leaders){
-		_leaderList = leaders;
-		
-		if(!_choiceBox.getItems().isEmpty()){
-			for(String s : _choiceBox.getItems()){
-				_choiceBox.getItems().remove(s);
-			}
-		}
-		
-		_choiceBox.getItems().addAll(_leaderList);
-		_choiceBox.getSelectionModel().selectFirst();
+	/**
+	 * Called on Cancel button clicked
+	 */
+	@FXML
+	private void onCancelClicked(){
+		_dialog.close();
 	}
 	
+	/**
+	 * Called on OK button clicked
+	 */
 	@FXML
 	private void onOkClicked(){
 		new Thread(new Runnable() {
@@ -44,8 +47,20 @@ public class DropLeaderController extends DialogAbstractController{
 		_dialog.close();
 	}
 	
-	@FXML
-	private void onCancelClicked(){
-		_dialog.close();
+	/**
+	 * Initial setup
+	 * @param leaders the leaders
+	 */
+	public void setLeaderList(List<String> leaders){
+		_leaderList = leaders;
+		
+		if(!_choiceBox.getItems().isEmpty()){
+			for(String s : _choiceBox.getItems()){
+				_choiceBox.getItems().remove(s);
+			}
+		}
+		
+		_choiceBox.getItems().addAll(_leaderList);
+		_choiceBox.getSelectionModel().selectFirst();
 	}
 }

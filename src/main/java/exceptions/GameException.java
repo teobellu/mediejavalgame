@@ -1,5 +1,9 @@
 package exceptions;
 
+/**
+ * @author Matteo
+ *
+ */
 public class GameException extends Exception {
 	
 	/**

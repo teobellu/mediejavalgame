@@ -7,6 +7,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
+/**
+ * Controller for the activate leader dialog
+ * @author Jacopo
+ *
+ */
 public class ActivateLeaderController extends DialogAbstractController {
 
 	@FXML
@@ -17,13 +22,17 @@ public class ActivateLeaderController extends DialogAbstractController {
 	@FXML
 	private ChoiceBox<String> _choices;
 	
-	public void setLeaders(List<LeaderCard> leaderCards) {
-		for(LeaderCard lc : leaderCards){
-			_choices.getItems().add(lc.getName());		
-		}
-		_choices.getSelectionModel().selectFirst();
+	/**
+	 * Called on Cancel button clicked
+	 */
+	@FXML
+	private void onCancelClicked(){
+		_dialog.close();
 	}
 	
+	/**
+	 * Called on OK button clicked
+	 */
 	@FXML
 	private void onOkClicked(){
 		
@@ -38,9 +47,15 @@ public class ActivateLeaderController extends DialogAbstractController {
 		_dialog.close();
 	}
 	
-	@FXML
-	private void onCancelClicked(){
-		_dialog.close();
+	/**
+	 * Initial setup
+	 * @param leaderCards the leaders
+	 */
+	public void setLeaders(List<LeaderCard> leaderCards) {
+		for(LeaderCard lc : leaderCards){
+			_choices.getItems().add(lc.getName());		
+		}
+		_choices.getSelectionModel().selectFirst();
 	}
 
 }

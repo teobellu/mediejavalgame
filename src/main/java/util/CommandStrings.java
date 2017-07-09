@@ -1,5 +1,10 @@
 package util;
 
+/**
+ * Commands for communication requiring processing of some kind 
+ * @author Jacopo
+ *
+ */
 public final class CommandStrings {
 	
 	public static final String UUID = "uuid";
@@ -9,13 +14,10 @@ public final class CommandStrings {
 	public static final String GAME_BOARD = "gameboard";
 	public static final String PLAYER = "player";
 	
-	public static final String GAME_STARTED = "game_started";
-		
 	public static final String ADD_TO_GAME = "add_to_game";
 	public static final String ASK_FOR_CONFIG = "ask_config";
 	
 	public static final String CHOOSE_CONVERT = "choose_convert";
-	public static final String CHOOSE_LEADER = "choose_leader";
 	public static final String CHOOSE_FAMILIAR = "choose_familiar";
 	
 	public static final String INITIAL_LEADER = "initial_leader";
@@ -28,13 +30,7 @@ public final class CommandStrings {
 	
 	public static final String PLACE_FAMILIAR = "put_familiar";
 	
-	public static final String SPEND_FAITH_POINTS = "spend_faith_points";
-	
 	public static final String END_TURN = "end_turn";
-	
-	public static final String SEND_NAME = "send_name";
-	
-	public static final String END_TRANSMISSION = "end_transmission";
 	
 	public static final String HANDLE_COUNCIL = "handle_council";
 	

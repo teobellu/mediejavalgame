@@ -13,6 +13,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Controller for the cards info dialog
+ * @author Jacopo
+ *
+ */
 public class CardsInfoController extends DialogAbstractController{
 
 	@FXML
@@ -54,11 +59,21 @@ public class CardsInfoController extends DialogAbstractController{
 	
 	private Player _player;
 	
+	private final int CHAR_TERRITORY_ROW = 1;
+	
+	private final int BUILDINGS_VENTURE_ROW = 0;
+	
+	/**
+	 * FXML method
+	 */
 	@FXML
 	private void initialize(){
 		_bg.setImage(new Image(new File("src/main/resources/javafx/images/custom1.jpg").toURI().toString()));
 	}
-	
+
+	/**
+	 * Called on Arrow button clicked
+	 */
 	@FXML
 	private void onArrowClicked(){
 		for(Node n : _gridPane.getChildren()){
@@ -92,11 +107,30 @@ public class CardsInfoController extends DialogAbstractController{
 		}
 	}
 	
+	/**
+	 * Called on OK button clicked
+	 */
 	@FXML
 	private void onOkClicked(){
 		_dialog.close();
 	}
-
+	
+	/**
+	 * Set background images
+	 * @param row the row
+	 * @param cards the cards
+	 */
+	private void setCardImages(int row, List<DevelopmentCard> cards){
+		
+		for(DevelopmentCard dc : cards){
+			ImageView iv = (ImageView) GuiUtil.getNodeFromGridPane(_gridPane, cards.indexOf(dc), row);
+			iv.setImage(new Image(new File("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+dc.getId()+".png").toURI().toString()));
+		}
+	}
+	/**
+	 * Initial setup
+	 * @param me the player
+	 */
 	public void setPlayer(Player me) {
 		_player = me;
 		
@@ -106,15 +140,4 @@ public class CardsInfoController extends DialogAbstractController{
 		setCardImages(CHAR_TERRITORY_ROW, territoryCards);
 		setCardImages(BUILDINGS_VENTURE_ROW, buildingCards);
 	}
-	
-	private void setCardImages(int row, List<DevelopmentCard> cards){
-		
-		for(DevelopmentCard dc : cards){
-			ImageView iv = (ImageView) GuiUtil.getNodeFromGridPane(_gridPane, cards.indexOf(dc), row);
-			iv.setImage(new Image(new File("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+dc.getId()+".png").toURI().toString()));
-		}
-	}
-	
-	private final int CHAR_TERRITORY_ROW = 1;
-	private final int BUILDINGS_VENTURE_ROW = 0;
 }

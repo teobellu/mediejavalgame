@@ -8,6 +8,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+/**
+ * Controller for the ask boolean dialog
+ * @author Jacopo
+ *
+ */
 public class AskBooleanController extends DialogAbstractController {
 
 	@FXML
@@ -23,6 +28,20 @@ public class AskBooleanController extends DialogAbstractController {
 	
 	private ToggleGroup _toggleGroup;
 	
+	/**
+	 * Called on OK button clicked
+	 */
+	@FXML
+	private void onOkPressed(){
+		GraphicalUI.getInstance().addFromGUIToGraphical(_toggleGroup.getSelectedToggle().equals(_yesRadio));
+		GraphicalUI.getInstance().notifyCommandToGui();
+		_dialog.close();
+	}
+	
+	/**
+	 * Initial setup
+	 * @param question the question asked
+	 */
 	public void setTextAndSetup(String question){
 		Text text = new Text(question);
 		text.setFont(Font.font(18));
@@ -34,12 +53,5 @@ public class AskBooleanController extends DialogAbstractController {
 		_yesRadio.setSelected(true);
 		
 		_noRadio.setToggleGroup(_toggleGroup);
-	}
-	
-	@FXML
-	private void onOkPressed(){
-		GraphicalUI.getInstance().addFromGUIToGraphical(_toggleGroup.getSelectedToggle().equals(_yesRadio));
-		GraphicalUI.getInstance().notifyCommandToGui();
-		_dialog.close();
 	}
 }

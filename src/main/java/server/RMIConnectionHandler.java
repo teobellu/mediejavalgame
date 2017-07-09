@@ -80,16 +80,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public GameBoard getBoard() throws RemoteException {
-		return _theGame.getListener().getGameBoard();
-	}
-
-	@Override
-	public Player getMe() throws RemoteException {
-		return _theGame.getListener().getMe(_client.getName());
-	}
-
-	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
 		try {
 			_theGame.getListener().dropLeaderCard(_client.getName(), leaderName);

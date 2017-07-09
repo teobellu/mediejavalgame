@@ -6,6 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
+/**
+ * Controller for the choose cost dialog
+ * @author Jacopo
+ *
+ */
 public class ChooseCostController extends DialogAbstractController {
 
 	@FXML
@@ -14,18 +19,25 @@ public class ChooseCostController extends DialogAbstractController {
 	@FXML
 	private Button _okButton;
 	
-	public void setCard(DevelopmentCard card) {
-		for(Resource cost : card.getCosts()){
-			_choiches.getItems().add(cost.toString());
-		}
-		_choiches.getSelectionModel().selectFirst();
-	}
-	
+	/**
+	 * Called on OK button clicked
+	 */
 	@FXML
 	private void onOkClicked(){
 		GraphicalUI.getInstance().addFromGUIToGraphical(_choiches.getSelectionModel().getSelectedIndex());
 		GraphicalUI.getInstance().notifyCommandToGui();
 		_dialog.close();
+	}
+	
+	/**
+	 * Initial setup
+	 * @param card the cards
+	 */
+	public void setCard(DevelopmentCard card) {
+		for(Resource cost : card.getCosts()){
+			_choiches.getItems().add(cost.toString());
+		}
+		_choiches.getSelectionModel().selectFirst();
 	}
 
 }

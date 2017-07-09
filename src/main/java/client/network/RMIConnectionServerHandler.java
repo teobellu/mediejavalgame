@@ -22,6 +22,11 @@ import misc.ConnectionHandlerRemote;
 import misc.ServerRemote;
 import util.Constants;
 
+/**
+ * RMI Connection handler
+ * @author Jacopo
+ *
+ */
 public class RMIConnectionServerHandler extends ConnectionServerHandler implements ClientRemote {
 	
 	//TODO debug, per simulare disconnessione
@@ -67,6 +72,9 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#attemptReconnection(java.lang.String)
+	 */
 	@Override
 	public void attemptReconnection(String uuid) throws RemoteException {
 		try {
@@ -101,60 +109,77 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	
 	@Override
 	public void run() {
-		
+		//empty method
 	}
 
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#addMeToGame(java.lang.String)
+	 */
 	@Override
 	public boolean addMeToGame(String name) throws RemoteException {
 		return _connectionHandler.addMeToGame(name);
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#sendConfigFile(java.lang.String)
+	 */
 	@Override
 	public void sendConfigFile(String file) throws RemoteException {
 		_connectionHandler.sendConfigFile(file);
 	}
 	
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#spendCouncil(java.util.List)
+	 */
 	@Override
 	public int spendCouncil(List<Resource> councilRewards) throws RemoteException {
 		System.out.println("\nChiamato spendCouncil su RMI\n");
 		return _ui.spendCouncil(councilRewards);
 	}
 	
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#chooseFamiliar(java.util.List, java.lang.String)
+	 */
 	@Override
 	public int chooseFamiliar(List<FamilyMember> familiars, String message) throws RemoteException {
 		return _ui.chooseFamiliar(familiars, message);
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#ask(java.lang.String)
+	 */
 	@Override
 	public boolean ask(String message) throws RemoteException {
 		return _ui.askBoolean(message);
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#chooseConvert(java.util.List, java.util.List)
+	 */
 	@Override
 	public int chooseConvert(List<Resource> realPayOptions, List<Resource> realGainOptions) throws RemoteException {
 		return _ui.chooseConvert(realPayOptions, realGainOptions);
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#chooseLeader(java.lang.String, java.util.List)
+	 */
 	@Override
 	public int chooseLeader(String context, List<LeaderCard> tempList) throws RemoteException {
 		return _ui.chooseLeader(context, tempList);
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#chooseDashboardBonus(java.util.Map)
+	 */
 	@Override
 	public int chooseDashboardBonus(Map<String, List<Resource>> bonus) throws RemoteException {
 		return _ui.chooseDashboardBonus(bonus);
 	}
 
-	@Override
-	public GameBoard getBoard() throws RemoteException {
-		return _connectionHandler.getBoard();
-	}
-
-	@Override
-	public Player getMe() throws RemoteException {
-		return _connectionHandler.getMe();
-	}
-
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#dropLeaderCard(java.lang.String)
+	 */
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
 		if(primo){
@@ -165,53 +190,83 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#activateLeaderCard(java.lang.String)
+	 */
 	@Override
 	public void activateLeaderCard(String leaderName) throws RemoteException {
 		_connectionHandler.activateLeaderCard(leaderName);
 	}
 
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#placeFamiliar(java.lang.String, game.Position)
+	 */
 	@Override
 	public void placeFamiliar(String familiarColour, Position position) throws RemoteException {
 		_connectionHandler.placeFamiliar(familiarColour, position);
 	}
 
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#endTurn()
+	 */
 	@Override
 	public void endTurn() throws RemoteException {
 		System.out.println("END TURN]]] i'm " + _host + " with ui = " + _ui.toString());
 		_connectionHandler.endTurn();
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#startTurn(game.GameBoard, game.Player)
+	 */
 	@Override
 	public void startTurn(GameBoard board, Player currentPlayer) throws RemoteException {
 		System.out.println("START TURN]]] i'm " + _host + " with ui = " + _ui.toString());
 		_ui.startTurn(board, currentPlayer);		
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#askInt(java.lang.String, int, int)
+	 */
 	@Override
 	public int askInt(String message, int min, int max) throws RemoteException {
 		return _ui.askInt(message, min, max);
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#sendInfo(java.lang.String)
+	 */
 	@Override
 	public void sendInfo(String infoMessage) throws RemoteException {
 		_ui.showInfo(infoMessage);
 	}
 	
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#sendInfo(java.lang.String, game.GameBoard)
+	 */
 	@Override
 	public void sendInfo(String infoMessage, GameBoard board) throws RemoteException {
 		_ui.showInfo(infoMessage, board);
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#sendInfo(java.lang.String, game.Player)
+	 */
 	@Override
 	public void sendInfo(String message, Player me) throws RemoteException {
 		_ui.showInfo(message, me);
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#sendInfo(java.lang.String, game.GameBoard, game.Player)
+	 */
 	@Override
 	public void sendInfo(String message, GameBoard board, Player me) throws RemoteException {
 		_ui.showInfo(message, board, me);
 	}
 
+	/* (non-Javadoc)
+	 * @see misc.ClientRemote#sendUUID(java.lang.String)
+	 */
 	@Override
 	public void sendUUID(String uuid) throws RemoteException {
 		_ui.setUUID(uuid);

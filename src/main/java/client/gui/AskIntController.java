@@ -7,6 +7,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+/**
+ * Controller for the ask int dialog
+ * @author Jacopo
+ *
+ */
 public class AskIntController extends DialogAbstractController {
 
 	@FXML
@@ -18,6 +23,22 @@ public class AskIntController extends DialogAbstractController {
 	@FXML
 	private TextFlow _textFlow;
 	
+	/**
+	 * Called on OK button clicked
+	 */
+	@FXML
+	private void onOkClicked(){
+		GraphicalUI.getInstance().addFromGUIToGraphical(Integer.parseInt(_choices.getValue()));
+		GraphicalUI.getInstance().notifyCommandToGui();
+		_dialog.close();
+	}
+	
+	/**
+	 * Initial setup
+	 * @param message the message
+	 * @param min minimum value
+	 * @param max maximum value
+	 */
 	public void setup(String message, int min, int max){
 		Text text = new Text(message);
 		text.setFont(Font.font(24));
@@ -27,12 +48,5 @@ public class AskIntController extends DialogAbstractController {
 			_choices.getItems().add(String.valueOf(i));
 		}
 		_choices.getSelectionModel().selectFirst();
-	}
-	
-	@FXML
-	private void onOkClicked(){
-		GraphicalUI.getInstance().addFromGUIToGraphical(Integer.parseInt(_choices.getValue()));
-		GraphicalUI.getInstance().notifyCommandToGui();
-		_dialog.close();
 	}
 }

@@ -6,6 +6,12 @@ import java.util.logging.Logger;
 import util.Constants;
 import util.IOHandler;
 
+/**
+ * Starting class for the client
+ * @author Jacopo
+ * @author Matteo
+ *
+ */
 public class Client extends Thread {
 	
 	private final IOHandler ioHandler;
@@ -16,6 +22,9 @@ public class Client extends Thread {
 		ioHandler = new IOHandler();
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run(){
 		printLogo();
@@ -36,6 +45,9 @@ public class Client extends Thread {
 		new Thread(ui).start();
 	}
 	
+	/**
+	 * Shutdown the client
+	 */
 	private void shutdown() {
 		ioHandler.shutdown();
 	}

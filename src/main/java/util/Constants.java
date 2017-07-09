@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Some constants
+ * @author Jacopo
+ *
+ */
 public class Constants {
 	
 	public static final String RMI = "RMI";
@@ -23,10 +28,6 @@ public class Constants {
 	public static final int MAX_PLAYER = 4;
 
 	public static final int LEADER_CARDS_PER_PLAYER = 4;
-	
-	public static final int MAX_TURN = 3;
-	
-	public static final long TIMEOUT_CONNESSION_MILLIS = 30000;
 	
 	public static final int NUMBER_OF_FAMILIARS = 4;
 	

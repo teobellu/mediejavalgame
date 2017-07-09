@@ -22,8 +22,9 @@ import util.CommandStrings;
 import util.Constants;
 
 /**
+ * Handle connection via socket
  * @author Jacopo
- *
+ * @author Matteo
  */
 public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
@@ -56,6 +57,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#attemptReconnection(java.lang.String)
+	 */
 	@Override
 	public void attemptReconnection(String uuid) throws RemoteException {
 		try {
@@ -108,12 +112,20 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		_writer.start();
 	}
 	
+	/**
+	 * Parse received objects
+	 * @param obj
+	 */
 	private void processObject(Object obj) {
 		if(obj instanceof String){
 			processString((String) obj);
 		}
 	}
 	
+	/**
+	 * Parse received strings
+	 * @param obj
+	 */
 	@SuppressWarnings("unchecked")
 	private void processString(String obj){
 		//TODO da rimuovere
@@ -216,11 +228,17 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#sendConfigFile(java.lang.String)
+	 */
 	@Override
 	public void sendConfigFile(String file) throws RemoteException {
 			queueToServer(CommandStrings.ASK_FOR_CONFIG, file);
 	}
 
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#shutdown()
+	 */
 	@Override
 	public void shutdown() {
 		super.shutdown();
@@ -242,6 +260,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#addMeToGame(java.lang.String)
+	 */
 	@Override
 	public boolean addMeToGame(String name) throws RemoteException {
 		try {
@@ -260,6 +281,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		return false;
 	}
 	
+	/**
+	 * Write an object via the socket output stream
+	 * @param message
+	 * @throws RemoteException
+	 */
 	private void writeObject(Object message) throws RemoteException{
 		try {
 			System.out.println("\n###Sended "+message.toString()+"\n");
@@ -309,6 +335,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 	}
 	
+	/**
+	 * Pull from the socket input stream
+	 * @return the object received
+	 */
 	private Object getFromServer(){
 		do{
 			Object obj = null;
@@ -327,54 +357,17 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		} while(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#endTurn()
+	 */
 	@Override
 	public void endTurn() throws RemoteException {
 		queueToServer(CommandStrings.END_TURN);
 	}
 	
-	public GameBoard getBoard(){
-		try {
-			_returnObject = new Object();
-			
-			queueToServer(CommandStrings.GAME_BOARD);
-			
-			synchronized (_returnObject) {
-				_returnObject.wait();
-				_returnObject = getFromServer();
-			}
-			return (GameBoard) _returnObject;
-		} catch (InterruptedException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		
-		System.out.println("ERRORE IN getBoard");
-		
-		return null;
-	}
-	
-	@Override
-	public Player getMe() throws RemoteException {
-		try{
-			_returnObject = new Object();
-			
-			queueToServer(CommandStrings.PLAYER);
-			
-			synchronized (_returnObject) {
-				System.out.println("\nWaiting...\n");
-				_returnObject.wait();
-				_returnObject = getFromServer();
-			}
-			
-			return (Player) _returnObject;
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		
-		System.out.println("ERRORE IN getMe");
-		
-		return null;
-	}
-
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#dropLeaderCard(java.lang.String)
+	 */
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
 		
@@ -406,6 +399,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		return;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#activateLeaderCard(java.lang.String)
+	 */
 	@Override
 	public void activateLeaderCard(String leaderName) throws RemoteException {
 		if(primo){
@@ -433,6 +429,9 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		return;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#placeFamiliar(java.lang.String, game.Position)
+	 */
 	@Override
 	public void placeFamiliar(String familiarName, Position position) throws RemoteException {
 		try{
@@ -456,6 +455,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		
 	}
 	
+	/**
+	 * Put in the exit queue
+	 * @param objects
+	 */
 	private void queueToServer(Object...objects){
 		synchronized (_fromClientToServer) {
 			for(Object obj : objects){
@@ -479,6 +482,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	private ConcurrentLinkedQueue<Object> _fromServerToClient = new ConcurrentLinkedQueue<>();
 	private ConcurrentLinkedQueue<Object> _fromClientToServer = new ConcurrentLinkedQueue<>();
 	
+	/**
+	 * Runnable that keeps reading from server
+	 * @author Jacopo
+	 *
+	 */
 	private class MyReader implements Runnable{
 		@Override
 		public void run() {
@@ -495,6 +503,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 	}
 	
+	/**
+	 * Runnable that keeps processing messages
+	 * @author Jacopo
+	 *
+	 */
 	private class MyProcessor implements Runnable{
 
 		@Override
@@ -505,6 +518,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 	}
 	
+	/**
+	 * Runnable that keeps write to the server
+	 * @author Jacopo
+	 *
+	 */
 	private class MyWriter implements Runnable{
 
 		@Override

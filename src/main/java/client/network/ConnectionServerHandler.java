@@ -18,19 +18,35 @@ public abstract class ConnectionServerHandler extends Thread {
 	@Override
 	public void run() {}
 	
+	/**
+	 * Constructor
+	 * @param host server's address
+	 * @param port server's port
+	 */
 	public ConnectionServerHandler(String host, int port) {
 		_host = host;
 		_port = port;
 	}
 	
+	/**
+	 * Am I running?
+	 * @return true or false
+ 	 */
 	public boolean isRunning(){
 		return _isRunning;
 	}
 	
+	/**
+	 * Shut me down
+	 */
 	public void shutdown(){
 		_isRunning = false;
 	}
 	
+	/**
+	 * Set the client to this handler
+	 * @param client
+	 */
 	public void setClient(UI client){
 		_ui = client;
 	}
@@ -51,22 +67,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws RemoteException
 	 */
 	public abstract boolean addMeToGame(String username) throws RemoteException;
-	
-	/**
-	 * Ask the game board of my room to the server, generally used immediately after asking it, 
-	 * from the user interface to show general information
-	 * @return
-	 * @throws RemoteException
-	 */
-	public abstract GameBoard getBoard() throws RemoteException;
-	
-	/**
-	 * Ask my class Player to the server, generally used immediately after asking it, 
-	 * from the user interface to show general information
-	 * @return My class Player
-	 * @throws RemoteException Remote connection error
-	 */
-	public abstract Player getMe() throws RemoteException;
 	
 	/**
 	 * Tells the server that I want to drop (discard for gain a council privilege) a Leader Card
@@ -100,5 +100,10 @@ public abstract class ConnectionServerHandler extends Thread {
 	 */
 	public abstract void endTurn() throws RemoteException;
 
+	/**
+	 * Try to reconnect to the server after a RemoteException
+	 * @param _uuid my unique uuid
+	 * @throws RemoteException
+	 */
 	public abstract void attemptReconnection(String _uuid) throws RemoteException;
 }

@@ -16,6 +16,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import util.Constants;
 
+/**
+ * Controller for starting view scene
+ * @author Jacopo
+ *
+ */
 public class StartingViewController {
 
 	@FXML
@@ -38,6 +43,11 @@ public class StartingViewController {
 	
 	private GUI _GUI;
 		
+	private final Logger _log = Logger.getLogger(StartingViewController.class.getName());
+	
+	/**
+	 * FXML method
+	 */
 	@FXML
 	private void initialize(){
 		_connectionType.getItems().addAll(Constants.CONNECTION_TYPES);
@@ -57,10 +67,26 @@ public class StartingViewController {
 		});
 	}
 	
-	public void setGUI(GUI gui){
-		_GUI = gui;
+	/**
+	 * Called on Config button pressed
+	 */
+	@FXML
+	private void onConfigPressed(){
+		boolean okClicked = _GUI.showConfigDialog();
+		
+		if(okClicked){
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.initOwner(_GUI.getPrimaryStage());
+			alert.setTitle("File OK!");
+			alert.setHeaderText("File OK!");
+			alert.setContentText("File OK!");
+			alert.showAndWait();
+		}
 	}
 	
+	/**
+	 * Called on Connect Button pressed
+	 */
 	@FXML
 	private void onConnectPressed(){
 		String username = _username.getText().trim();
@@ -115,19 +141,11 @@ public class StartingViewController {
 		_GUI.setMainScene();
 	}
 	
-	@FXML
-	private void onConfigPressed(){
-		boolean okClicked = _GUI.showConfigDialog();
-		
-		if(okClicked){
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.initOwner(_GUI.getPrimaryStage());
-			alert.setTitle("File OK!");
-			alert.setHeaderText("File OK!");
-			alert.setContentText("File OK!");
-			alert.showAndWait();
-		}
+	/**
+	 * Set the GUI
+	 * @param gui the gui
+	 */
+	public void setGUI(GUI gui){
+		_GUI = gui;
 	}
-	
-	private final Logger _log = Logger.getLogger(StartingViewController.class.getName());
 }

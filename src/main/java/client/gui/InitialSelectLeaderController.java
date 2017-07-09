@@ -14,6 +14,11 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for the initial select leader dialog
+ * @author Jacopo
+ *
+ */
 public class InitialSelectLeaderController extends DialogAbstractController{
 
 	@FXML
@@ -28,11 +33,77 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 	@FXML
 	private Text _text;
 	
+	/**
+	 * Called on Select Leader Button pressed
+	 * @param choice the leader chosen
+	 */
+	private void handleButton(int choice){
+		GraphicalUI.getInstance().addFromGUIToGraphical(choice);
+		GraphicalUI.getInstance().notifyCommandToGui();
+		_dialog.close();
+	}
+	
+	/**
+	 * FXML method
+	 */
 	@FXML
 	private void initialize(){
 		
 	}
 	
+	
+	/**
+	 * Called on fourth Button pressed
+	 */
+	@FXML
+	private void onFifthButtonClicked(){
+		handleButton(3);
+	}
+	
+	/**
+	 * Called on first Button pressed
+	 */
+	@FXML
+	private void onFirstButtonClicked(){
+		handleButton(0);
+	}
+	
+	/**
+	 * Called on second Button pressed
+	 */
+	@FXML
+	private void onSecondButtonClicked(){
+		handleButton(1);
+	}
+	
+	/**
+	 * Called on third Button pressed
+	 */
+	@FXML
+	private void onThirdButtonClicked(){
+		handleButton(2);
+	}
+	
+	/**
+	 * Set bg of buttons based on leader
+	 * @param leader the leader
+	 * @param button the button
+	 */
+	private void setBgImages(String leader, Button button){
+		File file = new File("src/main/resources/javafx/images/leaders/" + leader + ".jpg");
+		Image image = new Image(file.toURI().toString());
+
+		BackgroundSize backSize = new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITIAL_LEADER_HEIGHT, false, false, false, true);
+		BackgroundImage backImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backSize);
+		button.setBackground(new Background(backImage));
+		button.setDisable(false);
+		button.setText(leader);
+	}
+	
+	/**
+	 * Initial setup
+	 * @param leaders list of leaders
+	 */
 	public void setLeaderList(List<String> leaders){
 		
 		List<Button> buttons = new ArrayList<>();
@@ -48,43 +119,5 @@ public class InitialSelectLeaderController extends DialogAbstractController{
 		for(; index < buttons.size();index++){
 			buttons.get(index).setDisable(true);
 		}
-	}
-	
-	
-	@FXML
-	private void onFirstButtonClicked(){
-		handleButton(0);
-	}
-	
-	@FXML
-	private void onSecondButtonClicked(){
-		handleButton(1);
-	}
-	
-	@FXML
-	private void onThirdButtonClicked(){
-		handleButton(2);
-	}
-	
-	@FXML
-	private void onFifthButtonClicked(){
-		handleButton(3);
-	}
-	
-	private void handleButton(int choice){
-		GraphicalUI.getInstance().addFromGUIToGraphical(choice);
-		GraphicalUI.getInstance().notifyCommandToGui();
-		_dialog.close();
-	}
-	
-	private void setBgImages(String leader, Button button){
-		File file = new File("src/main/resources/javafx/images/leaders/" + leader + ".jpg");
-		Image image = new Image(file.toURI().toString());
-
-		BackgroundSize backSize = new BackgroundSize(GuiSizeConstants.INITIAL_LEADER_WIDTH, GuiSizeConstants.INITIAL_LEADER_HEIGHT, false, false, false, true);
-		BackgroundImage backImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backSize);
-		button.setBackground(new Background(backImage));
-		button.setDisable(false);
-		button.setText(leader);
 	}
 }

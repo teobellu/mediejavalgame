@@ -31,6 +31,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+/**
+ * Controller for the main scene
+ * @author Jacopo
+ *
+ */
 public class MainViewController {
 
 	@FXML
@@ -146,6 +151,59 @@ public class MainViewController {
 	
 	private GUI _GUI;
 	
+	private Logger _log = Logger.getLogger(MainViewController.class.getName());
+	
+	/*https://stackoverflow.com/q/28243156*/
+	/**
+	 * Append and show a text to the _buttonPane with font 18
+	 * @param msg
+	 */
+	public void appendToInfoText(String msg){
+		appendToInfoText(msg, 18);
+	}
+	
+	/**
+	 * Append and show a text to the _buttonPane with the specified font
+	 * @param msg the message to display
+	 * @param fontSize the font size
+	 */
+	public synchronized void appendToInfoText(String msg, double fontSize){
+		Platform.runLater(() -> {
+			Text t = new Text(msg+"\n");
+			t.setFont(new Font(fontSize));
+			_infoTextFlow.getChildren().add(t);
+		});
+	}
+	
+	/**
+	 * Set the image for an imageview, and returns it
+	 * @param path path to the image
+	 * @param iv the imageview
+	 * @return the imageview
+	 */
+	private ImageView changeImageView(String path, ImageView iv){
+		File file = new File(path);
+		Image bg = new Image(file.toURI().toString());
+		
+		if(iv==null){
+			iv = new ImageView();
+		}
+		
+		iv.setImage(bg);
+		
+		return iv;
+	}
+	
+	/**
+	 * Disable Button Panel
+	 */
+	private void endTurn(){
+		_buttonPane.setDisable(true);
+	}
+	
+	/**
+	 * Initial setup
+	 */
 	public void initialSetupController(){
 		_infoTextFlow.getChildren().addListener((ListChangeListener<Node>) ((change) -> {
 			_infoTextFlow.layout();
@@ -176,157 +234,9 @@ public class MainViewController {
 
 	}
 	
-	/*https://stackoverflow.com/q/28243156*/
 	/**
-	 * Append and show a text to the _buttonPane with font 18
-	 * @param msg
+	 * Called on Show More Button pressed
 	 */
-	public void appendToInfoText(String msg){
-		appendToInfoText(msg, 18);
-	}
-	
-	/**
-	 * Append and show a text to the _buttonPane with the specified font
-	 * @param msg the message to display
-	 * @param fontSize the font size
-	 */
-	public synchronized void appendToInfoText(String msg, double fontSize){
-		Platform.runLater(() -> {
-			Text t = new Text(msg+"\n");
-			t.setFont(new Font(fontSize));
-			_infoTextFlow.getChildren().add(t);
-		});
-	}
-	
-	private ImageView changeImageView(String path, ImageView iv){
-		File file = new File(path);
-		Image bg = new Image(file.toURI().toString());
-		
-		if(iv==null){
-			iv = new ImageView();
-		}
-		
-		iv.setImage(bg);
-		
-		return iv;
-	}
-	
-	public void setGUI(GUI gui){
-		_GUI = gui;
-	}
-	
-	@FXML
-	private void onFirstButtonClicked(){
-		_GUI.showPlaceFamiliar(GraphicalUI.getInstance().getCachedBoard(), GraphicalUI.getInstance().getCachedMe().getFreeMembers());
-	}
-	
-	@FXML
-	private void onSecondButtonClicked(){
-		_GUI.showActivateLeaderDialog(GraphicalUI.getInstance().getCachedMe().getLeaderCards());
-	}
-	
-	@FXML
-	private void onThirdButtonClicked(){
-		List<String> leaders = new ArrayList<>();
-		List<LeaderCard> lead = GraphicalUI.getInstance().getCachedMe().getLeaderCards();
-		
-		for(LeaderCard lc : lead){
-			leaders.add(lc.getName());
-		}
-		
-		_GUI.showDropLeaderDialog(leaders);
-	}
-	
-	@FXML
-	private void onFourthButtonClicked(){
-		synchronized (this) {
-			new Thread(new Runnable() {
-					
-				@Override
-				public void run() {
-					GraphicalUI.getInstance().endTurn();
-				}
-			}).start();
-
-			endTurn();
-		}
-	}
-	
-	@FXML
-	private void onFifthButtonClicked(){
-		_GUI.showCardsInfoDialog(GraphicalUI.getInstance().getCachedMe());
-	}
-	
-	public void updateBoardAndPlayer(){
-		if(_downArrowClicked){//sono nella schermata dietro
-			setupBackMainView(GraphicalUI.getInstance().getCachedBoard(), GraphicalUI.getInstance().getCachedMe());
-		} else {//sono nella schermata avanti
-			setupFrontMainView(GraphicalUI.getInstance().getCachedBoard(), GraphicalUI.getInstance().getCachedMe());
-		}
-		
-		updateLeaderCards(GraphicalUI.getInstance().getCachedMe());
-		updateSidePanelPoints(GraphicalUI.getInstance().getCachedMe());
-	}
-	
-	public void startTurn(Player me, GameBoard board){
-		_buttonPane.setDisable(false);
-		_downArrowButton.setDisable(false);
-		
-		try {
-			_frontBackMainPane.getChildren().clear();
-			_frontBackMainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/FrontMainView.fxml")));
-			_frontBackMainPane = (AnchorPane) _frontBackMainPane.getChildren().get(0);
-			
-			_buttonPane.getChildren().clear();
-			_buttonPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/FrontButtonPane.fxml")));
-			_buttonPane = (AnchorPane) _buttonPane.getChildren().get(0);
-			
-			setupFrontMainView(board, me);
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		
-		updateLeaderCards(me);
-		updateSidePanelPoints(me);
-		
-		_personalBonusTextFlow.getChildren().clear();
-		_personalBonusTextFlow.getChildren().add(new Text("Production Bonus\n"));
-		_personalBonusTextFlow.getChildren().add(new Text(me.getBonus(GC.PRODUCTION).toString()+"\n"));
-		_personalBonusTextFlow.getChildren().add(new Text("Harvest Bonus\n"));
-		_personalBonusTextFlow.getChildren().add(new Text(me.getBonus(GC.HARVEST).toString()+"\n"));
-		
-		appendToInfoText("It's YOUR turn now!", 24);
-		appendToInfoText("What do you want to do?");
-	}
-	
-	private void updateLeaderCards(Player me){
-		int i = 0;
-		
-		for(;i<me.getLeaderCards().size();i++){
-			File file = new File("src/main/resources/javafx/images/leaders/" + me.getLeaderCards().get(i).getName() + ".jpg");
-			Image image = new Image(file.toURI().toString());
-
-			_leaderCards.get(i).setImage(image);
-			
-		}
-		
-		for(;i<_leaderCards.size();i++){
-			File file = new File("src/main/resources/javafx/images/leaders/leaders_b_c_00.jpg");
-			Image image = new Image(file.toURI().toString());
-			_leaderCards.get(i).setImage(image);
-			_leaderCards.get(i).setDisable(true);
-		}
-	}
-	
-	private void updateSidePanelPoints(Player me){
-		_faithValue.setText(me.getResource(GC.RES_FAITHPOINTS)>9 ? 
-				String.valueOf(me.getResource(GC.RES_FAITHPOINTS)) : "0"+String.valueOf(me.getResource(GC.RES_FAITHPOINTS)));
-		_militaryValue.setText(me.getResource(GC.RES_MILITARYPOINTS)>9 ? 
-				String.valueOf(me.getResource(GC.RES_MILITARYPOINTS)) : "0"+String.valueOf(me.getResource(GC.RES_MILITARYPOINTS)));
-		_victoryValue.setText(me.getResource(GC.RES_VICTORYPOINTS)>9 ? 
-				String.valueOf(me.getResource(GC.RES_VICTORYPOINTS)) : "0"+String.valueOf(me.getResource(GC.RES_VICTORYPOINTS)));
-	}
-	
 	@FXML
 	private void onDownArrowPressed(){
 		try {
@@ -360,59 +270,76 @@ public class MainViewController {
 		}
 	}
 	
-	private void setupFrontMainView(GameBoard board, Player me){
-		_backgroundImage = (ImageView) _frontBackMainPane.getChildren().get(0);
-		_towersCardsGridPane = (GridPane) _frontBackMainPane.getChildren().get(1);
-		_towersFamiliarsGridPane = (GridPane) _frontBackMainPane.getChildren().get(2);
-		
-		changeImageView("src/main/resources/javafx/images/board_sopra.jpeg", _backgroundImage);
-		
-		_firstButton = (Button) _buttonPane.getChildren().get(0);
-		_secondButton = (Button) _buttonPane.getChildren().get(1);
-		_thirdButton = (Button) _buttonPane.getChildren().get(2);
-		_fourthButton = (Button) _buttonPane.getChildren().get(3);
-		_fifthButton = (Button) _buttonPane.getChildren().get(4);
-		
-		_firstButton.setOnAction(event -> onFirstButtonClicked());
-		_secondButton.setOnAction(event -> onSecondButtonClicked());
-		_thirdButton.setOnAction(event -> onThirdButtonClicked());
-		_fourthButton.setOnAction(event -> onFourthButtonClicked());
-		_fifthButton.setOnAction(event -> onFifthButtonClicked());
-		
-		for(int row = 0;row<GameBoard.MAX_ROW;row++){
-			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){
-				ImageView iv = (ImageView) GuiUtil.getNodeFromGridPane(_towersCardsGridPane, column, row);
-				
-				if(iv==null){
-					iv = new ImageView();
-					_towersCardsGridPane.add(iv, column, row);
-				}
-				
-				DevelopmentCard card = board.getCard((GameBoard.MAX_ROW -1 - row), column);
-				
-				if(card!=null){
-					changeImageView("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+ card.getId() +".png", iv);
-				} else {
-					iv.setImage(null);
-				}
-				
-				Space space = board.getFromTowers((GameBoard.MAX_ROW - 1 - row), column);
-				List<FamilyMember> fams = space.getFamiliars();
-				if(!fams.isEmpty()){
-					iv = (ImageView) GuiUtil.getNodeFromGridPane(_towersFamiliarsGridPane, column, row);
+	/**
+	 * Called on Show Cards Button pressed
+	 */
+	@FXML
+	private void onFifthButtonClicked(){
+		_GUI.showCardsInfoDialog(GraphicalUI.getInstance().getCachedMe());
+	}
+	
+	/**
+	 * Called on Place Familiar Button pressed
+	 */
+	@FXML
+	private void onFirstButtonClicked(){
+		_GUI.showPlaceFamiliar(GraphicalUI.getInstance().getCachedBoard(), GraphicalUI.getInstance().getCachedMe().getFreeMembers());
+	}
+	
+	/**
+	 * Called on End Turn Button pressed
+	 */
+	@FXML
+	private void onFourthButtonClicked(){
+		synchronized (this) {
+			new Thread(new Runnable() {
 					
-					if(iv==null){
-						iv = new ImageView();
-						_towersFamiliarsGridPane.add(iv, column, row);
-					}
-					
-					String path = "src/main/resources/javafx/images/familiars/fam_"+fams.get(0).getOwner().getColour()+"_"+fams.get(0).getColor()+".png";
-					changeImageView(path, iv);
+				@Override
+				public void run() {
+					GraphicalUI.getInstance().endTurn();
 				}
-			}
+			}).start();
+
+			endTurn();
 		}
 	}
 	
+	/**
+	 * Called on Activate Leader Button pressed
+	 */
+	@FXML
+	private void onSecondButtonClicked(){
+		_GUI.showActivateLeaderDialog(GraphicalUI.getInstance().getCachedMe().getLeaderCards());
+	}
+	
+	/**
+	 * Called on Drop Leader Button pressed
+	 */
+	@FXML
+	private void onThirdButtonClicked(){
+		List<String> leaders = new ArrayList<>();
+		List<LeaderCard> lead = GraphicalUI.getInstance().getCachedMe().getLeaderCards();
+		
+		for(LeaderCard lc : lead){
+			leaders.add(lc.getName());
+		}
+		
+		_GUI.showDropLeaderDialog(leaders);
+	}
+	
+	/**
+	 * Set the gui
+	 * @param gui the gui
+	 */
+	public void setGUI(GUI gui){
+		_GUI = gui;
+	}
+	
+	/**
+	 * Handle the creation of the back panel
+	 * @param board the board
+	 * @param me the player
+	 */
 	private void setupBackMainView(GameBoard board, Player me){
 		_backgroundImage = (ImageView) _frontBackMainPane.getChildren().get(0);
 		_blackDiceValue = (Text) _frontBackMainPane.getChildren().get(1);
@@ -528,9 +455,147 @@ public class MainViewController {
 		}
 	}
 	
-	private void endTurn(){
-		_buttonPane.setDisable(true);
+	/**
+	 * Handle the creation of the front panel
+	 * @param board the board
+	 * @param me the player
+	 */
+	private void setupFrontMainView(GameBoard board, Player me){
+		_backgroundImage = (ImageView) _frontBackMainPane.getChildren().get(0);
+		_towersCardsGridPane = (GridPane) _frontBackMainPane.getChildren().get(1);
+		_towersFamiliarsGridPane = (GridPane) _frontBackMainPane.getChildren().get(2);
+		
+		changeImageView("src/main/resources/javafx/images/board_sopra.jpeg", _backgroundImage);
+		
+		_firstButton = (Button) _buttonPane.getChildren().get(0);
+		_secondButton = (Button) _buttonPane.getChildren().get(1);
+		_thirdButton = (Button) _buttonPane.getChildren().get(2);
+		_fourthButton = (Button) _buttonPane.getChildren().get(3);
+		_fifthButton = (Button) _buttonPane.getChildren().get(4);
+		
+		_firstButton.setOnAction(event -> onFirstButtonClicked());
+		_secondButton.setOnAction(event -> onSecondButtonClicked());
+		_thirdButton.setOnAction(event -> onThirdButtonClicked());
+		_fourthButton.setOnAction(event -> onFourthButtonClicked());
+		_fifthButton.setOnAction(event -> onFifthButtonClicked());
+		
+		for(int row = 0;row<GameBoard.MAX_ROW;row++){
+			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){
+				ImageView iv = (ImageView) GuiUtil.getNodeFromGridPane(_towersCardsGridPane, column, row);
+				
+				if(iv==null){
+					iv = new ImageView();
+					_towersCardsGridPane.add(iv, column, row);
+				}
+				
+				DevelopmentCard card = board.getCard((GameBoard.MAX_ROW -1 - row), column);
+				
+				if(card!=null){
+					changeImageView("src/main/resources/javafx/images/devel_cards/devcards_f_en_c_"+ card.getId() +".png", iv);
+				} else {
+					iv.setImage(null);
+				}
+				
+				Space space = board.getFromTowers((GameBoard.MAX_ROW - 1 - row), column);
+				List<FamilyMember> fams = space.getFamiliars();
+				if(!fams.isEmpty()){
+					iv = (ImageView) GuiUtil.getNodeFromGridPane(_towersFamiliarsGridPane, column, row);
+					
+					if(iv==null){
+						iv = new ImageView();
+						_towersFamiliarsGridPane.add(iv, column, row);
+					}
+					
+					String path = "src/main/resources/javafx/images/familiars/fam_"+fams.get(0).getOwner().getColour()+"_"+fams.get(0).getColor()+".png";
+					changeImageView(path, iv);
+				}
+			}
+		}
 	}
 	
-	private Logger _log = Logger.getLogger(MainViewController.class.getName());
+	/**
+	 * Setup for starting turn
+	 * @param me the player
+	 * @param board the board
+	 */
+	public void startTurn(Player me, GameBoard board){
+		_buttonPane.setDisable(false);
+		_downArrowButton.setDisable(false);
+		
+		try {
+			_frontBackMainPane.getChildren().clear();
+			_frontBackMainPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/FrontMainView.fxml")));
+			_frontBackMainPane = (AnchorPane) _frontBackMainPane.getChildren().get(0);
+			
+			_buttonPane.getChildren().clear();
+			_buttonPane.getChildren().setAll((AnchorPane)FXMLLoader.load(GUI.class.getResource("/client/gui/FrontButtonPane.fxml")));
+			_buttonPane = (AnchorPane) _buttonPane.getChildren().get(0);
+			
+			setupFrontMainView(board, me);
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+		
+		updateLeaderCards(me);
+		updateSidePanelPoints(me);
+		
+		_personalBonusTextFlow.getChildren().clear();
+		_personalBonusTextFlow.getChildren().add(new Text("Production Bonus\n"));
+		_personalBonusTextFlow.getChildren().add(new Text(me.getBonus(GC.PRODUCTION).toString()+"\n"));
+		_personalBonusTextFlow.getChildren().add(new Text("Harvest Bonus\n"));
+		_personalBonusTextFlow.getChildren().add(new Text(me.getBonus(GC.HARVEST).toString()+"\n"));
+		
+		appendToInfoText("It's YOUR turn now!", 24);
+		appendToInfoText("What do you want to do?");
+	}
+	
+	/**
+	 * Update the board and the player parameters
+	 */
+	public void updateBoardAndPlayer(){
+		if(_downArrowClicked){//sono nella schermata dietro
+			setupBackMainView(GraphicalUI.getInstance().getCachedBoard(), GraphicalUI.getInstance().getCachedMe());
+		} else {//sono nella schermata avanti
+			setupFrontMainView(GraphicalUI.getInstance().getCachedBoard(), GraphicalUI.getInstance().getCachedMe());
+		}
+		
+		updateLeaderCards(GraphicalUI.getInstance().getCachedMe());
+		updateSidePanelPoints(GraphicalUI.getInstance().getCachedMe());
+	}
+	
+	/**
+	 * Update Leader Cards pane
+	 * @param me
+	 */
+	private void updateLeaderCards(Player me){
+		int i = 0;
+		
+		for(;i<me.getLeaderCards().size();i++){
+			File file = new File("src/main/resources/javafx/images/leaders/" + me.getLeaderCards().get(i).getName() + ".jpg");
+			Image image = new Image(file.toURI().toString());
+
+			_leaderCards.get(i).setImage(image);
+			
+		}
+		
+		for(;i<_leaderCards.size();i++){
+			File file = new File("src/main/resources/javafx/images/leaders/leaders_b_c_00.jpg");
+			Image image = new Image(file.toURI().toString());
+			_leaderCards.get(i).setImage(image);
+			_leaderCards.get(i).setDisable(true);
+		}
+	}
+	
+	/**
+	 * Set side pane
+	 * @param me the player
+	 */
+	private void updateSidePanelPoints(Player me){
+		_faithValue.setText(me.getResource(GC.RES_FAITHPOINTS)>9 ? 
+				String.valueOf(me.getResource(GC.RES_FAITHPOINTS)) : "0"+String.valueOf(me.getResource(GC.RES_FAITHPOINTS)));
+		_militaryValue.setText(me.getResource(GC.RES_MILITARYPOINTS)>9 ? 
+				String.valueOf(me.getResource(GC.RES_MILITARYPOINTS)) : "0"+String.valueOf(me.getResource(GC.RES_MILITARYPOINTS)));
+		_victoryValue.setText(me.getResource(GC.RES_VICTORYPOINTS)>9 ? 
+				String.valueOf(me.getResource(GC.RES_VICTORYPOINTS)) : "0"+String.valueOf(me.getResource(GC.RES_VICTORYPOINTS)));
+	}
 }

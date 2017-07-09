@@ -9,6 +9,11 @@ import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
+/**
+ * Controller for the custom configuration dialog
+ * @author Jacopo
+ *
+ */
 public class CustomConfigController extends DialogAbstractController{
 
 	private boolean _okClicked = false;
@@ -21,10 +26,17 @@ public class CustomConfigController extends DialogAbstractController{
 	@FXML
 	private Button _fileButton;;
 
-	public boolean isOkClicked() {
-		return _okClicked;
+	/**
+	 * Called on Cancel button clicked
+	 */
+	@FXML
+	private void handleCancelClicked(){
+		_dialog.close();
 	}
 	
+	/**
+	 * Called on new File button clicked
+	 */
 	@FXML
 	private void handleFileButtonClicked(){
 		FileChooser fileChooser = new FileChooser();
@@ -44,14 +56,20 @@ public class CustomConfigController extends DialogAbstractController{
 		}
 	}
 	
-	@FXML
-	private void handleCancelClicked(){
-		_dialog.close();
-	}
-	
+	/**
+	 * Called on OK button clicked
+	 */
 	@FXML
 	private void handleOkClicked(){
 		_okClicked = true;
         _dialog.close();
+	}
+	
+	/**
+	 * Teels if the player has choose a new file or not
+	 * @return
+	 */
+	public boolean isOkClicked() {
+		return _okClicked;
 	}
 }

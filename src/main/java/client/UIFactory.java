@@ -7,6 +7,8 @@ import util.Constants;
 /**
  * This interface aims to create new user interface instances
  * @Factory_Method
+ * @author Jacopo
+ * @author Matteo
  */
 public interface UIFactory {
 

@@ -5,6 +5,11 @@ import java.util.List;
 
 import game.GC;
 
+/**
+ * Some text for the client
+ * @author Jacopo
+ * @author Matteo
+ */
 public class ClientText {
 	
 	public static final String ASK_IF_CONFIG_FILE = "If you want to provide a custom configuration file, write the path to it.\n"

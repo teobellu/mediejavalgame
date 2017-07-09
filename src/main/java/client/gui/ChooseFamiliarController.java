@@ -8,6 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
 
+/**
+ * Controller for the choose familiar dialog
+ * @author Jacopo
+ *
+ */
 public class ChooseFamiliarController extends DialogAbstractController{
 
 	@FXML
@@ -19,6 +24,21 @@ public class ChooseFamiliarController extends DialogAbstractController{
 	@FXML
 	private Button _okButton;
 	
+	/**
+	 * Called on OK button clicked
+	 */
+	@FXML
+	private void onOkClicked(){
+		GraphicalUI.getInstance().addFromGUIToGraphical(_choiches.getSelectionModel().getSelectedIndex());
+		GraphicalUI.getInstance().notifyCommandToGui();
+		_dialog.close();
+	}
+	
+	/**
+	 * Initial setup
+	 * @param familiars the familiars 
+	 * @param message the message asked
+	 */
 	public void setup(List<FamilyMember> familiars, String message) {
 		_message.setText(message);
 		
@@ -27,13 +47,6 @@ public class ChooseFamiliarController extends DialogAbstractController{
 		}
 		
 		_choiches.getSelectionModel().selectFirst();
-	}
-	
-	@FXML
-	private void onOkClicked(){
-		GraphicalUI.getInstance().addFromGUIToGraphical(_choiches.getSelectionModel().getSelectedIndex());
-		GraphicalUI.getInstance().notifyCommandToGui();
-		_dialog.close();
 	}
 
 }

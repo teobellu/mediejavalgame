@@ -3,28 +3,18 @@ package client.gui;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Some utils
+ * @author Jacopo
+ *
+ */
 public class GuiUtil {
 	
-	public static final Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-	    for (Node node : gridPane.getChildren()) {
-	    	
-	    	if(GridPane.getColumnIndex(node)==null){
-	    		System.out.println("\n###TROVATO UN NODO CON COLONNA A NULL###\n");
-	    		GridPane.setColumnIndex(node, 0);
-	    	}
-	    	
-	    	if(GridPane.getRowIndex(node)==null){
-	    		System.out.println("\n###TROVATO UN NODO CON RIGA A NULL###\n");
-	    		GridPane.setRowIndex(node, 0);
-	    	}
-	    	
-	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-	            return node;
-	        }
-	    }
-	    return null;
-	}
-	
+	/**
+	 * Replace underscores with spaces, and put every work in camelcase
+	 * @param str
+	 * @return
+	 */
 	public static final String cleanUnderscoresCapsFirst(String str) {
 		str = str.replaceAll("_", " ");
 		
@@ -38,6 +28,31 @@ public class GuiUtil {
 	        }
 	    }
 	    return ret.toString();
+	}
+	
+	/**
+	 * Gets a node from a gridpane, and returns it
+	 * @param gridPane the gridpane
+	 * @param col column
+	 * @param row row
+	 * @return the node
+	 */
+	public static final Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+	    for (Node node : gridPane.getChildren()) {
+	    	
+	    	if(GridPane.getColumnIndex(node)==null){
+	    		GridPane.setColumnIndex(node, 0);
+	    	}
+	    	
+	    	if(GridPane.getRowIndex(node)==null){
+	    		GridPane.setRowIndex(node, 0);
+	    	}
+	    	
+	        if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+	            return node;
+	        }
+	    }
+	    return null;
 	}
 	
 	private GuiUtil(){

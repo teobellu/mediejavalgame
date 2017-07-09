@@ -30,90 +30,26 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import util.CommandStrings;
 
+/**
+ * JavaFX main class
+ * @author Jacopo
+ *
+ */
 public class GUI extends Application {
 
-	@Override
-	public void start(Stage primaryStage) {
-		
-		_primaryStage = primaryStage;
-		_primaryStage.setTitle("Lorenzo il Magnifico");
-		_primaryStage.setResizable(false);
-		_primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	private Stage _primaryStage;
 
-			@Override
-			public void handle(WindowEvent event) {
-				System.out.println("Bye!");
-				executor.shutdownNow();
-				GraphicalUI.getInstance().shutdown();
-				System.exit(0);
-			}
-		});
+	private BorderPane _rootLayout;
 
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/RootLayout.fxml"));
-			_rootLayout = loader.load();
-
-			Scene scene = new Scene(_rootLayout);
-
-			_primaryStage.setScene(scene);
-			_primaryStage.show();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-
-		setStartingScene();
-	}
-
-	private void setStartingScene() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/StartingView.fxml"));
-			AnchorPane pane = loader.load();
-
-			_rootLayout.setCenter(pane);
-
-			StartingViewController controller = loader.getController();
-			controller.setGUI(this);
-
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-
-	public void setMainScene() {
-		try {
-			_primaryStage.hide();
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/MainView.fxml"));
-			AnchorPane pane = loader.load();
-			
-			_primaryStage.setTitle(_primaryStage.getTitle()+" - "+GraphicalUI.getInstance().getPlayerName());
-			
-			Scene scene = new Scene(pane);
-			_primaryStage.setScene(scene);
-			
-			_primaryStage.setWidth(GuiSizeConstants.ROOT_WIDTH);
-			_primaryStage.setMaxWidth(GuiSizeConstants.ROOT_WIDTH);
-			_primaryStage.setMinWidth(GuiSizeConstants.ROOT_WIDTH);
-			
-			_primaryStage.setHeight(GuiSizeConstants.ROOT_HEIGHT);
-			_primaryStage.setMinHeight(GuiSizeConstants.ROOT_HEIGHT);
-			_primaryStage.setMaxHeight(GuiSizeConstants.ROOT_HEIGHT);
-			
-			_mainViewController = loader.getController();
-			_mainViewController.initialSetupController();
-			_mainViewController.setGUI(this);
-			
-			_primaryStage.show();
-			
-			createMainObserver();
-			
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
+	private MainViewController _mainViewController;
 	
+	private Logger _log = Logger.getLogger(GUI.class.getName());
+	
+	private ExecutorService executor = Executors.newCachedThreadPool();
+	
+	/**
+	 * Create and start a task to receive input from the net
+	 */
 	@SuppressWarnings("unchecked")
 	public void createMainObserver(){
 		Task<Void> task = createReturnObjectObserver();
@@ -179,6 +115,10 @@ public class GUI extends Application {
 //		th.start();
 	}
 	
+	/**
+	 * Create a task
+	 * @return the task created
+	 */
 	private Task<Void> createReturnObjectObserver(){
 		Task<Void> task = new Task<Void>() {
 			@Override
@@ -194,7 +134,206 @@ public class GUI extends Application {
 		};
 		return task;
 	}
+
+	/**
+	 * Get the primary stage
+	 * @return the primary stage
+	 */
+	public Stage getPrimaryStage() {
+		return _primaryStage;
+	}
 	
+	/**
+	 * Set the main scene
+	 */
+	public void setMainScene() {
+		try {
+			_primaryStage.hide();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/MainView.fxml"));
+			AnchorPane pane = loader.load();
+			
+			_primaryStage.setTitle(_primaryStage.getTitle()+" - "+GraphicalUI.getInstance().getPlayerName());
+			
+			Scene scene = new Scene(pane);
+			_primaryStage.setScene(scene);
+			
+			_primaryStage.setWidth(GuiSizeConstants.ROOT_WIDTH);
+			_primaryStage.setMaxWidth(GuiSizeConstants.ROOT_WIDTH);
+			_primaryStage.setMinWidth(GuiSizeConstants.ROOT_WIDTH);
+			
+			_primaryStage.setHeight(GuiSizeConstants.ROOT_HEIGHT);
+			_primaryStage.setMinHeight(GuiSizeConstants.ROOT_HEIGHT);
+			_primaryStage.setMaxHeight(GuiSizeConstants.ROOT_HEIGHT);
+			
+			_mainViewController = loader.getController();
+			_mainViewController.initialSetupController();
+			_mainViewController.setGUI(this);
+			
+			_primaryStage.show();
+			
+			createMainObserver();
+			
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Set the starting scene
+	 */
+	private void setStartingScene() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/StartingView.fxml"));
+			AnchorPane pane = loader.load();
+
+			_rootLayout.setCenter(pane);
+
+			StartingViewController controller = loader.getController();
+			controller.setGUI(this);
+
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	/**
+	 * Setup a standard dialog
+	 * @param pane the pane to put in
+	 * @param title the title
+	 * @return the dialog created
+	 */
+	private Stage setupDialog(AnchorPane pane, String title){
+		Stage dialog = new Stage();
+		
+		dialog.setTitle(title);
+		dialog.initStyle(StageStyle.UNDECORATED);
+		dialog.initModality(Modality.WINDOW_MODAL);
+		dialog.initOwner(_primaryStage);
+		Scene scene = new Scene(pane);
+		dialog.setScene(scene);
+		
+		return dialog;
+	}
+	
+	/**
+	 * Show the activate leader dialog
+	 * @param leaderCards the cards
+	 */
+	public void showActivateLeaderDialog(List<LeaderCard> leaderCards){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/ActivateLeaderDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose Leader");
+			
+			ActivateLeaderController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setLeaders(leaderCards);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Ask a yes/no question
+	 * @param message the question
+	 */
+	public void showAskBooleanDialog(String message){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/AskBooleanDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose yes or no");
+			
+			AskBooleanController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setTextAndSetup(message);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Ask an int
+	 * @param message the question
+	 * @param min minimum int
+	 * @param max maximum int
+	 */
+	public void showAskIntDialog(String message, int min, int max){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/AskIntDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose a value");
+			
+			AskIntController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setup(message, min, max);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Show the info cards dialog
+	 * @param me the player
+	 */
+	public void showCardsInfoDialog(Player me) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/CardsInfoDialog.fxml"));
+			AnchorPane pane = loader.load();
+
+			Stage dialog = setupDialog(pane, "Cards Summary");
+
+			CardsInfoController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setPlayer(me);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Ask if you want to convert
+	 * @param pay what you pay
+	 * @param gain what you gain
+	 */
+	protected void showChooseConvert(List<Resource> pay, List<Resource> gain) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/ChooseConvert.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Choose convert");
+			
+			ChooseConvertController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setup(pay, gain);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	/**
+	 * Ask how you want to pay
+	 * @param card the card
+	 */
 	private void showChooseCost(DevelopmentCard card) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -213,24 +352,11 @@ public class GUI extends Application {
 		}
 	}
 	
-	protected void showChooseConvert(List<Resource> pay, List<Resource> gain) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/ChooseConvert.fxml"));
-			AnchorPane pane = loader.load();
-			
-			Stage dialog = setupDialog(pane, "Choose convert");
-			
-			ChooseConvertController controller = loader.getController();
-			controller.setDialog(dialog);
-			controller.setup(pay, gain);
-			
-			dialog.showAndWait();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-
+	/**
+	 * Show the choose familiar dialog
+	 * @param familiars the familiars
+	 * @param message message to display
+	 */
 	protected void showChooseFamiliar(List<FamilyMember> familiars, String message) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -249,70 +375,10 @@ public class GUI extends Application {
 		}
 	}
 	
-	public void showCouncilPrivilegeDialog(List<Resource> resources) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/HandleCouncilDialog.fxml"));
-			AnchorPane pane = loader.load();
-
-			Stage dialog = setupDialog(pane, "Handle Council privilege");
-			
-			HandleCouncilController controller = loader.getController();
-			controller.setDialog(dialog);
-			controller.setResources(resources);
-
-			dialog.showAndWait();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-
-	public void startTurn(){
-		GameBoard board = (GameBoard) GraphicalUI.getInstance().getFirstFromGraphicalToGUI();
-		Player me = (Player) GraphicalUI.getInstance().getFirstFromGraphicalToGUI();
-		_mainViewController.startTurn(me, board);
-	}
-	
-	public void showInitialSelectLeaderDialog(List<String> leaders) {
-		if (!leaders.isEmpty()) {
-			try {
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(GUI.class.getResource("/client/gui/InitialSelectLeaderDialog.fxml"));
-				AnchorPane pane = loader.load();
-
-				Stage dialog = setupDialog(pane, "Choose Leader Card");
-				
-				InitialSelectLeaderController controller = loader.getController();
-				controller.setLeaderList(leaders);
-				controller.setDialog(dialog);
-
-				dialog.showAndWait();
-			} catch (IOException e) {
-				_log.log(Level.SEVERE, e.getMessage(), e);
-			}
-		} else {
-			_log.log(Level.SEVERE, "List vuota in showInitialSelectLeaderDialog");
-		}
-	}
-	
-	public void showPersonalBonusDialog(HashMap<String, List<Resource>> hashMap) {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/PersonalBonusDialog.fxml"));
-			AnchorPane pane = loader.load();
-
-			Stage dialog = setupDialog(pane, "Choose your personal bonus card");
-
-			PersonalBonusController controller = loader.getController();
-			controller.setDialog(dialog);
-			controller.setMap(hashMap);
-
-			dialog.showAndWait();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-
+	/**
+	 * Show the custom config Dialog
+	 * @return
+	 */
 	public boolean showConfigDialog() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -331,11 +397,55 @@ public class GUI extends Application {
 			return false;
 		}
 	}
+	
+	/**
+	 * Show the handle council privilege dialog
+	 * @param resources
+	 */
+	public void showCouncilPrivilegeDialog(List<Resource> resources) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/HandleCouncilDialog.fxml"));
+			AnchorPane pane = loader.load();
 
-	public Stage getPrimaryStage() {
-		return _primaryStage;
+			Stage dialog = setupDialog(pane, "Handle Council privilege");
+			
+			HandleCouncilController controller = loader.getController();
+			controller.setDialog(dialog);
+			controller.setResources(resources);
+
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+	
+	/**
+	 * Show the disconnected dialog
+	 */
+	private void showDisconnectedDialog() {
+		try {
+			//TODO provare a chiudere eventuali dialog aperti
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/DisconnectedDialog.fxml"));
+			AnchorPane pane = loader.load();
+			
+			Stage dialog = setupDialog(pane, "Connection lost");
+			
+			DisconnectedController controller = loader.getController();
+			controller.setDialog(dialog);
+			
+			dialog.showAndWait();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 
+	
+	/**
+	 * Show the drop leader dialog
+	 * @param leaders the leaders
+	 */
 	public void showDropLeaderDialog(List<String> leaders) {
 		try {
 			if (leaders.isEmpty()) {
@@ -362,25 +472,59 @@ public class GUI extends Application {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
+	
+	/**
+	 * Show the initial leader dialog
+	 * @param leaders
+	 */
+	public void showInitialSelectLeaderDialog(List<String> leaders) {
+		if (!leaders.isEmpty()) {
+			try {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(GUI.class.getResource("/client/gui/InitialSelectLeaderDialog.fxml"));
+				AnchorPane pane = loader.load();
 
-	public void showCardsInfoDialog(Player me) {
+				Stage dialog = setupDialog(pane, "Choose Leader Card");
+				
+				InitialSelectLeaderController controller = loader.getController();
+				controller.setLeaderList(leaders);
+				controller.setDialog(dialog);
+
+				dialog.showAndWait();
+			} catch (IOException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+			}
+		} else {
+			_log.log(Level.SEVERE, "List vuota in showInitialSelectLeaderDialog");
+		}
+	}
+	/**
+	 * Show the initial personal bonus dialog
+	 * @param hashMap
+	 */
+	public void showPersonalBonusDialog(HashMap<String, List<Resource>> hashMap) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/CardsInfoDialog.fxml"));
+			loader.setLocation(GUI.class.getResource("/client/gui/PersonalBonusDialog.fxml"));
 			AnchorPane pane = loader.load();
 
-			Stage dialog = setupDialog(pane, "Cards Summary");
+			Stage dialog = setupDialog(pane, "Choose your personal bonus card");
 
-			CardsInfoController controller = loader.getController();
+			PersonalBonusController controller = loader.getController();
 			controller.setDialog(dialog);
-			controller.setPlayer(me);
-			
+			controller.setMap(hashMap);
+
 			dialog.showAndWait();
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
+	/**
+	 * Show the place familiar dialog
+	 * @param board the board
+	 * @param familiars the familiars
+	 */
 	public void showPlaceFamiliar(GameBoard board, List<FamilyMember> familiars){
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -398,99 +542,49 @@ public class GUI extends Application {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
-	
-	public void showActivateLeaderDialog(List<LeaderCard> leaderCards){
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/ActivateLeaderDialog.fxml"));
-			AnchorPane pane = loader.load();
-			
-			Stage dialog = setupDialog(pane, "Choose Leader");
-			
-			ActivateLeaderController controller = loader.getController();
-			controller.setDialog(dialog);
-			controller.setLeaders(leaderCards);
-			
-			dialog.showAndWait();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-	
-	public void showAskBooleanDialog(String message){
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/AskBooleanDialog.fxml"));
-			AnchorPane pane = loader.load();
-			
-			Stage dialog = setupDialog(pane, "Choose yes or no");
-			
-			AskBooleanController controller = loader.getController();
-			controller.setDialog(dialog);
-			controller.setTextAndSetup(message);
-			
-			dialog.showAndWait();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-	
-	public void showAskIntDialog(String message, int min, int max){
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/AskIntDialog.fxml"));
-			AnchorPane pane = loader.load();
-			
-			Stage dialog = setupDialog(pane, "Choose a value");
-			
-			AskIntController controller = loader.getController();
-			controller.setDialog(dialog);
-			controller.setup(message, min, max);
-			
-			dialog.showAndWait();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-	
-	private void showDisconnectedDialog() {
-		try {
-			//TODO provare a chiudere eventuali dialog aperti
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(GUI.class.getResource("/client/gui/DisconnectedDialog.fxml"));
-			AnchorPane pane = loader.load();
-			
-			Stage dialog = setupDialog(pane, "Connection lost");
-			
-			DisconnectedController controller = loader.getController();
-			controller.setDialog(dialog);
-			
-			dialog.showAndWait();
-		} catch (IOException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
 
-	
-	private Stage setupDialog(AnchorPane pane, String title){
-		Stage dialog = new Stage();
+	/* (non-Javadoc)
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
+	@Override
+	public void start(Stage primaryStage) {
 		
-		dialog.setTitle(title);
-		dialog.initStyle(StageStyle.UNDECORATED);
-		dialog.initModality(Modality.WINDOW_MODAL);
-		dialog.initOwner(_primaryStage);
-		Scene scene = new Scene(pane);
-		dialog.setScene(scene);
-		
-		return dialog;
+		_primaryStage = primaryStage;
+		_primaryStage.setTitle("Lorenzo il Magnifico");
+		_primaryStage.setResizable(false);
+		_primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				System.out.println("Bye!");
+				executor.shutdownNow();
+				GraphicalUI.getInstance().shutdown();
+				System.exit(0);
+			}
+		});
+
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(GUI.class.getResource("/client/gui/RootLayout.fxml"));
+			_rootLayout = loader.load();
+
+			Scene scene = new Scene(_rootLayout);
+
+			_primaryStage.setScene(scene);
+			_primaryStage.show();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
+
+		setStartingScene();
 	}
 	
-	private Stage _primaryStage;
-	private BorderPane _rootLayout;
-	
-	private MainViewController _mainViewController;
-
-	private Logger _log = Logger.getLogger(GUI.class.getName());
-	
-	private ExecutorService executor = Executors.newCachedThreadPool();
+	/**
+	 * Setup the starting turn phase
+	 */
+	public void startTurn(){
+		GameBoard board = (GameBoard) GraphicalUI.getInstance().getFirstFromGraphicalToGUI();
+		Player me = (Player) GraphicalUI.getInstance().getFirstFromGraphicalToGUI();
+		_mainViewController.startTurn(me, board);
+	}
 }
