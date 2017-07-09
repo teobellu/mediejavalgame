@@ -79,6 +79,7 @@ public abstract class State {
 		if (countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){//TODO non e' 4.
 			
 			System.out.println("NEXT PHASE");
+			_theGame.getPlayers().forEach(player -> player.setOPTActivated(false));
 			information.newPhase(age);
 			for (Player p : _theGame.getPlayers()){
 				controller.setPlayer(p);

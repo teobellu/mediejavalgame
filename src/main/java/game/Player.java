@@ -48,6 +48,8 @@ public class Player implements Serializable{
 	 */
 	private int delay;
 
+	private boolean OPTActivated;
+
 	protected Player(Client client, String colour){
 		_client = client;
 		_playerColour = colour;
@@ -59,6 +61,8 @@ public class Player implements Serializable{
 		effects = new ArrayList<>();
 		setFreeMember(new ArrayList<>());
 		delay = GC.NORMAL;
+		OPTActivated = false;
+		vaticanSupport = false;
 	}
 	
 	public void gain(Resource res){
@@ -195,5 +199,13 @@ public class Player implements Serializable{
 
 	public void setVaticanSupport(boolean vaticanSupport) {
 		this.vaticanSupport = vaticanSupport;
+	}
+	
+	public void setOPTActivated(boolean check) {
+		OPTActivated = check;
+	}
+
+	public boolean getOPTActivated() {
+		return OPTActivated ;
 	}
 }
