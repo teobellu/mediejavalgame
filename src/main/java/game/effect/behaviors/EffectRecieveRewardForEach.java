@@ -1,6 +1,8 @@
 package game.effect.behaviors;
 
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import game.GC;
 import game.Player;
@@ -10,6 +12,8 @@ import game.effect.IEffectBehavior;
 
 public class EffectRecieveRewardForEach implements IEffectBehavior{
 
+	private transient Logger _log = Logger.getLogger(EffectRecieveRewardForEach.class.getName());
+	
 	private Effect ref;
 	private Resource reward;
 	private String card;
@@ -43,6 +47,7 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 			addReward();
 		} catch (RemoteException e) {
 			//TODO
+			_log.log(Level.INFO, e.getMessage(), e);
 		}
 	}
 	
@@ -58,10 +63,10 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	private void establishReward(){
 		GC.DEV_TYPES.stream()
 			.filter(type -> type.equals(card))
-			.forEach(type -> count += player.getDevelopmentCards(type).size());
+			.forEach(type -> count = count + player.getDevelopmentCards(type).size());
 		GC.RES_TYPES.stream()
 			.filter(type -> player.getResource(type) > 0 && loot.get(type) > 0)
-			.forEach(type -> count += player.getResource(type) / loot.get(type));
+			.forEach(type -> count = count + player.getResource(type) / loot.get(type));
 	}
 	
 	private void addReward() throws RemoteException{

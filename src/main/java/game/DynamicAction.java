@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.development.DevelopmentCard;
@@ -16,7 +18,10 @@ import game.effect.Effect;
  */
 public class DynamicAction {
 	
-	
+	/**
+	 * The logger
+	 */
+	Logger _log = Logger.getLogger(DynamicAction.class.getName());
 	
 	/**
 	 * Current player, ad the joystick holder
@@ -170,6 +175,7 @@ public class DynamicAction {
 			amount = player.getClient().getConnectionHandler().askInt(Messages.MESS_INCREASE_WORKER, 0, playerServants);
 		} catch (RemoteException e) {
 			//TODO
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		int price = (Integer) activateEffect(amount, GC.WHEN_INCREASE_WORKER);
 		actualCost.add(new Resource(GC.RES_SERVANTS, price));
@@ -266,7 +272,7 @@ public class DynamicAction {
 				index = player.getClient().getConnectionHandler().askInt("The card has more costs. Which do you prefer to pay?", 0, card.getCosts().size()-1);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 		//ma potrebbe avere anche 2 tipi di costo
@@ -414,6 +420,7 @@ public class DynamicAction {
 			canOccupySpace(familiar, space);
 		}
 		catch (GameException e) {
+			_log.log(Level.OFF, e.getMessage(), e);
 			if (game.getPlayers().size() < 3)
 				throw new GameException(Messages.MESS_FEW_PLAYERS);
 			canOccupyForColorLogic(familiar, space.getFamiliars());
@@ -478,6 +485,7 @@ public class DynamicAction {
 		try{
 			player.pay(cost);
 		}catch (GameException e){
+			_log.log(Level.OFF, e.getMessage(), e);
 			player.getEffects().removeIf(eff -> eff.getSource().equals(GC.ACTION_SPACE));
 			throw new GameException("You can't pay those servants");
 		}
@@ -519,7 +527,7 @@ public class DynamicAction {
 			answer = player.getClient().getConnectionHandler().askBoolean(Messages.MESS_SHOW_SUPPORT);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		if (!answer){
 			dontShowVaticanSupport(age);
@@ -542,7 +550,6 @@ public class DynamicAction {
 		Effect malus = tile.getEffect();
 		player.addEffect(malus);//TODO O MEGLIO UNA COPIA????
 		game.broadcastInfo(player.getName() + Messages.MESS_EXCOMMUNICATED);
-		//TODO GUI ?
 	}
 	
 	/**

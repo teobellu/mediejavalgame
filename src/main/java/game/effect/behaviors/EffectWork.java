@@ -1,5 +1,8 @@
 package game.effect.behaviors;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import exceptions.GameException;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
@@ -11,6 +14,8 @@ import game.effect.IEffectBehavior;
  *
  */
 public class EffectWork implements IEffectBehavior{
+	
+	private transient Logger _log = Logger.getLogger(EffectWork.class.getName());
 	
 	/**
 	 * A default serial version ID to the selected type.
@@ -64,7 +69,7 @@ public class EffectWork implements IEffectBehavior{
 			effect.getBar().launchesWork(value, action);
 		} catch (GameException e) {
 			// TODO Auto-generated catch block Stai facendo lavoro a potere 0
-			e.printStackTrace();
+			_log.log(Level.FINE, e.getMessage(), e);
 		}
 	}
 	

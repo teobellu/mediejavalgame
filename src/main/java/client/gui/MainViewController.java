@@ -151,7 +151,7 @@ public class MainViewController {
 	
 	private GUI _GUI;
 	
-	private Logger _log = Logger.getLogger(MainViewController.class.getName());
+	private transient Logger _log = Logger.getLogger(MainViewController.class.getName());
 	
 	/*https://stackoverflow.com/q/28243156*/
 	/**
@@ -265,6 +265,7 @@ public class MainViewController {
 			}
 		} catch (RemoteException e) {
 			// TODO: handle exception
+			_log.log(Level.INFO, e.getMessage(), e);
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -384,6 +385,7 @@ public class MainViewController {
 							new Text(fm.get(i).getOwner().getName()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.get(i).getColor())+" familiar"), 
 							column, row);
 					} catch (IndexOutOfBoundsException e) {
+						_log.log(Level.OFF, e.getMessage(), e);
 						_councilPalaceGrid.add(new Text(""), column, row);
 					}
 				}
@@ -396,6 +398,7 @@ public class MainViewController {
 								new Text(fm.get(i).getOwner().getName()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.get(i).getColor())+" familiar"), 
 								column, row);
 					} catch (IndexOutOfBoundsException e) {
+						_log.log(Level.OFF, e.getMessage(), e);
 						_productionSpaceGrid.add(new Text(""), column, row);
 					}
 					
@@ -409,6 +412,7 @@ public class MainViewController {
 								new Text(fm.get(i).getOwner().getName()+": "+GuiUtil.cleanUnderscoresCapsFirst(fm.get(i).getColor())+" familiar"), 
 								column, row);
 					} catch (IndexOutOfBoundsException e) {
+						_log.log(Level.OFF, e.getMessage(), e);
 						_harvestSpaceGrid.add(new Text(""), column, row);
 					}
 				}

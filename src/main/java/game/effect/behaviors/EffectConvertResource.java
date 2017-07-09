@@ -15,6 +15,8 @@ import game.effect.IEffectBehavior;
 
 public class EffectConvertResource implements IEffectBehavior{
 	
+	private transient Logger _log = Logger.getLogger(EffectConvertResource.class.getName());
+	
 	/**
 	 * A default serial version ID to the selected type.
 	 */
@@ -85,6 +87,7 @@ public class EffectConvertResource implements IEffectBehavior{
 					bonus = effect.getBar().handleCouncil(bonus);
 				player.gain(bonus);
 			} catch (GameException e) {
+				_log.log(Level.OFF, e.getMessage(), e);
 				return;
 			}
 		}
@@ -99,7 +102,7 @@ public class EffectConvertResource implements IEffectBehavior{
 				realGainOptions.add(gainOptions.get(i));
 			} catch (GameException e) {
 				// TODO il giocatore non puo' converire perche' non ha le risorse necessarie
-				//e.printStackTrace();
+				_log.log(Level.INFO, e.getMessage(), e);
 			}
 		}
 	}

@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import game.development.DevelopmentCard;
 import game.state.State;
@@ -20,6 +22,8 @@ import util.Constants;
  *
  */
 public class Game implements Runnable {
+	
+	Logger _log = Logger.getLogger(Game.class.getName());
 	
 	private ListenAction _listener;
 	
@@ -43,7 +47,7 @@ public class Game implements Runnable {
 	public Game(Room room) {
 		_theRoom = room;
 		
-		List<String> playerColours = new ArrayList<>(Arrays.asList(GC.PLAYER_COLOURS));
+		List<String> playerColours = new ArrayList<>(Arrays.asList(GC.getPlayerColours()));
 		
 		Collections.shuffle(playerColours);
 		
@@ -62,7 +66,7 @@ public class Game implements Runnable {
 			setupGame();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -275,6 +279,8 @@ public class Game implements Runnable {
 				try {
 					player.getClient().getConnectionHandler().sendInfo(message);
 				} catch (RemoteException e) {
+					//TODO
+					_log.log(Level.SEVERE, e.getMessage(), e);
 					setAFK(player);
 				}
 			});
@@ -285,6 +291,7 @@ public class Game implements Runnable {
 			try {
 				player.getClient().getConnectionHandler().sendInfo(message);
 			} catch (RemoteException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
 				setAFK(player);
 			}
 		});

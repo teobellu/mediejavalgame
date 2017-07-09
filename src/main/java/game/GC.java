@@ -117,7 +117,11 @@ public class GC{
 	public static final String PLAYER_GREEN = "green";
 	public static final String PLAYER_YELLOW = "yellow";
 	
-	public static final String[] PLAYER_COLOURS = new String[]{PLAYER_BLUE, PLAYER_GREEN, PLAYER_RED, PLAYER_YELLOW};
+	private static final String[] PLAYER_COLOURS = new String[]{PLAYER_BLUE, PLAYER_GREEN, PLAYER_RED, PLAYER_YELLOW};
+	
+	public static String[] getPlayerColours(){
+		return PLAYER_COLOURS;
+	}
 	
 	public static final int NUMBER_OF_AGES = 3;
 	

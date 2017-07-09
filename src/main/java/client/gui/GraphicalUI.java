@@ -40,7 +40,7 @@ public class GraphicalUI implements UI {
 	
 	private static GraphicalUI _instance = null;
 	
-    private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
+    private transient Logger _log = Logger.getLogger(GraphicalUI.class.getName());
     
     private ConnectionServerHandler _connectionHandler = null;
     
@@ -144,7 +144,10 @@ public class GraphicalUI implements UI {
 		
 		try{
 			synchronized (_commandToGui) {
-				_commandToGui.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_commandToGui.wait();
+					break;
+				}
 			}
 			
 			return (int) returnFirstAndCleanCommand();
@@ -173,11 +176,15 @@ public class GraphicalUI implements UI {
 			addToCommandToGui(CommandStrings.HANDLE_COUNCIL);
 			
 			synchronized (_commandToGui) {
-				_commandToGui.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_commandToGui.wait();
+					break;
+				}
 			}
 			
 			return (int) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			return 0;
 		}
@@ -205,11 +212,15 @@ public class GraphicalUI implements UI {
 			addToCommandToGui(context);
 			
 			synchronized (_commandToGui) {
-				_commandToGui.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_commandToGui.wait();
+					break;
+				}
 			}
 			
 			return (int) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			return 0;
 		}
@@ -222,11 +233,15 @@ public class GraphicalUI implements UI {
 			addToCommandToGui(CommandStrings.ASK_INT);
 			
 			synchronized (_commandToGui) {
-				_commandToGui.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_commandToGui.wait();
+					break;
+				}
 			}
 			
 			return (int) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
@@ -241,11 +256,15 @@ public class GraphicalUI implements UI {
 			addToCommandToGui(CommandStrings.ASK_BOOLEAN);
 			
 			synchronized (_commandToGui) {
-				_commandToGui.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_commandToGui.wait();
+					break;
+				}
 			}
 			
 			return (boolean) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		System.out.println("\n###ERRORE IN ASK BOOLEAN###\n");
@@ -259,11 +278,15 @@ public class GraphicalUI implements UI {
 			addToCommandToGui(CommandStrings.CHOOSE_COST);
 			
 			synchronized (_commandToGui) {
-				_commandToGui.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_commandToGui.wait();
+					break;
+				}
 			}
 			
 			return (int) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
@@ -277,11 +300,15 @@ public class GraphicalUI implements UI {
 			addToCommandToGui(CommandStrings.CHOOSE_FAMILIAR);
 			
 			synchronized (_commandToGui) {
-				_commandToGui.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_commandToGui.wait();
+					break;
+				}
 			}
 			
 			return (int) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
@@ -295,11 +322,15 @@ public class GraphicalUI implements UI {
 			addToCommandToGui(CommandStrings.CHOOSE_CONVERT);
 			
 			synchronized (_commandToGui) {
-				_commandToGui.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_commandToGui.wait();
+					break;
+				}
 			}
 			
 			return (int) returnFirstAndCleanCommand();
 		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
@@ -380,6 +411,7 @@ public class GraphicalUI implements UI {
 		try {
 			_connectionHandler.activateLeaderCard(leaderName);
 		} catch (RemoteException e) {
+			_log.log(Level.INFO, e.getMessage(), e);
 			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
 		}
 	}
@@ -389,6 +421,7 @@ public class GraphicalUI implements UI {
 		try {
 			_connectionHandler.placeFamiliar(familiarColour, position);
 		} catch (RemoteException e) {
+			_log.log(Level.INFO, e.getMessage(), e);
 			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
 		}
 	}
@@ -398,6 +431,7 @@ public class GraphicalUI implements UI {
 		try {
 			_connectionHandler.dropLeaderCard(leaderName);
 		} catch (RemoteException e) {
+			_log.log(Level.INFO, e.getMessage(), e);
 			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
 		}
 	}
@@ -407,6 +441,7 @@ public class GraphicalUI implements UI {
 		try {
 			_connectionHandler.endTurn();
 		} catch (RemoteException e) {
+			_log.log(Level.INFO, e.getMessage(), e);
 			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
 		}
 	}
@@ -430,6 +465,7 @@ public class GraphicalUI implements UI {
 //			}
 		} catch (RemoteException e) {
 			//TODO
+			_log.log(Level.INFO, e.getMessage(), e);
 		}
 	}
 	

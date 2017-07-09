@@ -15,4 +15,7 @@ public class MainClient {
 		Client client = new Client();
 		client.start();
 	}
+	
+	private MainClient() {
+	}
 }

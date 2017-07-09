@@ -18,7 +18,7 @@ import util.Constants;
 public class ServerRMI extends Thread implements ServerRemote {
 
 	public void stopServer() {
-		
+		_IS_RUNNING = false;
 	}
 	
 	@Override
@@ -56,31 +56,33 @@ public class ServerRMI extends Thread implements ServerRemote {
 	
 	@Override
 	public ConnectionHandlerRemote onConnect(){
-		try {
-			RMIConnectionHandler connectionHandler = new RMIConnectionHandler();
-			
-			return (ConnectionHandlerRemote) UnicastRemoteObject.exportObject(connectionHandler, 0);
-		} catch (RemoteException e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
+		if(_IS_RUNNING){
+			try {
+				RMIConnectionHandler connectionHandler = new RMIConnectionHandler();
+				
+				return (ConnectionHandlerRemote) UnicastRemoteObject.exportObject(connectionHandler, 0);
+			} catch (RemoteException e) {
+				_log.log(Level.SEVERE, e.getMessage(), e);
+				return null;
+			}
+		} else {
 			return null;
 		}
 	}
 	
 	@Override
 	public ConnectionHandlerRemote onReconnect(String uuid) throws RemoteException {
-		System.out.println("uuid client: "+uuid);
 		for(Room room : Server.getInstance().getRooms()){
 			for(Client client : room.getPlayers()){
-				System.out.println("\nuuid server: "+client.getUUID());
 				if(client.getUUID().equals(uuid)){
 					return (ConnectionHandlerRemote) client.getConnectionHandler();
 				}
 			}
 		}
-		throw new RuntimeException("Cannot find the client");
+		throw new RemoteException();
 	}
 	
 	private Registry _registry = null;
-	private Logger _log = Logger.getLogger(ServerRMI.class.getName());
+	private transient Logger _log = Logger.getLogger(ServerRMI.class.getName());
 	private boolean _IS_RUNNING = false;
 }

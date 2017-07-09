@@ -28,9 +28,6 @@ import util.Constants;
  */
 public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
-	//TODO debug, rimuovere
-	private boolean primo = true;
-	
 	public SocketConnectionServerHandler(String host, int port) {
 		super(host, port);
 		
@@ -88,13 +85,17 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			queueToServer(CommandStrings.RECONNECT, uuid);
 			
 			synchronized (_returnObject) {
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return;
 //			return (boolean) _returnObject;
 		} catch (InterruptedException e) {
-//			_log.log(Level.SEVERE, e.getMessage(), e);
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			Thread.currentThread().interrupt();
 //			return false;
 		} catch (UnknownHostException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -270,7 +271,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			queueToServer(CommandStrings.ADD_TO_GAME, name);
 			
 			synchronized (_returnObject) {
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return (boolean) _returnObject;
@@ -322,7 +326,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 					Thread.sleep(500);
 				}
 			} while (_isRunning);
-		} catch (InterruptedException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		} catch(InterruptedException e){
+			Thread.currentThread().interrupt();
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		} catch (IOException ioe) {
 			_log.log(Level.SEVERE, ioe.getMessage(), ioe);
@@ -352,6 +359,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					_log.log(Level.SEVERE, e.getMessage(), e);
+					Thread.currentThread().interrupt();
 				}
 			}
 		} while(true);
@@ -371,10 +379,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
 		
-		if(primo){
-			throw new RemoteException();
-		}
-		
 		try{
 			_returnObject = new Object();
 			
@@ -382,7 +386,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			if(_returnObject.equals(CommandStrings.CONNECTION_ERROR)){
@@ -392,6 +399,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			return;
 		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			Thread.currentThread().interrupt();
 		}
 		
 		System.out.println("ERRORE IN getMe");
@@ -404,11 +412,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	 */
 	@Override
 	public void activateLeaderCard(String leaderName) throws RemoteException {
-		if(primo){
-			primo = false;
-			throw new RemoteException();
-		}
-		
 		try{
 			_returnObject = new Object();
 			
@@ -416,7 +419,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return;
@@ -441,7 +447,10 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return;
@@ -533,6 +542,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 						try {
 							writeObject(_fromClientToServer.poll());
 						} catch (RemoteException e) {
+							_log.log(Level.INFO, e.getMessage(), e);
 							_returnObject = CommandStrings.CONNECTION_ERROR;
 							_returnObject.notify();
 						}

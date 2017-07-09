@@ -30,7 +30,7 @@ public class Room extends Thread {
 	private ConfigFileHandler fileHandler;
 	private List<Client> afkClients; 
 	
-	private Logger log = Logger.getLogger(Room.class.getName());
+	private transient Logger log = Logger.getLogger(Room.class.getName());
 	
 	public Room(String configFile) {
 		clients = new ArrayList<>();

@@ -25,7 +25,7 @@ import util.IOHandler;
 
 public class CommandLineUI implements UI {
 	
-	private Logger _log = Logger.getLogger(CommandLineUI.class.getName());
+	private transient Logger _log = Logger.getLogger(CommandLineUI.class.getName());
 	
 	private GameBoard _board;
 	
@@ -103,9 +103,8 @@ public class CommandLineUI implements UI {
 					handleTurn();
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}// TODO Auto-generated method stub
-				
+					_log.log(Level.SEVERE, e.getMessage(), e);
+				}
 			}
 		}).start();
 		
@@ -183,30 +182,11 @@ public class CommandLineUI implements UI {
 //			ModelPrinter.printBoard(_board);
 //			ModelPrinter.printMyLoot(_me);
 		} catch (GameException e) {
-			e.printStackTrace();
+			_log.log(Level.FINE, e.getMessage(), e);
 		}
 		handleTurn();
 		//fine, esco da questo metodo
 	}
-	
-//	private void getMe() {
-//		try {
-//			_me = _connectionHandler.getMe();
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	private void getBoard() {
-//		
-//		try {
-//			_board = _connectionHandler.getBoard();
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 	
 	private synchronized void printBoard() throws RemoteException{
 		ModelPrinter.printBoard(_board);
@@ -234,7 +214,7 @@ public class CommandLineUI implements UI {
 		try {
 			activateLeaderCard(myLeaders.get(selection).getName());
 		} catch (GameException e) {
-			e.printStackTrace();
+			_log.log(Level.FINE, e.getMessage(), e);
 		}
 //		getMe();
 		handleTurn();
@@ -256,7 +236,7 @@ public class CommandLineUI implements UI {
 		try {
 			dropLeaderCard(myLeaders.get(selection).getName());
 		} catch (GameException e) {
-			e.printStackTrace();
+			_log.log(Level.FINE, e.getMessage(), e);
 		}
 //		getMe();
 		handleTurn();
@@ -399,7 +379,7 @@ public class CommandLineUI implements UI {
 			getConnection().addMeToGame(username);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

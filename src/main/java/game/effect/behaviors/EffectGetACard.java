@@ -14,6 +14,8 @@ import game.effect.IEffectBehavior;
 
 public class EffectGetACard implements IEffectBehavior{
 
+	private transient Logger _log = Logger.getLogger(EffectGetACard.class.getName());
+	
 	private static final String MESSAGE = "Do you want to get a card? Maybe you have to pay the tax tower! The start power is: ";
 	private static final String MESS_COLUMN = "Select a column";
 	private static final String MESS_ROW = "Select a row";
@@ -72,6 +74,7 @@ public class EffectGetACard implements IEffectBehavior{
 				break;
 			} catch (GameException e) {
 				//TODO non puoi
+				_log.log(Level.OFF, e.getMessage(), e);
 			}
 		}while(true);
 	}

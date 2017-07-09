@@ -64,5 +64,5 @@ public class SocketServer extends Thread {
 
 	private boolean _isRunning = false;
 	private ServerSocket _serverSocket;
-	private Logger _log = Logger.getLogger(SocketServer.class.getName());
+	private transient Logger _log = Logger.getLogger(SocketServer.class.getName());
 }

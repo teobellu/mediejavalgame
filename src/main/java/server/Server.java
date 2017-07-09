@@ -174,5 +174,5 @@ public class Server extends Thread {
 	private static Server _instance = null;
 	private Executor _gameExecutor = Executors.newCachedThreadPool();
 	
-	private Logger _log = Logger.getLogger(Server.class.getName());
+	private transient Logger _log = Logger.getLogger(Server.class.getName());
 }

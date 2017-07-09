@@ -26,7 +26,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	private Socket _socket;
 	private ObjectInputStream _inputStream;
 	private ObjectOutputStream _outputStream;
-	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
+	private transient Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
 
 	private ConcurrentLinkedQueue<Object> _fromClientToServer = new ConcurrentLinkedQueue<>();
 	private ConcurrentLinkedQueue<Object> _fromServerToClient = new ConcurrentLinkedQueue<>();
@@ -67,6 +67,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				try {
 					object = _inputStream.readObject();
 				} catch (ClassNotFoundException e) {
+					_log.log(Level.INFO, e.getMessage(), e);
 					object=null;
 				}
 			}
@@ -83,6 +84,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					_log.log(Level.SEVERE, e.getMessage(), e);
+					Thread.currentThread().interrupt();
 				}
 			}
 		}
@@ -117,12 +119,13 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							queueToClient(CommandStrings.DROP_LEADER_CARD);
 						}
 					} catch (GameException e) {
+						_log.log(Level.OFF, e.getMessage(), e);
 						try {
 							queueToClient(CommandStrings.DROP_LEADER_CARD);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							_log.log(Level.SEVERE, e1.getMessage(), e1);
 						}
 					}
 				}
@@ -141,12 +144,13 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							queueToClient(CommandStrings.ACTIVATE_LEADER_CARD);
 						}
 					} catch (GameException e) {
+						_log.log(Level.OFF, e.getMessage(), e);
 						try {
 							queueToClient(CommandStrings.ACTIVATE_LEADER_CARD);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							_log.log(Level.SEVERE, e1.getMessage(), e1);
 						}
 					}
 				}
@@ -166,12 +170,13 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							queueToClient(CommandStrings.PLACE_FAMILIAR);
 						}
 					} catch (GameException e) {
+						_log.log(Level.OFF, e.getMessage(), e);
 						try {
 							queueToClient(CommandStrings.PLACE_FAMILIAR);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							_log.log(Level.SEVERE, e1.getMessage(), e1);
 						}
 					}
 				}
@@ -183,6 +188,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 					_theGame.getListener().endTurn(_client.getName());
 				}
 			} catch (GameException e) {
+				_log.log(Level.OFF, e.getMessage(), e);
 				sendInfo(e.getMessage());
 			}
 		}
@@ -269,7 +275,10 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			queueToClient(CommandStrings.HANDLE_COUNCIL, councilRewards);
 			
 			synchronized (_returnObject) {
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return (int) _returnObject;
@@ -286,7 +295,10 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			queueToClient(CommandStrings.CHOOSE_FAMILIAR, familiars, message);
 			
 			synchronized (_returnObject) {
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return (int) _returnObject;
@@ -306,7 +318,10 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			queueToClient(CommandStrings.ASK_BOOLEAN, message);
 			
 			synchronized (_returnObject) {
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return (boolean) _returnObject;
@@ -326,7 +341,10 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			queueToClient(CommandStrings.CHOOSE_CONVERT, realPayOptions, realGainOptions);
 			
 			synchronized (_returnObject) {
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return (int) _returnObject;
@@ -346,7 +364,10 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			queueToClient(CommandStrings.ASK_INT, message, min, max);
 			
 			synchronized (_returnObject) {
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return (int) _returnObject;
@@ -369,7 +390,10 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			queueToClient(context, leadersList);
 			
 			synchronized (_returnObject) {
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return (int) _returnObject;
@@ -387,7 +411,10 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			queueToClient(CommandStrings.INITIAL_PERSONAL_BONUS, bonus);
 			
 			synchronized (_returnObject) {
-				_returnObject.wait();
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
 			}
 			
 			return (int) _returnObject;
@@ -431,6 +458,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					_log.log(Level.SEVERE, e.getMessage(), e);
+					Thread.currentThread().interrupt();
 				}
 			}
 		} while(true);
@@ -481,7 +509,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 								processObject(obj);
 							} catch (RemoteException e) {
 								// TODO Auto-generated catch block
-								e.printStackTrace();
+								_log.log(Level.SEVERE, e.getMessage(), e);
 							}
 //						}
 //					}).start();
@@ -508,17 +536,16 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							writeObject(_fromServerToClient.poll());
 						} catch (RemoteException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
+							_log.log(Level.SEVERE, e.getMessage(), e);
 						}
 					} else {
 						try {
 							Thread.sleep(200);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							_log.log(Level.SEVERE, e.getMessage(), e);
+							Thread.currentThread().interrupt();
 						}
 					}
-					
 				//}
 			}
 		}

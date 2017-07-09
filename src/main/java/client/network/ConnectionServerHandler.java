@@ -29,6 +29,14 @@ public abstract class ConnectionServerHandler extends Thread {
 	}
 	
 	/**
+	 * No-args constructor, because of sonarqube compliance
+	 */
+	public ConnectionServerHandler() {
+		_host = "";
+		_port = 0;
+	}
+	
+	/**
 	 * Am I running?
 	 * @return true or false
  	 */

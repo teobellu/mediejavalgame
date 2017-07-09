@@ -1,5 +1,8 @@
 package game.effect.behaviors;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import exceptions.GameException;
 import game.GC;
 import game.Player;
@@ -9,6 +12,8 @@ import game.effect.IEffectBehavior;
 
 public class EffectLostVictoryDepicted implements IEffectBehavior{
 
+	private transient Logger _log = Logger.getLogger(EffectLostVictoryDepicted.class.getName());
+	
 	private Resource payForEach;		//paga 1 victory per ogni forEach
 	private String typeOfCard;
 	private Resource costOfFilteredCards;
@@ -65,7 +70,7 @@ public class EffectLostVictoryDepicted implements IEffectBehavior{
 		try {
 			player.pay(malus);
 		} catch (GameException e) {
-			
+			_log.log(Level.OFF, e.getMessage(), e);
 		}
 	}
 	

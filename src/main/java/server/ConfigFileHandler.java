@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,6 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import exceptions.CustomConfigException;
 import game.ExcommunicationTile;
 import game.GC;
 import game.Resource;
@@ -46,6 +49,8 @@ import game.effect.behaviors.EffectWork;
  *
  */
 public class ConfigFileHandler {
+	
+	private transient Logger _log = Logger.getLogger(ConfigFileHandler.class.getName());
 	
 	/**
 	 * Map with all information about spaces bonus
@@ -102,8 +107,8 @@ public class ConfigFileHandler {
 			Document doc = db.parse(xml);
 			validate(doc);
 		} catch (Exception e) {
-			System.err.println("file is not good"); //TODO e se scelgo GUI?
-			/**TODO le carte caricate prima dell'errore rimangono!
+			_log.log(Level.INFO, e.getMessage(), e);
+			/*TODO le carte caricate prima dell'errore rimangono!
 			 * cosi' su 2 piedi mi vengono in mente 2 opzioni, ce ne saranno di migliori:
 			 * 1- svuotare tutto, space_bonus ecc. ma perderebbo "final"
 			 * 2- chiudere il gioco
@@ -117,7 +122,7 @@ public class ConfigFileHandler {
 	 * @param doc document, from DocumentBuilder.parse(xml file)
 	 * @throws Exception File is not valid
 	 */
-	public void validate(Document doc) throws Exception{
+	public void validate(Document doc) throws CustomConfigException{
 		Node root = doc.getDocumentElement();
 			
 		//an advice from stackoverflow
@@ -212,13 +217,13 @@ public class ConfigFileHandler {
 	 * @param root Root node
 	 * @throws Exception The node has not a valid name
 	 */
-	private void uploadSpaceBonus(Node root) throws Exception{ 
+	private void uploadSpaceBonus(Node root) throws CustomConfigException{ 
 		List<Node> typeOfSpaces = getChildNodesFromNode(root);
 		for (Node node : typeOfSpaces){
 			String name = node.getNodeName();
 			List<Node> spaces = getChildNodesFromNode(node);
 			if(!GC.SPACE_TYPE.contains(node.getNodeName()))
-				throw new Exception();
+				throw new CustomConfigException();
 			spaces.forEach(space -> SPACE_BONUS.get(name)
 				.add(getEffectFromContainerNode(space)));
 		}

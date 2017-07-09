@@ -33,7 +33,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	private boolean primo = true;
 	
 	private ConnectionHandlerRemote _connectionHandler;
-	private final Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
+	private transient Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
 
 	public RMIConnectionServerHandler(String host, int port) {
 		super(host, port);

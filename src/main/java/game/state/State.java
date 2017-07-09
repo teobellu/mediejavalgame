@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import game.DynamicAction;
 import game.GC;
@@ -17,6 +19,8 @@ import server.ConnectionHandler;
 import util.Constants;
 
 public abstract class State {
+	
+	private transient Logger _log = Logger.getLogger(State.class.getName());
 	
 	protected int age; //1,2,3
 	protected int phase; //
@@ -111,7 +115,7 @@ public abstract class State {
 				.sendInfo("You turn is starting", _theGame.getBoard(), nextPlayer);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		if (!nextPlayer.isAfk())
 			controller.startTurn();
@@ -142,7 +146,7 @@ public abstract class State {
 			handler.startTurn(_theGame.getBoard(), player);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block mettero' il player afk?
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	

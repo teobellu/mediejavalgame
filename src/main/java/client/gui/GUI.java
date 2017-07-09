@@ -43,7 +43,7 @@ public class GUI extends Application {
 
 	private MainViewController _mainViewController;
 	
-	private Logger _log = Logger.getLogger(GUI.class.getName());
+	private transient Logger _log = Logger.getLogger(GUI.class.getName());
 	
 	private ExecutorService executor = Executors.newCachedThreadPool();
 	
@@ -102,7 +102,7 @@ public class GUI extends Application {
 					showDisconnectedDialog();
 				}
 				else {
-					throw new RuntimeException("GUI.java has received an unknown command");
+					_log.info("\nGUI has received an unknown command\n");
 				}
 			}
 
@@ -127,6 +127,7 @@ public class GUI extends Application {
 					try {
 						Thread.sleep(1000);
 					} catch (Exception e) {
+						_log.log(Level.FINE, e.getMessage(), e);
 					}
 				}
 				return null;

@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import game.LeaderCard;
 import game.Player;
@@ -11,6 +13,8 @@ import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
 public class EffectCopyLeader implements IEffectBehavior{
+	
+	private transient Logger _log = Logger.getLogger(EffectCopyLeader.class.getName());
 	
 	private static final String MESSAGE = "Select a leader card to copy";
 	
@@ -25,7 +29,7 @@ public class EffectCopyLeader implements IEffectBehavior{
 			selectLeaderCard();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		activateLeaderCard();
 	}

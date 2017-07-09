@@ -17,7 +17,7 @@ public class IOHandler {
 	
 	private final BufferedReader reader;
 	private final PrintWriter writer;
-	private Logger log = Logger.getLogger(IOHandler.class.getName());
+	private transient Logger log = Logger.getLogger(IOHandler.class.getName());
 
 	public IOHandler() {
 		reader = new BufferedReader(new InputStreamReader(System.in));

@@ -3,10 +3,14 @@ package game;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import exceptions.GameException;
 
 public class ListenAction{
+	
+	private transient Logger _log = Logger.getLogger(ListenAction.class.getName());
 	
 	protected final Game _theGame;
 	protected Player _player;
@@ -86,7 +90,7 @@ public class ListenAction{
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has dropped the Leader card "+leaderName, _player);
@@ -113,7 +117,7 @@ public class ListenAction{
 			_player.getClient().getConnectionHandler().sendInfo("Leader card activated!", _player);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has activated the Leader card " + leaderName, _player);
@@ -159,7 +163,7 @@ public class ListenAction{
 			_player.getClient().getConnectionHandler().sendInfo("Familiar placed!", _theGame.getBoard(), _player);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has placed a familiar " + position.prettyPrintable(), _player);
@@ -178,7 +182,7 @@ public class ListenAction{
 			_player.getClient().getConnectionHandler().sendInfo("Ended turn.\n");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has ended his turn", _player);

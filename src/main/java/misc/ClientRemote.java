@@ -1,5 +1,6 @@
 package misc;
 
+import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -15,7 +16,7 @@ import game.Resource;
  * @author Jacopo
  *
  */
-public interface ClientRemote extends Remote {
+public interface ClientRemote extends Remote, Serializable {
 
 	/**
 	 * Convert a council privilege

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import exceptions.GameException;
 import game.FamilyMember;
@@ -17,6 +19,8 @@ import misc.ConnectionHandlerRemote;
 
 public class RMIConnectionHandler extends ConnectionHandler implements ConnectionHandlerRemote, Serializable {
 
+	private transient Logger _log = Logger.getLogger(RMIConnectionHandler.class.getName());
+	
 	private ClientRemote _clientConnectionHandler;
 	
 	@Override
@@ -41,12 +45,6 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	@Override
 	public void sendConfigFile(String file) throws RemoteException {
 		_configFile = file;
-	}
-	
-	public void setGame(){//TODO da chiamare questo metodo alla creazione del gioco(probabilmente nella room)
-		if(_client!=null){
-			_theGame = _client.getRoom().getGame();
-		}
 	}
 	
 	@Override
@@ -84,6 +82,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		try {
 			_theGame.getListener().dropLeaderCard(_client.getName(), leaderName);
 		} catch (GameException e) {
+			_log.log(Level.OFF, e.getMessage(), e);
 			sendInfo(e.getMessage());
 		}
 	}
@@ -93,6 +92,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		try {
 			_theGame.getListener().activateLeaderCard(_client.getName(), leaderName);
 		} catch (GameException e) {
+			_log.log(Level.OFF, e.getMessage(), e);
 			sendInfo(e.getMessage());
 		}
 	}
@@ -102,6 +102,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		try {
 			_theGame.getListener().placeFamiliar(_client.getName(), familiarColour, position);
 		} catch (GameException e) {
+			_log.log(Level.OFF, e.getMessage(), e);
 			sendInfo(e.getMessage());
 		}
 	}
@@ -111,6 +112,7 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 		try {
 			_theGame.getListener().endTurn(_client.getName());
 		} catch (GameException e) {
+			_log.log(Level.OFF, e.getMessage(), e);
 			sendInfo(e.getMessage());
 		}
 	}
