@@ -48,6 +48,8 @@ public final class CommandStrings {
 	
 	public static final String CHOOSE_COST = "choose_cost";
 	
+	public static final String SHOW_VATICAN_SUPPORT = "show_vatican_support";
+	
 	/**
 	 * Hide constructor
 	 */

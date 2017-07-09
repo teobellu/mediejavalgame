@@ -347,8 +347,7 @@ public class MainViewController {
 	 */
 	@FXML
 	private void onSixthButtonClicked(){
-		GraphicalUI.getInstance().showVaticanSupport(
-				GraphicalUI.getInstance().getCachedMe().getResource(GC.RES_FAITHPOINTS));
+		GraphicalUI.getInstance().showVaticanSupport();
 	}
 	
 	/**

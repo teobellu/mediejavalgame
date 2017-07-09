@@ -19,6 +19,11 @@ import misc.ConnectionHandlerRemote;
 
 public class RMIConnectionHandler extends ConnectionHandler implements ConnectionHandlerRemote, Serializable {
 
+	/**
+	 * Generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 992769740779261223L;
+
 	private transient Logger _log = Logger.getLogger(RMIConnectionHandler.class.getName());
 	
 	private ClientRemote _clientConnectionHandler;
@@ -153,9 +158,9 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	}
 
 	@Override
-	public void showVaticanSupport(Integer resource) throws RemoteException {
+	public void showVaticanSupport() throws RemoteException {
 		try {
-			_theGame.showVaticanSupport(resource, _client.getName());
+			_theGame.showVaticanSupport(_client.getName());
 		} catch (GameException e) {
 			// TODO: handle exception
 		}

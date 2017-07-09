@@ -369,7 +369,7 @@ public class Game implements Runnable {
 		_theRoom.shutdown();
 	}
 
-	public void showVaticanSupport(Integer resource, String name) throws GameException{
+	public void showVaticanSupport(String name) throws GameException {
 		// TODO Auto-generated method stub
 		
 	}

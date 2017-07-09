@@ -173,6 +173,9 @@ public interface UI extends Runnable{
 	 */
 	public void reconnected();
 
-	public void showVaticanSupport(Integer resource);
+	/**
+	 * Show your support to the Vatican
+	 */
+	public void showVaticanSupport();
 	
 }

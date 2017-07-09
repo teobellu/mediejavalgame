@@ -401,10 +401,35 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			Thread.currentThread().interrupt();
 		}
-		
-		System.out.println("ERRORE IN getMe");
-		
-		return;
+	}
+	
+	/* (non-Javadoc)
+	 * @see client.network.ConnectionServerHandler#showVaticanSupport(java.lang.Integer)
+	 */
+	@Override
+	public void showVaticanSupport() throws RemoteException {
+		try{
+			_returnObject = new Object();
+			
+			queueToServer(CommandStrings.SHOW_VATICAN_SUPPORT);
+			
+			synchronized (_returnObject) {
+				System.out.println("\nWaiting...\n");
+				while(Thread.currentThread().getState()!=Thread.State.WAITING){
+					_returnObject.wait();
+					break;
+				}
+			}
+			
+			if(_returnObject.equals(CommandStrings.CONNECTION_ERROR)){
+				throw new RemoteException();
+			}
+			
+			return;
+		} catch (InterruptedException e){
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			Thread.currentThread().interrupt();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -425,14 +450,14 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				}
 			}
 			
+			if(_returnObject.equals(CommandStrings.CONNECTION_ERROR)){
+				throw new RemoteException();
+			}
+			
 			return;
-		} catch (Exception e) {
+		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
-		System.out.println("ERRORE IN getMe");
-		
-		return;
 	}
 
 	/* (non-Javadoc)
@@ -453,15 +478,14 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				}
 			}
 			
+			if(_returnObject.equals(CommandStrings.CONNECTION_ERROR)){
+				throw new RemoteException();
+			}
+			
 			return;
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
-		System.out.println("ERRORE IN getMe");
-		
-		return;
-		
 	}
 	
 	/**
@@ -541,6 +565,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 					if(!_fromClientToServer.isEmpty()){
 						try {
 							writeObject(_fromClientToServer.poll());
+							_returnObject.notify();
 						} catch (RemoteException e) {
 							_log.log(Level.INFO, e.getMessage(), e);
 							_returnObject = CommandStrings.CONNECTION_ERROR;

@@ -486,9 +486,9 @@ public class GraphicalUI implements UI {
 	}
 
 	@Override
-	public void showVaticanSupport(Integer resource) {
+	public void showVaticanSupport() {
 		try{
-			_connectionHandler.showVaticanSupport(resource);
+			_connectionHandler.showVaticanSupport();
 		} catch (RemoteException e) {
 			_log.log(Level.INFO, e.getMessage(), e);
 			addToCommandToGui(CommandStrings.CONNECTION_ERROR);

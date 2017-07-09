@@ -192,6 +192,14 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				sendInfo(e.getMessage());
 			}
 		}
+		else if(str.equals(CommandStrings.SHOW_VATICAN_SUPPORT)){
+			try {
+				_theGame.showVaticanSupport(_client.getName());
+			} catch (GameException e) {
+				_log.log(Level.OFF, e.getMessage(), e);
+				sendInfo(e.getMessage());
+			}
+		}
 //		else if(str.equals(CommandStrings.GAME_BOARD)){
 //			GameBoard board = _theGame.getListener().getGameBoard();
 //			queueToClient(CommandStrings.GAME_BOARD, board);

@@ -29,9 +29,11 @@ import util.Constants;
  */
 public class RMIConnectionServerHandler extends ConnectionServerHandler implements ClientRemote {
 	
-	//TODO debug, per simulare disconnessione
-	private boolean primo = true;
-	
+	/**
+	 * Generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 3638341358577466527L;
+
 	private ConnectionHandlerRemote _connectionHandler;
 	private transient Logger _log = Logger.getLogger(RMIConnectionServerHandler.class.getName());
 
@@ -182,12 +184,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	 */
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
-		if(primo){
-			primo = false;
-			throw new RemoteException();
-		} else{
-			_connectionHandler.dropLeaderCard(leaderName);
-		}
+		_connectionHandler.dropLeaderCard(leaderName);
 	}
 
 	/* (non-Javadoc)
@@ -273,7 +270,7 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	}
 
 	@Override
-	public void showVaticanSupport(Integer resource) throws RemoteException {
-		_connectionHandler.showVaticanSupport(resource);
+	public void showVaticanSupport() throws RemoteException {
+		_connectionHandler.showVaticanSupport();
 	}
 }
