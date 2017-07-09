@@ -28,13 +28,11 @@ public class Room extends Thread {
 	private boolean isRunning = false;
 	private List<Client> clients;
 	private ConfigFileHandler fileHandler;
-	private List<Client> afkClients; 
 	
 	private transient Logger log = Logger.getLogger(Room.class.getName());
 	
 	public Room(String configFile) {
 		clients = new ArrayList<>();
-		afkClients = new ArrayList<>();
 		
 		fileHandler = new ConfigFileHandler();
 		

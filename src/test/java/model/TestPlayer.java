@@ -46,6 +46,7 @@ public class TestPlayer {
 		DevelopmentCard dc3 = new Building(0, null, null, null, null, 0);
 		dc1.setId(1);
 		dc2.setId(2);
+	
 		
 		fake.addDevelopmentCard(dc1);
 		fake.addDevelopmentCard(dc2);
@@ -118,6 +119,22 @@ public class TestPlayer {
 		assertTrue(fake.getDelay() == 0);
 		fake.setDelay(GC.DELAY);
 		assertTrue(fake.getDelay() == GC.DELAY);
+		
+		//OPT (once per turn leader cards)
+		
+		fake.setOPTActivated(true);
+		assertTrue(fake.getOPTActivated());
+
+		//afk
+		
+		fake.setAfk(true);
+		assertTrue(fake.isAfk());
+		
+		//vatica
+		
+		fake.setVaticanSupport(true);
+		assertTrue(fake.isVaticanSupporter());
+		
     }
 	
 	@Test(expected = GameException.class)

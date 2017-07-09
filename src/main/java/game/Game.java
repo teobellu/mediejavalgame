@@ -60,14 +60,7 @@ public class Game implements Runnable {
 	
 	@Override
 	public void run() {
-		//TODO
-		
-		try {
-			setupGame();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
+		setupGame();
 	}
 
 	public boolean isOver() {
@@ -82,70 +75,50 @@ public class Game implements Runnable {
 		return _board;
 	}
 	
-	private void setupGame() throws RemoteException{
+	private void setupGame(){
 		Collections.shuffle(_players);
-		
-		setupLeaderCards();
 		
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
 		
 		gameInformation.setExcommunicationTitlesOnBoard();
 		
-		
-		
-		
-		
-		int i=0;
-		int j=24;
-		int k=48;
-		int w=72;
-		
-		int n = 5;
-		for (Player p : _players){
-			p.gain(new Resource(GC.RES_WOOD, 20));
-			p.gain(new Resource(GC.RES_STONES, 20));
-			p.gain(new Resource(GC.RES_SERVANTS, 30));
-			p.gain(new Resource(GC.RES_COINS, n+20));
-			n++;
-			
-			//TODO da cancellare:
-			p.gain(new Resource(GC.RES_MILITARYPOINTS, 20));
-			p.gain(new Resource(GC.RES_FAITHPOINTS, 20));
-			p.gain(new Resource(GC.RES_VICTORYPOINTS, 35));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(i));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(i +1));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(i +2));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(i +3));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(j));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(j +1));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(j +2));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(j +3));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(k));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(k +1));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(k +2));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(k +3));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(w));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(w +1));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(w +2));
-			p.addDevelopmentCard(gameInformation.getDevelopmentDeck().get(w +3));
-			
-			i+= 4;
-			j+= 4;
-			k+=4;
-			w+=4;
+		try {
+			setupLeaderCards();
+			setupDashboardBonus();
+		} catch (RemoteException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+			closeGame();
 		}
 		
+		
+		setInitialResourcePack();
 		gameInformation.newPhase(1);
 		
-		setupDashboardBonus();
+		
 		
 		for (Player p : _players){
-			p.getClient().getConnectionHandler().chooseLeader(CommandStrings.CHOOSE_LEADER, gameInformation.getLeaderDeck());
+			try {
+				p.getClient().getConnectionHandler().chooseLeader(CommandStrings.CHOOSE_LEADER, gameInformation.getLeaderDeck());
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		
 		_state = new StateStartingTurn(this);
 		_state.setupState();
+	}
+	
+	private void setInitialResourcePack(){
+		int n = 5;
+		for (Player p : _players){
+			p.gain(new Resource(GC.RES_WOOD, 2));
+			p.gain(new Resource(GC.RES_STONES, 2));
+			p.gain(new Resource(GC.RES_SERVANTS, 3));
+			p.gain(new Resource(GC.RES_COINS, n+5));
+			n++;
+		}
 	}
 	
 	/**
@@ -211,6 +184,11 @@ public class Game implements Runnable {
 		}
 	}
 	*/
+	
+	/**
+	 * Initial setup leader card
+	 * @throws RemoteException
+	 */
 	private void setupLeaderCards() throws RemoteException{
 		
 		List<LeaderCard> leaders = gameInformation.getLeaderDeck();
@@ -241,9 +219,11 @@ public class Game implements Runnable {
 		}
 	}
 	
+	/**
+	 * Initial personal bonus choose
+	 * @throws RemoteException 
+	 */
 	private void setupDashboardBonus() throws RemoteException{
-		System.out.println("Setup Personal Bonus");
-		
 		//ottengo i bonus della plancia giocatore
         Map<String, List<Resource>> bonus = gameInformation.getBonusPlayerDashBoard();
 		
@@ -264,7 +244,7 @@ public class Game implements Runnable {
 	
 	public synchronized void otherPlayersInfo(String message, Player excluded){
 		_players.stream()
-			.filter(player -> player != excluded)
+			.filter(player -> player.getName() != excluded.getName())
 			.forEach(player -> {
 				try {
 					player.getClient().getConnectionHandler().sendInfo(message);

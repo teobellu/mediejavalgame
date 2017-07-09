@@ -165,7 +165,6 @@ public class ConfigFileHandler {
 		for (DevelopmentCard card : DEVELOPMENT_DECK){
 			countId++;
 			card.setId(countId);
-			System.out.println("AAAAAAAAAAAAA = " + countId);
 		}
 		countId = 0;
 		for (ExcommunicationTile tile : EXCOMMUNICATION_DECK){

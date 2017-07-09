@@ -11,6 +11,11 @@ import game.development.DevelopmentCardManager;
 import game.effect.Effect;
 import server.Client;
 
+/**
+ * Simply the player model class
+ * @author M
+ *
+ */
 public class Player implements Serializable{
 
 	/**
@@ -18,38 +23,89 @@ public class Player implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Client of the player
+	 */
 	private final transient Client _client;
 	
+	/**
+	 * Is the player afk? Means offline, you know...
+	 */
 	private boolean afk = false;
 	
+	/**
+	 * True if the player is a vatican supporter
+	 */
 	private boolean vaticanSupport = false;
 	
+	/**
+	 * Colour of the player
+	 */
 	private final String _playerColour;
+	
+	/**
+	 * Name of the player
+	 */
 	private final String name;
-	private Resource resource;	
+	
+	/**
+	 * His loot
+	 */
+	private Resource resource;
+	
+	/**
+	 * Player's development cards
+	 */
 	private List<DevelopmentCard> developmentCard;
+	
+	/**
+	 * Player's not activated / not discarded leader cards
+	 */
 	private List<LeaderCard> leaderCard;
 
+	/**
+	 * Player's free family members
+	 */
 	private List<FamilyMember> freeMember;
+	
+	/**
+	 * Player's effects
+	 */
 	private List<Effect> effects;
 	
-	/* da file: */
+	/**
+	 * Player's harvest bonus (from dashboard bonus, xml)
+	 */
 	private Resource harvestBonus;	
 	
+	/**
+	 * Player's production bonus (from dashboard bonus, xml)
+	 */
 	private Resource productionBonus;
 	
+	/**
+	 * @Visitor_Design_Pattern
+	 * Handler of development cards
+	 */
 	private DevelopmentCardManager manager;
 	
 	/**
-	 * TODO
-	 * 0 -> NORMAL
-	 * 1 -> JUMP
-	 * 2 -> RECUPERA JUMP
+	 * Delay malus turn
+	 * {@link: GC.NORMAL} -> Normal player
+	 * {@link: GC.DELAY} -> Has to jump turn
 	 */
 	private int delay;
 
+	/**
+	 * True if the player activated OPT Leader cards
+	 */
 	private boolean OPTActivated;
 
+	/**
+	 * Base constructor of a player
+	 * @param client His client
+	 * @param colour His colour
+	 */
 	protected Player(Client client, String colour){
 		_client = client;
 		_playerColour = colour;
@@ -65,18 +121,35 @@ public class Player implements Serializable{
 		vaticanSupport = false;
 	}
 	
+	/**
+	 * Gain some resources
+	 * @param res Q.ty
+	 */
 	public void gain(Resource res){
 		resource.add(res);
 	}
 	
+	/**
+	 * Pay some resources
+	 * @param cost Q.ty to pay
+	 * @throws GameException Can't pay
+	 */
 	public void pay (Resource cost) throws GameException{
 		resource.sub(cost);
 	}
 	
+	/**
+	 * Add new permanent effects
+	 * @param permanentEffect
+	 */
 	public void addEffect(List<Effect> permanentEffect) {
 		permanentEffect.forEach(effect -> addEffect(effect));
 	}
 	
+	/**
+	 * Add new effect
+	 * @param eff Generic effect
+	 */
 	public void addEffect (Effect eff){
 		if (eff == null) 
 			return;
@@ -93,25 +166,55 @@ public class Player implements Serializable{
 		}
 	}
 	
+	/**
+	 * @Lambda_expression
+	 * Get activable leader cards {@link LeaderCard}
+	 * @return activable leader cards
+	 */
 	public List<LeaderCard> getActivableLeaderCards(){
 		return leaderCard.stream()
 			.filter(card -> card.canPlayThis(this))
 			.collect(Collectors.toList());
 	}
 	
+	/**
+	 * Add new leader card
+	 * @param newCard
+	 */
 	public void addLeaderCard (LeaderCard newCard){
 		leaderCard.add(newCard);
 	}
 	
+	/**
+	 * Remove a leader card
+	 * @param cardToDiscard
+	 */
 	public void removeLeaderCard (LeaderCard cardToDiscard){
 		leaderCard.removeIf(card -> card == cardToDiscard);
 	}
 	
+	/**
+	 * Add a new development card
+	 * @param newCard
+	 */
 	public void addDevelopmentCard (DevelopmentCard newCard){
 		if (newCard == null || newCard.getId() == 0)
 			return;
 		developmentCard.add(newCard);
 		manager.add(newCard);
+	}
+	
+	/**
+	 * Get bonus from dashboard
+	 * @param action harvest or production
+	 * @return Bonus
+	 */
+	public Resource getBonus(String action) {
+		switch(action){
+			case GC.HARVEST : return harvestBonus;
+			case GC.PRODUCTION : return productionBonus;
+			default : return new Resource();
+		}
 	}
 	
 	public Resource getResource(){
@@ -159,14 +262,6 @@ public class Player implements Serializable{
 		return name;
 	}
 
-	public Resource getBonus(String action) {
-		switch(action){
-			case GC.HARVEST : return harvestBonus;
-			case GC.PRODUCTION : return productionBonus;
-			default : return new Resource();
-		}
-	}
-
 	public void setHarvestBonus(Resource harvestBonus) {
 		this.harvestBonus = harvestBonus;
 	}
@@ -195,7 +290,7 @@ public class Player implements Serializable{
 		this.delay = delay;
 	}
 
-	public boolean isVaticanSupport() {
+	public boolean isVaticanSupporter() {
 		return vaticanSupport;
 	}
 

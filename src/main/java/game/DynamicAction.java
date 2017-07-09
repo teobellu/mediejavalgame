@@ -518,7 +518,7 @@ public class DynamicAction {
 	public void showVaticanSupport(int age){
 		GameInformation infoGame = game.getGameInformation();
 		int faithPoints = player.getResource(GC.RES_FAITHPOINTS);
-		if (!player.isVaticanSupport() || faithPoints < 2 + age){
+		if (!player.isVaticanSupporter() || faithPoints < 2 + age){
 			dontShowVaticanSupport(age);
 			return;
 		}

@@ -97,16 +97,7 @@ public class TestGameInformation {
 		//jump turns 
 		
 		gi.setHeadPlayersTurn(list);
-//		gi.setTailPlayersTurn(list);
-//		gi.setLatePlayersTurn(list);
-		
 		assertTrue(gi.getHeadPlayersTurn().size() == 2);
-//		assertTrue(gi.getTailPlayersTurn().size() == 2);
-//		assertTrue(gi.getLatePlayersTurn().size() == 2);
-		
-//		assertTrue(gi.hasToJumpTurn(g1));
-//		gi.getTailPlayersTurn().clear();
-//		assertTrue(!gi.hasToJumpTurn(g1)); 
 		
 		//dashboard bonus
 		
