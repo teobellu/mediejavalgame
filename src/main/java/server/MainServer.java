@@ -2,6 +2,8 @@ package server;
 
 /**
  * Main of the Server
+ * @author Jacopo
+ * @author Matteo
  */
 public class MainServer {
 

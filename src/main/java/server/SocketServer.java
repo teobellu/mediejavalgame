@@ -10,8 +10,16 @@ import java.util.logging.Logger;
 
 import util.Constants;
 
+/**
+ * Socket Server that handles the creation of new SocketconnectionHandler
+ * @author Jacopo
+ * @author Matteo
+ */
 public class SocketServer extends Thread {
 
+	/**
+	 * Constructor
+	 */
 	public SocketServer(){
 	}
 	
@@ -52,15 +60,31 @@ public class SocketServer extends Thread {
 		}
 	}
 	
+	/**
+	 * Stop the server
+	 */
 	public void stopServer() {
 		_isRunning = false;		
 	}
 
+	/**
+	 * Am i running?
+	 * @return yes or no
+	 */
 	public boolean isRunning() {
 		return _isRunning;
 	}
 
+	/**
+	 * Am i running?
+	 */
 	private boolean _isRunning = false;
+	/**
+	 * The ServerSocket associated
+	 */
 	private ServerSocket _serverSocket;
+	/**
+	 * the logger
+	 */
 	private Logger _log = Logger.getLogger(SocketServer.class.getName());
 }

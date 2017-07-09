@@ -15,8 +15,15 @@ import exceptions.GameException;
 
 public class Server extends Thread {
 
+	/**
+	 * private constructor
+	 */
 	private Server(){}
 	
+	/**
+	 * Get a server instance
+	 * @return the server instance
+	 */
 	public static Server getInstance(){
 		if(_instance == null){
 			synchronized (Server.class) {
@@ -28,6 +35,9 @@ public class Server extends Thread {
 		return _instance;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run(){
 		
@@ -105,6 +115,9 @@ public class Server extends Thread {
 		stopServer();
 	}
 	
+	/**
+	 * Stop the server
+	 */
 	private synchronized void stopServer(){
 		
 		_log.info("Shutting down the server...");
@@ -123,6 +136,12 @@ public class Server extends Thread {
 		System.exit(0);
 	}
 	
+	/**
+	 * Handle room creation
+	 * @param handler new client
+	 * @param name client name
+	 * @return true if added, false otherwise
+	 */
 	public synchronized boolean addMeToGame(ConnectionHandler handler, String name){
 		String id = UUID.randomUUID().toString();
 		Client client = new Client(handler, id, name);
@@ -150,20 +169,48 @@ public class Server extends Thread {
 		}
 	}
 	
+	/**
+	 * Shutdown the server
+	 */
 	public void shutdown(){
 		_isRunning = false;
 	}
 	
+	/**
+	 * Get the list of rooms
+	 * @return the list
+	 */
 	protected List<Room> getRooms(){
 		return _startingGames;
 	}
 
+	/**
+	 * Am i running?
+	 */
 	private boolean _isRunning = false;
+	/**
+	 * List of rooms
+	 */
 	private List<Room> _startingGames;
+	/**
+	 * The server RMI
+	 */
 	private ServerRMI _serverRMI;
+	/**
+	 * The server socket
+	 */
 	private SocketServer _serverSocket;
+	/**
+	 * Server instance
+	 */
 	private static Server _instance = null;
+	/**
+	 * Executor pool to start new rooms
+	 */
 	private Executor _gameExecutor = Executors.newCachedThreadPool();
 	
+	/**
+	 * The logger
+	 */
 	private Logger _log = Logger.getLogger(Server.class.getName());
 }

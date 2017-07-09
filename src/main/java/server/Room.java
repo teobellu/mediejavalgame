@@ -21,15 +21,39 @@ import util.Constants;
 
 public class Room extends Thread {
 	
+	/**
+	 * The timeout before starting the game
+	 */
 	private long startTimeout;
+	/**
+	 * When the room has been created
+	 */
 	private final long startTime;
+	/**
+	 * The game of this room
+	 */
 	private Game theGame;
+	/**
+	 * Am i running?
+	 */
 	private boolean isRunning = false;
+	/**
+	 * List of clients of this room
+	 */
 	private List<Client> clients;
+	/**
+	 * Parser of the config file
+	 */
 	private ConfigFileHandler fileHandler;
-	
+	/**
+	 * The logger
+	 */
 	private Logger log = Logger.getLogger(Room.class.getName());
 	
+	/**
+	 * Create a room, which handles the creation of a game
+	 * @param configFile
+	 */
 	public Room(String configFile) {
 		clients = new ArrayList<>();
 		
@@ -55,6 +79,9 @@ public class Room extends Thread {
 		startTimeout = fileHandler.timeoutStart * 1000;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Thread#run()
+	 */
 	@Override
 	public void run(){
 		theGame = new Game(this);
@@ -72,6 +99,11 @@ public class Room extends Thread {
 		log.info("New Room started");
 	}
 	
+	/**
+	 * Initializes the game
+	 * @param game the game
+	 * @param fileHandler the config file parser
+	 */
 	private void setupGame(Game game, ConfigFileHandler fileHandler) {
 		//GameBoard board = new GameBoard(fileHandler.SPACE_BONUS);
 		GameInformation info = game.getGameInformation();
@@ -90,6 +122,11 @@ public class Room extends Thread {
 		
 	}
 
+	/**
+	 * Add a player to the room
+	 * @param client the client
+	 * @throws GameException
+	 */
 	public synchronized void addPlayer(Client client) throws GameException {
 		if(clients.size() < Constants.MAX_PLAYER){
 			client.setRoom(this);
@@ -100,14 +137,26 @@ public class Room extends Thread {
 		
 	}
 
+	/**
+	 * Player > 4?
+	 * @return yes or no
+	 */
 	public boolean isFull() {
 		return clients.size() == Constants.MAX_PLAYER;
 	}
 	
+	/**
+	 * Player > 2?
+	 * @return yes or no
+	 */
 	private synchronized boolean hasEnoughPlayers(){
 		return clients.size()>=Constants.MIN_PLAYER;
 	}
 	
+	/**
+	 * Am i ready?
+	 * @return yes or no
+	 */
 	public boolean isReady(){
 		if(hasEnoughPlayers()){
 			for(Client player : clients){
@@ -120,35 +169,50 @@ public class Room extends Thread {
 		return false;
 	}
 	
+	/**
+	 * Am i running?
+	 * @return yes or no
+	 */
 	public boolean isRunning(){
 		return isRunning;
 	}
 	
+	/**
+	 * Is the game over?
+	 * @return yes or no
+	 */
 	public boolean isOver(){
 		return theGame.isOver();
 	}
 
+	/**
+	 * Get the list of players
+	 * @return
+	 */
 	public List<Client> getPlayers(){
 		return clients;
 	}
 	
-	public void setStartTimeout(long time){
-		startTimeout = time;
-	}
-	
-	public void getConfig(){
-		
-	}
-	
+	/**
+	 * Get the game of the room
+	 * @return the game
+	 */
 	public Game getGame(){
 		return theGame;
 	}
 	
+	/**
+	 * Is the timeout over?
+	 * @return yes or no
+	 */
 	public boolean isTimeoutOver(){
 		long currentTime = new Date().getTime();
 		return currentTime-startTime > startTimeout;
 	}
 	
+	/**
+	 * Shutdown the room
+	 */
 	public synchronized void shutdown(){
 		if(clients!=null && !clients.isEmpty()){
 			clients.clear();

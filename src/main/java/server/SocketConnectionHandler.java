@@ -22,19 +22,53 @@ import util.CommandStrings;
 
 public class SocketConnectionHandler extends ConnectionHandler {
 	
+	/**
+	 * Monitoring object for communication
+	 */
 	private Object _returnObject = new Object();
+	/**
+	 * The socket
+	 */
 	private Socket _socket;
+	/**
+	 * The input communication stream
+	 */
 	private ObjectInputStream _inputStream;
+	/**
+	 * The output communication stream
+	 */
 	private ObjectOutputStream _outputStream;
+	/**
+	 * The logger
+	 */
 	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
 
+	/**
+	 * The input queue of objects
+	 */
 	private ConcurrentLinkedQueue<Object> _fromClientToServer = new ConcurrentLinkedQueue<>();
+	/**
+	 * The output queue of objects
+	 */
 	private ConcurrentLinkedQueue<Object> _fromServerToClient = new ConcurrentLinkedQueue<>();
 	
+	/**
+	 * Thread fetching commands
+	 */
 	private Thread _reader;
+	/**
+	 * Thread processing commands
+	 */
 	private Thread _processor;
+	/**
+	 * Thread writing objects
+	 */
 	private Thread _writer;
 
+	/**
+	 * Constructor
+	 * @param socket the socket
+	 */
 	public SocketConnectionHandler(Socket socket) {
 		try {
 			_socket = socket;
@@ -60,6 +94,9 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		_writer.start();
 	}
 
+	/**
+	 * @throws IOException
+	 */
 	private void fetchFromClient() throws IOException {
 		Object object = null;
 		while(_isRunning){
