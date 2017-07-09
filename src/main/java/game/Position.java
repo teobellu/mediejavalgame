@@ -85,7 +85,8 @@ public class Position implements Serializable{
 		return column;
 	}
 	
-	public String prettyPrintable(){
+	@Override
+	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		if(where.equals(GC.TOWER)){
 			String[] towers = new String[]{
@@ -107,7 +108,6 @@ public class Position implements Serializable{
 		} else {
 			sb.append("in the "+where+" space.");
 		}
-		
 		return sb.toString();
 	}
 	

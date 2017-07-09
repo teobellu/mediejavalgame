@@ -35,15 +35,8 @@ public class ActivateLeaderController extends DialogAbstractController {
 	 */
 	@FXML
 	private void onOkClicked(){
-		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				GraphicalUI.getInstance().activateLeaderCard(_choices.getValue());
-			}
-		}).start();
-		
+		Runnable run = () -> GraphicalUI.getInstance().activateLeaderCard(_choices.getValue());
+		new Thread(run).start();
 		_dialog.close();
 	}
 	

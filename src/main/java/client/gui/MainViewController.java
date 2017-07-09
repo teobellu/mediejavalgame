@@ -293,14 +293,8 @@ public class MainViewController {
 	@FXML
 	private void onFourthButtonClicked(){
 		synchronized (this) {
-			new Thread(new Runnable() {
-					
-				@Override
-				public void run() {
-					GraphicalUI.getInstance().endTurn();
-				}
-			}).start();
-
+			Runnable run = () -> GraphicalUI.getInstance().endTurn();
+			new Thread(run).start();
 			endTurn();
 		}
 	}

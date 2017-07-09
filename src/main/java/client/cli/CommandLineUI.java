@@ -95,18 +95,17 @@ public class CommandLineUI implements UI {
 		_me = me;
 //		ModelPrinter.printBoard(_board);
 //		ModelPrinter.printMyLoot(_me);
-		new Thread(new Runnable() {
+		
+		Runnable run = () -> {
+			try {
+				handleTurn();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				_log.log(Level.SEVERE, e.getMessage(), e);
+			}// TODO Auto-generated method stub
 			
-			@Override
-			public void run() {
-				try {
-					handleTurn();
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					_log.log(Level.SEVERE, e.getMessage(), e);
-				}
-			}
-		}).start();
+		};
+		new Thread(run).start();
 		
 	}
 	
@@ -415,6 +414,12 @@ public class CommandLineUI implements UI {
 
 	@Override
 	public void setUUID(String uuid) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reconnected() {
 		// TODO Auto-generated method stub
 		
 	}

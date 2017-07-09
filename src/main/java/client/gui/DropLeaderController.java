@@ -36,14 +36,8 @@ public class DropLeaderController extends DialogAbstractController{
 	 */
 	@FXML
 	private void onOkClicked(){
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				GraphicalUI.getInstance().dropLeaderCard(_choiceBox.getValue());
-			}
-		}).start();
-		
+		Runnable run = () -> GraphicalUI.getInstance().dropLeaderCard(_choiceBox.getValue());
+		new Thread(run).start();
 		_dialog.close();
 	}
 	

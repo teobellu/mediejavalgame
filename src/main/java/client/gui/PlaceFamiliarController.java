@@ -90,13 +90,9 @@ public class PlaceFamiliarController extends DialogAbstractController {
 		
 		final Position pos = getPosition(i);
 		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				GraphicalUI.getInstance().placeFamiliar(_familyColours.get(_familiarChoice.getSelectionModel().getSelectedIndex()), pos);
-			}
-		}).start();
+		Runnable run = () -> GraphicalUI.getInstance()
+				.placeFamiliar(_familyColours.get(_familiarChoice.getSelectionModel().getSelectedIndex()), pos);
+		new Thread(run).start();
 		
 		_dialog.close();
 	}

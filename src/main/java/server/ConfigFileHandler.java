@@ -53,6 +53,12 @@ public class ConfigFileHandler {
 	private transient Logger _log = Logger.getLogger(ConfigFileHandler.class.getName());
 	
 	/**
+	 * @Lambda_Functions
+	 * Map with effect and this function, used for create lambda expression
+	 */
+	private static final Map<String, Function<Node , Effect>> EFFECTS = new HashMap<>();
+	
+	/**
 	 * Map with all information about spaces bonus
 	 */
 	private static final Map<String, List<Effect>> SPACE_BONUS = new HashMap<>();
@@ -87,10 +93,7 @@ public class ConfigFileHandler {
 	 */
 	protected long TIMEOUT_TURN;
 	
-	/**
-	 * Map with effect and this function, used for create lambda expression
-	 */
-	private static final Map<String, Function<Node , Effect>> EFFECTS = new HashMap<>();
+	
 	
 	public ConfigFileHandler() {
 		
@@ -163,7 +166,9 @@ public class ConfigFileHandler {
 		setIdToCards();
 	}
 	
-	//TODO description
+	/**
+	 * Set an ID to alla cards readen from xml file
+	 */
 	private void setIdToCards(){
 		int countId = 0;
 		for (DevelopmentCard card : DEVELOPMENT_DECK){
@@ -177,6 +182,30 @@ public class ConfigFileHandler {
 			if (countId == 7)
 				countId = 0;
 		}
+	}
+	
+	/**
+	 * Each element of the map corresponds to the pair string and function from the node
+	 * to the effect
+	 */
+	private void buildMap(){
+		EFFECTS.putIfAbsent("get_resources", ConfigFileHandler::getResources);
+		EFFECTS.putIfAbsent("gain_for_every", ConfigFileHandler::gainForEvery);
+		EFFECTS.putIfAbsent("gain_for_each", ConfigFileHandler::gainForEach);
+		EFFECTS.putIfAbsent("get_discount", ConfigFileHandler::getDiscount);
+		EFFECTS.putIfAbsent("block_floor",ConfigFileHandler::blockFloor);
+		EFFECTS.putIfAbsent("get_card", ConfigFileHandler::getCard);
+		EFFECTS.putIfAbsent("work", ConfigFileHandler::work);
+		EFFECTS.putIfAbsent("trade", ConfigFileHandler::trade);
+		EFFECTS.putIfAbsent("get_less_resources", ConfigFileHandler::getLessResources);
+		EFFECTS.putIfAbsent("less_value_familiars", ConfigFileHandler::lessValueFamiliar);
+		EFFECTS.putIfAbsent("increase_value_action", ConfigFileHandler::increaseValueAction);
+		EFFECTS.putIfAbsent("no_market", ConfigFileHandler::noMarket);
+		EFFECTS.putIfAbsent("pay_more_increase_worker", ConfigFileHandler::payMoreIncreaseWorker);
+		EFFECTS.putIfAbsent("delay_first_action", ConfigFileHandler::delayFirstAction);
+		EFFECTS.putIfAbsent("no_victory_points", ConfigFileHandler::noVictoryPoints);
+		EFFECTS.putIfAbsent("lose_victory_points_depicted_resource", ConfigFileHandler::loseVictoryPointsDepictedResource);
+		EFFECTS.putIfAbsent("lose_victory_points", ConfigFileHandler::loseVictoryPoints);
 	}
 	
 	/**
@@ -413,30 +442,6 @@ public class ConfigFileHandler {
 	}
 	
 	/**
-	 * Each element of the map corresponds to the pair string and function from the node
-	 * to the effect
-	 */
-	private void buildMap(){
-		EFFECTS.putIfAbsent("get_resources", ConfigFileHandler::getResources);
-		EFFECTS.putIfAbsent("gain_for_every", ConfigFileHandler::gainForEvery);
-		EFFECTS.putIfAbsent("gain_for_each", ConfigFileHandler::gainForEach);
-		EFFECTS.putIfAbsent("get_discount", ConfigFileHandler::getDiscount);
-		EFFECTS.putIfAbsent("block_floor",ConfigFileHandler::blockFloor);
-		EFFECTS.putIfAbsent("get_card", ConfigFileHandler::getCard); //TODO
-		EFFECTS.putIfAbsent("work", ConfigFileHandler::work);
-		EFFECTS.putIfAbsent("trade", ConfigFileHandler::trade);
-		EFFECTS.putIfAbsent("get_less_resources", ConfigFileHandler::getLessResources);
-		EFFECTS.putIfAbsent("less_value_familiars", ConfigFileHandler::lessValueFamiliar);
-		EFFECTS.putIfAbsent("increase_value_action", ConfigFileHandler::increaseValueAction);
-		EFFECTS.putIfAbsent("no_market", ConfigFileHandler::noMarket);
-		EFFECTS.putIfAbsent("pay_more_increase_worker", ConfigFileHandler::payMoreIncreaseWorker);
-		EFFECTS.putIfAbsent("delay_first_action", ConfigFileHandler::delayFirstAction);
-		EFFECTS.putIfAbsent("no_victory_points", ConfigFileHandler::noVictoryPoints);
-		EFFECTS.putIfAbsent("lose_victory_points_depicted_resource", ConfigFileHandler::loseVictoryPointsDepictedResource);
-		EFFECTS.putIfAbsent("lose_victory_points", ConfigFileHandler::loseVictoryPoints);
-	}
-	
-	/**
 	 * Generate an effect
 	 * @Factory Create a new instance of EffectDelayFirstAction
 	 * @param node Root node
@@ -527,13 +532,6 @@ public class ConfigFileHandler {
 	private static Effect getCard(Node node){
 		List<Node> parameters = getChildNodesFromNode(node);
 		IEffectBehavior behavior;
-		/*TODO
-		<get_card>
-		<type>building</type>
-		<value>6</value>
-		<wood>1</wood>
-		<stones>1</stones>
-	</get_card>*/
 		switch(parameters.size()){
 			case 1: behavior = new EffectGetACard(Integer.parseInt(parameters.get(0).getTextContent()));
 				break;

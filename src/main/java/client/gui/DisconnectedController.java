@@ -11,20 +11,15 @@ import javafx.scene.control.Button;
 public class DisconnectedController extends DialogAbstractController{
 
 	@FXML
-	private Button _reconnectButton;
+	private Button reconnectButton;
 	
 	/**
 	 * Called on Reconnect button clicked
 	 */
 	@FXML
 	private void onReconnectClicked(){
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				GraphicalUI.getInstance().attemptReconnection();
-			}
-		}).start();
+		Runnable run = () -> GraphicalUI.getInstance().attemptReconnection();
+		new Thread(run).start();
 		
 		_dialog.close();
 	}

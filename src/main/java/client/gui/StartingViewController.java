@@ -59,12 +59,7 @@ public class StartingViewController {
 		_backgroundImage.setImage(bg);
 		
 		//source: https://stackoverflow.com/questions/12744542/requestfocus-in-textfield-doesnt-work/12744775#12744775
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				_username.requestFocus();
-			}
-		});
+		Platform.runLater( () -> _username.requestFocus() );
 	}
 	
 	/**
