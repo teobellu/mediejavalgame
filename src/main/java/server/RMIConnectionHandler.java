@@ -166,4 +166,14 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 			sendInfo(e.getMessage());
 		}
 	}
+
+	@Override
+	public void activateOPTLeaders() throws RemoteException {
+		try {
+			_theGame.getListener().playOPTLeaderCards(_client.getName());
+		} catch (GameException e) {
+			_log.log(Level.OFF, e.getMessage(), e);
+			sendInfo(e.getMessage());
+		}
+	}
 }

@@ -114,4 +114,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	public abstract void attemptReconnection(String _uuid) throws RemoteException;
 
 	public abstract void showVaticanSupport() throws RemoteException;
+
+	public abstract void activateOPTLeaders() throws RemoteException;
 }

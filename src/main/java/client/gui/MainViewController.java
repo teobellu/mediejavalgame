@@ -108,10 +108,15 @@ public class MainViewController {
 	@FXML
 	private Button _fifthButton;
 	/**
-	 * 
+	 * show vatican support
 	 */
 	@FXML
 	private Button _sixthButton;
+	/**
+	 * Play OPT leader cards
+	 */
+	@FXML
+	private Button _seventhButton;
 
 	@FXML
 	private AnchorPane _buttonPane;//pannello con tutti i bottoni
@@ -351,6 +356,14 @@ public class MainViewController {
 	}
 	
 	/**
+	 * 
+	 */
+	@FXML
+	private void onSeventhButtonClicked(){
+		GraphicalUI.getInstance().activateOPTLeaders();
+	}
+	
+	/**
 	 * Set the gui
 	 * @param gui the gui
 	 */
@@ -507,6 +520,7 @@ public class MainViewController {
 		_fourthButton = (Button) _buttonPane.getChildren().get(3);
 		_fifthButton = (Button) _buttonPane.getChildren().get(4);
 		_sixthButton = (Button) _buttonPane.getChildren().get(5);
+		_seventhButton = (Button) _buttonPane.getChildren().get(6);
 		
 		_firstButton.setOnAction(event -> onFirstButtonClicked());
 		_secondButton.setOnAction(event -> onSecondButtonClicked());
@@ -514,6 +528,7 @@ public class MainViewController {
 		_fourthButton.setOnAction(event -> onFourthButtonClicked());
 		_fifthButton.setOnAction(event -> onFifthButtonClicked());
 		_sixthButton.setOnAction(event -> onSixthButtonClicked());
+		_seventhButton.setOnAction(event -> onSeventhButtonClicked());
 		
 		for(int row = 0;row<GameBoard.MAX_ROW;row++){
 			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){

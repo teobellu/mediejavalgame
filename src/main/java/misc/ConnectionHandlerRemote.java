@@ -69,4 +69,10 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	 */
 	public void showVaticanSupport() throws RemoteException;
 
+	/**
+	 * Activate OPT Leaders
+	 * @throws RemoteException
+	 */
+	public void activateOPTLeaders() throws RemoteException;
+
 }

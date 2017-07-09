@@ -179,5 +179,11 @@ public interface UI extends Runnable{
 	 * @throws GameException
 	 */
 	public void showVaticanSupport() throws RemoteException, GameException;
+
+	/**
+	 * Activate OPT Leaders
+	 * @throws RemoteException
+	 */
+	public void activateOPTLeaders() throws RemoteException;
 	
 }

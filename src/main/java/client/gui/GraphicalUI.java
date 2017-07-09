@@ -494,4 +494,14 @@ public class GraphicalUI implements UI {
 			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
 		}
 	}
+
+	@Override
+	public void activateOPTLeaders() {
+		try{
+			_connectionHandler.activateOPTLeaders();
+		} catch (RemoteException e) {
+			_log.log(Level.INFO, e.getMessage(), e);
+			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
+		}
+	}
 }

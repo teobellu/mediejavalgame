@@ -273,4 +273,9 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	public void showVaticanSupport() throws RemoteException {
 		_connectionHandler.showVaticanSupport();
 	}
+
+	@Override
+	public void activateOPTLeaders() throws RemoteException {
+		_connectionHandler.activateOPTLeaders();
+	}
 }
