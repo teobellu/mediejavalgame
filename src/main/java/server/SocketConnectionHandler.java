@@ -193,25 +193,30 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			}
 		}
 		else if(str.equals(CommandStrings.SHOW_VATICAN_SUPPORT)){
-			try {
-				_theGame.showVaticanSupport(_client.getName());
-			} catch (GameException e) {
-				_log.log(Level.OFF, e.getMessage(), e);
-				sendInfo(e.getMessage());
-			}
+			
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						_theGame.showVaticanSupport(_client.getName());
+						queueToClient(CommandStrings.SHOW_VATICAN_SUPPORT);
+					} catch (GameException e) {
+						_log.log(Level.OFF, e.getMessage(), e);
+						try {
+							queueToClient(CommandStrings.SHOW_VATICAN_SUPPORT);
+							sendInfo(e.getMessage());
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							_log.log(Level.SEVERE, e.getMessage(), e);
+						}
+					}
+				}
+			}).start();
 		}
-//		else if(str.equals(CommandStrings.GAME_BOARD)){
-//			GameBoard board = _theGame.getListener().getGameBoard();
-//			queueToClient(CommandStrings.GAME_BOARD, board);
-//		}
 		else if(str.equals(CommandStrings.ASK_FOR_CONFIG)){
 			_configFile = (String) getFromClient();
 		}
-//		else if(str.equals(CommandStrings.PLAYER)){
-//			Player player = _theGame.getListener().getMe(_client.getName());
-//			System.out.println("\nQuesto player ha "+player.getLeaderCards().size()+" carte leader\n");
-//			queueToClient(CommandStrings.PLAYER, player);
-//		}
 		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL
 				+"|"+CommandStrings.INITIAL_PERSONAL_BONUS+"|"+CommandStrings.CHOOSE_CONVERT
 				+"|"+CommandStrings.CHOOSE_FAMILIAR+"|"+CommandStrings.ASK_INT
