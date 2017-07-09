@@ -4,9 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import exceptions.GameException;
-import game.GC;
-import game.Resource;
+import model.exceptions.GameException;
 
 /**
  * Test model: Resource

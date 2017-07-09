@@ -4,12 +4,12 @@ import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Map;
 
-import game.FamilyMember;
-import game.Game;
-import game.GameBoard;
-import game.LeaderCard;
-import game.Player;
-import game.Resource;
+import model.FamilyMember;
+import model.GameBoard;
+import model.LeaderCard;
+import model.Player;
+import model.Resource;
+import server.game.Game;
 
 /**
  * Abstract connection handler

@@ -8,12 +8,6 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import game.FamilyMember;
-import game.GameBoard;
-import game.LeaderCard;
-import game.Player;
-import game.Resource;
-import game.development.DevelopmentCard;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -28,6 +22,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import model.FamilyMember;
+import model.GameBoard;
+import model.LeaderCard;
+import model.Player;
+import model.Resource;
+import model.developmentCards.DevelopmentCard;
 import util.CommandStrings;
 
 /**

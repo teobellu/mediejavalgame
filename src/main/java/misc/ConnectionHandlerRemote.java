@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import game.Position;
+import model.Position;
 
 /**
  * RMIConnectionHandler remote interface

@@ -10,17 +10,17 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import exceptions.GameException;
-import game.DynamicAction;
-import game.ExcommunicationTile;
-import game.FamilyMember;
-import game.GC;
-import game.Game;
-import game.GameBoard;
-import game.LeaderCard;
-import game.Resource;
-import game.effect.Effect;
+import model.Effect;
+import model.ExcommunicationTile;
+import model.FamilyMember;
+import model.GC;
+import model.GameBoard;
+import model.LeaderCard;
+import model.Resource;
+import model.exceptions.GameException;
 import server.Room;
+import server.game.DynamicAction;
+import server.game.Game;
 import util.FakePlayer;
 
 public class TestDynamicAction {

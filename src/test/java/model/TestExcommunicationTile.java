@@ -4,9 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import game.ExcommunicationTile;
-import game.GC;
-
 /**
  * Test model: Excommunication Tile
  * @author M

@@ -4,9 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import game.GC;
-import game.Position;
-
 /**
  * Test model: Position
  * @author M

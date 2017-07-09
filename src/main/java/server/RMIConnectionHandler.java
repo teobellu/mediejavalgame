@@ -7,15 +7,15 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.GameException;
-import game.FamilyMember;
-import game.GameBoard;
-import game.LeaderCard;
-import game.Player;
-import game.Position;
-import game.Resource;
 import misc.ClientRemote;
 import misc.ConnectionHandlerRemote;
+import model.FamilyMember;
+import model.GameBoard;
+import model.LeaderCard;
+import model.Player;
+import model.Position;
+import model.Resource;
+import model.exceptions.GameException;
 
 /**
  * RMI Connection Handler

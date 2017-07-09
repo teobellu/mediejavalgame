@@ -9,10 +9,6 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import game.GC;
-import game.LeaderCard;
-import game.Player;
-
 /**
  * Test model: Leader Card
  * @author M

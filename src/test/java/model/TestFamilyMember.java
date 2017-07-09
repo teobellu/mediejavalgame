@@ -4,9 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import game.FamilyMember;
-import game.GC;
-
 /**
  * Test model: Family Member
  * @author M

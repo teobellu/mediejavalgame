@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.ClientText;
-import game.FamilyMember;
-import game.GC;
-import game.GameBoard;
-import game.Position;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -18,6 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import model.FamilyMember;
+import model.GC;
+import model.GameBoard;
+import model.Position;
 
 /**
  * Controller for the place familiar dialog

@@ -4,11 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import game.GC;
-import game.Resource;
-import game.effect.Effect;
-import game.effect.behaviors.EffectDelayFirstAction;
-import game.effect.behaviors.EffectDoNothing;
+import model.effects.EffectDelayFirstAction;
+import model.effects.EffectDoNothing;
 import util.FakePlayer;
 
 /**

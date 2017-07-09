@@ -1,7 +1,6 @@
 package util;
 
-import game.Player;
-
+import model.Player;
 import server.Client;
 
 /**

@@ -13,10 +13,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import exceptions.GameException;
-import game.Game;
-import game.GameInformation;
-import game.Resource;
+import model.Resource;
+import model.exceptions.GameException;
+import server.game.Game;
+import server.game.GameInformation;
 import util.Constants;
 
 public class Room extends Thread {

@@ -7,13 +7,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import game.effect.Effect;
-import game.GC;
-import game.Resource;
-import game.development.AppendsToListVisitor;
-import game.development.Character;
-import game.development.DevelopmentCard;
-import game.development.DevelopmentCardManager;
+import model.developmentCards.AppendsToListVisitor;
+import model.developmentCards.Character;
+import model.developmentCards.DevelopmentCard;
+import model.developmentCards.DevelopmentCardManager;
 
 /**
  * Test model: Character

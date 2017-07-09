@@ -4,12 +4,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import game.GC;
-import game.development.Building;
-import game.development.Character;
-import game.development.DevelopmentCardManager;
-import game.development.Territory;
-import game.development.Venture;
+import model.developmentCards.Building;
+import model.developmentCards.Character;
+import model.developmentCards.DevelopmentCardManager;
+import model.developmentCards.Territory;
+import model.developmentCards.Venture;
 
 /**
  * Test model: DevelopmentCardManager

@@ -12,12 +12,12 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import game.FamilyMember;
-import game.GameBoard;
-import game.LeaderCard;
-import game.Player;
-import game.Position;
-import game.Resource;
+import model.FamilyMember;
+import model.GameBoard;
+import model.LeaderCard;
+import model.Player;
+import model.Position;
+import model.Resource;
 import util.CommandStrings;
 import util.Constants;
 

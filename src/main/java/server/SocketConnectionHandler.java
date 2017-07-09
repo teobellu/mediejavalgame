@@ -11,13 +11,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.GameException;
-import game.FamilyMember;
-import game.GameBoard;
-import game.LeaderCard;
-import game.Player;
-import game.Position;
-import game.Resource;
+import model.FamilyMember;
+import model.GameBoard;
+import model.LeaderCard;
+import model.Player;
+import model.Position;
+import model.Resource;
+import model.exceptions.GameException;
 import util.CommandStrings;
 
 public class SocketConnectionHandler extends ConnectionHandler {

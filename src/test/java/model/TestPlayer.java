@@ -7,16 +7,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import exceptions.GameException;
-import game.FamilyMember;
-import game.GC;
-import game.LeaderCard;
-import game.Resource;
-import game.development.Building;
-import game.development.DevelopmentCard;
-import game.development.Territory;
-import game.effect.Effect;
-import game.effect.behaviors.EffectDoNothing;
+import model.developmentCards.Building;
+import model.developmentCards.DevelopmentCard;
+import model.developmentCards.Territory;
+import model.effects.EffectDoNothing;
+import model.exceptions.GameException;
 import util.FakePlayer;
 
 /**

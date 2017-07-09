@@ -4,12 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import game.GC;
-import game.Resource;
-import game.development.AppendsToListVisitor;
-import game.development.Building;
-import game.development.DevelopmentCard;
-import game.development.DevelopmentCardManager;
+import model.developmentCards.AppendsToListVisitor;
+import model.developmentCards.Building;
+import model.developmentCards.DevelopmentCard;
+import model.developmentCards.DevelopmentCardManager;
 
 /**
  * Test model: Building

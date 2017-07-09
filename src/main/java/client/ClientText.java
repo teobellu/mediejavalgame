@@ -3,7 +3,7 @@ package client;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.GC;
+import model.GC;
 
 /**
  * Some text for the client

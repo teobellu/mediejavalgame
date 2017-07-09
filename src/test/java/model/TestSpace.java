@@ -5,12 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import game.FamilyMember;
-import game.GC;
-import game.Space;
-import game.development.Territory;
-import game.effect.Effect;
-import game.effect.behaviors.EffectGetResource;
+import model.developmentCards.Territory;
+import model.effects.EffectGetResource;
 
 /**
  * Test model: Space

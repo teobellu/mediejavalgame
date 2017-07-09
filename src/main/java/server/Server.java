@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.GameException;
+import model.exceptions.GameException;
 
 public class Server extends Thread {
 

@@ -2,10 +2,10 @@ package client.gui;
 
 import java.util.List;
 
-import game.Resource;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import model.Resource;
 
 /**
  * Controller for the choose convert dialog

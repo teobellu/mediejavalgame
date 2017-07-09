@@ -4,8 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import exceptions.GameException;
-import game.GC;
+import model.GC;
+import model.exceptions.GameException;
 
 /**
  * GameException test

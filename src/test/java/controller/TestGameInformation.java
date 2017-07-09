@@ -10,14 +10,14 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import game.ExcommunicationTile;
-import game.GC;
-import game.Game;
-import game.GameInformation;
-import game.LeaderCard;
-import game.Player;
-import game.effect.Effect;
+import model.Effect;
+import model.ExcommunicationTile;
+import model.GC;
+import model.LeaderCard;
+import model.Player;
 import server.Room;
+import server.game.Game;
+import server.game.GameInformation;
 import util.FakePlayer;
 
 /**

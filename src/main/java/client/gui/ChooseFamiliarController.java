@@ -2,11 +2,11 @@ package client.gui;
 
 import java.util.List;
 
-import game.FamilyMember;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
+import model.FamilyMember;
 
 /**
  * Controller for the choose familiar dialog

@@ -8,13 +8,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import game.FamilyMember;
-import game.GC;
-import game.GameBoard;
-import game.LeaderCard;
-import game.Player;
-import game.Space;
-import game.development.DevelopmentCard;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -29,6 +22,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import model.FamilyMember;
+import model.GC;
+import model.GameBoard;
+import model.LeaderCard;
+import model.Player;
+import model.Space;
+import model.developmentCards.DevelopmentCard;
 
 /**
  * Controller for the main scene

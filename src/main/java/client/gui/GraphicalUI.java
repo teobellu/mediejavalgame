@@ -15,15 +15,15 @@ import java.util.logging.Logger;
 import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
-import exceptions.GameException;
-import game.FamilyMember;
-import game.GameBoard;
-import game.LeaderCard;
-import game.Player;
-import game.Position;
-import game.Resource;
-import game.development.DevelopmentCard;
 import javafx.application.Application;
+import model.FamilyMember;
+import model.GameBoard;
+import model.LeaderCard;
+import model.Player;
+import model.Position;
+import model.Resource;
+import model.developmentCards.DevelopmentCard;
+import model.exceptions.GameException;
 import util.CommandStrings;
 
 public class GraphicalUI implements UI {

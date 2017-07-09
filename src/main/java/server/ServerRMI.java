@@ -36,7 +36,7 @@ public class ServerRMI extends Thread implements ServerRemote {
 				_registry = LocateRegistry.getRegistry();
 				
 				/* Piccolo trick per risolvere un problema.
-				 * Bisogna inizializzare il registro RMI da shell, cosa abbastanza sbatti da fare.
+				 * Bisogna inizializzare il registro RMI da shel.
 				 * _registry.list triggera un'eccezione se non e' stato avviato il registro RMI da shell,
 				 * ed entrando nella catch viene creato ed inizializzato il registro RMI.
 				 * */

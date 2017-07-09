@@ -3,8 +3,8 @@ package client.network;
 import java.rmi.RemoteException;
 
 import client.UI;
-import exceptions.GameException;
-import game.Position;
+import model.Position;
+import model.exceptions.GameException;
 
 public abstract class ConnectionServerHandler extends Thread {
 	

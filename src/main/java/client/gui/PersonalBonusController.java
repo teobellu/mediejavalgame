@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import game.GC;
-import game.Resource;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -19,6 +17,8 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import model.GC;
+import model.Resource;
 
 /**
  * Controller for the initial personal bonus dialog

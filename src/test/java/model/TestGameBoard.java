@@ -9,12 +9,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import game.ExcommunicationTile;
-import game.GC;
-import game.GameBoard;
-import game.development.DevelopmentCard;
-import game.development.Territory;
-import game.effect.Effect;
+import model.developmentCards.DevelopmentCard;
+import model.developmentCards.Territory;
 
 /**
  * Test model: GameBoard

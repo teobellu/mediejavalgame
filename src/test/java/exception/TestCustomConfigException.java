@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import exceptions.CustomConfigException;
+import model.exceptions.CustomConfigException;
 
 /**
  * Test CustomConfigException

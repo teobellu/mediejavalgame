@@ -2,10 +2,10 @@ package client.gui;
 
 import java.util.List;
 
-import game.LeaderCard;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import model.LeaderCard;
 
 /**
  * Controller for the activate leader dialog
