@@ -241,7 +241,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		else if(str.matches(CommandStrings.INITIAL_LEADER+"|"+CommandStrings.HANDLE_COUNCIL
 				+"|"+CommandStrings.INITIAL_PERSONAL_BONUS+"|"+CommandStrings.CHOOSE_CONVERT
 				+"|"+CommandStrings.CHOOSE_FAMILIAR+"|"+CommandStrings.ASK_INT
-				+"|"+CommandStrings.ASK_BOOLEAN)){
+				+"|"+CommandStrings.ASK_BOOLEAN+"|"+CommandStrings.CHOOSE_LEADER)){
 			synchronized (_returnObject) {
 				_returnObject.notify();
 				_returnObject = getFromClient();
