@@ -38,8 +38,6 @@ public class CommandLineUI implements UI {
 
 	private final IOHandler _ioHandler;
 	
-	private Object locker = null;
-	
 	private List<String> commands = new ArrayList<>();
 	
 	private static CommandLineUI _instance = null;
@@ -465,9 +463,4 @@ public class CommandLineUI implements UI {
 		// TODO Auto-generated method stub
 		
 	}
-
-	
-
-	
-	
 }

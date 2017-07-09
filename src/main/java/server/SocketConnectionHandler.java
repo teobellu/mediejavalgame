@@ -214,6 +214,27 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				}
 			}).start();
 		}
+		else if(str.equals(CommandStrings.ACTIVATE_OPT_LEADERS)){
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						_theGame.getListener().playOPTLeaderCards(_client.getName());
+						queueToClient(CommandStrings.ACTIVATE_OPT_LEADERS);
+					} catch (GameException e) {
+						_log.log(Level.OFF, e.getMessage(), e);
+						try {
+							queueToClient(CommandStrings.ACTIVATE_OPT_LEADERS);
+							sendInfo(e.getMessage());
+						} catch (RemoteException e2) {
+							// TODO: handle exception
+							_log.log(Level.SEVERE, e2.getMessage(), e2);
+						}
+					}
+				}
+			}).start();
+		}
 		else if(str.equals(CommandStrings.ASK_FOR_CONFIG)){
 			_configFile = (String) getFromClient();
 		}
