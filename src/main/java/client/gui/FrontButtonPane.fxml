@@ -3,13 +3,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="335.0" maxWidth="315.0" minHeight="335.0" minWidth="315.0" prefHeight="335.0" prefWidth="315.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane maxHeight="335.0" maxWidth="315.0" minHeight="335.0" minWidth="315.0" prefHeight="335.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="114.0" layoutY="50.0" mnemonicParsing="false" text="Place familiar" />
-      <Button layoutX="95.0" layoutY="100.0" mnemonicParsing="false" text="Activate Leader Card" />
-      <Button layoutX="103.0" layoutY="150.0" mnemonicParsing="false" text="Drop Leader Card" />
-      <Button layoutX="126.0" layoutY="200.0" mnemonicParsing="false" text="End Turn" />
-      <Button layoutX="105.0" layoutY="250.0" mnemonicParsing="false" text="Show Your Cards" />
+      <Button layoutX="114.0" layoutY="30.0" mnemonicParsing="false" text="Place familiar" />
+      <Button layoutX="95.0" layoutY="70.0" mnemonicParsing="false" text="Activate Leader Card" />
+      <Button layoutX="103.0" layoutY="110.0" mnemonicParsing="false" text="Drop Leader Card" />
+      <Button layoutX="126.0" layoutY="150.0" mnemonicParsing="false" text="End Turn" />
+      <Button layoutX="105.0" layoutY="190.0" mnemonicParsing="false" text="Show Your Cards" />
+      <Button layoutX="92.0" layoutY="230.0" mnemonicParsing="false" text="Show Vatican Support" />
    </children>
 </AnchorPane>

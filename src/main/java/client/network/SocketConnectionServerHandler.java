@@ -387,7 +387,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
-					_returnObject.wait();
+					_returnObject.wait(500);
 					break;
 				}
 			}
@@ -416,7 +416,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
-					_returnObject.wait();
+					_returnObject.wait(500);
 					break;
 				}
 			}
@@ -445,7 +445,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
-					_returnObject.wait();
+					_returnObject.wait(500);
 					break;
 				}
 			}
@@ -473,7 +473,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
-					_returnObject.wait();
+					_returnObject.wait(500);
 					break;
 				}
 			}
@@ -565,7 +565,8 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 					if(!_fromClientToServer.isEmpty()){
 						try {
 							writeObject(_fromClientToServer.poll());
-							_returnObject.notify();
+//							_returnObject = new Object();
+//							_returnObject.notify();
 						} catch (RemoteException e) {
 							_log.log(Level.INFO, e.getMessage(), e);
 							_returnObject = CommandStrings.CONNECTION_ERROR;

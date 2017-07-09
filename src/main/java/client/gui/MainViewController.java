@@ -498,12 +498,14 @@ public class MainViewController {
 		_thirdButton = (Button) _buttonPane.getChildren().get(2);
 		_fourthButton = (Button) _buttonPane.getChildren().get(3);
 		_fifthButton = (Button) _buttonPane.getChildren().get(4);
+		_sixthButton = (Button) _buttonPane.getChildren().get(5);
 		
 		_firstButton.setOnAction(event -> onFirstButtonClicked());
 		_secondButton.setOnAction(event -> onSecondButtonClicked());
 		_thirdButton.setOnAction(event -> onThirdButtonClicked());
 		_fourthButton.setOnAction(event -> onFourthButtonClicked());
 		_fifthButton.setOnAction(event -> onFifthButtonClicked());
+		_sixthButton.setOnAction(event -> onSixthButtonClicked());
 		
 		for(int row = 0;row<GameBoard.MAX_ROW;row++){
 			for(int column = 0;column<GameBoard.MAX_COLUMN;column++){
