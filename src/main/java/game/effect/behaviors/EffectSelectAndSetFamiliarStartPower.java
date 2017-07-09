@@ -14,6 +14,12 @@ import game.Player;
 import game.effect.Effect;
 import game.effect.IEffectBehavior;
 
+/**
+ * This effect behavior allows you to select a familiar and set a start power to it
+ * 
+ * @author M
+ *
+ */
 public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 	
 	/**
@@ -50,6 +56,11 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 	 * Familiar selected by the player
 	 */
 	private FamilyMember familiarToModify;
+
+	/**
+	 * Caller effect
+	 */
+	private Effect effect;
 	
 	/**
 	 * Base constructor of EffectSelectAndSetFamiliarStartPower effect behavior
@@ -78,6 +89,7 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 	 * @param ref Effect that possesses this behavior
 	 */
 	private void initializes(Effect ref) {
+		effect = ref;
 		player = ref.getPlayer();
 		familiars = player.getFreeMembers();
 		message = Messages.MESS_SELECT_AND_SET_FAMILIAR + valueToSet;
@@ -99,7 +111,11 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 				.collect(Collectors.toList()));
 		if (filteredFamiliars.isEmpty())
 			return;
-		int index = player.getClient().getConnectionHandler().chooseFamiliar(filteredFamiliars, message);
+		int index = 0;
+		String nick = player.getName();
+		index = player.getClient().getConnectionHandler().chooseFamiliar(filteredFamiliars, message);
+		if (!nick.equals(effect.getBar().getNick()))
+			return;
 		familiarToModify = filteredFamiliars.get(index);
 	}
 	

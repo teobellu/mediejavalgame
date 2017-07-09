@@ -87,27 +87,12 @@ public class Game implements Runnable {
 		
 		setupLeaderCards();
 		
-		for (DevelopmentCard c : gameInformation.getDevelopmentDeck()){
-			System.out.print(c.getName() +  " " + c.getAge() + " dice: " + c.getDice() + " ");
-			c.getCosts().forEach(e -> System.out.print("cost " + e.toString()));
-			c.getRequirement().forEach(e -> System.out.print("req " + e.toString()));
-			c.getImmediateEffect().forEach(e -> System.out.print("imm " + e.getIEffectBehavior().toString()));
-			c.getPermanentEffect().forEach(e -> System.out.print("perm " + e.getIEffectBehavior().toString()));
-			System.out.println("");
-		}
-		
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
 		
-//		gameInformation.getExcommunicationDeck().get(12);
-//		
-//		ExcommunicationTile[] delay = new ExcommunicationTile[3];
-//		delay[0] = gameInformation.getExcommunicationDeck().get(13);
-//		delay[1] = gameInformation.getExcommunicationDeck().get(12);
-//		delay[2] = gameInformation.getExcommunicationDeck().get(12);
-//		
-//		_board.setExCard(delay);
-		
 		gameInformation.setExcommunicationTitlesOnBoard();
+		
+		
+		
 		
 		
 		int i=0;
@@ -153,6 +138,11 @@ public class Game implements Runnable {
 		gameInformation.newPhase(1);
 		
 		setupDashboardBonus();
+		
+		for (Player p : _players){
+			p.getClient().getConnectionHandler().chooseLeader(CommandStrings.CHOOSE_LEADER, gameInformation.getLeaderDeck());
+		}
+		
 		
 		_state = new StateStartingTurn(this);
 		_state.setupState();

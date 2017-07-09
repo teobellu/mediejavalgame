@@ -626,12 +626,23 @@ public class DynamicAction {
 		}
 	}
 	
-	//TODO description
+	/**
+	 * Get discarded leader cards from game information
+	 * @return Map of discarded leader cards
+	 */
 	public Map<LeaderCard, Player> getDiscardedLeaderCards() {
 		GameInformation infoGame = game.getGameInformation();
 		return infoGame.getDiscardedLeader();
 	}
 
-	
+	public int askIntToPlayer(String message) throws GameException{
+		//String nickname = player.getClient().getName();
+		//int index = 
+		return 0;
+	}
+
+	public String getNick() {
+		return player.getName();
+	}
 	 
 }
