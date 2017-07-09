@@ -172,10 +172,12 @@ public interface UI extends Runnable{
 	 * On reconnected
 	 */
 	public void reconnected();
-
+	
 	/**
-	 * Show your support to the Vatican
+	 * Show your support to the Vatican TODO
+	 * @throws RemoteException
+	 * @throws GameException
 	 */
-	public void showVaticanSupport();
+	public void showVaticanSupport() throws RemoteException, GameException;
 	
 }

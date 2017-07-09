@@ -143,12 +143,13 @@ public class CommandLineUI implements UI {
 		}
 	}
 
-	private void showSupport() {
+	private void showSupport() throws RemoteException {
 		try{
 			showVaticanSupport();
 		} catch (GameException e) {
 			_log.log(Level.FINE, e.getMessage(), e);
 		}
+		handleTurn();
 	}
 
 	private synchronized void placeFamiliar() throws RemoteException{
@@ -271,6 +272,11 @@ public class CommandLineUI implements UI {
 	public void endTurn() throws RemoteException{
 		_connectionHandler.endTurn();
 		
+	}
+	
+	@Override
+	public void showVaticanSupport() throws RemoteException, GameException{
+		_connectionHandler.showVaticanSupport();
 	}
 	
 	public String getUsername(){
@@ -434,9 +440,6 @@ public class CommandLineUI implements UI {
 		
 	}
 
-	@Override
-	public void showVaticanSupport() {
-		_connectionHandler.showVaticanSupport();
-	}
+	
 	
 }

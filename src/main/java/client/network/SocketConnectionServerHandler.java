@@ -217,7 +217,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 		}
 		else if(obj.matches(CommandStrings.GAME_BOARD+"|"+CommandStrings.PLAYER+
 				"|"+CommandStrings.END_TURN+"|"+CommandStrings.DROP_LEADER_CARD+
-				"|"+CommandStrings.ACTIVATE_LEADER_CARD+"|"+CommandStrings.PLACE_FAMILIAR)){
+				"|"+CommandStrings.ACTIVATE_LEADER_CARD+"|"+CommandStrings.PLACE_FAMILIAR+"|"+CommandStrings.SHOW_VATICAN_SUPPORT)){
 			System.out.println("try to wake up");
 			synchronized (_returnObject) {
 				_returnObject.notify();
@@ -387,7 +387,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
-					_returnObject.wait(500);
+					_returnObject.wait();
 					break;
 				}
 			}
@@ -416,7 +416,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
-					_returnObject.wait(500);
+					_returnObject.wait();
 					break;
 				}
 			}
@@ -445,7 +445,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
-					_returnObject.wait(500);
+					_returnObject.wait();
 					break;
 				}
 			}
@@ -473,7 +473,7 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			synchronized (_returnObject) {
 				System.out.println("\nWaiting...\n");
 				while(Thread.currentThread().getState()!=Thread.State.WAITING){
-					_returnObject.wait(500);
+					_returnObject.wait();
 					break;
 				}
 			}
