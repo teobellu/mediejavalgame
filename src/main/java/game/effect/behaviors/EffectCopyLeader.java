@@ -45,12 +45,10 @@ public class EffectCopyLeader implements IEffectBehavior{
 	}
 	
 	private void selectLeaderCard() throws RemoteException {
-		//TODO selectedCard = ...
+
 		Map<LeaderCard, Player> discardedLeader = effect.getBar().getDiscardedLeaderCards();
 		
 		List<LeaderCard> options = new ArrayList<>();
-		
-		//TODO se size == 0 ?
 		
 		discardedLeader.forEach((card, owner) -> {if (!owner.getName().equals(player.getName())) options.add(card);});
 		

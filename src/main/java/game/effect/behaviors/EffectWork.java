@@ -15,6 +15,9 @@ import game.effect.IEffectBehavior;
  */
 public class EffectWork implements IEffectBehavior{
 	
+	/**
+	 * EffectWork Logger
+	 */
 	private transient Logger _log = Logger.getLogger(EffectWork.class.getName());
 	
 	/**
@@ -68,7 +71,7 @@ public class EffectWork implements IEffectBehavior{
 		try {
 			effect.getBar().launchesWork(value, action);
 		} catch (GameException e) {
-			// TODO Auto-generated catch block Stai facendo lavoro a potere 0
+			//Effect not done
 			_log.log(Level.FINE, e.getMessage(), e);
 		}
 	}

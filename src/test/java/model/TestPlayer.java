@@ -13,6 +13,7 @@ import game.GC;
 import game.LeaderCard;
 import game.Resource;
 import game.development.Building;
+import game.development.DevelopmentCard;
 import game.development.Territory;
 import game.effect.Effect;
 import game.effect.behaviors.EffectDoNothing;
@@ -40,8 +41,16 @@ public class TestPlayer {
 		
 		//development cards
 		
-		fake.addDevelopmentCard(new Territory(null, 3, null, null, 0));
-		fake.addDevelopmentCard(new Building(0, null, null, null, null, 0));
+		DevelopmentCard dc1 = new Territory(null, 3, null, null, 0);
+		DevelopmentCard dc2 = new Building(0, null, null, null, null, 0);
+		DevelopmentCard dc3 = new Building(0, null, null, null, null, 0);
+		dc1.setId(1);
+		dc2.setId(2);
+		
+		fake.addDevelopmentCard(dc1);
+		fake.addDevelopmentCard(dc2);
+		fake.addDevelopmentCard(dc3); //card with no id
+		fake.addDevelopmentCard(null); //null card
 		assertTrue(fake.getDevelopmentCards().size() == 2);
 		assertTrue(fake.getDevelopmentCards(GC.DEV_TERRITORY).size() == 1);
 		assertTrue(fake.getDevelopmentCards(GC.DEV_BUILDING).size() == 1);

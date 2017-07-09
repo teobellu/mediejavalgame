@@ -167,6 +167,7 @@ public abstract class ModelPrinter {
 		//bonus
 		_ioHandler.write("\n*****Harvest bonus: ");
 		printResource(me.getBonus(GC.HARVEST));
+		
 		_ioHandler.write("\n*****Production bonus: ");
 		printResource(me.getBonus(GC.PRODUCTION));
 		
@@ -193,11 +194,6 @@ public abstract class ModelPrinter {
 		_ioHandler.write("\n*****Familiars: ");
 		me.getFreeMembers()
 			.forEach(fam -> _ioHandler.write(fam.getColor() + " with power " + fam.getValue()));
-		
-		//permanent effects
-		_ioHandler.write("\n*****Effects: ");
-		me.getEffects()
-			.forEach(eff -> _ioHandler.write(eff.getIEffectBehavior().toString()));
 		
 	}
 	

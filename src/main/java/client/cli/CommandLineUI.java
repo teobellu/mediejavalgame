@@ -253,7 +253,6 @@ public class CommandLineUI implements UI {
 		int selection = 0;
 		List<LeaderCard> myLeaders;
 		//seleziona carta
-//		getMe();
 		myLeaders = _me.getLeaderCards();
 		if (myLeaders.isEmpty()){
 			_ioHandler.write("You don't have leader cards!");
@@ -263,7 +262,6 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
 		activateLeaderCard(myLeaders.get(selection).getName());
-//		getMe();
 		handleTurn();
 	}
 	
@@ -271,7 +269,6 @@ public class CommandLineUI implements UI {
 		int selection = 0;
 		List<LeaderCard> myLeaders;
 		//seleziona carta
-//		getMe();
 		myLeaders = _me.getLeaderCards();
 		if (myLeaders.isEmpty()){
 			_ioHandler.write("You don't have leader cards!");
@@ -281,7 +278,6 @@ public class CommandLineUI implements UI {
 		ModelPrinter.printLeaderCards(myLeaders);
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
 		dropLeaderCard(myLeaders.get(selection).getName());
-//		getMe();
 		handleTurn();
 	}
 	
@@ -346,7 +342,6 @@ public class CommandLineUI implements UI {
 	}
 	
 	
-	//public int chooseLeader(List<LeaderCard> tempList);
 	/**
 	 * Let player to select a leader card
 	 * @param context Context, explain why the player has to choose
@@ -443,14 +438,12 @@ public class CommandLineUI implements UI {
 	@Override
 	public void showInfo(String infoMessage, GameBoard board) {
 		_board = board;
-//		ModelPrinter.printBoard(_board);
 		showInfo(infoMessage);
 	}
 
 	@Override
 	public void showInfo(String message, Player me) {
 		_me = me;
-//		ModelPrinter.printMyLoot(_me);
 		showInfo(message);
 	}
 
@@ -458,8 +451,6 @@ public class CommandLineUI implements UI {
 	public void showInfo(String message, GameBoard board, Player me) {
 		_board = board;
 		_me = me;
-//		ModelPrinter.printBoard(_board);
-//		ModelPrinter.printMyLoot(_me);
 		showInfo(message);
 	}
 
