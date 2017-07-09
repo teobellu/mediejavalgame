@@ -10,7 +10,7 @@ import exceptions.GameException;
 
 public class ListenAction{
 	
-	private transient Logger _log = Logger.getLogger(ListenAction.class.getName());
+	private Logger _log = Logger.getLogger(ListenAction.class.getName());
 	
 	protected final Game _theGame;
 	protected Player _player;
@@ -49,14 +49,6 @@ public class ListenAction{
 		
 	}
 
-//	public GameBoard getGameBoard() {
-//		return _theGame.getBoard();
-//	}
-//	
-//	public Player getMe(String nickname) {
-//		return _player;
-//	}
-	
 	public void showVaticanSupport(String nickname) throws GameException{
 		checkOut(nickname, false);
 		_player.setVaticanSupport(true);
@@ -66,6 +58,9 @@ public class ListenAction{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			_player.setAfk(true);
+			_theGame.getState().nextState();
+			
 		}
 	}
 	
@@ -80,6 +75,9 @@ public class ListenAction{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			_player.setAfk(true);
+			_theGame.getState().nextState();
+			
 		}
 	}
 	
@@ -102,6 +100,9 @@ public class ListenAction{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			_player.setAfk(true);
+			_theGame.getState().nextState();
+			
 		}
 		
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has dropped the Leader card "+leaderName, _player);
@@ -129,6 +130,9 @@ public class ListenAction{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			_player.setAfk(true);
+			_theGame.getState().nextState();
+			
 		}
 		
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has activated the Leader card " + leaderName, _player);
@@ -175,6 +179,7 @@ public class ListenAction{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			_theGame.getState().nextState();
 		}
 		
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has placed a familiar " + position.toString(), _player);
@@ -194,13 +199,14 @@ public class ListenAction{
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			_player.setAfk(true);
+			_theGame.getState().nextState();
 		}
 		
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has ended his turn", _player);
 		
 		actionsAlreadyDone.clear();
 		_theGame.getState().nextState();
-		//TODO cambio stato
 	}
 		
 }

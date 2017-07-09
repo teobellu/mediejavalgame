@@ -17,8 +17,6 @@ public class EffectCopyLeader implements IEffectBehavior{
 	
 	private transient Logger _log = Logger.getLogger(EffectCopyLeader.class.getName());
 	
-	private static final String MESSAGE = "Select a leader card to copy";
-	
 	private Effect effect;
 	private Player player;
 	private LeaderCard selectedCard;

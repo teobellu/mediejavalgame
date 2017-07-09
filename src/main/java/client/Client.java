@@ -15,7 +15,7 @@ import util.IOHandler;
 public class Client extends Thread {
 	
 	private final IOHandler ioHandler;
-	private transient Logger log = Logger.getLogger(Client.class.getName());
+	private Logger log = Logger.getLogger(Client.class.getName());
 	private UI ui;
 
 	public Client() {

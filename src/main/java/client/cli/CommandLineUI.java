@@ -31,7 +31,7 @@ import util.IOHandler;
 
 public class CommandLineUI implements UI {
 	
-	private transient Logger _log = Logger.getLogger(CommandLineUI.class.getName());
+	private Logger _log = Logger.getLogger(CommandLineUI.class.getName());
 	
 	private GameBoard _board;
 	

@@ -59,7 +59,7 @@ public class EffectConvertResource implements IEffectBehavior{
 		try {
 			convert();
 		} catch (RemoteException e) {
-			Logger.getLogger(EffectConvertResource.class.getName()).log(Level.WARNING, e.getMessage(), e);
+			_log.log(Level.WARNING, e.getMessage(), e);
 		}
 	}
 	

@@ -210,7 +210,6 @@ public class MainViewController {
 		Image bg = new Image(file.toURI().toString());
 		
 		if(iv == _productionLittleSpace){
-			System.out.println("I'm in! File: "+file.toURI());
 		}
 		
 		if(iv==null){
@@ -363,7 +362,7 @@ public class MainViewController {
 	 */
 	@FXML
 	private void onSeventhButtonClicked(){
-		synchronized (this) { //TODO
+		synchronized (this) {
 			Runnable run = () -> GraphicalUI.getInstance().activateOPTLeaders();
 			new Thread(run).start();
 		}
@@ -469,8 +468,6 @@ public class MainViewController {
 		
 		fm = board.getWorkSpace(GC.PRODUCTION).getFamiliars();
 		if(fm!=null && !fm.isEmpty()){
-			
-			System.out.println("EHIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
 			
 			changeImageView("src/main/resources/javafx/images/familiars/fam_"+fm.get(0).getOwner().getColour()+"_"+fm.get(0).getColor()+".png", _productionLittleSpace);
 		}

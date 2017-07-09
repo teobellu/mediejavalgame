@@ -41,7 +41,7 @@ public class Player implements Serializable{
 	private DevelopmentCardManager manager;
 	
 	/**
-	 * TODO
+	 * 
 	 * 0 -> NORMAL
 	 * 1 -> JUMP
 	 * 2 -> RECUPERA JUMP

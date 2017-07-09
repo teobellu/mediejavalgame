@@ -14,7 +14,6 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 import exceptions.GameException;
-import game.GC;
 import game.Game;
 import game.GameInformation;
 import game.Resource;
@@ -28,13 +27,11 @@ public class Room extends Thread {
 	private boolean isRunning = false;
 	private List<Client> clients;
 	private ConfigFileHandler fileHandler;
-	private List<Client> afkClients; 
 	
-	private transient Logger log = Logger.getLogger(Room.class.getName());
+	private Logger log = Logger.getLogger(Room.class.getName());
 	
 	public Room(String configFile) {
 		clients = new ArrayList<>();
-		afkClients = new ArrayList<>();
 		
 		fileHandler = new ConfigFileHandler();
 		
@@ -43,13 +40,10 @@ public class Room extends Thread {
 			Document doc;
 			if(configFile!=null && !configFile.isEmpty()){
 				doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(configFile)));
-				System.out.println("Usato file custom");
 			} else {
 				doc =  DocumentBuilderFactory.newInstance().newDocumentBuilder().parse("default_settings.xml");
-				System.out.println("Usato file di default");
 			}
 			fileHandler.validate(doc);
-			//TODO usare questo xml
 			
 		} catch (Exception e) {
 			
@@ -86,13 +80,7 @@ public class Room extends Thread {
 		info.setDevelopmentDeck(fileHandler.getDevelopmentDeck());
 		info.setExcommunicationDeck(fileHandler.getExcommunicationDeck());
 		
-		
-		//TODO debug
 		Map<String, List<Resource>> map = fileHandler.getBonusPlayerDashboard();
-		System.out.println("\n\n\n###map size:"+ map.get(GC.HARVEST).size() +"\n\n\n");
-		for(Resource resource :  map.get(GC.HARVEST)){
-			System.out.println("\n\nRisorse: "+resource.toString());
-		}
 		
 		info.setBonusPlayerDashBoard(map);
 		
@@ -162,15 +150,8 @@ public class Room extends Thread {
 	}
 	
 	public synchronized void shutdown(){
-		if(theGame!=null){
-			//TODO devo spegnere/togliere cose dal game?
-		}
-		
 		if(clients!=null && !clients.isEmpty()){
-			for(Client c : clients){
-				//TODO togliere cose in client?
-				clients.remove(c);
-			}
+			clients.clear();
 		}
 		
 		isRunning = false;

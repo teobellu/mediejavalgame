@@ -429,7 +429,6 @@ public class GUI extends Application {
 	 */
 	private void showDisconnectedDialog() {
 		try {
-			//TODO provare a chiudere eventuali dialog aperti
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(GUI.class.getResource("/client/gui/DisconnectedDialog.fxml"));
 			AnchorPane pane = loader.load();
@@ -584,7 +583,6 @@ public class GUI extends Application {
 
 			@Override
 			public void handle(WindowEvent event) {
-				System.out.println("Bye!");
 				executor.shutdownNow();
 				GraphicalUI.getInstance().shutdown();
 				System.exit(0);

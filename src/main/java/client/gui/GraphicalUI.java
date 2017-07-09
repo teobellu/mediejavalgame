@@ -40,7 +40,7 @@ public class GraphicalUI implements UI {
 	
 	private static GraphicalUI _instance = null;
 	
-    private transient Logger _log = Logger.getLogger(GraphicalUI.class.getName());
+    private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
     
     private ConnectionServerHandler _connectionHandler = null;
     
@@ -171,7 +171,6 @@ public class GraphicalUI implements UI {
 	@Override
 	public int spendCouncil(List<Resource> options) {
 		try {
-			System.out.println("\nChiamato spendCouncil in GraphicalUI\n");
 			addFromGraphicalToGUI(options);
 			addToCommandToGui(CommandStrings.HANDLE_COUNCIL);
 			
@@ -245,7 +244,6 @@ public class GraphicalUI implements UI {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		System.out.println("\n###ERRORE###\n");
 		return 0;
 	}
 	
@@ -267,7 +265,6 @@ public class GraphicalUI implements UI {
 			Thread.currentThread().interrupt();
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
-		System.out.println("\n###ERRORE IN ASK BOOLEAN###\n");
 		return false;
 	}
 	
@@ -369,7 +366,6 @@ public class GraphicalUI implements UI {
 		synchronized (this) {
 			Object obj = getFirstFromGUIToGraphical();
 			_commandToGui.poll();
-			System.out.println("\nCommand cleaned\n");
 			return obj;
 		}
 	}
@@ -472,7 +468,6 @@ public class GraphicalUI implements UI {
 	
 	@Override
 	public void reconnected(){
-		System.out.println("\n\n###reconnected");
 		addFromGraphicalToGUI("Reconnected succesfully");
 		addToCommandToGui(CommandStrings.INFO);
 	}

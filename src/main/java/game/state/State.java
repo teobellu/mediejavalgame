@@ -20,7 +20,7 @@ import util.Constants;
 
 public abstract class State {
 	
-	private transient Logger _log = Logger.getLogger(State.class.getName());
+	private Logger _log = Logger.getLogger(State.class.getName());
 	
 	protected int age; //1,2,3
 	protected int phase; //

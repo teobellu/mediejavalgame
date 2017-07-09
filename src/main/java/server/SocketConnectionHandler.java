@@ -26,7 +26,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	private Socket _socket;
 	private ObjectInputStream _inputStream;
 	private ObjectOutputStream _outputStream;
-	private transient Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
+	private Logger _log = Logger.getLogger(SocketConnectionHandler.class.getName());
 
 	private ConcurrentLinkedQueue<Object> _fromClientToServer = new ConcurrentLinkedQueue<>();
 	private ConcurrentLinkedQueue<Object> _fromServerToClient = new ConcurrentLinkedQueue<>();
@@ -72,13 +72,9 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				}
 			}
 			if(object!=null){
-				System.out.println("Ricevuto "+object.toString());
-				System.out.println("Tento di bloccare _fromClientToServer");
 				synchronized (_fromClientToServer) {
-					System.out.println("blocco _fromClientToServer");
 					_fromClientToServer.add(object);
 				}
-				System.out.println("Lascio blocco su _fromClientToServer");
 			} else {
 				try {
 					Thread.sleep(300);
@@ -98,9 +94,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	}
 
 	private void processString(String str) throws RemoteException {
-		_log.info(str);
-		//TODO togliere il log
-		
 		if (str.equals(CommandStrings.ADD_TO_GAME)) {
 			String name = (String) getFromClient();
 			queueToClient(CommandStrings.ADD_TO_GAME, Server.getInstance().addMeToGame(this, name));
@@ -290,7 +283,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 	}
 
 	private void writeObject(Object obj) throws RemoteException  {
-		System.out.println("\n###Sended "+obj.toString()+"\n");
 		try {
 			_outputStream.writeUnshared(obj);
 			_outputStream.flush();
@@ -340,7 +332,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		System.out.println("ERRORE");
 		
 		return 0;
 	}
@@ -363,7 +354,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		System.out.println("ERRORE");
 		
 		return false;
 	}
@@ -386,7 +376,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		System.out.println("ERRORE");
 		
 		return 0;
 	}
@@ -435,7 +424,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		System.out.println("ERROR: LEADER NOT FOUND");
 		return 0;
 	}
 
@@ -456,7 +444,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		
-		System.out.println("ERROR: PERSONAL BONUS NOT FOUND");
 		return 0;
 	}
 	
@@ -485,7 +472,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			Object obj = null;
 			obj = _fromClientToServer.poll();
 			if(obj!=null){
-				System.out.println("getFromClient ritorna "+obj.toString());
 				return obj;
 			} else {
 				try {
@@ -521,7 +507,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				shutdown();
 				_log.log(Level.SEVERE, e.getMessage(), e);
 			} finally {
-				System.out.println("\n\n###READER SHUTTING DOWN###\n\n");
 			}
 		}
 		
@@ -548,7 +533,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 //					}).start();
 ////					Thread.sleep(1000);
 //				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
 			}
@@ -563,7 +547,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 			while(_isRunning){
 				if(!_fromServerToClient.isEmpty()){
 					try {
-						System.out.println("Trying to send... ");
 						writeObject(_fromServerToClient.poll());
 					} catch (RemoteException e) {
 						// TODO Auto-generated catch block

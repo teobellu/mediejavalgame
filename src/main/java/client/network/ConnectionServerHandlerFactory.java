@@ -20,7 +20,7 @@ public class ConnectionServerHandlerFactory {
 		if (str == Constants.RMI) {
 			return new RMIConnectionServerHandler(host, port);
 		} else if(str == Constants.SOCKET){
-			return new SocketConnectionServerHandler(host, port);//TODO fix port
+			return new SocketConnectionServerHandler(host, port);
 		}
 		
 		return null;
