@@ -2,7 +2,6 @@ package client.gui;
 
 import java.io.File;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -205,6 +204,10 @@ public class MainViewController {
 		File file = new File(path);
 		Image bg = new Image(file.toURI().toString());
 		
+		if(iv == _productionLittleSpace){
+			System.out.println("I'm in! File: "+file.toURI());
+		}
+		
 		if(iv==null){
 			iv = new ImageView();
 		}
@@ -283,9 +286,6 @@ public class MainViewController {
 				setupBackMainView(board, me);
 				_downArrowClicked = true;
 			}
-		} catch (RemoteException e) {
-			// TODO: handle exception
-			_log.log(Level.INFO, e.getMessage(), e);
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
@@ -365,17 +365,22 @@ public class MainViewController {
 	 */
 	private void setupBackMainView(GameBoard board, Player me){
 		_backgroundImage = (ImageView) _frontBackMainPane.getChildren().get(0);
+		
 		_blackDiceValue = (Text) _frontBackMainPane.getChildren().get(1);
 		_whiteDiceValue = (Text) _frontBackMainPane.getChildren().get(2);
 		_orangeDiceValue = (Text) _frontBackMainPane.getChildren().get(3);
+		
 		_excCard1 = (ImageView) _frontBackMainPane.getChildren().get(4);
 		_excCard2 = (ImageView) _frontBackMainPane.getChildren().get(5);
 		_excCard3 = (ImageView) _frontBackMainPane.getChildren().get(6);
+		
 		_councilPalaceGrid = (GridPane) _frontBackMainPane.getChildren().get(7);
 		_productionSpaceGrid = (GridPane) _frontBackMainPane.getChildren().get(8);
 		_harvestSpaceGrid = (GridPane) _frontBackMainPane.getChildren().get(9);
+		
 		_productionLittleSpace = (ImageView) _frontBackMainPane.getChildren().get(10);
 		_harvestLittleSpace = (ImageView) _frontBackMainPane.getChildren().get(11);
+		
 		_market0 = (ImageView) _frontBackMainPane.getChildren().get(12);
 		_market1 = (ImageView) _frontBackMainPane.getChildren().get(13);
 		_market2 = (ImageView) _frontBackMainPane.getChildren().get(14);
@@ -445,12 +450,15 @@ public class MainViewController {
 		
 		fm = board.getWorkSpace(GC.PRODUCTION).getFamiliars();
 		if(fm!=null && !fm.isEmpty()){
-			_productionLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+fm.get(0).getOwner().getColour()+"_"+fm.get(0).getColor()+".png", null);
+			
+			System.out.println("EHIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
+			
+			changeImageView("src/main/resources/javafx/images/familiars/fam_"+fm.get(0).getOwner().getColour()+"_"+fm.get(0).getColor()+".png", _productionLittleSpace);
 		}
 		
 		fm = board.getWorkSpace(GC.HARVEST).getFamiliars();
 		if(fm!=null && !fm.isEmpty()){
-			_harvestLittleSpace = changeImageView("src/main/resources/javafx/images/familiars/fam_"+fm.get(0).getOwner().getColour()+"_"+fm.get(0).getColor()+".png", null);
+			changeImageView("src/main/resources/javafx/images/familiars/fam_"+fm.get(0).getOwner().getColour()+"_"+fm.get(0).getColor()+".png", _harvestLittleSpace);
 		}
 		
 		_goldWoodBg = (ImageView) _buttonPane.getChildren().get(0);
