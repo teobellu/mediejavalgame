@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import client.ClientText;
 import client.UI;
+import client.gui.GraphicalUI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
 import exceptions.GameException;
@@ -95,19 +96,17 @@ public class CommandLineUI implements UI {
 		_me = me;
 //		ModelPrinter.printBoard(_board);
 //		ModelPrinter.printMyLoot(_me);
-		new Thread(new Runnable() {
+		
+		Runnable run = () -> {
+			try {
+				handleTurn();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}// TODO Auto-generated method stub
 			
-			@Override
-			public void run() {
-				try {
-					handleTurn();
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}// TODO Auto-generated method stub
-				
-			}
-		}).start();
+		};
+		new Thread(run).start();
 		
 	}
 	

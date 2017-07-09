@@ -58,10 +58,10 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	private void establishReward(){
 		GC.DEV_TYPES.stream()
 			.filter(type -> type.equals(card))
-			.forEach(type -> count += player.getDevelopmentCards(type).size());
+			.forEach(type -> count = count + player.getDevelopmentCards(type).size());
 		GC.RES_TYPES.stream()
 			.filter(type -> player.getResource(type) > 0 && loot.get(type) > 0)
-			.forEach(type -> count += player.getResource(type) / loot.get(type));
+			.forEach(type -> count = count + player.getResource(type) / loot.get(type));
 	}
 	
 	private void addReward() throws RemoteException{
