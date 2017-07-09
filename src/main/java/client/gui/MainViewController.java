@@ -83,16 +83,36 @@ public class MainViewController {
 	@FXML
 	private GridPane _towersFamiliarsGridPane;
 	
+	/**
+	 * place familiar
+	 */
 	@FXML
-	private Button _firstButton;//place familiar
+	private Button _firstButton;
+	/**
+	 * activate leader card
+	 */
 	@FXML
-	private Button _secondButton;//activate leader card
+	private Button _secondButton;
+	/**
+	 * drop leader card
+	 */
 	@FXML
-	private Button _thirdButton;//drop leader card
+	private Button _thirdButton;
+	/**
+	 * end turn
+	 */
 	@FXML
-	private Button _fourthButton;//endturn
+	private Button _fourthButton;
+	/**
+	 * show your cards
+	 */
 	@FXML
-	private Button _fifthButton;//show your cards
+	private Button _fifthButton;
+	/**
+	 * 
+	 */
+	@FXML
+	private Button _sixthButton;
 
 	@FXML
 	private AnchorPane _buttonPane;//pannello con tutti i bottoni
@@ -320,6 +340,15 @@ public class MainViewController {
 		}
 		
 		_GUI.showDropLeaderDialog(leaders);
+	}
+	
+	/**Called on Show Vatican Support pressed
+	 * 
+	 */
+	@FXML
+	private void onSixthButtonClicked(){
+		GraphicalUI.getInstance().showVaticanSupport(
+				GraphicalUI.getInstance().getCachedMe().getResource(GC.RES_FAITHPOINTS));
 	}
 	
 	/**

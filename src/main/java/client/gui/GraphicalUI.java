@@ -484,4 +484,14 @@ public class GraphicalUI implements UI {
 	public void shutdown(){
 		_connectionHandler.shutdown();
 	}
+
+	@Override
+	public void showVaticanSupport(Integer resource) {
+		try{
+			_connectionHandler.showVaticanSupport(resource);
+		} catch (RemoteException e) {
+			_log.log(Level.INFO, e.getMessage(), e);
+			addToCommandToGui(CommandStrings.CONNECTION_ERROR);
+		}
+	}
 }

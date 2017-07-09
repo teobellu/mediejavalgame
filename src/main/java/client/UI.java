@@ -172,5 +172,7 @@ public interface UI extends Runnable{
 	 * On reconnected
 	 */
 	public void reconnected();
+
+	public void showVaticanSupport(Integer resource);
 	
 }

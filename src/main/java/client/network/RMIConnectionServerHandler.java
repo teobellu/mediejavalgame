@@ -271,4 +271,9 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	public void sendUUID(String uuid) throws RemoteException {
 		_ui.setUUID(uuid);
 	}
+
+	@Override
+	public void showVaticanSupport(Integer resource) throws RemoteException {
+		_connectionHandler.showVaticanSupport(resource);
+	}
 }

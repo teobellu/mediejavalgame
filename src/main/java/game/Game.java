@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import exceptions.GameException;
 import game.development.DevelopmentCard;
 import game.state.State;
 import game.state.StateStartingTurn;
@@ -366,5 +367,10 @@ public class Game implements Runnable {
 		_listener.setPlayer(null);
 		_players.clear();
 		_theRoom.shutdown();
+	}
+
+	public void showVaticanSupport(Integer resource, String name) throws GameException{
+		// TODO Auto-generated method stub
+		
 	}
 }

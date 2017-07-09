@@ -4,8 +4,6 @@ import java.rmi.RemoteException;
 
 import client.UI;
 import exceptions.GameException;
-import game.GameBoard;
-import game.Player;
 import game.Position;
 
 public abstract class ConnectionServerHandler extends Thread {
@@ -114,4 +112,6 @@ public abstract class ConnectionServerHandler extends Thread {
 	 * @throws RemoteException
 	 */
 	public abstract void attemptReconnection(String _uuid) throws RemoteException;
+
+	public abstract void showVaticanSupport(Integer resource) throws RemoteException;
 }

@@ -63,4 +63,11 @@ public interface ConnectionHandlerRemote extends Remote, Serializable {
 	 */
 	public void endTurn() throws RemoteException;
 
+	/**
+	 * Tell the server that you want to show your support to the Vatican
+	 * @param resource your faith points
+	 * @throws RemoteException
+	 */
+	public void showVaticanSupport(Integer resource) throws RemoteException;
+
 }

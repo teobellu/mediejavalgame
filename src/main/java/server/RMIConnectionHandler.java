@@ -151,4 +151,13 @@ public class RMIConnectionHandler extends ConnectionHandler implements Connectio
 	public void sendUUID(String uuid) throws RemoteException {
 		_clientConnectionHandler.sendUUID(uuid);
 	}
+
+	@Override
+	public void showVaticanSupport(Integer resource) throws RemoteException {
+		try {
+			_theGame.showVaticanSupport(resource, _client.getName());
+		} catch (GameException e) {
+			// TODO: handle exception
+		}
+	}
 }
