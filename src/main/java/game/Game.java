@@ -368,5 +368,4 @@ public class Game implements Runnable {
 		_players.clear();
 		_theRoom.shutdown();
 	}
-
 }
