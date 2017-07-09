@@ -71,17 +71,16 @@ public class ListenAction{
 	
 	public void playOPTLeaderCards(String nickname) throws GameException{
 		checkOut(nickname, false);
-		
-		try {
-			_player.getClient().getConnectionHandler().sendInfo("Activating OPT leader cards...");
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
 		if (_player.getOPTActivated())
 			throw new GameException("You have already play OPT leader cards this turn!");
 		_player.setOPTActivated(true);
 		_theGame.getDynamicBar().activateEffect(GC.ONCE_PER_TURN);
+		try {
+			_player.getClient().getConnectionHandler().sendInfo("Cards activated!", _player);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 	
 	public void dropLeaderCard(String nickname, String leaderName) throws GameException{

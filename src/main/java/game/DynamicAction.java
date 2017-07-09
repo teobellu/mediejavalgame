@@ -147,20 +147,20 @@ public class DynamicAction {
 			activateEffect(res, source.getSource(), GC.WHEN_GAIN);
 	}
 	
-	/**
-	 * Method that is launched at the beginning of the turn
-	 */
-	public void startTurn(){
-		activateEffect(GC.ONCE_PER_TURN);
-		
-	}
-	
-	/**
-	 * Method that is launched just after the dices have been launched
-	 */
-	public void readDices(){
-		activateEffect(GC.WHEN_ROLL);
-	}
+//	/**
+//	 * Method that is launched at the beginning of the turn
+//	 */
+//	public void startTurn(){
+//		activateEffect(GC.ONCE_PER_TURN);
+//		
+//	}
+//	
+//	/**
+//	 * Method that is launched just after the dices have been launched
+//	 */
+//	public void readDices(){
+//		activateEffect(GC.WHEN_ROLL);
+//	}
 	
 	/**
 	 * Allows the player to increase the value of his action by spending servants

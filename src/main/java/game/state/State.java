@@ -81,11 +81,11 @@ public abstract class State {
 			System.out.println("NEXT PHASE");
 			_theGame.getPlayers().forEach(player -> player.setOPTActivated(false));
 			information.newPhase(age);
-			for (Player p : _theGame.getPlayers()){
-				controller.setPlayer(p);
-				if (!p.isAfk())
-					controller.readDices();
-			}
+//			for (Player p : _theGame.getPlayers()){
+//				controller.setPlayer(p);
+//				if (!p.isAfk())
+//					controller.readDices();
+//			}
 			//nextPlayer = _theGame.getPlayers().get(0);
 			phase++;
 		}
@@ -113,16 +113,16 @@ public abstract class State {
 	public void setupNewTurn(Player nextPlayer){
 		controller.setPlayer(nextPlayer);
 		listener.setPlayer(nextPlayer);
-		try {
-			if (countTurn > _players.size())
-			nextPlayer.getClient().getConnectionHandler()
-				.sendInfo("You turn is starting", _theGame.getBoard(), nextPlayer);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-		if (!nextPlayer.isAfk())
-			controller.startTurn();
+//		try {
+//			if (countTurn > _players.size())
+//			nextPlayer.getClient().getConnectionHandler()
+//				.sendInfo("You turn is starting", _theGame.getBoard(), nextPlayer);
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			_log.log(Level.SEVERE, e.getMessage(), e);
+//		}
+//		if (!nextPlayer.isAfk())
+//			controller.startTurn();
 	}
 	
 	//TODO DICE AL PLAYER CHE E' IL SUO TURNO

@@ -65,12 +65,18 @@ public class GameInformation{
 	public void newPhase(int age){
 		rollDices();
 		generateFamiliars();
+		updateFamiliars();
 		game.getBoard().clearPos();
 		game.getBoard().generateDevelopmentCards(developmentDeck, age);
-		System.out.println("ON CLOCK age: " + age);
 		game.setPlayers(getNextPlayersTurn());
-		System.out.println("DONE: size players = " +  game.getPlayers().size());
-		//TODO CAMBIA L'ORDINE DI TURNO
+	}
+
+	private void updateFamiliars() {
+		DynamicAction dynamicBard = game.getDynamicBar();
+		game.getPlayers().forEach(player -> {
+			dynamicBard.setPlayer(player);
+			dynamicBard.activateEffect(GC.WHEN_ROLL);
+		});
 	}
 
 	private void generateFamiliars(){ 
