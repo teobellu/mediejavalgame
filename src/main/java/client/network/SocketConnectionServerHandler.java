@@ -28,6 +28,9 @@ import util.Constants;
  */
 public class SocketConnectionServerHandler extends ConnectionServerHandler {
 
+	//TODO rimuovere
+	private boolean primo = true;
+	
 	public SocketConnectionServerHandler(String host, int port) {
 		super(host, port);
 		
@@ -379,6 +382,11 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	 */
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
+		
+		if(primo){
+			primo = false;
+			throw new RemoteException();
+		}
 		
 		try{
 			_returnObject = new Object();

@@ -29,6 +29,9 @@ import util.Constants;
  */
 public class RMIConnectionServerHandler extends ConnectionServerHandler implements ClientRemote {
 	
+	//TODO da rimuovere
+	private boolean primo = true;
+	
 	/**
 	 * Generated serialVersionUID
 	 */
@@ -184,6 +187,10 @@ public class RMIConnectionServerHandler extends ConnectionServerHandler implemen
 	 */
 	@Override
 	public void dropLeaderCard(String leaderName) throws RemoteException {
+		if(primo){
+			primo = false;
+			throw new RemoteException();
+		}
 		_connectionHandler.dropLeaderCard(leaderName);
 	}
 
