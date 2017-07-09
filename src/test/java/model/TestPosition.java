@@ -33,4 +33,16 @@ public class TestPosition {
 		assertTrue(p3.getWhere().equals(GC.TOWER));
     }
 	
+	@Test
+    public void toStringNoException() throws Exception {
+		Position p1 = new Position(GC.PRODUCTION);
+		Position p2 = new Position(GC.MARKET, 3);
+		Position p3 = new Position(GC.TOWER, 3, 1);
+		
+		//Verify the are no exception:
+		p1.toString();
+		p2.toString();
+		p3.toString();
+	}
+	
 }

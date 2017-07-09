@@ -21,7 +21,7 @@ public abstract class State {
 	protected int age; //1,2,3
 	protected int phase; //
 	protected int countTurn;
-	protected final Game _theGame; //TODO
+	protected final Game _theGame; //TODO  
 	protected Player _player = null;
 	protected Client _client;
 	private List<Player> _players;

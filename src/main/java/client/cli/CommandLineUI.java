@@ -438,5 +438,11 @@ public class CommandLineUI implements UI {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void reconnected() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

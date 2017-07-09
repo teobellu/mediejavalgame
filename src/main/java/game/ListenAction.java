@@ -23,24 +23,6 @@ public class ListenAction{
 		actionsAlreadyDone.clear();
 	}
 	
-	private void reconnect(String nickname) throws GameException{
-		if (!_player.getName().equals(nickname)){
-			Player caller = null;
-			for (Player p : _theGame.getPlayers()){
-				if (p.getName().equals(nickname))
-					caller = p;
-			}
-			if (caller == null)
-				throw new GameException("You can't reconnect this time, sorry!");
-			if (caller.isAfk()){
-				caller.setAfk(false);
-				//client = getnewClient() ....
-			}
-			throw new GameException("It's not your turn!");
-		}
-		
-	}
-	
 	private void checkOut(String nickname, boolean removeAfk) throws GameException{
 		if (!_player.getName().equals(nickname)){
 			Player caller = null;
@@ -162,7 +144,7 @@ public class ListenAction{
 			e.printStackTrace();
 		}
 		
-		_theGame.otherPlayersInfo("Player "+_player.getName()+" has placed a familiar " + position.prettyPrintable(), _player);
+		_theGame.otherPlayersInfo("Player "+_player.getName()+" has placed a familiar " + position.toString(), _player);
 		
 		actionsAlreadyDone.add(GC.PLACE_FAMILIAR);
 	}
