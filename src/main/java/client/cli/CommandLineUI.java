@@ -170,7 +170,9 @@ public class CommandLineUI implements UI {
 			case CommandConstants.SHOW_MY_CARDS : showMyCards();
 				break;
 			case CommandConstants.SHOW_SUPPORT : showSupport();
-			break;
+				break;
+			case CommandConstants.PLAY_OPT_LEADERS : playOPTLeader();
+				break;
 			default : handleTurn();
 		}
 		} catch (RemoteException e) {
@@ -190,8 +192,13 @@ public class CommandLineUI implements UI {
 		}
 	}
 
-	private void showSupport() throws RemoteException {
+	private synchronized void showSupport() throws RemoteException {
 		showVaticanSupport();
+		handleTurn();
+	}
+	
+	private synchronized void playOPTLeader() throws RemoteException {
+		activateOPTLeaders();
 		handleTurn();
 	}
 

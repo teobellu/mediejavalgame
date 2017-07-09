@@ -108,6 +108,8 @@ public class Player implements Serializable{
 	}
 	
 	public void addDevelopmentCard (DevelopmentCard newCard){
+		if (newCard == null || newCard.getId() == 0)
+			return;
 		developmentCard.add(newCard);
 		manager.add(newCard);
 	}

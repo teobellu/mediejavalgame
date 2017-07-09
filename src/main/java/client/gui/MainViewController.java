@@ -347,21 +347,24 @@ public class MainViewController {
 		_GUI.showDropLeaderDialog(leaders);
 	}
 	
-	/**Called on Show Vatican Support pressed
-	 * 
+	/**
+	 * Called on Show Vatican Support pressed
 	 */
 	@FXML
 	private void onSixthButtonClicked(){
-		GraphicalUI.getInstance().showVaticanSupport();
+		synchronized (this) {
+			Runnable run = () -> GraphicalUI.getInstance().showVaticanSupport();
+			new Thread(run).start();
+		}
 	}
 	
 	/**
-	 * 
+	 * Called on Play OPT Leader pressed
 	 */
 	@FXML
 	private void onSeventhButtonClicked(){
-		synchronized (this) {
-			Runnable run = () -> GraphicalUI.getInstance().activateOPTLeaders();;
+		synchronized (this) { //TODO
+			Runnable run = () -> GraphicalUI.getInstance().activateOPTLeaders();
 			new Thread(run).start();
 		}
 	}
