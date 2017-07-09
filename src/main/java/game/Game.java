@@ -368,9 +368,4 @@ public class Game implements Runnable {
 		_players.clear();
 		_theRoom.shutdown();
 	}
-
-	public void showVaticanSupport(String name) throws GameException {
-		// TODO Auto-generated method stub
-		
-	}
 }

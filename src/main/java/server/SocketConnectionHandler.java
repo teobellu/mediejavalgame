@@ -199,7 +199,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 				@Override
 				public void run() {
 					try {
-						_theGame.showVaticanSupport(_client.getName());
+						_theGame.getListener().showVaticanSupport(_client.getName());
 						queueToClient(CommandStrings.SHOW_VATICAN_SUPPORT);
 					} catch (GameException e) {
 						_log.log(Level.OFF, e.getMessage(), e);
