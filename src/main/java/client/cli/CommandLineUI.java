@@ -1,5 +1,10 @@
 package client.cli;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,12 +77,49 @@ public class CommandLineUI implements UI {
 		//Choose connection type
 		_ioHandler.write("Select connection");
 		_ioHandler.writeList(Constants.CONNECTION_TYPES);
+		
 		int selected = _ioHandler.readNumberWithinInterval(Constants.CONNECTION_TYPES.size() - 1);
 		
+		_ioHandler.write("If you would like to provide a custom configuration file, write the path to it.\nOtherwise, just hit enter.");
+		
+		String path = _ioHandler.readLine(true);
 		
 		ConnectionServerHandler connection = ConnectionServerHandlerFactory.getConnectionServerHandler(Constants.CONNECTION_TYPES.get(selected), host, port);
 		connection.setClient(this);
-		//connection.setClient(getInstance()); boh TODO
+		
+		File file = new File(path);
+		FileReader customConfig = null;
+		try {
+			customConfig = new FileReader(file);
+			StringBuilder sb = new StringBuilder();
+			BufferedReader br = new BufferedReader(customConfig);
+			String line;
+			while((line = br.readLine() ) != null) {
+			    sb.append(line);
+			}
+			
+			br.close();
+			_connectionHandler.sendConfigFile(sb.toString());
+		} catch (FileNotFoundException e) {
+			_log.log(Level.FINE, e.getMessage(), e);
+			if(!path.equals("")){
+				_ioHandler.write("File not found.");
+			}
+			_ioHandler.write("Using default file.");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			_log.log(Level.SEVERE, e.getMessage(), e);
+		} finally {
+			if(customConfig!=null){
+				try {
+					customConfig.close();
+				} catch (IOException e2) {
+					_log.log(Level.SEVERE, e2.getMessage(), e2);
+				}
+			}
+		}
 		
 		commands.addAll(CommandConstants.STANDARD_COMMANDS);
 		
