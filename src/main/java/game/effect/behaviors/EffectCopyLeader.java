@@ -53,12 +53,12 @@ public class EffectCopyLeader implements IEffectBehavior{
 		
 		discardedLeader.forEach((card, owner) -> {if (!owner.getName().equals(player.getName())) options.add(card);});
 		
-		int index = player.getClient().getConnectionHandler().chooseLeader(MESSAGE, options);;
-		
-		LeaderCard selection = options.get(index);
-		
-		//TODO o meglio una copia dell'effetto?
-		player.addEffect(selection.getEffect());
+		if (!options.isEmpty()){
+			int index = player.getClient().getConnectionHandler().chooseLeader(MESSAGE, options);
+			LeaderCard selection = options.get(index);
+			player.addEffect(selection.getEffect());
+		}else
+			player.getClient().getConnectionHandler().sendInfo("You did not copy any effects because there were no effects available");
 	}
 	
 	private void activateLeaderCard() {

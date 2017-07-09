@@ -133,8 +133,6 @@ public class CommandLineUI implements UI {
 		_ioHandler.write("\nIt's your turn! :D");
 		_board = board;
 		_me = me;
-//		ModelPrinter.printBoard(_board);
-//		ModelPrinter.printMyLoot(_me);
 		
 		Runnable run = () -> {
 			try {
@@ -178,13 +176,20 @@ public class CommandLineUI implements UI {
 			case CommandConstants.SHOW_MY_CARDS : showMyCards();
 				break;
 			case CommandConstants.SHOW_SUPPORT : showSupport();
-			break;
+				break;
+			case CommandConstants.PLAY_OPT_LEADERS : playOPTLeader();
+				break;
 			default : handleTurn();
 		}
 	}
 
-	private void showSupport() throws RemoteException {
+	private synchronized void showSupport() throws RemoteException {
 		showVaticanSupport();
+		handleTurn();
+	}
+	
+	private synchronized void playOPTLeader() throws RemoteException {
+		activateOPTLeaders();
 		handleTurn();
 	}
 
@@ -290,7 +295,6 @@ public class CommandLineUI implements UI {
 	@Override
 	public void endTurn() throws RemoteException{
 		_connectionHandler.endTurn();
-		
 	}
 	
 	@Override

@@ -79,7 +79,7 @@
                                           <Button fx:id="_fourthButton" layoutX="126.0" layoutY="150.0" mnemonicParsing="false" onAction="#onFourthButtonClicked" text="End Turn" />
                                           <Button fx:id="_fifthButton" layoutX="105.0" layoutY="190.0" mnemonicParsing="false" onAction="#onFifthButtonClicked" text="Show Your Cards" />
                                           <Button fx:id="_sixthButton" layoutX="92.0" layoutY="230.0" mnemonicParsing="false" onAction="#onSixthButtonClicked" text="Show Vatican Support" />
-                                          <Button fx:id="_seventhButton" layoutX="95.0" layoutY="270.0" mnemonicParsing="false" onAction="#onSeventhButtonClicked" text="Activate OPT Leaders" />
+                                          <Button fx:id="_seventhButton" layoutX="95.0" layoutY="270.0" mnemonicParsing="false" onAction="#onSeventhButtonClicked" text="Play OPT Leaders" />
                                        </children>
                                     </AnchorPane>
                                 </items>

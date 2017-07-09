@@ -125,13 +125,9 @@ public class ConfigFileHandler {
 		List<Node> listNode = getChildNodesFromNode(root);
 		
 		//Initialize objects used for reading
-		EFFECTS.clear();
+		clearAll();
 		buildMap();
-		
-		SPACE_BONUS.clear();
 		GC.SPACE_TYPE.forEach(type -> SPACE_BONUS.putIfAbsent(type, new ArrayList<>()));
-		
-		BONUS_PLAYER_DASHBOARD.clear();
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.HARVEST, new ArrayList<>());
 		BONUS_PLAYER_DASHBOARD.putIfAbsent(GC.PRODUCTION, new ArrayList<>());
 		
@@ -150,6 +146,18 @@ public class ConfigFileHandler {
 	}
 	
 	/**
+	 * Clear all collections
+	 */
+	private void clearAll(){
+		EFFECTS.clear();
+		SPACE_BONUS.clear();
+		BONUS_PLAYER_DASHBOARD.clear();
+		BONUS_FAITH.clear();
+		DEVELOPMENT_DECK.clear();
+		EXCOMMUNICATION_DECK.clear();
+	}
+	
+	/**
 	 * Set an ID to alla cards readen from xml file
 	 */
 	private void setIdToCards(){
@@ -157,6 +165,7 @@ public class ConfigFileHandler {
 		for (DevelopmentCard card : DEVELOPMENT_DECK){
 			countId++;
 			card.setId(countId);
+			System.out.println("AAAAAAAAAAAAA = " + countId);
 		}
 		countId = 0;
 		for (ExcommunicationTile tile : EXCOMMUNICATION_DECK){
