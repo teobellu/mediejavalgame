@@ -227,12 +227,7 @@ public class CommandLineUI implements UI {
 			}
 			default : position = new Position(where);
 		}
-			
 		placeFamiliar(selectedFamiliar.getColor(), position);
-//			getBoard();
-//			getMe();
-//			ModelPrinter.printBoard(_board);
-//			ModelPrinter.printMyLoot(_me);
 		handleTurn();
 		//fine, esco da questo metodo
 	}
@@ -289,7 +284,7 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void activateLeaderCard(String leaderName) throws RemoteException {
+	public void activateLeaderCard(String leaderName) throws RemoteException{
 		_connectionHandler.activateLeaderCard(leaderName);
 	}
 
@@ -307,6 +302,11 @@ public class CommandLineUI implements UI {
 	@Override
 	public void showVaticanSupport() throws RemoteException{
 		_connectionHandler.showVaticanSupport();
+	}
+	
+	@Override
+	public void activateOPTLeaders() throws RemoteException {
+		_connectionHandler.activateOPTLeaders();
 	}
 	
 	public String getUsername(){
@@ -464,12 +464,6 @@ public class CommandLineUI implements UI {
 	@Override
 	public void reconnected() {
 		_ioHandler.write("You have been succesfully reconnected");
-	}
-
-	@Override
-	public void activateOPTLeaders() throws RemoteException {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

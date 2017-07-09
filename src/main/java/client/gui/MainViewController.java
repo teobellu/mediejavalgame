@@ -360,7 +360,10 @@ public class MainViewController {
 	 */
 	@FXML
 	private void onSeventhButtonClicked(){
-		GraphicalUI.getInstance().activateOPTLeaders();
+		synchronized (this) {
+			Runnable run = () -> GraphicalUI.getInstance().activateOPTLeaders();;
+			new Thread(run).start();
+		}
 	}
 	
 	/**
