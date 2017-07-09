@@ -469,8 +469,9 @@ public class CommandLineUI implements UI {
 	}
 
 	@Override
-	public void reconnected() {
+	public synchronized void reconnected() {
 		_ioHandler.write("You have been succesfully reconnected");
+		handleTurn();
 	}
 
 	@Override
