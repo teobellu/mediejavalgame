@@ -4,11 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import model.developmentCards.AppendsToListVisitor;
-import model.developmentCards.DevelopmentCard;
-import model.developmentCards.DevelopmentCardManager;
-import model.developmentCards.Territory;
-
 /**
  * Test model: Territory
  * @author M

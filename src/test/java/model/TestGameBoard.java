@@ -9,9 +9,6 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import model.developmentCards.DevelopmentCard;
-import model.developmentCards.Territory;
-
 /**
  * Test model: GameBoard
  * @author M

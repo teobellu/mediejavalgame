@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.developmentCards.DevelopmentCard;
-
 /**
  * This class is designed for store all information about an action space
  */

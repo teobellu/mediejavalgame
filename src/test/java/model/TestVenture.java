@@ -7,11 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import model.developmentCards.AppendsToListVisitor;
-import model.developmentCards.DevelopmentCard;
-import model.developmentCards.DevelopmentCardManager;
-import model.developmentCards.Venture;
-
 /**
  * Test model: Venture
  * @author M

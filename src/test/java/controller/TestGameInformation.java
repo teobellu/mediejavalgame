@@ -18,7 +18,6 @@ import model.Player;
 import server.Room;
 import server.game.Game;
 import server.game.GameInformation;
-import util.FakePlayer;
 
 /**
  * Test controller: GameInformation

@@ -4,9 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import model.effects.EffectDelayFirstAction;
-import model.effects.EffectDoNothing;
-import util.FakePlayer;
+import controller.FakePlayer;
+import server.game.effectControllers.EffectDelayFirstAction;
+import server.game.effectControllers.EffectDoNothing;
 
 /**
  * Test model: Effect

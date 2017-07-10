@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 
 import server.game.DynamicAction;
+import server.game.effectControllers.IEffectBehavior;
 
 public class Effect implements Serializable{
 	

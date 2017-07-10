@@ -79,11 +79,8 @@ public class Game implements Runnable {
 	
 	private void setupGame(){
 		Collections.shuffle(_players);
-		
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
-		
 		gameInformation.setExcommunicationTitlesOnBoard();
-		
 		try {
 			setupLeaderCards();
 			setupDashboardBonus();
@@ -91,23 +88,8 @@ public class Game implements Runnable {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			closeGame();
 		}
-		
-		
 		setInitialResourcePack();
 		gameInformation.newPhase(1);
-		
-		
-		
-		for (Player p : _players){
-			try {
-				p.getClient().getConnectionHandler().chooseLeader(CommandStrings.CHOOSE_LEADER, gameInformation.getLeaderDeck());
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		
 		_state = new State(this);
 		_state.setupState();
 	}
@@ -118,74 +100,10 @@ public class Game implements Runnable {
 			p.gain(new Resource(GC.RES_WOOD, 2));
 			p.gain(new Resource(GC.RES_STONES, 2));
 			p.gain(new Resource(GC.RES_SERVANTS, 3));
-			p.gain(new Resource(GC.RES_COINS, n+5));
+			p.gain(new Resource(GC.RES_COINS, n));
 			n++;
 		}
 	}
-	
-	/**
-	 * Add the chosen leader card to the right player, and removes it from the temporary list
-	 * @param cli the client of the player who's choosing
-	 * @param leader the name of the card chosen
-	 
-	public void manipulateInitialLeaderList(Client cli, String leader){
-		try {
-			for(int i = 0;i<_players.size();i++){
-				if(_players.get(i).getClient().equals(cli)){
-					Player player = _players.get(i);
-					for(LeaderCard lc : _leaders){
-						if(lc.getName().equals(leader)){
-							player.addLeaderCard(lc);
-							System.out.println("Added leader card "+lc.getName()+" to player "+ player.getName());
-							if(_tempLeaderCardForEachPlayer.get(i).remove(lc.getName())){
-								System.out.println("Rimossa carta con successo");
-							} else {
-								System.out.println("Errore nel rimuovere carta");
-							}
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			_log.log(Level.SEVERE, e.getMessage(), e);
-		}
-	}
-	
-	/**
-	 * Non memorizza le liste...!
-	 * @throws RemoteException
-	 
-	@Deprecated
-	private void setupLeaderCards_SENZA_MEMORIA() throws RemoteException{
-		System.out.println("Setup Leader cards");
-		
-        List<LeaderCard> tempList = new ArrayList<>();
-        _leaders = gameInformation.getLeaderDeck().subList(0, _players.size() * Constants.LEADER_CARDS_PER_PLAYER);
-        
-		Collections.shuffle(_leaders);
-		
-		for(int j = 0;j<Constants.LEADER_CARDS_PER_PLAYER;j++){
-			  for (int k = 0; k < _players.size(); k++){
-				  for(int i = 0;i<Constants.LEADER_CARDS_PER_PLAYER - j;i++){
-					  LeaderCard lc = _leaders.remove(0);
-					  System.out.println("\nAggiunto "+lc.getName());
-					  tempList.add(lc);
-					  _leaders.add(lc);
-				  }
-				  
-				  System.out.println("\nMando la lista al player "+k+"-esimo, ovvero "+_players.get(k).getName());
-				  int selection = _players.get(k).getClient().getConnectionHandler().chooseLeader(tempList);
-				  _players.get(k).addLeaderCard(tempList.get(selection));
-				  if(_leaders.remove(tempList.get(selection))){
-					  System.out.println("Rimossa la carta numero "+selection+" ovvero "+ tempList.get(selection));
-				  }
-				  
-				  tempList.clear();
-			  }
-			  _players.add(_players.remove(0));
-		}
-	}
-	*/
 	
 	/**
 	 * Initial setup leader card
@@ -251,7 +169,6 @@ public class Game implements Runnable {
 				try {
 					player.getClient().getConnectionHandler().sendInfo(message);
 				} catch (RemoteException e) {
-					//TODO
 					_log.log(Level.SEVERE, e.getMessage(), e);
 					setAFK(player);
 				}

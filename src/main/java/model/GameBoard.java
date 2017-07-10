@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import model.developmentCards.DevelopmentCard;
-
 /**
  * This class is designed for the game board of Lorenzo il Magnifico
  * @author M

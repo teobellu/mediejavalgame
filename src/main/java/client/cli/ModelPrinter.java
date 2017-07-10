@@ -3,6 +3,7 @@ package client.cli;
 import java.util.Arrays;
 import java.util.List;
 
+import model.DevelopmentCard;
 import model.FamilyMember;
 import model.GC;
 import model.GameBoard;
@@ -10,7 +11,6 @@ import model.LeaderCard;
 import model.Player;
 import model.Resource;
 import model.Space;
-import model.developmentCards.DevelopmentCard;
 import util.IOHandler;
 
 /**

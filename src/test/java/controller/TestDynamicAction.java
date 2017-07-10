@@ -21,7 +21,6 @@ import model.exceptions.GameException;
 import server.Room;
 import server.game.DynamicAction;
 import server.game.Game;
-import util.FakePlayer;
 
 public class TestDynamicAction {
 	

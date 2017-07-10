@@ -5,8 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import model.developmentCards.Territory;
-import model.effects.EffectGetResource;
+import server.game.effectControllers.EffectGetResource;
 
 /**
  * Test model: Space

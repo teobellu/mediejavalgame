@@ -16,13 +16,13 @@ import client.UI;
 import client.network.ConnectionServerHandler;
 import client.network.ConnectionServerHandlerFactory;
 import javafx.application.Application;
+import model.DevelopmentCard;
 import model.FamilyMember;
 import model.GameBoard;
 import model.LeaderCard;
 import model.Player;
 import model.Position;
 import model.Resource;
-import model.developmentCards.DevelopmentCard;
 import model.exceptions.GameException;
 import util.CommandStrings;
 

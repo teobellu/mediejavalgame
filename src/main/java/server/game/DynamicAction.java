@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import model.DevelopmentCard;
 import model.Effect;
 import model.ExcommunicationTile;
 import model.FamilyMember;
@@ -16,8 +17,7 @@ import model.Messages;
 import model.Player;
 import model.Resource;
 import model.Space;
-import model.developmentCards.DevelopmentCard;
-import model.developmentCards.Venture;
+import model.Venture;
 import model.exceptions.GameException;
 
 /**

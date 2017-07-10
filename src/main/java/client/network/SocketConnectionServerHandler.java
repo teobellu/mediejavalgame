@@ -132,8 +132,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 	 */
 	@SuppressWarnings("unchecked")
 	private void processString(String obj){
-		//TODO da rimuovere
-		_log.info("\n"+obj+"\n");
 		
 		if(obj.equals(CommandStrings.START_TURN)){
 			GameBoard board = (GameBoard) getFromServer();
@@ -224,7 +222,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				"|"+CommandStrings.SHOW_VATICAN_SUPPORT+"|"+CommandStrings.ACTIVATE_OPT_LEADERS)){
 			synchronized (_returnObject) {
 				_returnObject.notify();
-//				_returnObject = getFromServer();
 			}
 		}else{
 			_log.log(Level.SEVERE, "\n###RICEVUTO COMANDO SCONOSCIUTO: "+obj+"###\n");
@@ -319,7 +316,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 				}
 				
 				if (obj!=null) {
-					_log.info(obj.toString());
 					synchronized (_fromServerToClient) {
 						_fromServerToClient.add(obj);
 					}

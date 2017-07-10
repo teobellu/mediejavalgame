@@ -10,25 +10,25 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import model.DevelopmentCard;
 import model.Effect;
 import model.ExcommunicationTile;
 import model.FamilyMember;
 import model.GC;
 import model.GameBoard;
-import model.IEffectBehavior;
 import model.LeaderCard;
 import model.Player;
 import model.Resource;
-import model.developmentCards.DevelopmentCard;
-import model.effects.EffectCopyLeader;
-import model.effects.EffectDiscountResource;
-import model.effects.EffectGetResource;
-import model.effects.EffectIncreaseFamiliarStartPower;
-import model.effects.EffectOverruleObject;
-import model.effects.EffectSantaRita;
-import model.effects.EffectSelectAndSetFamiliarStartPower;
-import model.effects.EffectSetFamiliarStartPower;
-import model.effects.EffectWork;
+import server.game.effectControllers.EffectCopyLeader;
+import server.game.effectControllers.EffectDiscountResource;
+import server.game.effectControllers.EffectGetResource;
+import server.game.effectControllers.EffectIncreaseFamiliarStartPower;
+import server.game.effectControllers.EffectOverruleObject;
+import server.game.effectControllers.EffectSantaRita;
+import server.game.effectControllers.EffectSelectAndSetFamiliarStartPower;
+import server.game.effectControllers.EffectSetFamiliarStartPower;
+import server.game.effectControllers.EffectWork;
+import server.game.effectControllers.IEffectBehavior;
 
 public class GameInformation{
 

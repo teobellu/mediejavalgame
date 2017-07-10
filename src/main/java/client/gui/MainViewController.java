@@ -22,13 +22,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import model.DevelopmentCard;
 import model.FamilyMember;
 import model.GC;
 import model.GameBoard;
 import model.LeaderCard;
 import model.Player;
 import model.Space;
-import model.developmentCards.DevelopmentCard;
 
 /**
  * Controller for the main scene
@@ -601,6 +601,9 @@ public class MainViewController {
 		
 		appendToInfoText("It's YOUR turn now!", 24);
 		appendToInfoText("What do you want to do?");
+		
+		_buttonPane.setDisable(false);
+		_downArrowButton.setDisable(false);
 	}
 	
 	/**

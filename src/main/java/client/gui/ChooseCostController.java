@@ -3,8 +3,8 @@ package client.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import model.DevelopmentCard;
 import model.Resource;
-import model.developmentCards.DevelopmentCard;
 
 /**
  * Controller for the choose cost dialog

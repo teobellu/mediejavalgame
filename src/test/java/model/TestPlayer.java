@@ -7,12 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import model.developmentCards.Building;
-import model.developmentCards.DevelopmentCard;
-import model.developmentCards.Territory;
-import model.effects.EffectDoNothing;
+import controller.FakePlayer;
 import model.exceptions.GameException;
-import util.FakePlayer;
+import server.game.effectControllers.EffectDoNothing;
 
 /**
  * Test model: Player

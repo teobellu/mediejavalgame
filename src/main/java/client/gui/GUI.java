@@ -22,12 +22,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import model.DevelopmentCard;
 import model.FamilyMember;
 import model.GameBoard;
 import model.LeaderCard;
 import model.Player;
 import model.Resource;
-import model.developmentCards.DevelopmentCard;
 import util.CommandStrings;
 
 /**

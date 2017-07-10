@@ -9,9 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import model.DevelopmentCard;
 import model.GC;
 import model.Player;
-import model.developmentCards.DevelopmentCard;
 
 /**
  * Controller for the cards info dialog

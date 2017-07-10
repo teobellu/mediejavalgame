@@ -18,10 +18,10 @@ public class State {
 	
 	private Logger _log = Logger.getLogger(State.class.getName());
 	
-	protected int age; //1,2,3
-	protected int phase; //
+	protected int age;
+	protected int phase;
 	protected int countTurn;
-	protected final Game _theGame; //TODO  
+	protected final Game _theGame;
 	protected Player _player = null;
 	protected Client _client;
 	private List<Player> _players;
@@ -52,7 +52,6 @@ public class State {
 	}
 	
 	private void vaticanPhase(){
-		System.out.println("VATICAN PHASE");
 		for (Player p : _players){
 			controller.setPlayer(p);
 			listener.setPlayer(p);
@@ -63,28 +62,19 @@ public class State {
 	}
 	
 	public void nextState(){
-		
-		if (phase == 2 && countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){
-			vaticanPhase();
-			phase = 0;
-			age++;
+		if (countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){
+			if (phase == 2){
+				vaticanPhase();
+				phase = 0;
+				age++;
+			}
+			_theGame.getPlayers().forEach(player -> player.setOPTActivated(false));
+			information.newPhase(age);
+			_players = _theGame.getPlayers();
+			phase++;
 		}
 		//count turn è quello appena passato
 		Player nextPlayer = getNextPlayer();
-		
-		if (countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){//TODO non e' 4.
-			
-			System.out.println("NEXT PHASE");
-			_theGame.getPlayers().forEach(player -> player.setOPTActivated(false));
-			information.newPhase(age);
-//			for (Player p : _theGame.getPlayers()){
-//				controller.setPlayer(p);
-//				if (!p.isAfk())
-//					controller.readDices();
-//			}
-			//nextPlayer = _theGame.getPlayers().get(0);
-			phase++;
-		}
 		countTurn++;
 		if (age == 4){
 			age = 3;
@@ -100,28 +90,23 @@ public class State {
 		}
 		_player = nextPlayer;
 		setupNewTurn(_player);
-		//se il player è nella lista tail gli faccio saltare il turno e lo metto nella lista tail 2TODO
-		//alla fine faccio fare il turno ai giocatori nella lista tail 2TODO
 		
 		notifyPlayerTurn(_player);
 	}
 	
+	/**
+	 * Setup a nuw turn
+	 * @param nextPlayer
+	 */
 	public void setupNewTurn(Player nextPlayer){
 		controller.setPlayer(nextPlayer);
 		listener.setPlayer(nextPlayer);
-//		try {
-//			if (countTurn > _players.size())
-//			nextPlayer.getClient().getConnectionHandler()
-//				.sendInfo("You turn is starting", _theGame.getBoard(), nextPlayer);
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			_log.log(Level.SEVERE, e.getMessage(), e);
-//		}
-//		if (!nextPlayer.isAfk())
-//			controller.startTurn();
 	}
 	
-	//TODO DICE AL PLAYER CHE E' IL SUO TURNO
+	/**
+	 * Tells player that it's his turn
+	 * @param player
+	 */
 	private void notifyPlayerTurn(Player player){
 		if (player.isAfk()){
 			_theGame.otherPlayersInfo("The player " + player.getName() + " still afk, turn is skipped!", player);
@@ -129,15 +114,10 @@ public class State {
 			return;
 		}
 		
-		//startTime = new Date().getTime();
-		System.out.println("time tasking!");
-		
-		
 		TimerTask timerTask = new TimeTimerTask(countTurn, _theGame, player);
         
 
         Timer timer = new Timer("MyTimer");
-
         
         timer.schedule(timerTask, _theGame.getTurnTimeout());
 		
@@ -145,7 +125,7 @@ public class State {
 		try {
 			handler.startTurn(_theGame.getBoard(), player);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block mettero' il player afk?
+			player.setAfk(true);
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import model.effects.EffectDoNothing;
+import server.game.effectControllers.EffectDoNothing;
 
 public class GC{
 	
