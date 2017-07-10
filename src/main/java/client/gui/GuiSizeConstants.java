@@ -2,7 +2,8 @@ package client.gui;
 
 /**
  * Some constants
- *
+ * @author Jacopo
+ * @author Matteo
  */
 public class GuiSizeConstants {
 

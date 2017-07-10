@@ -9,7 +9,8 @@ import javafx.scene.text.TextFlow;
 
 /**
  * Controller for the ask int dialog
- *
+ * @author Jacopo
+ * @author Matteo
  */
 public class AskIntController extends DialogAbstractController {
 

@@ -9,6 +9,8 @@ import model.exceptions.GameException;
 /**
  * Class used to manage resources (as hoard or game loot), like coins or wood, 
  * and perform math operations on related information
+ * @author Jacopo
+ * @author Matteo
  */
 public class Resource implements Serializable{
 	

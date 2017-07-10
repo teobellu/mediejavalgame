@@ -22,7 +22,8 @@ import model.Resource;
 
 /**
  * Controller for the initial personal bonus dialog
- *
+ * @author Jacopo
+ * @author Matteo
  */
 public class PersonalBonusController extends DialogAbstractController{
 

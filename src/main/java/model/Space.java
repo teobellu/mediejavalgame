@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * This class is designed for store all information about an action space
+ * @author Jacopo
+ * @author Matteo
  */
 public class Space implements Serializable{
 	

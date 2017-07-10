@@ -6,7 +6,8 @@ import java.util.List;
 
 /**
  * Constants of commands only for cli
- *
+ * @author Jacopo
+ * @author Matteo
  */
 public abstract class CommandConstants {
 	

@@ -9,7 +9,8 @@ import model.LeaderCard;
 
 /**
  * Controller for the activate leader dialog
- *
+ * @author Jacopo
+ * @author Matteo
  */
 public class ActivateLeaderController extends DialogAbstractController {
 

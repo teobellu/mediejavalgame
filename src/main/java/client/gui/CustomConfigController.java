@@ -11,7 +11,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * Controller for the custom configuration dialog
- *
+ * @author Jacopo
+ * @author Matteo
  */
 public class CustomConfigController extends DialogAbstractController{
 

@@ -18,6 +18,8 @@ import util.Constants;
 
 /**
  * Controller for starting view scene
+ * @author Jacopo
+ * @author Matteo
  *
  */
 public class StartingViewController {

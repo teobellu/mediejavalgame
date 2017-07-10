@@ -8,7 +8,7 @@ import javafx.scene.control.ChoiceBox;
 
 /**
  * @author Jacopo
- *
+ * @author Matteo
  */
 public class ChooseLeaderController extends DialogAbstractController{
 

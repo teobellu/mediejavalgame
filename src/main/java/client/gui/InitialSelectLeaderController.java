@@ -16,7 +16,8 @@ import javafx.scene.text.Text;
 
 /**
  * Controller for the initial select leader dialog
- *
+ * @author Jacopo
+ * @author Matteo
  */
 public class InitialSelectLeaderController extends DialogAbstractController{
 

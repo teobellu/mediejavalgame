@@ -32,7 +32,8 @@ import model.Space;
 
 /**
  * Controller for the main scene
- *
+ * @author Jacopo
+ * @author Matteo
  */
 public class MainViewController {
 

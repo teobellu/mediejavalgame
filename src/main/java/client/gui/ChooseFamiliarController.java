@@ -10,7 +10,8 @@ import model.FamilyMember;
 
 /**
  * Controller for the choose familiar dialog
- *
+ * @author Jacopo
+ * @author Matteo
  */
 public class ChooseFamiliarController extends DialogAbstractController{
 
