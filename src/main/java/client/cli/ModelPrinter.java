@@ -15,6 +15,7 @@ import util.IOHandler;
 
 /**
  * This class is used to print information about model serialized objects
+ * @author M
  *
  */
 public abstract class ModelPrinter {

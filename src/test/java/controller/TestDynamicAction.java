@@ -17,11 +17,17 @@ import model.GC;
 import model.GameBoard;
 import model.LeaderCard;
 import model.Resource;
+import model.Territory;
 import model.exceptions.GameException;
 import server.Room;
 import server.game.DynamicAction;
 import server.game.Game;
 
+/**
+ * Some tests of dynamic action player controller
+ * @author M
+ *
+ */
 public class TestDynamicAction {
 	
 	/**
@@ -66,6 +72,8 @@ public class TestDynamicAction {
 		ExcommunicationTile tile3 = new ExcommunicationTile(3, GC.NIX);
 		ExcommunicationTile[] tiles = {tile1, tile2, tile3};
 		board.setExCard(tiles);
+		
+		board.getFromTowers(0, 0).setCard(new Territory(null, 3, GC.NIX, GC.NIX, 2));
 		
 		game.getGameInformation().setBonusFaith(Arrays.asList(1,2,4,5,6,7,8));
 		
@@ -114,6 +122,22 @@ public class TestDynamicAction {
 	@Test(expected = GameException.class)
 	public void operationActivateLeaderIllegal() throws GameException {
 		dynamicA.activateLeaderCard(new LeaderCard(null, null, player -> false));
+	}
+	
+	/**
+	 * Get a territory when you have already 6 territories
+	 * @throws GameException
+	 */
+	@Test(expected = GameException.class)
+	public void illegalPlaceTower() throws GameException {
+		FakePlayer owner = (FakePlayer) familiar.getOwner();
+		owner.addDevelopmentCard(new Territory(null, 1, GC.NIX, GC.NIX, 1));
+		owner.addDevelopmentCard(new Territory(null, 2, GC.NIX, null, 4));
+		owner.addDevelopmentCard(new Territory(null, 1, null, null, 0));
+		owner.addDevelopmentCard(new Territory(null, 1, GC.NIX, null, 1));
+		owner.addDevelopmentCard(new Territory(null, 3, null, GC.NIX, 6));
+		owner.addDevelopmentCard(new Territory(null, 1, null, null, 2));
+		dynamicA.placeInTower(familiar, 0, 0);
 	}
 	
 	/**

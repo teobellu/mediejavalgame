@@ -4,7 +4,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,7 +12,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import model.Resource;
 import model.exceptions.GameException;
 import server.game.Game;
 import server.game.GameInformation;
@@ -105,18 +103,11 @@ public class Room extends Thread {
 	 * @param fileHandler the config file parser
 	 */
 	private void setupGame(Game game, ConfigFileHandler fileHandler) {
-		//GameBoard board = new GameBoard(fileHandler.SPACE_BONUS);
 		GameInformation info = game.getGameInformation();
-		//game.setBoard(board);
 		info.createBoard(fileHandler.getSpaceBonus());
 		info.setDevelopmentDeck(fileHandler.getDevelopmentDeck());
 		info.setExcommunicationDeck(fileHandler.getExcommunicationDeck());
-		
-		Map<String, List<Resource>> map = fileHandler.getBonusPlayerDashboard();
-		
-		info.setBonusPlayerDashBoard(map);
-		
-		
+		info.setBonusPlayerDashBoard(fileHandler.getBonusPlayerDashboard());
 		info.setBonusFaith(fileHandler.getBonusFaith());
 		game.setTurnTimeout(fileHandler.timeoutTurn * 1000);
 		

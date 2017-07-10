@@ -29,24 +29,59 @@ import model.exceptions.GameException;
 import util.Constants;
 import util.IOHandler;
 
+/**
+ * CLI main view
+ * @author M
+ * @author Jacopo
+ *
+ */
 public class CommandLineUI implements UI {
 	
+	/**
+	 * Logger
+	 */
 	private Logger _log = Logger.getLogger(CommandLineUI.class.getName());
 	
+	/**
+	 * Cached gameboard
+	 */
 	private GameBoard _board;
 	
+	/**
+	 * Cached player
+	 */
 	private Player _me;
 
+	/**
+	 * IOhandler reader + writer
+	 */
 	private final IOHandler _ioHandler;
 	
+	/**
+	 * List of commands
+	 */
 	private List<String> commands = new ArrayList<>();
 	
+	/**
+	 * @Singleton
+	 * Instance
+	 */
 	private static CommandLineUI _instance = null;
 	
+	/**
+	 * Connection handler
+	 */
 	private ConnectionServerHandler _connectionHandler;
 	
+	/**
+	 * My 128 bit uuid
+	 */
 	private String _uuid;
 	
+	/**
+	 * Get instance if exists
+	 * @return
+	 */
 	public static CommandLineUI getInstance(){
 		if(_instance==null){
 			synchronized (CommandLineUI.class) {
@@ -58,10 +93,16 @@ public class CommandLineUI implements UI {
 		return _instance;
 	}
 	
+	/**
+	 * Cli constructor
+	 */
 	private CommandLineUI() {
 		_ioHandler = new IOHandler();
 	}
 	
+	/**
+	 * Get a connection
+	 */
 	public void getConnection() {
 				
 		//Get server address
@@ -107,7 +148,7 @@ public class CommandLineUI implements UI {
 			_ioHandler.write("Using default file.");
 		} catch (RemoteException e) {
 			_log.log(Level.FINE, e.getMessage(), e);
-			//TODO il server è offline fin dall'inizio, spegni
+			_ioHandler.shutdown();
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		} finally {
@@ -193,16 +234,28 @@ public class CommandLineUI implements UI {
 		}
 	}
 
+	/**
+	 * Try to show support to vatican
+	 * @throws RemoteException
+	 */
 	private synchronized void showSupport() throws RemoteException {
 		showVaticanSupport();
 		handleTurn();
 	}
 	
+	/**
+	 * Try to play OPT leader cards
+	 * @throws RemoteException
+	 */
 	private synchronized void playOPTLeader() throws RemoteException {
 		activateOPTLeaders();
 		handleTurn();
 	}
 
+	/**
+	 * Place a familiar
+	 * @throws RemoteException
+	 */
 	private synchronized void placeFamiliar() throws RemoteException{
 		int selection = 0;
 		// quale familiare
@@ -240,16 +293,26 @@ public class CommandLineUI implements UI {
 		//fine, esco da questo metodo
 	}
 	
-	private synchronized void printBoard() throws RemoteException{
+	/**
+	 * Print the cached board
+	 */
+	private void printBoard(){
 		ModelPrinter.printBoard(_board);
 		handleTurn();
 	}
 	
-	private synchronized void showMyCards() throws RemoteException{
+	/**
+	 * Show my cards (cached player)
+	 */
+	private void showMyCards(){
 		ModelPrinter.printMyLoot(_me);
 		handleTurn();
 	}
 
+	/**
+	 * Activate a leader card
+	 * @throws RemoteException
+	 */
 	private synchronized void activateLeader() throws RemoteException{
 		int selection = 0;
 		List<LeaderCard> myLeaders;
@@ -266,6 +329,10 @@ public class CommandLineUI implements UI {
 		handleTurn();
 	}
 	
+	/**
+	 * Drop a leader card
+	 * @throws RemoteException
+	 */
 	private synchronized void dropLeader() throws RemoteException{
 		int selection = 0;
 		List<LeaderCard> myLeaders;
@@ -429,8 +496,6 @@ public class CommandLineUI implements UI {
 		}
 	}
 
-	
-	
 	@Override
 	public void showInfo(String info) {
 		_ioHandler.write("[INFO] : " + info);
@@ -463,7 +528,7 @@ public class CommandLineUI implements UI {
 	@Override
 	public synchronized void reconnected() {
 		_ioHandler.write("You have been succesfully reconnected");
-		//handleTurn(); TODO ????
+		handleTurn();
 	}
 
 	@Override

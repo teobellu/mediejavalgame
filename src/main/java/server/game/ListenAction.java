@@ -196,7 +196,6 @@ public class ListenAction{
 		
 		actionsAlreadyDone.clear();
 		_theGame.getState().nextState();
-		//TODO cambio stato
 	}
 		
 }

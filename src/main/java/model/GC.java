@@ -6,6 +6,11 @@ import java.util.List;
 
 import server.game.effectControllers.EffectDoNothing;
 
+/**
+ * Some game constants used frequently
+ * @author M
+ *
+ */
 public class GC{
 	
 	public static final String DEFAULT = "default";

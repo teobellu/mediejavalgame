@@ -72,7 +72,6 @@ public class TestGameInformation {
 		
 		assertTrue(gi.getDevelopmentDeck().isEmpty());
 		
-		gi.setupANewTurn();
 		gi.newPhase(2);
 	}
 	
@@ -93,7 +92,7 @@ public class TestGameInformation {
 		
 		gi.endOfTheGameFindWinners();
 		
-		//jump turns 
+		//council palace working list
 		
 		gi.setHeadPlayersTurn(list);
 		assertTrue(gi.getHeadPlayersTurn().size() == 2);

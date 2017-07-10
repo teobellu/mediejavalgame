@@ -35,19 +35,44 @@ public class GameInformation{
 	private Game game;
 	
 	/**
-	 * Used for activate a specific leader card TODO
+	 * Used for activate a specific leader card, Lorenzo de' Medici
 	 */
 	private Map<LeaderCard, Player> discardedLeader;
 	
+	/**
+	 * Map of dashboard personal bonuses
+	 */
 	private Map<String, List<Resource>> bonusPlayerDashBoard;
+	
+	/**
+	 * Faith bonus track
+	 */
 	private List<Integer> bonusFaith;
 	
+	/**
+	 * Leader cards deck
+	 */
 	private List<LeaderCard> leaderDeck;
+	
+	/**
+	 * Development cards deck
+	 */
 	private List<DevelopmentCard> developmentDeck;
+	
+	/**
+	 * E.Tiles deck
+	 */
 	private List<ExcommunicationTile> excommunicationDeck;
 	
+	/**
+	 * Players in the Council palace
+	 */
 	private List<Player> headPlayersTurn;
 	
+	/**
+	 * Game information base constructor
+	 * @param game
+	 */
 	public GameInformation(Game game) {
 		this.game = game;
 		discardedLeader = new HashMap<>();
@@ -55,18 +80,17 @@ public class GameInformation{
 		generateLeaderCard();
 	}
 	
+	/**
+	 * Create and set a gameboard to the game
+	 * @param spaceBonus
+	 */
 	public void createBoard(Map<String, List<Effect>> spaceBonus) {
 		game.setBoard(new GameBoard(spaceBonus));
 	}
 	
-	public void setupANewTurn(){
-		int age = 0;
-		//TODO TEST, non passando una copia, dovrebbe togliere le carte dal mazzo
-		System.out.println(developmentDeck.size());
-		game.getBoard().generateDevelopmentCards(developmentDeck, age);
-		System.out.println(developmentDeck.size() + "-> deve essere piu' piccolo del numero sopra");
-	}
-	
+	/**
+	 * Setup a new turn
+	 */	
 	public void newPhase(int age){
 		rollDices();
 		generateFamiliars();
@@ -76,6 +100,9 @@ public class GameInformation{
 		game.setPlayers(getNextPlayersTurn());
 	}
 
+	/**
+	 * Update familiars to players using effects
+	 */
 	private void updateFamiliars() {
 		DynamicAction dynamicBard = game.getDynamicBar();
 		game.getPlayers().forEach(player -> {
@@ -84,6 +111,9 @@ public class GameInformation{
 		});
 	}
 
+	/**
+	 * Generate familiars to players
+	 */
 	private void generateFamiliars(){ 
 		List<Player> players = game.getPlayers(); 
 		List<FamilyMember> familiars;
@@ -186,10 +216,17 @@ public class GameInformation{
 				.collect(Collectors.toList());
 	}
 	
+	/**
+	 * Get leader cards deck
+	 * @return leader cards deck
+	 */
 	public List<LeaderCard> getLeaderDeck() {
 		return leaderDeck;
 	}
 
+	/**
+	 * Set excomm tiles on gameboard
+	 */
 	public void setExcommunicationTitlesOnBoard(){
 		ExcommunicationTile[] exCard = new ExcommunicationTile[3];
 		Collections.shuffle(excommunicationDeck);
@@ -202,12 +239,20 @@ public class GameInformation{
 		game.getBoard().setExCard(exCard);
 	}
 
+	/**
+	 * Get the map for Lorenzo de' Medici
+	 * @return discarded leader cards deck
+	 */
 	public Map<LeaderCard, Player> getDiscardedLeader() {
 		return discardedLeader;
 	}
 
+	/**
+	 * Add a new discarded leader card for Lorenzo de' Medici effect
+	 * @param discardedLeader Leader card
+	 * @param owner His owner
+	 */
 	public void addDiscardedLeader(LeaderCard discardedLeader, Player owner) {
-		//PLAYER = LEADER.GET EFFECT. GET OWNER ? TODO
 		this.discardedLeader.putIfAbsent(discardedLeader, owner);
 	}
 	

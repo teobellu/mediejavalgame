@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * This class identifies a specific position within the board, using a sort of coordinates for the purpose, like row or column
  * @author M
+ * @author Jacopo
  *
  */
 public class Position implements Serializable{

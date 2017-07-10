@@ -111,10 +111,7 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 		if (filteredFamiliars.isEmpty())
 			return;
 		int index = 0;
-		String nick = player.getName();
 		index = player.getClient().getConnectionHandler().chooseFamiliar(filteredFamiliars, message);
-		if (!nick.equals(effect.getBar().getNick()))
-			return;
 		familiarToModify = filteredFamiliars.get(index);
 	}
 	
