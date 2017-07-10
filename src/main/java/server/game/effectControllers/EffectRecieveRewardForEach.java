@@ -56,7 +56,6 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 		try {
 			addReward();
 		} catch (RemoteException e) {
-			//TODO
 			_log.log(Level.INFO, e.getMessage(), e);
 		}
 	}
@@ -81,7 +80,7 @@ public class EffectRecieveRewardForEach implements IEffectBehavior{
 	
 	private void addReward() throws RemoteException{
 		for (int i = 0; i < count; i++)
-			ref.getBar().gain(ref, reward); //TODO  giusta la dynamic bar?
+			ref.getBar().gain(ref, reward);
 	}
 	
 	/**

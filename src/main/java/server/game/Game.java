@@ -54,7 +54,7 @@ public class Game implements Runnable {
 		Collections.shuffle(playerColours);
 		
 		for(Client cli : _theRoom.getPlayers()){
-			_players.add(new GamePlayer(cli, playerColours.remove(0)));//TODO
+			_players.add(new GamePlayer(cli, playerColours.remove(0)));
 		}
 		_dynamicAction = new DynamicAction(this);
 		gameInformation = new GameInformation(this);

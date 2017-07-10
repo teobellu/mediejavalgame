@@ -79,8 +79,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			
 			_returnObject = new Object();
 			
-			//TODO potrei dover notificare tutto quello che è in attesa, non so
-//			_returnObject.notifyAll();
 			
 			queueToServer(CommandStrings.RECONNECT, uuid);
 			
@@ -92,17 +90,13 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			}
 			
 			return;
-//			return (boolean) _returnObject;
 		} catch (InterruptedException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
 			Thread.currentThread().interrupt();
-//			return false;
 		} catch (UnknownHostException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
-//			return false;
 		} catch (IOException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
-//			return false;
 		}
 	}
 	
@@ -142,8 +136,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 			}
 		}
 		else if(obj.equals(CommandStrings.RECONNECT)){
-//			_returnObject.notify();
-//			_returnObject = (boolean) getFromServer();
 			_ui.reconnected();
 		}
 		else if(obj.equals(CommandStrings.UUID)){
@@ -581,8 +573,6 @@ public class SocketConnectionServerHandler extends ConnectionServerHandler {
 					if(!_fromClientToServer.isEmpty()){
 						try {
 							writeObject(_fromClientToServer.poll());
-//							_returnObject = new Object();
-//							_returnObject.notify();
 						} catch (RemoteException e) {
 							_log.log(Level.INFO, e.getMessage(), e);
 							_returnObject = CommandStrings.CONNECTION_ERROR;

@@ -154,7 +154,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							queueToClient(CommandStrings.DROP_LEADER_CARD);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
-							// TODO Auto-generated catch block
 							_log.log(Level.SEVERE, e1.getMessage(), e1);
 						}
 					}
@@ -179,7 +178,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							queueToClient(CommandStrings.ACTIVATE_LEADER_CARD);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
-							// TODO Auto-generated catch block
 							_log.log(Level.SEVERE, e1.getMessage(), e1);
 						}
 					}
@@ -205,7 +203,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							queueToClient(CommandStrings.PLACE_FAMILIAR);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
-							// TODO Auto-generated catch block
 							_log.log(Level.SEVERE, e1.getMessage(), e1);
 						}
 					}
@@ -257,7 +254,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							queueToClient(CommandStrings.ACTIVATE_OPT_LEADERS);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e2) {
-							// TODO: handle exception
 							_log.log(Level.SEVERE, e2.getMessage(), e2);
 						}
 					}
@@ -553,24 +549,12 @@ public class SocketConnectionHandler extends ConnectionHandler {
 		@Override
 		public void run() {
 			while(_isRunning){
-//				try {
-					Object obj = getFromClient();
-//					new Thread(new Runnable() {
-//						
-//						@Override
-//						public void run() {
-							try {
-								processObject(obj);
-							} catch (RemoteException e) {
-								// TODO Auto-generated catch block
-								_log.log(Level.SEVERE, e.getMessage(), e);
-							}
-//						}
-//					}).start();
-////					Thread.sleep(1000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
+				Object obj = getFromClient();
+				try {
+					processObject(obj);
+				} catch (RemoteException e) {
+					_log.log(Level.SEVERE, e.getMessage(), e);
+				}
 			}
 		}
 		
@@ -585,7 +569,6 @@ public class SocketConnectionHandler extends ConnectionHandler {
 					try {
 						writeObject(_fromServerToClient.poll());
 					} catch (RemoteException e) {
-						// TODO Auto-generated catch block
 						_log.log(Level.SEVERE, e.getMessage(), e);
 					}
 				} else {

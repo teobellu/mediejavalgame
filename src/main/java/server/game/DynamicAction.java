@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.omg.CORBA._PolicyStub;
-
 import model.DevelopmentCard;
 import model.Effect;
 import model.ExcommunicationTile;
@@ -513,7 +511,7 @@ public class DynamicAction {
 	private void dontShowVaticanSupport(int age){
 		ExcommunicationTile tile = game.getBoard().getExCard()[age - 1];
 		Effect malus = tile.getEffect();
-		player.addEffect(malus);//TODO O MEGLIO UNA COPIA????
+		player.addEffect(malus);
 		game.broadcastInfo(player.getName() + Messages.MESS_EXCOMMUNICATED);
 	}
 	

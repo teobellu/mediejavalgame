@@ -36,14 +36,29 @@ import util.CommandStrings;
  */
 public class GUI extends Application {
 
+	/**
+	 * The stage
+	 */
 	private Stage _primaryStage;
 
+	/**
+	 * The root node
+	 */
 	private BorderPane _rootLayout;
 
+	/**
+	 * The controller of the main scene
+	 */
 	private MainViewController _mainViewController;
 	
+	/**
+	 * The logger
+	 */
 	private transient Logger _log = Logger.getLogger(GUI.class.getName());
 	
+	/**
+	 * Executor to handle the creation of tasks
+	 */
 	private ExecutorService executor = Executors.newCachedThreadPool();
 	
 	/**
@@ -112,9 +127,6 @@ public class GUI extends Application {
 		
 		executor.execute(task);
 		
-//		Thread th = new Thread(task);
-//		th.setDaemon(true);
-//		th.start();
 	}
 	
 	/**
@@ -501,6 +513,10 @@ public class GUI extends Application {
 		}
 	}
 	
+	/**
+	 * Show the Choose Leader dialog
+	 * @param leaders the leaders
+	 */
 	private void showChooseLeaderDialog(List<String> leaders) {
 		if(!leaders.isEmpty()){
 			try {

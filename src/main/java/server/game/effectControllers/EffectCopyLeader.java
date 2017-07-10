@@ -37,7 +37,6 @@ public class EffectCopyLeader implements IEffectBehavior{
 		try {
 			selectLeaderCard();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		activateLeaderCard();

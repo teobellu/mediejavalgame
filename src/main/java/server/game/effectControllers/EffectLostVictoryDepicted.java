@@ -59,7 +59,7 @@ public class EffectLostVictoryDepicted implements IEffectBehavior{
 	
 	private void findCostOfAllFilteredCards() {
 		player.getDevelopmentCards(typeOfCard).stream()
-		.forEach(card -> costOfFilteredCards.add(card.getCost(0))); //TODO 0 is ok?
+		.forEach(card -> costOfFilteredCards.add(card.getCost(0)));
 	}
 	
 	private void establishTax() {
@@ -73,9 +73,6 @@ public class EffectLostVictoryDepicted implements IEffectBehavior{
 		int playerVictory = playerRes.get(GC.RES_VICTORYPOINTS);
 		countVictoryTax = Math.min(countVictoryTax, playerVictory);
 		malus.add(GC.RES_VICTORYPOINTS, countVictoryTax);
-		
-		//Sostituito al try catch sotto. TODO riguardare
-		//player.getResource().add(GC.RES_VICTORYPOINTS, -countVictoryTax);
 		
 		try {
 			player.pay(malus);

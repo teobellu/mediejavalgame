@@ -26,33 +26,78 @@ import model.Resource;
 import model.exceptions.GameException;
 import util.CommandStrings;
 
+/**
+ * Middleware controller for the JavaFX GUI Application
+ * @author Jacopo
+ * @author Matteo
+ */
 public class GraphicalUI implements UI {
 	
+	/**
+	 * Queue of commands to the JavaFX Application
+	 */
 	private ConcurrentLinkedQueue<String> _commandToGui = new ConcurrentLinkedQueue<>();
 	
+	/**
+	 * Queue of objects to the JavaFX Application
+	 */
 	private ConcurrentLinkedQueue<Object> _fromGraphicalToGUI = new ConcurrentLinkedQueue<>();
 	
+	/**
+	 * Queue of objects from the JavaFX Application
+	 */
 	private ConcurrentLinkedQueue<Object> _fromGUItoGraphical = new ConcurrentLinkedQueue<>();
 	
+	/**
+	 * the selected customConfigFile
+	 */
 	private File _xmlFile;
 	
+	/**
+	 * the player's name
+	 */
 	private String _name;
 	
+	/**
+	 * Instance for singleton constructor
+	 */
 	private static GraphicalUI _instance = null;
 	
+    /**
+     * the logger
+     */
     private Logger _log = Logger.getLogger(GraphicalUI.class.getName());
     
+    /**
+     * Handles communication with the server
+     */
     private ConnectionServerHandler _connectionHandler = null;
     
+    /**
+     * Cached board to not overload the connection
+     */
     private GameBoard _cachedBoard;
     
+    /**
+     * Cached player to not overload the connection
+     */
     private Player _cachedMe;
     
+    /**
+     * Player's generated unique id
+     */
     private String _uuid;
 	
+	/**
+	 * Private constructor
+	 */
 	private GraphicalUI() {
 	}
 	
+	/**
+	 * Get this class instance
+	 * @return
+	 */
 	public static GraphicalUI getInstance(){
 		if(_instance==null){
 			synchronized (GraphicalUI.class) {
@@ -370,38 +415,69 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
+	/**
+	 * Put some objects in the queue to the GUI
+	 * @param objects the objects
+	 */
 	public synchronized void addFromGraphicalToGUI(Object...objects){
 		for(Object obj : objects){
 			_fromGraphicalToGUI.add(obj);
 		}
 	}
 	
+	/**
+	 * Put some objects in the queue from the GUI
+	 * @param objects the objects
+	 */
 	public synchronized void addFromGUIToGraphical(Object...objects){
 		for(Object obj : objects){
 			_fromGUItoGraphical.add(obj);
 		}
 	}
 	
+	/**
+	 * Fetch an object from the queue to the GUI
+	 * @return
+	 */
 	public synchronized Object getFirstFromGraphicalToGUI(){
 		return _fromGraphicalToGUI.poll();
 	}
 	
+	/**
+	 * Fetch an object from the queue starting from the GUI
+	 * @return
+	 */
 	public synchronized Object getFirstFromGUIToGraphical(){
 		return _fromGUItoGraphical.poll();
 	}
 	
+	/**
+	 * Put some objects in the commands queue to the GUI
+	 * @param command
+	 */
 	public synchronized void addToCommandToGui(String command){
 		_commandToGui.add(command);
 	}
 	
+	/**
+	 * Get the cached board
+	 * @return the board
+	 */
 	public GameBoard getCachedBoard(){
 		return _cachedBoard;
 	}
 	
+	/**
+	 * Get the cached player
+	 * @return the player
+	 */
 	public Player getCachedMe(){
 		return _cachedMe;
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.UI#activateLeaderCard(java.lang.String)
+	 */
 	@Override
 	public void activateLeaderCard(String leaderName) {
 		try {
@@ -412,6 +488,9 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.UI#placeFamiliar(java.lang.String, model.Position)
+	 */
 	@Override
 	public void placeFamiliar(String familiarColour, Position position) {
 		try {
@@ -422,6 +501,9 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.UI#dropLeaderCard(java.lang.String)
+	 */
 	@Override
 	public void dropLeaderCard(String leaderName) {
 		try {
@@ -432,6 +514,9 @@ public class GraphicalUI implements UI {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.UI#endTurn()
+	 */
 	@Override
 	public void endTurn() {
 		try {
@@ -442,45 +527,48 @@ public class GraphicalUI implements UI {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see client.UI#attemptReconnection()
+	 */
 	@Override
 	public void attemptReconnection() {
 		try {
 			addFromGraphicalToGUI("Attempting reconnection...");
 			addToCommandToGui(CommandStrings.INFO);
 			
-//			boolean reconnected = 
-					_connectionHandler.attemptReconnection(_uuid);
-			
-//			if(reconnected){
-//				addFromGraphicalToGUI("Reconnected succesfully!");
-//				addToCommandToGui(CommandStrings.INFO);
-//				
-//			} else {
-//				addFromGraphicalToGUI("Failed to reconnect.");
-//				addToCommandToGui(CommandStrings.INFO);
-//				
-//			}
+			_connectionHandler.attemptReconnection(_uuid);
 		} catch (RemoteException e) {
-			//TODO
 			_log.log(Level.INFO, e.getMessage(), e);
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.UI#reconnected()
+	 */
 	@Override
 	public void reconnected(){
 		addFromGraphicalToGUI("Reconnected succesfully");
 		addToCommandToGui(CommandStrings.INFO);
 	}
 
+	/* (non-Javadoc)
+	 * @see client.UI#setUUID(java.lang.String)
+	 */
 	@Override
 	public void setUUID(String uuid) {
 		_uuid = uuid;
 	}
 	
+	/**
+	 * Shutdown the GraphicalUI
+	 */
 	public void shutdown(){
 		_connectionHandler.shutdown();
 	}
 
+	/* (non-Javadoc)
+	 * @see client.UI#showVaticanSupport()
+	 */
 	@Override
 	public void showVaticanSupport() {
 		try{
@@ -491,6 +579,9 @@ public class GraphicalUI implements UI {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see client.UI#activateOPTLeaders()
+	 */
 	@Override
 	public void activateOPTLeaders() {
 		try{

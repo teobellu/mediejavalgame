@@ -106,7 +106,6 @@ public class EffectConvertResource implements IEffectBehavior{
 				realPayOptions.add(payOptions.get(i));
 				realGainOptions.add(gainOptions.get(i));
 			} catch (GameException e) {
-				// TODO il giocatore non puo' converire perche' non ha le risorse necessarie
 				_log.log(Level.INFO, e.getMessage(), e);
 			}
 		}

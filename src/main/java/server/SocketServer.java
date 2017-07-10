@@ -30,6 +30,7 @@ public class SocketServer extends Thread {
 			_serverSocket = new ServerSocket(Constants.DEFAULT_SOCKET_PORT);
 		} catch (Exception e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
+			Server.getInstance().shutdown();
 		}
 		
 		_isRunning = true;
