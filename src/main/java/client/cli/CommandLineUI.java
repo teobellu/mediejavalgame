@@ -184,10 +184,11 @@ public class CommandLineUI implements UI {
 				try {
 					attemptReconnection();
 				} catch (RemoteException e1) {
-					//TODO shutdown
+					_log.log(Level.SEVERE, e1.getMessage(), e1);
+					_ioHandler.shutdown();
 				}
 			} else {
-				//TODO shutdown
+				_ioHandler.shutdown();
 			}
 		}
 	}
@@ -424,7 +425,7 @@ public class CommandLineUI implements UI {
 			}
 		} catch (RemoteException e) {
 			_log.log(Level.SEVERE, e.getMessage(), e);
-			//TODO server offline fin dall'inizio, spengo tutto
+			_ioHandler.shutdown();
 		}
 	}
 
@@ -462,7 +463,7 @@ public class CommandLineUI implements UI {
 	@Override
 	public synchronized void reconnected() {
 		_ioHandler.write("You have been succesfully reconnected");
-		handleTurn();
+		//handleTurn(); TODO ????
 	}
 
 	@Override

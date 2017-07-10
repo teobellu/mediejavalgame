@@ -4,9 +4,18 @@ import model.Effect;
 import model.GC;
 import model.Player;
 
+/**
+ * Effect delay first action each turn
+ * @author M
+ *
+ */
 public class EffectDelayFirstAction implements IEffectBehavior{
 
-	private Effect effect;
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Player player;
 	
 	@Override
@@ -20,7 +29,6 @@ public class EffectDelayFirstAction implements IEffectBehavior{
 	 * @param ref Effect that possesses this behavior
 	 */
 	private void initializes(Effect ref){
-		effect = ref;
 		player = ref.getPlayer();
 	}
 	

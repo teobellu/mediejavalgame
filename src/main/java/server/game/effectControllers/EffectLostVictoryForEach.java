@@ -5,7 +5,17 @@ import model.GC;
 import model.Player;
 import model.Resource;
 
+/**
+ * Tiles of age 6 malus
+ * @author M
+ *
+ */
 public class EffectLostVictoryForEach implements IEffectBehavior{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private Resource payForEach;		//paga 1 victory per ogni forEach
 	private int countVictoryTax;	//contatore punti da pagare

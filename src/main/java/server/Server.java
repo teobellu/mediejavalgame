@@ -53,10 +53,7 @@ public class Server extends Thread {
 		
 		_isRunning = true;
 		
-		Thread tr = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
+		Thread tr = new Thread(() -> {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 				try {
 					String str;
@@ -75,7 +72,7 @@ public class Server extends Thread {
 						_log.log(Level.SEVERE, e1.getMessage(), e1);
 					}
 				}
-			}
+			
 		});
 		tr.start();
 		

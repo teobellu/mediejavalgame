@@ -9,7 +9,17 @@ import model.GC;
 import model.Player;
 import model.Resource;
 
+/**
+ * Bonus that adds resources to player reading some info
+ * @author M
+ *
+ */
 public class EffectRecieveRewardForEach implements IEffectBehavior{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private transient Logger _log = Logger.getLogger(EffectRecieveRewardForEach.class.getName());
 	

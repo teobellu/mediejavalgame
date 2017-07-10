@@ -11,7 +11,17 @@ import model.Player;
 import model.Resource;
 import model.exceptions.GameException;
 
+/**
+ * Bonus get a card
+ * @author M
+ *
+ */
 public class EffectGetACard implements IEffectBehavior{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private transient Logger _log = Logger.getLogger(EffectGetACard.class.getName());
 	
@@ -27,7 +37,6 @@ public class EffectGetACard implements IEffectBehavior{
 	
 	private int row;
 	private int column;
-	private boolean activate = true;
 	
 	public EffectGetACard(Integer value) {
 		this.value = value;
@@ -72,7 +81,6 @@ public class EffectGetACard implements IEffectBehavior{
 				getCard();
 				break;
 			} catch (GameException e) {
-				//TODO non puoi
 				_log.log(Level.OFF, e.getMessage(), e);
 			}
 		}while(true);
@@ -83,7 +91,7 @@ public class EffectGetACard implements IEffectBehavior{
 	}
 	
 	private void selectCard() throws RemoteException {
-		if (GC.DEV_TYPES.contains(typeOfCard))//TODO CONTAINS FUNZIONA COME EQUALs?
+		if (GC.DEV_TYPES.contains(typeOfCard))
 			column = GC.DEV_TYPES.indexOf(typeOfCard);
 		else{
 			column = player.getClient().getConnectionHandler().askInt(MESS_COLUMN, 0, GameBoard.MAX_COLUMN - 1);

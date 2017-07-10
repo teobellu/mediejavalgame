@@ -9,7 +9,17 @@ import model.Player;
 import model.Resource;
 import model.exceptions.GameException;
 
+/**
+ * Malus for tiles 6 of age 3
+ * @author M
+ *
+ */
 public class EffectLostVictoryDepicted implements IEffectBehavior{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private transient Logger _log = Logger.getLogger(EffectLostVictoryDepicted.class.getName());
 	

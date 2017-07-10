@@ -2,7 +2,17 @@ package server.game.effectControllers;
 
 import model.Effect;
 
+/**
+ * Generic effect, do differents things. This is the only particular effect
+ * @author M
+ *
+ */
 public class EffectOverruleObject implements IEffectBehavior{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private String specificAction;		//se string = null, sempre, altrimenti solo quando azione
 	

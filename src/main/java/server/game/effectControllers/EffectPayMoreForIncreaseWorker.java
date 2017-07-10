@@ -2,11 +2,21 @@ package server.game.effectControllers;
 
 import model.Effect;
 
+/**
+ * Malus for servants (exc. tile 6 age 2) 
+ * @author M
+ *
+ */
 public class EffectPayMoreForIncreaseWorker implements IEffectBehavior{
 	
-	private Effect ref;			//mi serve per aggiornare toAnalyze (integer in Effetto)
-	private Integer normalPay; 	//cio' che guadagnerei normalmente
-	private Integer malus;		//la tassa
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private Effect ref;			
+	private Integer normalPay; 	
+	private Integer malus;		
 	private Integer newPay;
 	
 	public EffectPayMoreForIncreaseWorker(Integer malus) {

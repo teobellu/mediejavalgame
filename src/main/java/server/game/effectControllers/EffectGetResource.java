@@ -8,10 +8,20 @@ import model.Effect;
 import model.GC;
 import model.Resource;
 
+/**
+ * Bonus get resource
+ * @author M
+ *
+ */
 public class EffectGetResource implements IEffectBehavior{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 
-	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
-	private Resource bonus; 	//cio' che guadagnerei normalmente
+	private Effect ref;
+	private Resource bonus;
 
 	public EffectGetResource(Resource bonus) {
 		this.bonus = bonus;

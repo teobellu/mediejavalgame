@@ -2,7 +2,17 @@ package server.game.effectControllers;
 
 import model.Effect;
 
+/**
+ * Bonus increase some action value
+ * @author M
+ *
+ */
 public class EffectIncreaseActionPower implements IEffectBehavior{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private String action;		//parametri
 	private Integer increase;

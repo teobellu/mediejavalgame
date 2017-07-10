@@ -7,13 +7,23 @@ import model.Effect;
 import model.GC;
 import model.Resource;
 
+/**
+ * Effect get a discount of resource, could be a malus or a bonus
+ * @author M
+ *
+ */
 public class EffectDiscountResource implements IEffectBehavior{
 	
-	private Resource discountResource;		//la tassa
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private Resource discountResource;
 	private List<String> actions;
 	
-	private Effect ref;			//mi serve per aggiornare toAnalyze (risorse in Effetto)
-	private Resource normalGain; 	//cio' che guadagnerei normalmente
+	private Effect ref;	
+	private Resource normalGain; 
 	private Resource newGain;
 	private String thisAction;
 	

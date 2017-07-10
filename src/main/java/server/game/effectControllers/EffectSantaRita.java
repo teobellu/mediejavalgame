@@ -4,6 +4,11 @@ import model.Effect;
 import model.GC;
 import model.Resource;
 
+/**
+ * Santa Rita effect, see game rules
+ * @author M
+ *
+ */
 public class EffectSantaRita implements IEffectBehavior{
 	
 	/**

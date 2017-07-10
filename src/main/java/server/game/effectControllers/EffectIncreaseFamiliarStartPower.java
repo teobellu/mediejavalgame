@@ -7,9 +7,18 @@ import model.Effect;
 import model.FamilyMember;
 import model.GC;
 
+/**
+ * Bonus Increase familiar (filter by type) start power
+ * @author M
+ *
+ */
 public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 	
-	private String typeOfFamiliar;		//parametri
+	private String typeOfFamiliar;
 	private Integer increase;
 	
 	private List<FamilyMember> familiarsToModify;

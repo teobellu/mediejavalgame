@@ -237,8 +237,7 @@ public class SocketConnectionHandler extends ConnectionHandler {
 							queueToClient(CommandStrings.SHOW_VATICAN_SUPPORT);
 							sendInfo(e.getMessage());
 						} catch (RemoteException e1) {
-							// TODO Auto-generated catch block
-							_log.log(Level.SEVERE, e.getMessage(), e);
+							_log.log(Level.SEVERE, e1.getMessage(), e1);
 						}
 					}
 				}

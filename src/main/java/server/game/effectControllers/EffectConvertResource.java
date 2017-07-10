@@ -12,6 +12,11 @@ import model.Player;
 import model.Resource;
 import model.exceptions.GameException;
 
+/**
+ * Effect convert resource, generally for building cards
+ * @author M
+ *
+ */
 public class EffectConvertResource implements IEffectBehavior{
 	
 	private transient Logger _log = Logger.getLogger(EffectConvertResource.class.getName());

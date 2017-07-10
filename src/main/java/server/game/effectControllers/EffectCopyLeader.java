@@ -12,7 +12,17 @@ import model.LeaderCard;
 import model.Player;
 import util.CommandStrings;
 
+/**
+ * Effect Lorenzo de' Medici
+ * @author M
+ *
+ */
 public class EffectCopyLeader implements IEffectBehavior{
+	
+	/**
+	 * A default serial version ID to the selected type.
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private transient Logger _log = Logger.getLogger(EffectCopyLeader.class.getName());
 	
