@@ -153,7 +153,7 @@ public class ListenAction{
 		_theGame.otherPlayersInfo("Player "+_player.getName()+" has dropped the Leader card "+leaderName, _player);
 		
 		actionsAlreadyDone.add(GC.DROP_LEADER);
-	}
+	} 
 	
 	/**
 	 * Activate leader card, called from client

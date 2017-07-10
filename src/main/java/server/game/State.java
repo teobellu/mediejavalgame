@@ -104,7 +104,7 @@ public class State {
 			listener.setPlayer(p);
 			controller.showVaticanSupport(age);
 			p.setVaticanSupport(false);
-		}
+		} 
 		
 	}
 	

@@ -325,7 +325,7 @@ public class CommandLineUI implements UI {
 		selection = _ioHandler.readNumberWithinInterval(myLeaders.size() - 1);
 		activateLeaderCard(myLeaders.get(selection).getName());
 		handleTurn();
-	}
+	} 
 	
 	/**
 	 * Drop a leader card

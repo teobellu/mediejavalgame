@@ -54,11 +54,6 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 	 * Familiar selected by the player
 	 */
 	private FamilyMember familiarToModify;
-
-	/**
-	 * Caller effect
-	 */
-	private Effect effect;
 	
 	/**
 	 * Base constructor of EffectSelectAndSetFamiliarStartPower effect behavior
@@ -87,7 +82,6 @@ public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{
 	 * @param ref Effect that possesses this behavior
 	 */
 	private void initializes(Effect ref) {
-		effect = ref;
 		player = ref.getPlayer();
 		familiars = player.getFreeMembers();
 		message = Messages.MESS_SELECT_AND_SET_FAMILIAR + valueToSet;
