@@ -5,7 +5,6 @@ import server.Client;
 
 /**
  * A fake player used to tests other classes
- * @author M
  *
  */
 public class FakePlayer extends Player{

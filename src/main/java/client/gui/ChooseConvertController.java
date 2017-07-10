@@ -9,7 +9,6 @@ import model.Resource;
 
 /**
  * Controller for the choose convert dialog
- * @author Jacopo
  *
  */
 public class ChooseConvertController extends DialogAbstractController {

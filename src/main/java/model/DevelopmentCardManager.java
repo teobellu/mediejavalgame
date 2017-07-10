@@ -10,6 +10,7 @@ import java.util.List;
  * @Visitor_design_patter
  * 
  * @author Matteo
+ * @author Jacopo
  *
  */
 public class DevelopmentCardManager implements Serializable{

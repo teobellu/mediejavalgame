@@ -8,7 +8,6 @@ import model.Resource;
 
 /**
  * Controller for the choose cost dialog
- * @author Jacopo
  *
  */
 public class ChooseCostController extends DialogAbstractController {

@@ -25,7 +25,7 @@ import util.Constants;
 /**
  * RMI Connection handler
  * @author Jacopo
- *
+ * @author Matteo
  */
 public class RMIConnectionServerHandler extends ConnectionServerHandler implements ClientRemote {
 	

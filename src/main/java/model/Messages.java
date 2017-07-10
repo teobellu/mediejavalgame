@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * @author Matteo
+ * @author Jacopo
+ */
 public class Messages {
 	
 	public static final String MESS_INCREASE_WORKER = "You can spend servants to increase this action! How much do you want to increase?";

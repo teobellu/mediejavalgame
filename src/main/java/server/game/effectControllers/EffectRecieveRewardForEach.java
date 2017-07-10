@@ -11,7 +11,8 @@ import model.Resource;
 
 /**
  * Bonus that adds resources to player reading some info
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectRecieveRewardForEach implements IEffectBehavior{

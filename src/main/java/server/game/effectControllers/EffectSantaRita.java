@@ -6,7 +6,6 @@ import model.Resource;
 
 /**
  * Santa Rita effect, see game rules
- * @author M
  *
  */
 public class EffectSantaRita implements IEffectBehavior{

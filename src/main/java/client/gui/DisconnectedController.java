@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 
 /**
  * Controller for the disconnected dialog
- * @author Jacopo
  *
  */
 public class DisconnectedController extends DialogAbstractController{

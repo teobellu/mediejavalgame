@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.omg.CORBA._PolicyStub;
+
 import model.DevelopmentCard;
 import model.Effect;
 import model.ExcommunicationTile;
@@ -155,21 +157,6 @@ public class DynamicAction {
 			activateEffect(res, source.getSource(), GC.WHEN_GAIN);
 	}
 	
-//	/**
-//	 * Method that is launched at the beginning of the turn
-//	 */
-//	public void startTurn(){
-//		activateEffect(GC.ONCE_PER_TURN);
-//		
-//	}
-//	
-//	/**
-//	 * Method that is launched just after the dices have been launched
-//	 */
-//	public void readDices(){
-//		activateEffect(GC.WHEN_ROLL);
-//	}
-	
 	/**
 	 * Allows the player to increase the value of his action by spending servants
 	 * @param actualCost actual cost of the action, here will be added the servants to pay
@@ -182,7 +169,7 @@ public class DynamicAction {
 		try {
 			amount = player.getClient().getConnectionHandler().askInt(Messages.MESS_INCREASE_WORKER, 0, playerServants);
 		} catch (RemoteException e) {
-			//TODO
+			player.setAfk(true);
 			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 		int price = (Integer) activateEffect(amount, GC.WHEN_INCREASE_WORKER);
@@ -196,7 +183,7 @@ public class DynamicAction {
 	 * @return Tax to pay, Fee to pay
 	 * @throws GameException Column number is not valid
 	 */
-	public Resource findTaxToPay (int column) throws GameException{
+	public Resource findTaxToPay (int column){
 		Resource tax = new Resource();
 		if (!game.getBoard().getFamiliarInSameColumn(column).isEmpty()){
 			tax.add(GC.TAX_TOWER);
@@ -268,66 +255,47 @@ public class DynamicAction {
 			throw new GameException("You already have 6 cards of the same type");
 		int newValue = value + increaseWorker(cost);
 		cost.add(findTaxToPay(column));
-		
-		// qui dovrei chiedere al giocatore, se cost != null, se proseguire o no.
-		
 		/**
-		* RESOURCE
+		 * Resource holder
 		 */
 		int index = 0;
 		if(card.getCosts().size() > 1){
 			try {
 				index = player.getClient().getConnectionHandler().askInt("The card has more costs. Which do you prefer to pay?", 0, card.getCosts().size()-1);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
+				player.setAfk(true);
 				_log.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
-		//ma potrebbe avere anche 2 tipi di costo
-		//if (card.getCost.size > 1)...		
-		
 		//card requirement
 		tryToPayRequirement(card.toString(), card.getRequirement(index));
 		//dashboard requirement (for example for territory you need military points)
 		tryToPayRequirement(card.toString(), getDashboardRequirement(card));
 		
-		
 		Resource cardCost = new Resource();
 		cardCost.add(card.getCost(index));
-		
 		cardCost = (Resource) activateEffect(cardCost, card.toString(), GC.WHEN_FIND_COST_CARD);
-		
 		cost.add(cardCost);
 		
 		/**
-		 * DICE
+		 * Power of the action
 		 */
 		newValue = (Integer) activateEffect(newValue, card.toString(), GC.WHEN_FIND_VALUE_ACTION);
-		
 		if (newValue < space.getRequiredDiceValue()) 
 			throw new GameException(Messages.MESS_LOW_POWER);
-		
-		
-		//canDicePaySpace(familiar, space);
-		//canJoinSpace(familiar, space); //e quindi canJoinArraySpace(familiar, space);
-		
 		player.pay(cost);
 		
 		/**
-		 * posso
+		 * I can get the card, so...
 		 */
-		
 		Effect spaceEffect = space.getInstantEffect();
 		if(row > 1)
 			spaceEffect = (Effect) activateEffect(spaceEffect, GC.WHEN_GET_TOWER_BONUS);
 		player.addEffect(spaceEffect);
-		
 		player.addDevelopmentCard(card);
-		
 		player.addEffect(card.getImmediateEffect());
-		if (card.getDice() == 0){
+		if (card.getDice() == 0)
 			player.addEffect(card.getPermanentEffect());
-		}
 		space.setCard(null);
 	}
 	
@@ -520,7 +488,7 @@ public class DynamicAction {
 	 * This method allows the player to show support to the Vatican. 
 	 * If he does not have the requirements this method will automatically call the method
 	 * dontShowVaticanSupport()
-	 * @param age Age //TODO anche senza
+	 * @param age Age Curren age
 	 * @throws GameException It will generally not be launched unless there are errors in xml
 	 */
 	public void showVaticanSupport(int age){
@@ -540,7 +508,7 @@ public class DynamicAction {
 	
 	/**
 	 * This method will be called by players who can not or do not want to show support to the Vatican
-	 * @param age TODO, non dovrebbe ricevere in input niente
+	 * @param age Curren age
 	 */
 	private void dontShowVaticanSupport(int age){
 		ExcommunicationTile tile = game.getBoard().getExCard()[age - 1];
@@ -641,16 +609,6 @@ public class DynamicAction {
 	public Map<LeaderCard, Player> getDiscardedLeaderCards() {
 		GameInformation infoGame = game.getGameInformation();
 		return infoGame.getDiscardedLeader();
-	}
-
-	public int askIntToPlayer(String message) throws GameException{
-		//String nickname = player.getClient().getName();
-		//int index = 
-		return 0;
-	}
-
-	public String getNick() {
-		return player.getName();
 	}
 	 
 }

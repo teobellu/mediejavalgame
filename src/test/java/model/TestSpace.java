@@ -9,7 +9,6 @@ import server.game.effectControllers.EffectGetResource;
 
 /**
  * Test model: Space
- * @author M
  *
  */
 public class TestSpace {

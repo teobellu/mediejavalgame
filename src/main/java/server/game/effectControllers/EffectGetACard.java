@@ -13,7 +13,8 @@ import model.exceptions.GameException;
 
 /**
  * Bonus get a card
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectGetACard implements IEffectBehavior{

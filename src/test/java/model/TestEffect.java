@@ -10,7 +10,6 @@ import server.game.effectControllers.EffectDoNothing;
 
 /**
  * Test model: Effect
- * @author M
  *
  */
 public class TestEffect {

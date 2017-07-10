@@ -14,7 +14,8 @@ import util.CommandStrings;
 
 /**
  * Effect Lorenzo de' Medici
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectCopyLeader implements IEffectBehavior{

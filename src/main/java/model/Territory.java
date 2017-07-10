@@ -3,7 +3,8 @@ package model;
 /**
  * This class is designed to contain all information about territory cards
  * 
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class Territory extends DevelopmentCard{

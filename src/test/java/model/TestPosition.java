@@ -6,7 +6,6 @@ import org.junit.Test;
 
 /**
  * Test model: Position
- * @author M
  *
  */
 public class TestPosition {

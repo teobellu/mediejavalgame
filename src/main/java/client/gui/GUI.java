@@ -32,7 +32,6 @@ import util.CommandStrings;
 
 /**
  * JavaFX main class
- * @author Jacopo
  *
  */
 public class GUI extends Application {

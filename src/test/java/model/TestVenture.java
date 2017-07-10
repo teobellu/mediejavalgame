@@ -9,7 +9,6 @@ import org.junit.Test;
 
 /**
  * Test model: Venture
- * @author M
  *
  */
 public class TestVenture {

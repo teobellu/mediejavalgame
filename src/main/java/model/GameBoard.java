@@ -7,7 +7,8 @@ import java.util.Map;
 
 /**
  * This class is designed for the game board of Lorenzo il Magnifico
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class GameBoard implements Serializable{

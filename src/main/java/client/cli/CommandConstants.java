@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Constants of commands only for cli
+ *
+ */
 public abstract class CommandConstants {
 	
 	public static final String PRINT_BOARD = "print game board";
@@ -14,8 +18,6 @@ public abstract class CommandConstants {
 	public static final String SHOW_SUPPORT = "show vatican support";
 	public static final String PLAY_OPT_LEADERS = "play OPT leader cards";
 	public static final String END_TURN = "end turn";
-	
-	//public static final String RECONNECT = "reconnect";
 	
 	public static final List<String> STANDARD_COMMANDS = Collections.unmodifiableList(
 			Arrays.asList(

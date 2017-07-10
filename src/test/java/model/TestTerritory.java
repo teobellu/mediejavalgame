@@ -6,7 +6,6 @@ import org.junit.Test;
 
 /**
  * Test model: Territory
- * @author M
  *
  */
 public class TestTerritory {

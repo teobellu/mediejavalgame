@@ -5,7 +5,6 @@ import javafx.scene.layout.GridPane;
 
 /**
  * Some utils
- * @author Jacopo
  *
  */
 public class GuiUtil {

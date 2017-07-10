@@ -4,7 +4,6 @@ import javafx.stage.Stage;
 
 /**
  * Base implementation of a base dialog
- * @author Jacopo
  *
  */
 public abstract class DialogAbstractController {

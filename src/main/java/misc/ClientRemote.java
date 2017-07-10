@@ -14,6 +14,7 @@ import model.Resource;
 
 /**
  * @author Jacopo
+ * @author Matteo
  *
  */
 public interface ClientRemote extends Remote, Serializable {

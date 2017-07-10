@@ -21,7 +21,6 @@ import model.Position;
 
 /**
  * Controller for the place familiar dialog
- * @author Jacopo
  *
  */
 public class PlaceFamiliarController extends DialogAbstractController {

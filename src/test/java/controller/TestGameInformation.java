@@ -21,7 +21,6 @@ import server.game.GameInformation;
 
 /**
  * Test controller: GameInformation
- * @author M
  *
  */
 public class TestGameInformation {
@@ -37,7 +36,7 @@ public class TestGameInformation {
 		GameInformation gi = new GameInformation(game);
 		
 		assertTrue(gi.getLeaderDeck().size() == 20);
-	}
+	} 
 	
 	@Test
 	public void manageGameBoard(){
@@ -72,7 +71,6 @@ public class TestGameInformation {
 		
 		assertTrue(gi.getDevelopmentDeck().isEmpty());
 		
-		gi.setupANewTurn();
 		gi.newPhase(2);
 	}
 	
@@ -93,7 +91,7 @@ public class TestGameInformation {
 		
 		gi.endOfTheGameFindWinners();
 		
-		//jump turns 
+		//council palace working list
 		
 		gi.setHeadPlayersTurn(list);
 		assertTrue(gi.getHeadPlayersTurn().size() == 2);

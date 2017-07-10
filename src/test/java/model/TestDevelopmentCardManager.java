@@ -6,7 +6,6 @@ import org.junit.Test;
 
 /**
  * Test model: DevelopmentCardManager
- * @author M
  *
  */
 public class TestDevelopmentCardManager {

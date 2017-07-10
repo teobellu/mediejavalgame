@@ -7,7 +7,8 @@ import model.Resource;
 
 /**
  * Tiles of age 6 malus
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectLostVictoryForEach implements IEffectBehavior{

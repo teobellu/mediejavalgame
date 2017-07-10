@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * This model class represents the excommunication tiles
+ * @author Matteo
+ * @author Jacopo
  */
 public class ExcommunicationTile implements ICard, Serializable{
 

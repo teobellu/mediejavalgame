@@ -6,6 +6,11 @@ import client.UI;
 import model.Position;
 import model.exceptions.GameException;
 
+/**
+ * Connection server handler for clients
+ * @author Jacopo
+ * @author Matteo
+ */
 public abstract class ConnectionServerHandler extends Thread {
 	
 	protected boolean _isRunning = false;

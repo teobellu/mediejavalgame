@@ -9,6 +9,7 @@ import model.Position;
 /**
  * RMIConnectionHandler remote interface
  * @author Jacopo
+ * @author Matteo
  *
  */
 public interface ConnectionHandlerRemote extends Remote, Serializable {

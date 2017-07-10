@@ -1,7 +1,6 @@
 package server.game;
 
 import java.rmi.RemoteException;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -10,49 +9,97 @@ import java.util.logging.Logger;
 
 import model.GC;
 import model.Player;
-import server.Client;
 import server.ConnectionHandler;
 import util.Constants;
 
+/**
+ * State of the game
+ * @author M
+ * @author Jacopo
+ */
 public class State {
 	
+	/**
+	 * Logger
+	 */
 	private Logger _log = Logger.getLogger(State.class.getName());
 	
+	/**
+	 * Current age
+	 */
 	protected int age;
-	protected int phase;
-	protected int countTurn;
-	protected final Game _theGame;
-	protected Player _player = null;
-	protected Client _client;
-	private List<Player> _players;
 	
+	/**
+	 * Current phase
+	 */
+	protected int phase;
+	
+	/**
+	 * Current turn, means each single turn, not the turn in the game rule
+	 */
+	protected int countTurn;
+	
+	/**
+	 * Game
+	 */
+	protected final Game game;
+	
+	/**
+	 * Current player
+	 */
+	protected Player _player = null;
+	
+	/**
+	 * Lists of players from Game
+	 */
+	private List<Player> players;
+	
+	/**
+	 * Player "inside" controller
+	 */
 	private DynamicAction controller;
+	
+	/**
+	 * Player "from outside" controller
+	 */
 	private ListenAction listener;
+	
+	/**
+	 * Game information of game
+	 */
 	private GameInformation information;
 	
-	private long startTime;
-	
+	/**
+	 * Base constructor of a space
+	 * @param game The game
+	 */
 	public State(Game game){
-		_theGame = game;
-		_players = _theGame.getPlayers();
+		this.game = game;
+		players = game.getPlayers();
 	}
 	
+	/**
+	 * Setup first state
+	 */
 	public void setupState() {
-		_player = _players.get(0);
+		_player = players.get(0);
 		age = 1;
 		phase = 1;
 		countTurn = 1;
-		controller = _theGame.getDynamicBar();
-		information = _theGame.getGameInformation();
-		_theGame.setListener(new ListenAction(_theGame));
-		listener = _theGame.getListener();
+		controller = game.getDynamicBar();
+		information = game.getGameInformation();
+		game.setListener(new ListenAction(game));
+		listener = game.getListener();
 		setupNewTurn(_player);
 		notifyPlayerTurn(_player);
 		
 	}
 	
+	/**
+	 * Vatican phase, show support or not to vatican for each player
+	 */
 	private void vaticanPhase(){
-		for (Player p : _players){
+		for (Player p : players){
 			controller.setPlayer(p);
 			listener.setPlayer(p);
 			controller.showVaticanSupport(age);
@@ -61,16 +108,19 @@ public class State {
 		
 	}
 	
+	/**
+	 * Setup a new state
+	 */
 	public void nextState(){
-		if (countTurn % (_players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){
+		if (countTurn % (players.size() * Constants.NUMBER_OF_FAMILIARS) == 0){
 			if (phase == 2){
 				vaticanPhase();
 				phase = 0;
 				age++;
 			}
-			_theGame.getPlayers().forEach(player -> player.setOPTActivated(false));
+			game.getPlayers().forEach(player -> player.setOPTActivated(false));
 			information.newPhase(age);
-			_players = _theGame.getPlayers();
+			players = game.getPlayers();
 			phase++;
 		}
 		//count turn è quello appena passato
@@ -84,8 +134,8 @@ public class State {
 				notice += winner.getName() + " wins! ";
 			if ("".equals(notice))
 				notice += "Noboy wins!";
-			_theGame.broadcastInfo(notice);
-			_theGame.closeGame();
+			game.broadcastInfo(notice);
+			game.closeGame();
 			return;
 		}
 		_player = nextPlayer;
@@ -109,21 +159,21 @@ public class State {
 	 */
 	private void notifyPlayerTurn(Player player){
 		if (player.isAfk()){
-			_theGame.otherPlayersInfo("The player " + player.getName() + " still afk, turn is skipped!", player);
+			game.otherPlayersInfo("The player " + player.getName() + " still afk, turn is skipped!", player);
 			nextState();
 			return;
 		}
 		
-		TimerTask timerTask = new TimeTimerTask(countTurn, _theGame, player);
+		TimerTask timerTask = new TimeTimerTask(countTurn, game, player);
         
 
         Timer timer = new Timer("MyTimer");
         
-        timer.schedule(timerTask, _theGame.getTurnTimeout());
+        timer.schedule(timerTask, game.getTurnTimeout());
 		
 		ConnectionHandler handler = _player.getClient().getConnectionHandler();
 		try {
-			handler.startTurn(_theGame.getBoard(), player);
+			handler.startTurn(game.getBoard(), player);
 		} catch (RemoteException e) {
 			player.setAfk(true);
 			_log.log(Level.SEVERE, e.getMessage(), e);
@@ -165,23 +215,28 @@ public class State {
 		return shifted;
 	}
 	
+	/**
+	 * Find if the are players this a specific delay target
+	 * @param target
+	 * @return
+	 */
 	private boolean existsDelayTarget(int target) {
-		for (Player p : _players)
+		for (Player p : players)
 			if (p.getDelay() == target)
 				return true;
 		return false;
 	}
 	
+	/**
+	 * Get the next player (A ruota)
+	 * @param player
+	 * @return
+	 */
 	private Player shiftPlayer(Player player){
-		int currentPlayerIndex = _players.indexOf(player);
-		if (currentPlayerIndex == _players.size() - 1)
-			return _players.get(0);
-		return _players.get(currentPlayerIndex + 1);
-	}
-	
-	public boolean isTimeoutOver(){
-		long currentTime = new Date().getTime();
-		return currentTime-startTime > _theGame.getTurnTimeout();
+		int currentPlayerIndex = players.indexOf(player);
+		if (currentPlayerIndex == players.size() - 1)
+			return players.get(0);
+		return players.get(currentPlayerIndex + 1);
 	}
 	
 	public Player getCurrenPlayer() {

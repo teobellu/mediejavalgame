@@ -10,7 +10,8 @@ import server.Client;
 
 /**
  * Simply the player model class
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class Player implements Serializable{

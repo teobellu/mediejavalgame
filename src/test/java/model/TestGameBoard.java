@@ -11,7 +11,6 @@ import org.junit.Test;
 
 /**
  * Test model: GameBoard
- * @author M
  *
  */
 public class TestGameBoard {

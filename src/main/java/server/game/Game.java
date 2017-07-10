@@ -20,8 +20,8 @@ import util.CommandStrings;
 import util.Constants;
 
 /**
+ * @author Matteo
  * @author Jacopo
- *
  */
 public class Game implements Runnable {
 	
@@ -41,7 +41,7 @@ public class Game implements Runnable {
 	private final DynamicAction _dynamicAction;
 	
 	private GameInformation gameInformation;
-	
+
 	public GameInformation getGameInformation() {
 		return gameInformation;
 	}

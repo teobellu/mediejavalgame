@@ -6,7 +6,6 @@ import org.junit.Test;
 
 /**
  * Test model: Excommunication Tile
- * @author M
  *
  */
 public class TestExcommunicationTile {

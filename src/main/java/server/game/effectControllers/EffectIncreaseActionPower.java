@@ -4,7 +4,6 @@ import model.Effect;
 
 /**
  * Bonus increase some action value
- * @author M
  *
  */
 public class EffectIncreaseActionPower implements IEffectBehavior{

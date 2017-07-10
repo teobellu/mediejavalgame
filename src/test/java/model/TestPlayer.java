@@ -13,7 +13,6 @@ import server.game.effectControllers.EffectDoNothing;
 
 /**
  * Test model: Player
- * @author M
  *
  */
 public class TestPlayer {

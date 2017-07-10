@@ -6,7 +6,6 @@ import server.RMIConnectionHandler;
 
 /**
  * A fake client used to tests other classes
- * @author M
  *
  */
 public class FakeClient extends Client{

@@ -4,7 +4,8 @@ import model.Effect;
 
 /**
  * Generic effect, do differents things. This is the only particular effect
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectOverruleObject implements IEffectBehavior{

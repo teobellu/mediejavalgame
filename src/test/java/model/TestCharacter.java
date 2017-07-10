@@ -9,7 +9,6 @@ import org.junit.Test;
 
 /**
  * Test model: Character
- * @author M
  *
  */
 public class TestCharacter {

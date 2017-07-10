@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * This class is designed for the family members, aka workers
+ * @author Matteo
+ * @author Jacopo
  */
 public class FamilyMember implements Serializable{
 	

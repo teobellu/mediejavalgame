@@ -5,7 +5,8 @@ import java.util.List;
 /**
  * This class is designed to contain all information about venture cards
  * 
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class Venture extends DevelopmentCard{
