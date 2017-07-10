@@ -25,27 +25,60 @@ import util.Constants;
  */
 public class Game implements Runnable {
 	
+	/**
+	 * Logger
+	 */
 	Logger _log = Logger.getLogger(Game.class.getName());
 	
+	/**
+	 * Listen action, listen commands from clients
+	 */
 	private ListenAction _listener;
 	
+	/**
+	 * List of players in the room
+	 */
 	private List<Player> _players = new ArrayList<>();
 
+	/**
+	 * Gameboard of the game
+	 */
 	private GameBoard _board;
 
+	/**
+	 * Turn timeout readen from xml
+	 */
 	private long turnTimeout;
+	
+	/**
+	 * Current state of the game
+	 */
 	private State _state;
+	
+	/**
+	 * True if the game is over
+	 */
 	private boolean _isOver = false;
+	
+	/**
+	 * Private current room with clients
+	 */
 	private final Room _theRoom;
 	
+	/**
+	 * Focus: Controller of model
+	 */
 	private final DynamicAction _dynamicAction;
 	
+	/**
+	 * Store all game info
+	 */
 	private GameInformation gameInformation;
 
-	public GameInformation getGameInformation() {
-		return gameInformation;
-	}
-
+	/**
+	 * Game base constructor
+	 * @param room
+	 */
 	public Game(Room room) {
 		_theRoom = room;
 		
@@ -60,23 +93,41 @@ public class Game implements Runnable {
 		gameInformation = new GameInformation(this);
 	}
 	
+	/**
+	 * Run method, create a new game
+	 */
 	@Override
 	public void run() {
 		setupGame();
 	}
 
+	/**
+	 * Is the game over ?
+	 * @return
+	 */
 	public boolean isOver() {
 		return _isOver;
 	}
 	
+	/**
+	 * Get current player
+	 * @return
+	 */
 	public Player getCurrentPlayer(){
 		return _state.getCurrenPlayer();
 	}
 	
+	/**
+	 * Get current gameboard
+	 * @return
+	 */
 	public GameBoard getGameBoard() {
 		return _board;
 	}
 	
+	/**
+	 * Setup a new game
+	 */
 	private void setupGame(){
 		Collections.shuffle(_players);
 		Collections.shuffle(gameInformation.getDevelopmentDeck());
@@ -94,6 +145,9 @@ public class Game implements Runnable {
 		_state.setupState();
 	}
 	
+	/**
+	 * Add initial bonus to players
+	 */
 	private void setInitialResourcePack(){
 		int n = 5;
 		for (Player p : _players){
@@ -162,6 +216,11 @@ public class Game implements Runnable {
 		}
 	}
 	
+	/**
+	 * Send info to all players but not to the player excluded
+	 * @param message
+	 * @param excluded
+	 */
 	public synchronized void otherPlayersInfo(String message, Player excluded){
 		_players.stream()
 			.filter(player -> player.getName() != excluded.getName())
@@ -175,6 +234,10 @@ public class Game implements Runnable {
 			});
 	}
 	
+	/**
+	 * Send info to all players
+	 * @param message
+	 */
 	public synchronized void broadcastInfo(String message){
 		_players.forEach(player -> {
 			try {
@@ -255,5 +318,13 @@ public class Game implements Runnable {
 		_listener.setPlayer(null);
 		_players.clear();
 		_theRoom.shutdown();
+	}
+	
+	/**
+	 * Get game info
+	 * @return
+	 */
+	public GameInformation getGameInformation() {
+		return gameInformation;
 	}
 }
