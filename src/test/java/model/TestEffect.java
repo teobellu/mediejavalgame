@@ -16,6 +16,9 @@ public class TestEffect {
 	
 	@Test
 	public void createEffect(){
+		/**
+		 * Create a new effect and verify correct initialization
+		 */
 		Effect eff = new Effect(GC.NEVER, new EffectDoNothing());
 		eff.setBar(null);
 		eff.setPlayer(new FakePlayer(null, GC.PLAYER_BLUE));
@@ -33,6 +36,9 @@ public class TestEffect {
 		eff.toString(); 
 	}
 	
+	/**
+	 * Try to use an effect to a fake player {@link FakePlayer}
+	 */
 	@Test
 	public void useAnEffect(){
 		Effect eff = new Effect(GC.NEVER, new EffectDelayFirstAction());

@@ -12,6 +12,9 @@ public class TestBuilding {
 	
 	@Test
     public void createBuilding() throws Exception {
+		/**
+		 * Create a new buinding and verify correct initialization, test also visit for visitor design pattern
+		 */
 		Resource cost = new Resource(GC.RES_SERVANTS, 5);
 		DevelopmentCard card = new Building(1, "Name", cost, null, GC.NIX, 3);
 		assertTrue(card.getName().equals("Name"));

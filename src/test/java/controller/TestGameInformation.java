@@ -20,16 +20,22 @@ import server.game.Game;
 import server.game.GameInformation;
 
 /**
- * Test controller: GameInformation
+ * Test controller: GameInformation (Controller)
  *
  */
 public class TestGameInformation {
 	
+	/**
+	 * List of fake player to do tests
+	 */
 	private static final List<Player> FAKE_PLAYERS = new ArrayList<>(
 			Arrays.asList(
 					new FakePlayer(null, GC.PLAYER_RED), 
 					new FakePlayer(null, GC.PLAYER_BLUE)));
 	
+	/**
+	 * Create a new game information and verify correct initialization
+	 */
 	@Test
 	public void createGameInformation(){
 		Game game = new Game(new Room(null));
@@ -38,6 +44,9 @@ public class TestGameInformation {
 		assertTrue(gi.getLeaderDeck().size() == 20);
 	} 
 	
+	/**
+	 * Test using gameboard and gameinformation, like verify modifing methods & get/set
+	 */
 	@Test
 	public void manageGameBoard(){
 		Game game = new Game(new Room(null));
@@ -74,6 +83,9 @@ public class TestGameInformation {
 		gi.newPhase(2);
 	}
 	
+	/**
+	 * Manage a list of players using the list at the top of this class
+	 */
 	@Test
 	public void manageListsOfPlayers(){
 		FakePlayer g1 = new FakePlayer(null, GC.PLAYER_RED);

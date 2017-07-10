@@ -17,6 +17,11 @@ import server.game.effectControllers.EffectDoNothing;
  */
 public class TestPlayer {
 	
+	/**
+	 * Create a new player {@link FakePlayer} and verify correct initialization
+	 * We uso fakeplayer cause player has protected constructor
+	 * @throws Exception
+	 */
 	@Test
     public void createPlayer() throws Exception {
 		FakePlayer fake = new FakePlayer(null, GC.PLAYER_YELLOW);
@@ -26,6 +31,10 @@ public class TestPlayer {
 		assertTrue(fake.getColour().equals(GC.PLAYER_YELLOW));
     }
 	
+	/**
+	 * Add some stuff to player and verify correct use of adding/reading method
+	 * @throws Exception
+	 */
 	@Test
     public void addThingsToPlayer() throws Exception {
 		FakePlayer fake = new FakePlayer(null, GC.PLAYER_YELLOW);
@@ -121,7 +130,7 @@ public class TestPlayer {
 		fake.setAfk(true);
 		assertTrue(fake.isAfk());
 		
-		//vatica
+		//vatican
 		
 		fake.setVaticanSupport(true);
 		assertTrue(fake.isVaticanSupporter());

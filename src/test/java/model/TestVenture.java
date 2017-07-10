@@ -13,6 +13,10 @@ import org.junit.Test;
  */
 public class TestVenture {
 	
+	/**
+	 * Create a new venture and verify correct initialization
+	 * @throws Exception
+	 */
 	@Test
     public void createVenture() throws Exception {
 		Resource cost = new Resource(GC.RES_STONES, 6);

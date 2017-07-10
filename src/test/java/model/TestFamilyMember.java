@@ -10,6 +10,10 @@ import org.junit.Test;
  */
 public class TestFamilyMember {
 	
+	/**
+	 * Create a new familiar and verify correct initialization
+	 * @throws Exception
+	 */
 	@Test
     public void createFamilyMember() throws Exception {
 		FamilyMember familiar = new FamilyMember(GC.FM_BLACK);
@@ -18,6 +22,10 @@ public class TestFamilyMember {
 		assertTrue(familiar.getValue() == 0);
     }
 	
+	/**
+	 * See correct use of familiars
+	 * @throws Exception
+	 */
 	@Test
     public void identifyFamilyMember() throws Exception {
 		FamilyMember familiar1 = new FamilyMember(GC.FM_ORANGE);
@@ -45,6 +53,10 @@ public class TestFamilyMember {
 		assertTrue(familiar3.toString().equals(familiar4.toString()));
     }
 	
+	/**
+	 * Test familiar power
+	 * @throws Exception
+	 */
 	@Test
     public void valueFamilyMember() throws Exception {
 		FamilyMember familiar = new FamilyMember(GC.FM_TRANSPARENT);
@@ -55,6 +67,10 @@ public class TestFamilyMember {
 		assertTrue(familiar.getValue() == 2);
     }
 	
+	/**
+	 * Test a familiar with a null owner {@link FakePlayer}
+	 * @throws Exception
+	 */
 	@Test
     public void nullOwnerFamilyMember() throws Exception {
 		FamilyMember familiar = new FamilyMember(GC.FM_ORANGE);

@@ -21,7 +21,7 @@ public class ClientText {
 	/**
 	 * Ask the server address
 	 */
-	public static final String ASK_SERVER_ADDRESS = "Enter the address of the server you want to connect to.";
+	public static final String ASK_SERVER_ADDRESS = "Enter the address of the server you want to connect to. For CLI press 0 for localhost";
 	
 	/**
 	 * Get the list of possible positions on the tower in a pretty-printable way

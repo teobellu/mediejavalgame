@@ -12,6 +12,10 @@ import model.exceptions.GameException;
  */
 public class TestResource {
 	
+	/**
+	 * Create a new resource pack and verify correct initialization
+	 * @throws Exception
+	 */
 	@Test
     public void createResource() throws Exception {
 		Resource res1 = new Resource();
@@ -27,6 +31,10 @@ public class TestResource {
 		assertTrue(res3.get(GC.RES_STONES) == 0);
     }
 	
+	/**
+	 * Add some resources
+	 * @throws Exception
+	 */
 	@Test
     public void addResource() throws Exception {
 		Resource res1 = new Resource(GC.RES_COINS, 1);
@@ -52,6 +60,10 @@ public class TestResource {
 		assertTrue(res3.toString().equals(res2.toString()));
     }
 	
+	/**
+	 * Sub some resource Attention: legal actions test
+	 * @throws Exception
+	 */
 	@Test
     public void subResource() throws Exception {
 		Resource res1 = new Resource(GC.RES_COINS, 1);
@@ -71,6 +83,10 @@ public class TestResource {
 		assertTrue(res2.toString().equals(res1.toString()));
     }
 	
+	/**
+	 * Sub some resources Attention: ILLEGAL action test
+	 * @throws GameException
+	 */
 	@Test(expected = GameException.class)
 	public void illegalSubException() throws GameException {
 		Resource res1 = new Resource(GC.RES_COINS, 1);
@@ -78,6 +94,10 @@ public class TestResource {
 		res1.sub(res2);
 	}
 	
+	/**
+	 * Sub some resources Attention: ILLEGAL action test
+	 * @throws GameException
+	 */
 	@Test(expected = GameException.class)
 	public void indefinedSubException() throws GameException {
 		Resource res1 = new Resource(GC.RES_COINS, 1);

@@ -13,6 +13,10 @@ import server.game.effectControllers.EffectGetResource;
  */
 public class TestSpace {
 	
+	/**
+	 * Create a new space and verify correct initialization
+	 * @throws Exception
+	 */
 	@Test
     public void createSpace() throws Exception {
 		Space space = new Space(1, GC.NIX, true);
@@ -30,6 +34,10 @@ public class TestSpace {
 		assertTrue(!space2.isSingleObject());
     }
 	
+	/**
+	 * Modify a space and see if adding/reading/setting methods works correctly
+	 * @throws Exception
+	 */
 	@Test
 	 public void modifySpace() throws Exception {
 		Space space = new Space(0, null, true);

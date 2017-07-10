@@ -12,6 +12,11 @@ public class TestAppendsToListVisitor {
 	
 	@Test
 	public void createAppendsToListVisitor(){
+		/**
+		 * Test @Visitor_Design_Pattern if it works correctly
+		 * Separate cards using polimorfismo
+		 */
+		
 		DevelopmentCardManager mngr = new DevelopmentCardManager();
 		AppendsToListVisitor atlv = new AppendsToListVisitor(mngr);
 		

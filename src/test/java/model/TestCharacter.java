@@ -15,6 +15,9 @@ public class TestCharacter {
 	
 	@Test
     public void createCharacter() throws Exception {
+		/**
+		 * Create a new character and verify correct initialization, test also visit for visitor design pattern
+		 */
 		Resource cost = new Resource(GC.RES_WOOD, 2);
 		List<Effect> effects = new ArrayList<>();
 		effects.add(GC.NIX);

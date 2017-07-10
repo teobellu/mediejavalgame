@@ -15,6 +15,10 @@ import org.junit.Test;
  */
 public class TestGameBoard {
 	
+	/**
+	 * Create a gameboard
+	 * @throws Exception
+	 */
 	@Test
     public void createGameBoard() throws Exception {
 		Map<String, List<Effect>> map = new HashMap<>();
@@ -39,20 +43,31 @@ public class TestGameBoard {
 		assertTrue(!board.getWorkLongSpace(GC.PRODUCTION).isSingleObject());
 		assertTrue(board.getWorkLongSpace(GC.MARKET) == null);
 		
-		//market
+		/**
+		 * Market test
+		 */
 		assertTrue(board.getMarketSpace(0).isSingleObject());
 		
-		//tower
+		/**
+		 * Tower test
+		 */
 		assertTrue(board.getFromTowers(0, 0) != null);
 		
-		//tower method
+		/**
+		 * Get familiars in same column test
+		 */
 		assertTrue(board.getFamiliarInSameColumn(2).size() == 0);
 		
-		//dices
+		/**
+		 * Three Dices
+		 */
 		Integer[] dices = {2, 5, 6};
 		board.setDices(dices);
 		assertTrue(board.getDices()[2] == 6);
 		
+		/**
+		 * Set & drop excommunication tiles
+		 */
 		ExcommunicationTile tile1 = new ExcommunicationTile(1, GC.NIX);
 		ExcommunicationTile tile2 = new ExcommunicationTile(2, null);
 		ExcommunicationTile tile3 = new ExcommunicationTile(3, GC.NIX);
@@ -65,6 +80,10 @@ public class TestGameBoard {
 		assertTrue(board.getCard(0, 1) == null);
     }
 	
+	/**
+	 * Set development cards on board, generally readen from xml, but we use a iterator cycle
+	 * for create a simple test
+	 */
 	@Test
 	public void setDevelopmentCardsOnBoard(){
 		Map<String, List<Effect>> map = new HashMap<>();

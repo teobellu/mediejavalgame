@@ -15,6 +15,10 @@ import org.junit.Test;
  */
 public class TestLeaderCard {
 	
+	/**
+	 * Create a new leader card and verify correct initialization
+	 * @throws Exception
+	 */
 	@Test
     public void createLeaderCard() throws Exception {
 		Function<Player, Boolean> trueFunction = player -> true;
@@ -26,6 +30,11 @@ public class TestLeaderCard {
         assertTrue(leader.canPlayThis(null));
     }
 	
+	/**
+	 * Test @Lambda_Expression
+	 * Pick activable leader card
+	 * @throws Exception
+	 */
 	@Test
     public void activableLeaderCard() throws Exception {
 		Function<Player, Boolean> trueFunction = player -> true;

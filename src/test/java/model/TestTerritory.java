@@ -10,6 +10,9 @@ import org.junit.Test;
  */
 public class TestTerritory {
 	
+	/*
+	 * Create a new territory and verify correct initialization
+	 */
 	@Test
     public void createTerritory() throws Exception {
 		DevelopmentCard card = new Territory("Name", 1, GC.NIX, null, 3);

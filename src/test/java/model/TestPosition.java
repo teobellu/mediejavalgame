@@ -10,6 +10,10 @@ import org.junit.Test;
  */
 public class TestPosition {
 	
+	/**
+	 * TCreate a new position and verify correct initialization
+	 * @throws Exception
+	 */
 	@Test
     public void createPosition() throws Exception {
 		Position p1 = new Position(GC.HARVEST);
@@ -29,6 +33,10 @@ public class TestPosition {
 		assertTrue(p3.getWhere().equals(GC.TOWER));
     }
 	
+	/**
+	 * Verify that to string not cause exception
+	 * @throws Exception
+	 */
 	@Test
     public void toStringNoException() throws Exception {
 		Position p1 = new Position(GC.PRODUCTION);

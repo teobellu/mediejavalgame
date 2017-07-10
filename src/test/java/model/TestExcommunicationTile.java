@@ -10,6 +10,10 @@ import org.junit.Test;
  */
 public class TestExcommunicationTile {
 	
+	/**
+	 * Create a new excom. tile and verify correct initialization
+	 * @throws Exception
+	 */
 	@Test
     public void createExcommunicationTile() throws Exception {
 		ExcommunicationTile tile = new ExcommunicationTile(1, GC.NIX);
