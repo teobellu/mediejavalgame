@@ -15,12 +15,21 @@ import model.FamilyMember;
  */
 public class ChooseFamiliarController extends DialogAbstractController{
 
+	/**
+	 * The message to display
+	 */
 	@FXML
 	private Text _message;
 	
+	/**
+	 * ChoiceBox containing the list of familiars
+	 */
 	@FXML
 	private ChoiceBox<String> _choiches;
 	
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
 	

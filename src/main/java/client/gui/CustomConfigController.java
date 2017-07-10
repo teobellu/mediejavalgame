@@ -16,15 +16,27 @@ import javafx.stage.FileChooser.ExtensionFilter;
  */
 public class CustomConfigController extends DialogAbstractController{
 
+	/**
+	 * Have I clicked the ok button
+	 */
 	private boolean _okClicked = false;
 	
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
+	/**
+	 * Cancel Button
+	 */
 	@FXML
 	private Button _cancelButton;
 	
+	/**
+	 * Choose file Button
+	 */
 	@FXML
-	private Button _fileButton;;
+	private Button _fileButton;
 
 	/**
 	 * Called on Cancel button clicked

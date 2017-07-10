@@ -16,6 +16,9 @@ public class MainClient {
 		client.start();
 	}
 	
+	/**
+	 * Private constructor
+	 */
 	private MainClient() {
 	}
 }

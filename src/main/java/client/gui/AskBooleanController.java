@@ -15,17 +15,32 @@ import javafx.scene.text.TextFlow;
  */
 public class AskBooleanController extends DialogAbstractController {
 
+	/**
+	 * The textflow displaying the question
+	 */
 	@FXML
 	private TextFlow _textFlow;
 	
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
 	
+	/**
+	 * Answer yes
+	 */
 	@FXML
 	private RadioButton _yesRadio;
+	/**
+	 * Answer no
+	 */
 	@FXML
 	private RadioButton _noRadio;
 	
+	/**
+	 * ToggleGroup containing the buttons
+	 */
 	private ToggleGroup _toggleGroup;
 	
 	/**

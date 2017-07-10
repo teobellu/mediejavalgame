@@ -37,48 +37,105 @@ import model.Space;
  */
 public class MainViewController {
 
+	/**
+	 * ImageView for the map
+	 */
 	@FXML
 	private ImageView _backgroundImage;//mappa
 	
+	/**
+	 * Show More button
+	 */
 	@FXML
 	private Button _downArrowButton;
 	
+	/**
+	 * ImageView for resource pane
+	 */
 	@FXML
 	private ImageView _goldWoodBg;
+	/**
+	 * ImageView for resource pane
+	 */
 	@FXML
 	private ImageView _stoneServantBg;
 	
+	/**
+	 * ImageView for first leader card
+	 */
 	@FXML
 	private ImageView _leaderCard0;
+	/**
+	 * ImageView for second leader card
+	 */
 	@FXML
 	private ImageView _leaderCard1;
+	/**
+	 * ImageView for third leader card
+	 */
 	@FXML
 	private ImageView _leaderCard2;
+	/**
+	 * ImageView for fourth leader card
+	 */
 	@FXML
 	private ImageView _leaderCard3;
 	
+	/**
+	 * ImageView for first excommunication card
+	 */
 	@FXML
 	private ImageView _excCard1;
+	/**
+	 * ImageView for second excommunication card
+	 */
 	@FXML
 	private ImageView _excCard2;
+	/**
+	 * ImageView for third excommunication card
+	 */
 	@FXML
 	private ImageView _excCard3;
 	
+	/**
+	 * ImageView for production action little space
+	 */
 	@FXML
 	private ImageView _productionLittleSpace;
+	/**
+	 * ImageView for harvest action little space
+	 */
 	@FXML
 	private ImageView _harvestLittleSpace;
+	/**
+	 * ImageView for first market action space
+	 */
 	@FXML
 	private ImageView _market0;
+	/**
+	 * ImageView for second market action space
+	 */
 	@FXML
 	private ImageView _market1;
+	/**
+	 * ImageView for third market action space
+	 */
 	@FXML
 	private ImageView _market2;
+	/**
+	 * ImageView for fourth market action space
+	 */
 	@FXML
 	private ImageView _market3;
 	
+	/**
+	 * GridPane to organize development cards
+	 */
 	@FXML
 	private GridPane _towersCardsGridPane;
+	/**
+	 * GridPane to organize familiars on the tower
+	 */
 	@FXML
 	private GridPane _towersFamiliarsGridPane;
 	
@@ -118,63 +175,138 @@ public class MainViewController {
 	@FXML
 	private Button _seventhButton;
 
+	/**
+	 * Panel with the main buttons
+	 */
 	@FXML
-	private AnchorPane _buttonPane;//pannello con tutti i bottoni
+	private AnchorPane _buttonPane;
 	
+	/**
+	 * Scrollpane for the infoBox
+	 */
 	@FXML
 	private ScrollPane _infoScrollPane;
+	/**
+	 * InfoBox
+	 */
 	@FXML
 	private TextFlow _infoTextFlow;
 	
+	/**
+	 * Value of the black dice
+	 */
 	@FXML
 	private Text _blackDiceValue;
+	/**
+	 * Value of the white dice
+	 */
 	@FXML
 	private Text _whiteDiceValue;
+	/**
+	 * Value of the orange dice
+	 */
 	@FXML
 	private Text _orangeDiceValue;
 	
+	/**
+	 * Value of the gold
+	 */
 	@FXML
 	private Text _goldValue;
+	/**
+	 * Value of the wood
+	 */
 	@FXML
 	private Text _woodValue;
+	/**
+	 * Value of the stone
+	 */
 	@FXML
 	private Text _stoneValue;
+	/**
+	 * Value of the servant
+	 */
 	@FXML
 	private Text _servantValue;
 	
+	/**
+	 * Pane dynamically loaded when 
+	 */
 	@FXML
 	private AnchorPane _frontBackMainPane;
 	
+	/**
+	 * GridPane for council palace familiars
+	 */
 	@FXML
 	private GridPane _councilPalaceGrid;
+	/**
+	 * GridPane for production space familiars
+	 */
 	@FXML
 	private GridPane _productionSpaceGrid;
+	/**
+	 * GridPane for harvest space familiars
+	 */
 	@FXML
 	private GridPane _harvestSpaceGrid;
 	
+	/**
+	 * ImageView for faith points
+	 */
 	@FXML
 	private ImageView _faithPointsIcon;
+	/**
+	 * ImageView for military points
+	 */
 	@FXML
 	private ImageView _militaryPointsIcon;
+	/**
+	 * ImageView for victory points
+	 */
 	@FXML
 	private ImageView _victoryPointsIcon;
 	
+	/**
+	 * Faith points value
+	 */
 	@FXML
 	private Text _faithValue;
+	/**
+	 * Military points value
+	 */
 	@FXML
 	private Text _militaryValue;
+	/**
+	 * Victory points value
+	 */
 	@FXML
 	private Text _victoryValue;
 	
+	/**
+	 * Textflow displayng the personal bonus
+	 */
 	@FXML
 	private TextFlow _personalBonusTextFlow;
 	
+	/**
+	 * List of leader cards
+	 */
 	private ArrayList<ImageView> _leaderCards = new ArrayList<>();
 	
+	/**
+	 * Show more clicked?
+	 */
 	private boolean _downArrowClicked = false;
 	
+	/**
+	 * The GUI
+	 */
 	private GUI _GUI;
 	
+	/**
+	 * The logger
+	 */
 	private transient Logger _log = Logger.getLogger(MainViewController.class.getName());
 	
 	/*https://stackoverflow.com/q/28243156*/

@@ -13,15 +13,22 @@ import javafx.scene.control.ChoiceBox;
  */
 public class DropLeaderController extends DialogAbstractController{
 
+	/**
+	 * ChoiceBox containing the leaders
+	 */
 	@FXML
 	private ChoiceBox<String> _choiceBox;
 	
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
+	/**
+	 * Cancel Button
+	 */
 	@FXML
 	private Button _cancelButton;
-	
-	private List<String> _leaderList;
 	
 	/**
 	 * Called on Cancel button clicked
@@ -46,15 +53,9 @@ public class DropLeaderController extends DialogAbstractController{
 	 * @param leaders the leaders
 	 */
 	public void setLeaderList(List<String> leaders){
-		_leaderList = leaders;
+		_choiceBox.getItems().clear();
 		
-		if(!_choiceBox.getItems().isEmpty()){
-			for(String s : _choiceBox.getItems()){
-				_choiceBox.getItems().remove(s);
-			}
-		}
-		
-		_choiceBox.getItems().addAll(_leaderList);
+		_choiceBox.getItems().addAll(leaders);
 		_choiceBox.getSelectionModel().selectFirst();
 	}
 }

@@ -15,9 +15,15 @@ import model.Resource;
  */
 public class HandleCouncilController extends DialogAbstractController{
 
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
 	
+	/**
+	 * ChoiceBox containing the list of council conversion
+	 */
 	@FXML
 	private ChoiceBox<String> _choices;
 	

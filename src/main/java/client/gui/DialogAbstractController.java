@@ -8,6 +8,9 @@ import javafx.stage.Stage;
  *
  */
 public abstract class DialogAbstractController {
+	/**
+	 * The dialog currently showed
+	 */
 	protected Stage _dialog;
 	
 	/**

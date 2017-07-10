@@ -10,6 +10,9 @@ import javafx.scene.control.Button;
  */
 public class DisconnectedController extends DialogAbstractController{
 
+	/**
+	 * Reconnect Button
+	 */
 	@FXML
 	private Button reconnectButton;
 	

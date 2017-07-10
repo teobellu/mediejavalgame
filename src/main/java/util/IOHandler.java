@@ -15,16 +15,33 @@ import java.util.logging.Logger;
  */
 public class IOHandler {
 	
+	/**
+	 * Input stream
+	 */
 	private final BufferedReader reader;
+	/**
+	 * Output stream
+	 */
 	private final PrintWriter writer;
+	/**
+	 * The logger
+	 */
 	private Logger log = Logger.getLogger(IOHandler.class.getName());
 
+	/**
+	 * Class to handle I/O form the console
+	 */
 	public IOHandler() {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		writer = new PrintWriter(System.out);
 	}
 	
 	
+	/**
+	 * Read a line
+	 * @param isEmptyAllowed can i read an empty line?
+	 * @return the line read
+	 */
 	public String readLine(boolean isEmptyAllowed){
 		do {
 			try {
@@ -41,11 +58,19 @@ public class IOHandler {
 		} while (true);
 	}
 	
+	/**
+	 * Write a string
+	 * @param str
+	 */
 	public void write(String str){
 		writer.println(str);
 		writer.flush();
 	}
 	
+	/**
+	 * Write a string, with no "end-of-the-line" character
+	 * @param str
+	 */
 	public void writeNext(String str){
 		writer.print(str);
 		writer.flush();
@@ -59,6 +84,10 @@ public class IOHandler {
 		list.forEach(item -> write(list.indexOf(item) + ") " + item));
 	}
 	
+	/**
+	 * Read a number
+	 * @return
+	 */
 	public int readNumber(){
 		do {
 			try {
@@ -70,6 +99,12 @@ public class IOHandler {
 		} while (true);
 	}
 	
+	/**
+	 * Read a number between a minimum and a maximum
+	 * @param startingPoint the minimum
+	 * @param endingPoint the maximum
+	 * @return int read
+	 */
 	public int readNumberWithinInterval(int startingPoint, int endingPoint){
 		int i;
 		do {
@@ -85,10 +120,18 @@ public class IOHandler {
 		return i;
 	}
 	
+	/**
+	 * Read a number between 0 and a maximum
+	 * @param endingPoint maximum
+	 * @return int read
+	 */
 	public int readNumberWithinInterval(int endingPoint){
 		return readNumberWithinInterval(0, endingPoint);
 	}
 	
+	/**
+	 * Close all the streams
+	 */
 	public void shutdown(){
 		try {
 			reader.close();

@@ -13,9 +13,15 @@ import model.Resource;
  */
 public class ChooseCostController extends DialogAbstractController {
 
+	/**
+	 * The ChoiceBox displaying the list of possible costs
+	 */
 	@FXML
 	private ChoiceBox<String> _choiches;
 	
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
 	

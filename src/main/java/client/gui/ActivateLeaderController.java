@@ -14,11 +14,20 @@ import model.LeaderCard;
  */
 public class ActivateLeaderController extends DialogAbstractController {
 
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
+	/**
+	 * Cancel Button
+	 */
 	@FXML
 	private Button _cancelButton;
 	
+	/**
+	 * ChoiceBox with leaders
+	 */
 	@FXML
 	private ChoiceBox<String> _choices;
 	

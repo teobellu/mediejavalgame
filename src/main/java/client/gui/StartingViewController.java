@@ -23,26 +23,50 @@ import util.Constants;
  */
 public class StartingViewController {
 
+	/**
+	 * The background image
+	 */
 	@FXML
 	private ImageView _backgroundImage;
 	
+	/**
+	 * The username textfield
+	 */
 	@FXML
 	private TextField _username;
 	
+	/**
+	 * The address textfield
+	 */
 	@FXML
 	private TextField _address;
 	
+	/**
+	 * Choice for the connection
+	 */
 	@FXML
 	private ChoiceBox<String> _connectionType;
 	
+	/**
+	 * Connect Button
+	 */
 	@FXML
 	private Button _connectButton;
 	
+	/**
+	 * The custom config button
+	 */
 	@FXML
 	private Button _configButton;
 	
+	/**
+	 * The GUI associated
+	 */
 	private GUI _GUI;
 		
+	/**
+	 * The logger
+	 */
 	private final Logger _log = Logger.getLogger(StartingViewController.class.getName());
 	
 	/**

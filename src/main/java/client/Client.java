@@ -14,10 +14,22 @@ import util.IOHandler;
  */
 public class Client extends Thread {
 	
+	/**
+	 * I/O handler
+	 */
 	private final IOHandler ioHandler;
+	/**
+	 * The logger
+	 */
 	private Logger log = Logger.getLogger(Client.class.getName());
+	/**
+	 * The user interface chosen
+	 */
 	private UI ui;
 
+	/**
+	 * Constructor
+	 */
 	public Client() {
 		ioHandler = new IOHandler();
 	}

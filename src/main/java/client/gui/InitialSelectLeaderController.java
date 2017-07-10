@@ -21,15 +21,30 @@ import javafx.scene.text.Text;
  */
 public class InitialSelectLeaderController extends DialogAbstractController{
 
+	/**
+	 * First card
+	 */
 	@FXML
 	private Button _card1;
+	/**
+	 * Second card
+	 */
 	@FXML
 	private Button _card2;
+	/**
+	 * Third card
+	 */
 	@FXML
 	private Button _card3;
+	/**
+	 * Fourth card
+	 */
 	@FXML
 	private Button _card4;
 	
+	/**
+	 * Message text
+	 */
 	@FXML
 	private Text _text;
 	

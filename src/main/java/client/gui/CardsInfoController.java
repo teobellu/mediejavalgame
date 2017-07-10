@@ -20,47 +20,104 @@ import model.Player;
  */
 public class CardsInfoController extends DialogAbstractController{
 
+	/**
+	 * The arrow to change view
+	 */
 	@FXML
 	private Button _arrowButton;
 	
+	/**
+	 * Upper row first card
+	 */
 	@FXML
 	private ImageView _card00;
+	/**
+	 * Upper row second card
+	 */
 	@FXML
 	private ImageView _card01;
+	/**
+	 * Upper row third card
+	 */
 	@FXML
 	private ImageView _card02;
+	/**
+	 * Upper row fourth card
+	 */
 	@FXML
 	private ImageView _card03;
+	/**
+	 * Upper row fifth card
+	 */
 	@FXML
 	private ImageView _card04;
+	/**
+	 * Upper row sixth card
+	 */
 	@FXML
 	private ImageView _card05;
 	
+	/**
+	 * Lower row first card
+	 */
 	@FXML
 	private ImageView _card10;
+	/**
+	 * Lower row second card
+	 */
 	@FXML
 	private ImageView _card11;
+	/**
+	 * Lower row third card
+	 */
 	@FXML
 	private ImageView _card12;
+	/**
+	 * Lower row fourth card
+	 */
 	@FXML
 	private ImageView _card13;
+	/**
+	 * Lower row fifth card
+	 */
 	@FXML
 	private ImageView _card14;
+	/**
+	 * Lower row sixth card
+	 */
 	@FXML
 	private ImageView _card15;
 	
+	/**
+	 * The background
+	 */
 	@FXML
 	private ImageView _bg;
 	
+	/**
+	 * Gridpane containing the imageviews of the cards
+	 */
 	@FXML
 	private GridPane _gridPane;
 	
+	/**
+	 * Front or back view?
+	 */
 	private boolean _isArrowClicked = false;
 	
+	/**
+	 * 
+	 */
 	private Player _player;
 	
+	/**
+	 * Simple constants to remember what is which row
+	 */
 	private final int CHAR_TERRITORY_ROW = 1;
 	
+	/**
+	 * Simple constants to remember what is which row
+	 */
 	private final int BUILDINGS_VENTURE_ROW = 0;
 	
 	/**

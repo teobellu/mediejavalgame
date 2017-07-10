@@ -55,6 +55,9 @@ public class GuiUtil {
 	    return null;
 	}
 	
+	/**
+	 * Private constructor
+	 */
 	private GuiUtil(){
 		
 	}

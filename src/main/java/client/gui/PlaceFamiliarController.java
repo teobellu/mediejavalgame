@@ -26,23 +26,47 @@ import model.Position;
  */
 public class PlaceFamiliarController extends DialogAbstractController {
 
+	/**
+	 * ChoiceBox containing the list of familiars
+	 */
 	@FXML
 	private ChoiceBox<String> _familiarChoice;
+	/**
+	 * ChoiceBox containing the list of action spaces
+	 */
 	@FXML
 	private ChoiceBox<String> _actionSpaceChoice;
+	/**
+	 * ChoiceBox containing the list of positions
+	 */
 	@FXML
 	private ChoiceBox<String> _positionChoice;
 	
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
+	/**
+	 * Cancel Button
+	 */
 	@FXML
 	private Button _cancelButton;
 	
+	/**
+	 * GridPane to organize all labels and ChoiceBoxes
+	 */
 	@FXML
 	private GridPane _gridPane;
 	
+	/**
+	 * Possible Action spaces
+	 */
 	private List<String> _spaceTypes;
 	
+	/**
+	 * Possible familiars
+	 */
 	private List<String> _familyColours;
 	
 	/**

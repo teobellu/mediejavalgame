@@ -14,9 +14,15 @@ import model.Resource;
  */
 public class ChooseConvertController extends DialogAbstractController {
 
+	/**
+	 * ChoiceBox containing the possible conversions
+	 */
 	@FXML
 	private ChoiceBox<String> _choiches;
 	
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
 	

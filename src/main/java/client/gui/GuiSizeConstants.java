@@ -37,6 +37,9 @@ public class GuiSizeConstants {
 	 */
 	public final static double INITIAL_PERSONAL_BONUS_WIDTH = 100;
 	
+	/**
+	 * Private constructor
+	 */
 	private GuiSizeConstants() {
 	}
 }

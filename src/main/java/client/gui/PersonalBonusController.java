@@ -27,17 +27,35 @@ import model.Resource;
  */
 public class PersonalBonusController extends DialogAbstractController{
 
+	/**
+	 * First button
+	 */
 	@FXML
 	private Button _bonus1;
+	/**
+	 * Second button
+	 */
 	@FXML
 	private Button _bonus2;
+	/**
+	 * Third button
+	 */
 	@FXML
 	private Button _bonus3;
+	/**
+	 * Fourth button
+	 */
 	@FXML
 	private Button _bonus4;
+	/**
+	 * Fifth button
+	 */
 	@FXML
 	private Button _bonus5;
 	
+	/**
+	 * List of buttons
+	 */
 	private List<Button> _buttons;
 	
 	/**

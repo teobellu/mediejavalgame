@@ -14,12 +14,21 @@ import javafx.scene.text.TextFlow;
  */
 public class AskIntController extends DialogAbstractController {
 
+	/**
+	 * Ok Button
+	 */
 	@FXML
 	private Button _okButton;
 	
+	/**
+	 * Choicebox displaying the possible ints
+	 */
 	@FXML
 	private ChoiceBox<String> _choices;
 	
+	/**
+	 * Textflow containing the question
+	 */
 	@FXML
 	private TextFlow _textFlow;
 	
