@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * This class is designed to contain all information about a single development card
  * 
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public abstract class DevelopmentCard implements ICard, Serializable{

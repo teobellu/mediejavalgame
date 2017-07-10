@@ -5,6 +5,7 @@ package model;
  * The interface simply follows the standard lines of visitor design pattern
  * 
  * @author Matteo
+ * @author Jacopo
  *
  */
 public interface DevelopmentCardVisitor {

@@ -8,7 +8,8 @@ import server.game.effectControllers.EffectDoNothing;
 
 /**
  * Some game constants used frequently
- * @author M
+ * @author Jacopo
+ * @author Matteo
  *
  */
 public class GC{

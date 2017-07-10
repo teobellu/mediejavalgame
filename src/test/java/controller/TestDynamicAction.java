@@ -25,7 +25,6 @@ import server.game.Game;
 
 /**
  * Some tests of dynamic action player controller
- * @author M
  *
  */
 public class TestDynamicAction {

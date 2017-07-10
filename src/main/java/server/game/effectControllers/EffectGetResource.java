@@ -10,7 +10,8 @@ import model.Resource;
 
 /**
  * Bonus get resource
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectGetResource implements IEffectBehavior{

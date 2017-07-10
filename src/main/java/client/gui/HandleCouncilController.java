@@ -10,7 +10,6 @@ import model.Resource;
 
 /**
  * Controller for the handle council dialog
- * @author Jacopo
  *
  */
 public class HandleCouncilController extends DialogAbstractController{

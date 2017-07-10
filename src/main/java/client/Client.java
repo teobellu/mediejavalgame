@@ -10,7 +10,6 @@ import util.IOHandler;
  * Starting class for the client
  * @author Jacopo
  * @author Matteo
- *
  */
 public class Client extends Thread {
 	

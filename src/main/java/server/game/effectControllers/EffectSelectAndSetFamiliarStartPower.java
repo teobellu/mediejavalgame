@@ -16,7 +16,6 @@ import model.Player;
 /**
  * This effect behavior allows you to select a familiar and set a start power to it
  * 
- * @author M
  *
  */
 public class EffectSelectAndSetFamiliarStartPower implements IEffectBehavior{

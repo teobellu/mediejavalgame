@@ -11,7 +11,6 @@ import org.junit.Test;
 
 /**
  * Test model: Leader Card
- * @author M
  *
  */
 public class TestLeaderCard {

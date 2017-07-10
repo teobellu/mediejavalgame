@@ -9,8 +9,6 @@ import model.exceptions.GameException;
 /**
  * This effect behavior allows you to perform a work action
  * 
- * @author M
- *
  */
 public class EffectWork implements IEffectBehavior{
 	

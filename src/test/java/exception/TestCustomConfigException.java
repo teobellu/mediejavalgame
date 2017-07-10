@@ -8,7 +8,6 @@ import model.exceptions.CustomConfigException;
 
 /**
  * Test CustomConfigException
- * @author M
  *
  */
 public class TestCustomConfigException {

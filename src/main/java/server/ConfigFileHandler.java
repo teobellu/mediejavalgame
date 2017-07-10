@@ -46,6 +46,7 @@ import server.game.effectControllers.IEffectBehavior;
 /**
  * This class reads and manages the xml file and creates 
  * @author Matteo
+ * @author Jacopo
  *
  */
 public class ConfigFileHandler {

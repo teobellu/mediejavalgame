@@ -10,7 +10,6 @@ import javafx.scene.text.TextFlow;
 
 /**
  * Controller for the ask boolean dialog
- * @author Jacopo
  *
  */
 public class AskBooleanController extends DialogAbstractController {

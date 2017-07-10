@@ -9,7 +9,6 @@ import model.exceptions.GameException;
 
 /**
  * GameException test
- * @author M
  *
  */
 public class TestGameException {

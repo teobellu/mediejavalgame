@@ -5,7 +5,8 @@ import java.util.List;
 /**
  * This class is designed to contain all information about character cards
  * 
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class Character extends DevelopmentCard{

@@ -15,7 +15,6 @@ import model.Player;
 
 /**
  * Controller for the cards info dialog
- * @author Jacopo
  *
  */
 public class CardsInfoController extends DialogAbstractController{

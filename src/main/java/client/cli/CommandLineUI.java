@@ -31,8 +31,6 @@ import util.IOHandler;
 
 /**
  * CLI main view
- * @author M
- * @author Jacopo
  *
  */
 public class CommandLineUI implements UI {

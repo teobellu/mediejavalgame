@@ -4,7 +4,8 @@ import model.Effect;
 
 /**
  * Malus for servants (exc. tile 6 age 2) 
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectPayMoreForIncreaseWorker implements IEffectBehavior{

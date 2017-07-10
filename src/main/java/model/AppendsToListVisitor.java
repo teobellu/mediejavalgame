@@ -7,7 +7,8 @@ import java.io.Serializable;
  * The class deals with adding an element to a list, depending on its dynamic type
  * @Visitor_Design_Pattern
  * 
- * Matteo
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class AppendsToListVisitor implements DevelopmentCardVisitor, Serializable{

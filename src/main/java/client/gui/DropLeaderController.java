@@ -8,7 +8,6 @@ import javafx.scene.control.ChoiceBox;
 
 /**
  * Controller for the drop leader dialog
- * @author Jacopo
  *
  */
 public class DropLeaderController extends DialogAbstractController{

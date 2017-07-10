@@ -21,7 +21,6 @@ import server.game.GameInformation;
 
 /**
  * Test controller: GameInformation
- * @author M
  *
  */
 public class TestGameInformation {

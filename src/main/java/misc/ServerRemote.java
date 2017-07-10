@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 /**
  * ServerRMI remote interface
  * @author Jacopo
+ * @author Matteo
  *
  */
 public interface ServerRemote extends Remote {

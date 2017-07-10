@@ -10,7 +10,6 @@ import model.GC;
 /**
  * This effect behavior allows you to set a start power to a set of familiars
  * 
- * @author M
  *
  */
 public class EffectSetFamiliarStartPower implements IEffectBehavior{

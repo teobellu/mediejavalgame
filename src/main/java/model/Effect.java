@@ -9,7 +9,8 @@ import server.game.effectControllers.IEffectBehavior;
  * Store all info about an effect
  * @Strategy_Design_Pattern
  * IeffectBehavior stores his behavior and it use the game controller
- * @author M
+ * @author Jacopo
+ * @author Matteo
  *
  */
 public class Effect implements Serializable{

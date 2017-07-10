@@ -5,7 +5,8 @@ import java.util.function.Function;
 
 /**
  * Class used to represent Leader Cards
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class LeaderCard implements ICard, Serializable{

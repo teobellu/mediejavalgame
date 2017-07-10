@@ -9,7 +9,8 @@ import model.Resource;
 
 /**
  * Effect get a discount of resource, could be a malus or a bonus
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectDiscountResource implements IEffectBehavior{

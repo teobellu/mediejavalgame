@@ -6,7 +6,8 @@ import model.Player;
 
 /**
  * Malus don't get victory for something
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectDontGetVictoryFor implements IEffectBehavior{

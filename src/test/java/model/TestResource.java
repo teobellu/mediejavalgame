@@ -8,7 +8,6 @@ import model.exceptions.GameException;
 
 /**
  * Test model: Resource
- * @author M
  *
  */
 public class TestResource {

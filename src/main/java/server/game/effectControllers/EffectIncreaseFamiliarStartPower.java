@@ -9,8 +9,8 @@ import model.GC;
 
 /**
  * Bonus Increase familiar (filter by type) start power
- * @author M
- *
+ * @author Matteo
+ * @author Jacopo
  */
 public class EffectIncreaseFamiliarStartPower implements IEffectBehavior{
 	/**

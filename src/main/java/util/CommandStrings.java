@@ -1,8 +1,7 @@
 package util;
 
 /**
- * Commands for communication requiring processing of some kind 
- * @author Jacopo
+ * Commands for communication requiring processing of some kind
  *
  */
 public final class CommandStrings {

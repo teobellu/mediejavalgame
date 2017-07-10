@@ -6,7 +6,6 @@ import org.junit.Test;
 
 /**
  * Test model: Building
- * @author M
  *
  */
 public class TestBuilding {

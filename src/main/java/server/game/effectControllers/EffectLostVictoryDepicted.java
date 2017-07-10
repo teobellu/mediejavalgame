@@ -11,7 +11,8 @@ import model.exceptions.GameException;
 
 /**
  * Malus for tiles 6 of age 3
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectLostVictoryDepicted implements IEffectBehavior{

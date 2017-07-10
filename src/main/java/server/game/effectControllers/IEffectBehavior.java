@@ -7,6 +7,8 @@ import model.Effect;
 /**
  * @Strategy_Design_Pattern 
  * Interface that all different effects behaviors must implement
+ * @author Matteo
+ * @author Jacopo
  */
 @FunctionalInterface
 public interface IEffectBehavior extends Serializable{

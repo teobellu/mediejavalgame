@@ -6,7 +6,8 @@ import model.Player;
 
 /**
  * Effect delay first action each turn
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectDelayFirstAction implements IEffectBehavior{

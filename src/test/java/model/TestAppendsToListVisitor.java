@@ -6,7 +6,6 @@ import org.junit.Test;
 
 /**
  * Test model: AppendsToListVisitor
- * @author M
  *
  */
 public class TestAppendsToListVisitor {

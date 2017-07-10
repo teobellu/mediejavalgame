@@ -5,7 +5,7 @@ import util.Constants;
 /**
  * Factory to create a connection handler
  * @author Jacopo
- * 
+ * @author Matteo
  */
 public class ConnectionServerHandlerFactory {
 

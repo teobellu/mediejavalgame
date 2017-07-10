@@ -20,8 +20,8 @@ import util.CommandStrings;
 import util.Constants;
 
 /**
+ * @author Matteo
  * @author Jacopo
- *
  */
 public class Game implements Runnable {
 	

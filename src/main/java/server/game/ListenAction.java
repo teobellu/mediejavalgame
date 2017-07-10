@@ -13,14 +13,36 @@ import model.Player;
 import model.Position;
 import model.exceptions.GameException;
 
+/**
+ * Action called from clients to play
+ *
+ */
 public class ListenAction{
 	
+	/**
+	 * Logger
+	 */
 	private Logger _log = Logger.getLogger(ListenAction.class.getName());
 	
+	/**
+	 * Game
+	 */
 	protected final Game _theGame;
+	
+	/**
+	 * Current player, not the caller
+	 */
 	protected Player _player; 
+	
+	/**
+	 * Lists of actions done
+	 */
 	protected List<String> actionsAlreadyDone;
 	
+	/**
+	 * Base constructor
+	 * @param game
+	 */
 	public ListenAction(Game game){
 		_theGame = game;
 		_player = _theGame.getPlayers().get(0);
@@ -32,6 +54,11 @@ public class ListenAction{
 		actionsAlreadyDone.clear();
 	}
 	
+	/**
+	 * Get the plater from the nick
+	 * @param nickname
+	 * @return
+	 */
 	private Player getPlayerFromNickName (String nickname){
 		for (Player p : _theGame.getPlayers())
 			if (p.getName().equals(nickname))
@@ -39,6 +66,12 @@ public class ListenAction{
 		return null;
 	}
 	
+	/**
+	 * Is the caller the current player
+	 * @param nickname
+	 * @param removeAfk Is yes remove him from afk
+	 * @throws GameException
+	 */
 	private void checkOut(String nickname, boolean removeAfk) throws GameException{
 		if (!_player.getName().equals(nickname)){
 			Player caller = getPlayerFromNickName(nickname);
@@ -54,6 +87,11 @@ public class ListenAction{
 		
 	}
 	
+	/**
+	 * Show vatica support, called from client
+	 * @param nickname
+	 * @throws GameException
+	 */
 	public void showVaticanSupport(String nickname) throws GameException{
 		checkOut(nickname, false);
 		_player.setVaticanSupport(true);
@@ -66,6 +104,11 @@ public class ListenAction{
 		}
 	}
 	
+	/**
+	 * Playe opt LC, called from client
+	 * @param nickname
+	 * @throws GameException
+	 */
 	public void playOPTLeaderCards(String nickname) throws GameException{
 		checkOut(nickname, false);
 		if (_player.getOPTActivated())
@@ -80,6 +123,12 @@ public class ListenAction{
 		}
 	}
 	
+	/**
+	 * Drop LC, called from client
+	 * @param nickname
+	 * @param leaderName
+	 * @throws GameException
+	 */
 	public void dropLeaderCard(String nickname, String leaderName) throws GameException{
 		checkOut(nickname, false);
 		LeaderCard selection = null;
@@ -106,6 +155,12 @@ public class ListenAction{
 		actionsAlreadyDone.add(GC.DROP_LEADER);
 	}
 	
+	/**
+	 * Activate leader card, called from client
+	 * @param nickname
+	 * @param leaderName
+	 * @throws GameException
+	 */
 	public void activateLeaderCard(String nickname, String leaderName) throws GameException {
 		checkOut(nickname, false);
 		LeaderCard selection = null;
@@ -132,6 +187,13 @@ public class ListenAction{
 		actionsAlreadyDone.add(GC.ACTIVATE_LEADER);
 	}
 	
+	/**
+	 * Place familiar, called from client
+	 * @param nickname
+	 * @param familiarColour
+	 * @param position
+	 * @throws GameException
+	 */
 	public void placeFamiliar(String nickname, String familiarColour, Position position) throws GameException {
 		checkOut(nickname, false);
 		if (actionsAlreadyDone.contains(GC.PLACE_FAMILIAR))
@@ -178,6 +240,11 @@ public class ListenAction{
 		actionsAlreadyDone.add(GC.PLACE_FAMILIAR);
 	}
 	
+	/**
+	 * End turn, called from client
+	 * @param nickname
+	 * @throws GameException
+	 */
 	public void endTurn(String nickname) throws GameException{
 		checkOut(nickname, true);
 		if (actionsAlreadyDone.contains(GC.END_TURN))

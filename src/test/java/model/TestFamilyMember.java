@@ -6,7 +6,6 @@ import org.junit.Test;
 
 /**
  * Test model: Family Member
- * @author M
  *
  */
 public class TestFamilyMember {

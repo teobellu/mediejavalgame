@@ -30,6 +30,10 @@ import server.game.effectControllers.EffectSetFamiliarStartPower;
 import server.game.effectControllers.EffectWork;
 import server.game.effectControllers.IEffectBehavior;
 
+/**
+ * All info about a game that are not state info
+ *
+ */
 public class GameInformation{
 
 	private Game game;

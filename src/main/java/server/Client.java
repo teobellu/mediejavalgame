@@ -2,7 +2,6 @@ package server;
 
 /**
  * Gimmicky client on the server
- * @author Jacopo
  *
  */
 public class Client {

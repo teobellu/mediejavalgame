@@ -14,7 +14,8 @@ import model.exceptions.GameException;
 
 /**
  * Effect convert resource, generally for building cards
- * @author M
+ * @author Matteo
+ * @author Jacopo
  *
  */
 public class EffectConvertResource implements IEffectBehavior{
