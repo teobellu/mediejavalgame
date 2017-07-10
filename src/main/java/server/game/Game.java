@@ -41,7 +41,7 @@ public class Game implements Runnable {
 	private final DynamicAction _dynamicAction;
 	
 	private GameInformation gameInformation;
-	
+
 	public GameInformation getGameInformation() {
 		return gameInformation;
 	}

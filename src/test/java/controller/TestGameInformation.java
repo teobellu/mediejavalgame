@@ -36,7 +36,7 @@ public class TestGameInformation {
 		GameInformation gi = new GameInformation(game);
 		
 		assertTrue(gi.getLeaderDeck().size() == 20);
-	}
+	} 
 	
 	@Test
 	public void manageGameBoard(){
