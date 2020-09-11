@@ -1,4 +1,4 @@
-# Lord of Florence
+# Medie(Ja)val Game
 
 Thesis Project - Couse: <b>Software Engineering</b> (Politecnico di Milano)
 
