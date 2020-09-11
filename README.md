@@ -1,5 +1,7 @@
 # Medie(Ja)val Game
 
+[![JDK](https://img.shields.io/badge/java-8%20%7C%209%20%7C%2010%20%7C%2011%20%7C%2012-blue.svg)](https://www.oracle.com/technetwork/java/javase/jdk-relnotes-index-2162236.html)
+
 Thesis Project - Couse: <b>Software Engineering</b> (Politecnico di Milano)
 
 Project Final Grade: <b>30/30 cum Laude</b>
